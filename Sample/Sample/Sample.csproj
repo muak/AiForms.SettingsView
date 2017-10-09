@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2DB58246-77D5-4190-B0A0-F125B538309B}</ProjectGuid>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Sample</RootNamespace>
+    <AssemblyName>Sample</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile44</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\MainPageViewModel.cs" />
+    <Compile Include="Views\SettingsViewPage.xaml.cs">
+      <DependentUpon>SettingsViewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\SettingsViewPageViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="App.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MainPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SettingsViewPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="image.png" />
+    <EmbeddedResource Include="Resources\icon1.svg" />
+    <EmbeddedResource Include="Resources\icon2.svg" />
+    <EmbeddedResource Include="Resources\icon3.svg" />
+    <EmbeddedResource Include="Resources\icon4.svg" />
+    <EmbeddedResource Include="Resources\icon5.svg" />
+    <EmbeddedResource Include="Resources\icon6.svg" />
+    <EmbeddedResource Include="Resources\icon7.svg" />
+    <EmbeddedResource Include="Resources\icon8.svg" />
+    <EmbeddedResource Include="Resources\icon9.svg" />
+    <EmbeddedResource Include="Resources\icon10.svg" />
+    <EmbeddedResource Include="Resources\icon11.svg" />
+    <EmbeddedResource Include="Resources\icon12.svg" />
+    <EmbeddedResource Include="Resources\icon13.svg" />
+    <EmbeddedResource Include="Resources\icon14.svg" />
+    <EmbeddedResource Include="Resources\icon15.svg" />
+    <EmbeddedResource Include="Resources\icon16.svg" />
+    <EmbeddedResource Include="Resources\icon17.svg" />
+    <EmbeddedResource Include="Resources\icon18.svg" />
+    <EmbeddedResource Include="Resources\icon19.svg" />
+    <EmbeddedResource Include="Resources\android-cloud-circle.svg" />
+    <EmbeddedResource Include="Resources\icon20.svg" />
+    <EmbeddedResource Include="Resources\android-color-palette.svg" />
+    <EmbeddedResource Include="Resources\android-contact.svg" />
+    <EmbeddedResource Include="Resources\android-favorite-outline.svg" />
+    <EmbeddedResource Include="Resources\android-favorite.svg" />
+    <EmbeddedResource Include="Resources\android-globe.svg" />
+    <EmbeddedResource Include="Resources\android-happy.svg" />
+    <EmbeddedResource Include="Resources\android-locate.svg" />
+    <EmbeddedResource Include="Resources\android-lock.svg" />
+    <EmbeddedResource Include="Resources\android-microphone.svg" />
+    <EmbeddedResource Include="Resources\android-notifications-none.svg" />
+    <EmbeddedResource Include="Resources\android-notifications.svg" />
+    <EmbeddedResource Include="Resources\android-pin.svg" />
+    <EmbeddedResource Include="Resources\android-plane.svg" />
+    <EmbeddedResource Include="Resources\android-radio-button-on.svg" />
+    <EmbeddedResource Include="Resources\android-remove-circle.svg" />
+    <EmbeddedResource Include="Resources\android-restaurant.svg" />
+    <EmbeddedResource Include="Resources\android-sad.svg" />
+    <EmbeddedResource Include="Resources\android-star.svg" />
+    <EmbeddedResource Include="Resources\android-time.svg" />
+    <EmbeddedResource Include="Resources\android-volume-up.svg" />
+    <EmbeddedResource Include="Resources\aperture.svg" />
+    <EmbeddedResource Include="Resources\arrow-expand.svg" />
+    <EmbeddedResource Include="Resources\asterisk.svg" />
+    <EmbeddedResource Include="Resources\bag.svg" />
+    <EmbeddedResource Include="Resources\battery-charging.svg" />
+    <EmbeddedResource Include="Resources\battery-half.svg" />
+    <EmbeddedResource Include="Resources\beaker.svg" />
+    <EmbeddedResource Include="Resources\bonfire.svg" />
+    <EmbeddedResource Include="Resources\bowtie.svg" />
+    <EmbeddedResource Include="Resources\bug.svg" />
+    <EmbeddedResource Include="Resources\cloud.svg" />
+    <EmbeddedResource Include="Resources\coffee.svg" />
+    <EmbeddedResource Include="Resources\contrast.svg" />
+    <EmbeddedResource Include="Resources\flag.svg" />
+    <EmbeddedResource Include="Resources\flash-off.svg" />
+    <EmbeddedResource Include="Resources\fork-repo.svg" />
+    <EmbeddedResource Include="Resources\funnel.svg" />
+    <EmbeddedResource Include="Resources\hammer.svg" />
+    <EmbeddedResource Include="Resources\happy-outline.svg" />
+    <EmbeddedResource Include="Resources\help-circled.svg" />
+    <EmbeddedResource Include="Resources\images.svg" />
+    <EmbeddedResource Include="Resources\information-circled.svg" />
+    <EmbeddedResource Include="Resources\ios-alarm-outline.svg" />
+    <EmbeddedResource Include="Resources\ios-americanfootball-outline.svg" />
+    <EmbeddedResource Include="Resources\ios-americanfootball.svg" />
+    <EmbeddedResource Include="Resources\ios-analytics-outline.svg" />
+    <EmbeddedResource Include="Resources\ios-analytics.svg" />
+    <EmbeddedResource Include="Resources\ios-body-outline.svg" />
+    <EmbeddedResource Include="Resources\ios-body.svg" />
+    <EmbeddedResource Include="Resources\ios-book-outline.svg" />
+    <EmbeddedResource Include="Resources\ios-calendar.svg" />
+    <EmbeddedResource Include="Resources\ios-clock-outline.svg" />
+    <EmbeddedResource Include="Resources\ios-cloud-download-outline.svg" />
+    <EmbeddedResource Include="Resources\ios-cloud-download.svg" />
+    <EmbeddedResource Include="Resources\ios-cog.svg" />
+    <EmbeddedResource Include="Resources\ios-color-wand-outline.svg" />
+    <EmbeddedResource Include="Resources\ios-color-wand.svg" />
+    <EmbeddedResource Include="Resources\ios-flower-outline.svg" />
+    <EmbeddedResource Include="Resources\ios-flower.svg" />
+    <EmbeddedResource Include="Resources\ios-tennisball.svg" />
+    <EmbeddedResource Include="Resources\ios-unlocked-outline.svg" />
+    <EmbeddedResource Include="Resources\ios-unlocked.svg" />
+    <EmbeddedResource Include="Resources\ios-wineglass-outline.svg" />
+    <EmbeddedResource Include="Resources\ios-wineglass.svg" />
+    <EmbeddedResource Include="Resources\ios-world-outline.svg" />
+    <EmbeddedResource Include="Resources\mouse.svg" />
+    <EmbeddedResource Include="Resources\music-note.svg" />
+    <EmbeddedResource Include="Resources\navicon-round.svg" />
+    <EmbeddedResource Include="Resources\navicon.svg" />
+    <EmbeddedResource Include="Resources\playstation.svg" />
+    <EmbeddedResource Include="Resources\social-googleplus-outline.svg" />
+    <EmbeddedResource Include="Resources\social-instagram.svg" />
+    <EmbeddedResource Include="Resources\social-octocat.svg" />
+    <EmbeddedResource Include="Resources\social-twitter-outline.svg" />
+    <EmbeddedResource Include="Resources\social-vimeo-outline.svg" />
+    <EmbeddedResource Include="Resources\social-windows-outline.svg" />
+    <EmbeddedResource Include="Resources\social-windows.svg" />
+    <EmbeddedResource Include="Resources\soup-can-outline.svg" />
+    <EmbeddedResource Include="Resources\umbrella.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\packages\Unity.4.0.1\lib\portable-net45+wp80+win8+wpa81+MonoAndroid10+MonoTouch10\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism">
+      <HintPath>..\packages\Prism.Core.6.3.0\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Forms">
+      <HintPath>..\packages\Prism.Forms.6.3.0\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Prism.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Unity.Forms">
+      <HintPath>..\packages\Prism.Unity.Forms.6.3.0\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Prism.Unity.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\packages\System.Reactive.Interfaces.3.0.0\lib\netstandard1.0\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\packages\System.Reactive.Core.3.0.0\lib\netstandard1.1\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\packages\System.Reactive.Linq.3.0.0\lib\netstandard1.1\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\packages\System.Reactive.PlatformServices.3.0.0\lib\netstandard1.0\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="ReactiveProperty">
+      <HintPath>..\packages\ReactiveProperty.3.2.0\lib\portable-net45+win81+MonoTouch+MonoAndroid\ReactiveProperty.dll</HintPath>
+    </Reference>
+    <Reference Include="NGraphics">
+      <HintPath>..\packages\NGraphics.0.4.0\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\NGraphics.dll</HintPath>
+    </Reference>
+    <Reference Include="SvgImageSource">
+      <HintPath>..\packages\Xamarin.Forms.Svg.0.0.1-pre\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SvgImageSource.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Core">
+      <HintPath>..\packages\Xamarin.Forms.2.4.0.282\lib\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Platform">
+      <HintPath>..\packages\Xamarin.Forms.2.4.0.282\lib\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Xaml">
+      <HintPath>..\packages\Xamarin.Forms.2.4.0.282\lib\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.Xaml.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\SettingsView\SettingsView.csproj">
+      <Project>{8FFB1EF3-FAF3-478C-B9F1-4D02E599C3C6}</Project>
+      <Name>SettingsView</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <Import Project="..\packages\Xamarin.Forms.2.4.0.282\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.4.0.282\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets')" />
+</Project>

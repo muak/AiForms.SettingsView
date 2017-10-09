@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage 
+	xmlns="http://xamarin.com/schemas/2014/forms" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+	xmlns:ai="clr-namespace:AiForms.Renderers;assembly=SettingsView"
+	x:Class="Sample.Views.SettingsViewPage">
+	<StackLayout>
+		<StackLayout Orientation="Horizontal" VerticalOptions="Start">
+			<Button Text="AddC" Clicked="AddCell" />
+			<Button Text="AddS" Clicked="AddSection" />
+			<Button Text="DelC" Clicked="DelCell" />
+            <Button Text="Next" Command="{Binding NextPageCommand}" />
+		</StackLayout>
+		<StackLayout Orientation="Horizontal" VerticalOptions="Start">
+			<Button Text="DelS"  Clicked="DelSec" />
+			<Button Text="ChV" Command="{Binding ToggleVisible}" />
+			<Button Text="ChRH" Command="{Binding ToggleRowHeight}" />
+		</StackLayout>
+		<ai:SettingsView x:Name="settings" VerticalOptions="FillAndExpand" 
+			BackgroundColor="Green" CellBackgroundColor="#CCCCFF"
+			 HeaderBackgroundColor="Olive" 
+			HeaderTextVerticalAlign="End" HeaderTextColor="White"
+			HeaderFontSize="16" HeaderHeight="44" 
+			FooterBackgroundColor="Purple" FooterFontSize="14" FooterTextColor="Green"
+			SeparatorColor="Red"
+			RowHeight="60" HasUnevenRows="{Binding HasUneven.Value}"
+            CellValueTextColor="Gray" CellTitleColor="Blue" CellTitleFontSize="13" CellValueTextFontSize="11"
+            CellDescriptionFontSize="9"
+            >
+			<ai:Section Title="{Binding Title1.Value}" FooterText="" IsVisible="{Binding Sec1Visible.Value}">
+                <ViewCell>
+                    <StackLayout Orientation="Horizontal">
+                        <Button Text="Button" />
+                        <Label Text="ViewCell" />
+                        <Slider Value="0.5" />
+                    </StackLayout>
+                </ViewCell>
+                <TextCell Text="{Binding Cell1.Value}" Detail="aaあああああああああああああああああああああああああああああああああああ" />
+				<TextCell Text="{Binding Cell2.Value}" /> 
+                <ai:DatePickerCell Title="DatePicker" Date="2017/10/10" TodayText="Today" 
+                    MaximumDate="2030/12/31" MinimumDate="2010/01/01" />
+                <ai:TimePickerCell Title="TimePicker" Time="15:15:00" PickerTitle="Select Time" />
+                <ai:CheckboxCell Title="Checkbox" Checked="{Binding SwitchOn.Value}" AccentColor="Navy"
+                    Description="ほげ" />
+                <ai:SwitchCell Title="Switch" On="{Binding SwitchOn.Value}" AccentColor="Red"
+                Description="これをあれするかどうかの設定。あれするばあいはONにしてください。それ以外はOFFにしてください。"/>
+                <ai:PickerCell Title="Picker" ItemsSource="{Binding PickerItems}" DisplayMember="Name"
+                    PageTitle="Hoge" ErrorMessage="error!" AccentColor="Red" KeepSelectedUntilBack="true"
+                    MaxSelectedNumber="3" SelectedItems="{Binding SelectedItems}" />
+                <ai:CommandCell Title="Command" ValueText="1,2,3" Command="{Binding CellCommand}"
+                    CommandParameter="{Binding CellCommandParameter.Value}" KeepSelectedUntilBack="true" />
+                <ai:NumberPickerCell Title="NumberPicker" Min="10" Max="999" Number="20" PickerTitle="数値選択"
+                 SelectedCommand="{Binding GeneralCommand}"/>
+                <ai:EntryCell Title="AiEntryCell" MaxLength="50" Keyboard="Email" Placeholder="input"
+                    ValueText="123" AccentColor="Yellow"
+                    Description=""/>
+                <ai:LabelCell Title="Hoge" ValueText="あああああああ"  BackgroundColor="Purple"
+                    IconSize="50,50" Description="{Binding Description.Value}" DescriptionColor="Silver" />
+			</ai:Section>
+			<ai:Section Title="{Binding Title2.Value}" IsVisible="{Binding Sec2Visible.Value}"
+				FooterText="フッター2です。ああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああEnd">
+<!--				<TextCell Text="{Binding Cell3.Value}" />-->
+				<ViewCell>
+					<StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" IsClippedToBounds="true">
+						<Label Text="{Binding Cell3.Value}" VerticalOptions="FillAndExpand"/>
+						<BoxView Color="Blue" HeightRequest="30" />
+						<Switch HorizontalOptions="End" />
+					</StackLayout>
+				</ViewCell>
+			</ai:Section>
+		</ai:SettingsView>
+
+	</StackLayout>
+</ContentPage>

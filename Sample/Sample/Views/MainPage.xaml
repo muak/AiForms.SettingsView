@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+	xmlns:ai="clr-namespace:AiForms.Renderers;assembly=AiForms.Renderers"
+	xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms" 
+	prism:ViewModelLocator.AutowireViewModel="True" 
+	x:Class="Sample.Views.MainPage" Title="MainPage">
+	<StackLayout>
+		<Button Text="SettingsView" Command="{Binding GoToPage}" CommandParameter="SettingsView" />
+		<Button Text="NormalStack" Command="{Binding GoToPage}"  CommandParameter="NormalStack" />
+		<Button Text="NativeStack" Command="{Binding GoToPage}"  CommandParameter="NativeStack" />
+	</StackLayout>
+</ContentPage>
