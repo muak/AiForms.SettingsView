@@ -9,6 +9,11 @@ namespace AiForms.Renderers
     [ContentProperty("Root")]
     public partial class SettingsView : TableView
     {
+        internal static Action _clearCache;
+        public static void ClearCache(){
+            _clearCache?.Invoke();
+        }
+
         public new SettingsModel Model { get; set; }
         public new event EventHandler ModelChanged;
 

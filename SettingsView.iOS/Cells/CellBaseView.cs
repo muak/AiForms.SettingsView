@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System;
 using System.Threading.Tasks;
 using System.Threading;
+using Foundation;
 
 namespace AiForms.Renderers.iOS
 {
@@ -235,7 +236,7 @@ namespace AiForms.Renderers.iOS
 
             if (IconView.Image != null)
             {
-                IconView.Image.Dispose();
+                //IconView.Image.Dispose();
                 IconView.Image = null;
             }
 
@@ -243,6 +244,13 @@ namespace AiForms.Renderers.iOS
             {
                 //image未設定の時はhiddenにしないとstackviewのDistributionが機能しなくなる
                 IconView.Hidden = false;
+
+                var cache = ImageCacheController.Instance.ObjectForKey(FromObject(CellBase.IconSource.GetHashCode())) as UIImage;
+                if(cache != null){
+                    IconView.Image = cache;
+                    return;
+                }
+
                 var handler = Xamarin.Forms.Internals.Registrar.Registered.GetHandler<IImageSourceHandler>(CellBase.IconSource.GetType());
                 LoadIconImage(handler, CellBase.IconSource);
             }
@@ -265,8 +273,11 @@ namespace AiForms.Renderers.iOS
             }, token).ContinueWith(t => {
                 if (t.IsCompleted)
                 {
-                    BeginInvokeOnMainThread(() => IconView.Image = image);
-                    SetNeedsLayout();
+                    ImageCacheController.Instance.SetObjectforKey(image,FromObject(CellBase.IconSource.GetHashCode()));
+                    BeginInvokeOnMainThread(() => {
+                        IconView.Image = image;
+                        SetNeedsLayout();
+                    });
                 }
             });
         }

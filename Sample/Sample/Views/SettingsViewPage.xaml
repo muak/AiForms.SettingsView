@@ -37,7 +37,7 @@
                 </ViewCell>
                 <TextCell Text="{Binding Cell1.Value}" Detail="aaあああああああああああああああああああああああああああああああああああ" />
 				<TextCell Text="{Binding Cell2.Value}" /> 
-                <ai:DatePickerCell Title="DatePicker" Date="2017/10/10" TodayText="Today" 
+                <ai:DatePickerCell Title="DatePicker" Date="2017/10/10" TodayText="Today"
                     MaximumDate="2030/12/31" MinimumDate="2010/01/01" />
                 <ai:TimePickerCell Title="TimePicker" Time="15:15:00" PickerTitle="Select Time" />
                 <ai:CheckboxCell Title="Checkbox" Checked="{Binding SwitchOn.Value}" AccentColor="Navy"

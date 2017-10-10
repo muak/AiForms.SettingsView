@@ -76,6 +76,8 @@ namespace AiForms.Renderers.Droid
 
             var cell = (view as ViewGroup)?.GetChildAt(0) ;
 
+            _settingsView.Model.RowSelected(CellCaches[position].Cell);
+
             _preSelectedCell = cell;
             _selectedIndex = position;
 

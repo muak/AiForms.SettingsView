@@ -9,6 +9,13 @@ namespace AiForms.Renderers
         public CellBase() {
         }
 
+        public new event EventHandler Tapped;
+        internal new void OnTapped()
+        {
+            if (Tapped != null)
+                Tapped(this, EventArgs.Empty);
+        }
+
         public static BindableProperty TitleProperty =
             BindableProperty.Create(
                 nameof(Title),
@@ -151,51 +158,6 @@ namespace AiForms.Renderers
             get { return (Size)GetValue(IconSizeProperty); }
             set { SetValue(IconSizeProperty, value); }
         }
-
-        //public static BindableProperty IconResourceProperty =
-            //BindableProperty.Create(
-            //    nameof(IconResource),
-            //    typeof(string),
-            //    typeof(CellBase),
-            //    default(string),
-            //    defaultBindingMode: BindingMode.OneWay
-            //);
-
-        //public string IconResource {
-        //    get { return (string)GetValue(IconResourceProperty); }
-        //    set { SetValue(IconResourceProperty, value); }
-        //}
-
-        //public static BindableProperty IconColorProperty =
-        //    BindableProperty.Create(
-        //        nameof(IconColor),
-        //        typeof(Color),
-        //        typeof(CellBase),
-        //        default(Color),
-        //        defaultBindingMode: BindingMode.OneWay
-        //    );
-
-        //public Color IconColor {
-        //    get { return (Color)GetValue(IconColorProperty); }
-        //    set { SetValue(IconColorProperty, value); }
-        //}
-
-        //private NGraphics.IImage _Image;
-        //public NGraphics.IImage Image {
-        //    get {
-        //        if (string.IsNullOrEmpty(IconResource)) return null;
-        //        if (_Image == null) {
-        //            var g = SvgLoader.GetResourceAndLoadSvg(IconResource);
-        //            var sv = DependencyService.Get<ISvgService>();
-        //            Device.OnPlatform(
-        //                iOS: () => { _Image = sv.GetCanvas(g, 25, 25,IconColor);},
-        //                Android: () => { _Image = sv.GetCanvas(g, 30, 30,IconColor); }
-        //            );
-        //        }
-
-        //        return _Image;
-        //    }
-        //}
 
     }
 

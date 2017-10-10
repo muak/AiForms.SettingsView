@@ -180,6 +180,9 @@ namespace AiForms.Renderers.iOS
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {         
             var cell = tableView.CellAt(indexPath);
+
+            _settingsView.Model.RowSelected(indexPath.Section,indexPath.Row);
+
             if (cell is CommandCellView) {
                 var cmdCell = cell as CommandCellView;
                 cmdCell?.Execute?.Invoke();
@@ -209,16 +212,7 @@ namespace AiForms.Renderers.iOS
                 var eCell = cell as EntryCellView;
                 eCell.ValueField.BecomeFirstResponder();
             }
-            //else if(cell is TimePickerCellView){
-            //    tableView.DeselectRow(indexPath,true);
-            //    var tCell = cell as TimePickerCellView;
-            //    tCell.DummyField.BecomeFirstResponder();
-            //}
-            //else if(cell is DatePickerCellView){
-            //    tableView.DeselectRow(indexPath, true);
-            //    var tCell = cell as TimePickerCellView;
-            //    tCell.DummyField.BecomeFirstResponder();
-            //}
+
         }
 
 

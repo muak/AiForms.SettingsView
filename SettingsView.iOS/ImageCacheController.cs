@@ -1,28 +1,31 @@
 ﻿using System;
-
-namespace AiForms.Renderers.Droid
+using Foundation;
+namespace AiForms.Renderers.iOS
 {
     public static class ImageCacheController
     {
-        public static MemoryLimitedLruCache Instance{
-            get {
+        public static NSCache Instance{
+            get{
                 if(_CacheInstance == null){
-                    _CacheInstance = new MemoryLimitedLruCache(CacheSize);
+                    _CacheInstance = new NSCache();
+                    _CacheInstance.CountLimit = CacheCountLimit;
                     SettingsView._clearCache = Clear;
                 }
+
                 return _CacheInstance;
             }
         }
 
         public static void Clear()
         {
-            _CacheInstance?.EvictAll();
+            _CacheInstance?.RemoveAllObjects();
             _CacheInstance?.Dispose();
             _CacheInstance = null;
             SettingsView._clearCache = null;
         }
 
-        static readonly int CacheSize = (int)(Java.Lang.Runtime.GetRuntime().MaxMemory() / 1024 / 8);
-        static MemoryLimitedLruCache _CacheInstance;
+
+        static readonly nuint CacheCountLimit = 30;
+        static NSCache _CacheInstance;
     }
 }

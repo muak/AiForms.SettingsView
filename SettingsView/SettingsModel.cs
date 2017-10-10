@@ -55,7 +55,7 @@ namespace AiForms.Renderers
 		{
 			base.OnRowSelected(item);
 
-			//((Cell)item).OnTapped();
+            (item as CellBase)?.OnTapped();
 		}
 
 		internal static Tuple<int, int> GetPath(Cell item)

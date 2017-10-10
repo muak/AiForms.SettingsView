@@ -30,7 +30,8 @@ namespace Sample.Views
 		void AddCell(object sender, System.EventArgs e)
 		{
             //settings.Root[0].Add(new TextCell{Text="added"});
-            settings.CellTitleColor = Color.Red;
+            //settings.CellTitleColor = Color.Red;
+            SettingsView.ClearCache();
 		}
 
 		void AddSection(object sender, System.EventArgs e)
