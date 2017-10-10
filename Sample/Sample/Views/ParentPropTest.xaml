@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:ai="clr-namespace:AiForms.Renderers;assembly=SettingsView"
+    xmlns:l="clr-namespace:AiForms.Layouts;assembly=AiForms.Layouts"
+    xmlns:ef="clr-namespace:AiForms.Effects;assembly=AiForms.Effects"
+    x:Class="Sample.Views.ParentPropTest">
+    <StackLayout>
+        <l:WrapLayout VerticalOptions="Start" Spacing="6">
+            <Label Text="BackgroundColor" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding BackgroundColorCommand}" />
+            <Label Text="SeparatorColor" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding SeparatorColorCommand}" />
+            <Label Text="HeaderPadding" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding HeaderPaddingCommand}" />
+            <Label Text="HeaderTextColor" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding HeaderTextColorCommand}" />
+            <Label Text="HeaderFontSize" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding HeaderFontSizeCommand}" />
+            <Label Text="HeaderTextVerticalAlign" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding HeaderTextVerticalAlignCommand}" />
+            <Label Text="HeaderBackgroundColor" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding HeaderBackgroundColorCommand}" />
+            <Label Text="HeaderHeight" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding HeaderHeightCommand}" />
+            <Label Text="FooterTextColor" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding FooterTextColorCommand}" />
+            <Label Text="FooterFontSize" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding FooterFontSizeCommand}" />
+            <Label Text="FooterBackgroundColor" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding FooterBackgroundColorCommand}" />
+            <Label Text="FooterPadding" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding FooterPaddingCommand}" />
+            <Label Text="RowHeight" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding RowHeightCommand}" />
+            <Label Text="HasUnevenRows" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding HasUnevenRowsCommand}" />
+            <Label Text="CellTitleColor" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellTitleColorCommand}" />
+            <Label Text="CellTitleFontSize" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellTitleFontSizeCommand}" />
+            <Label Text="CellValueTextColor" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellValueTextColorCommand}" />
+            <Label Text="CellValueTextFontSize" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellValueTextFontSizeCommand}" />
+            <Label Text="CellDescriptionColor" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellDescriptionColorCommand}" />
+            <Label Text="CellDescriptionFontSize" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellDescriptionFontSizeCommand}" />
+            <Label Text="CellBackgroundColor" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellBackgroundColorCommand}" />
+            <Label Text="CellIconSize" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellIconSizeCommand}" />
+            <Label Text="CellAccentColor" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellAccentColorCommand}" />
+            <Label Text="CellHintTextColor" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellHintTextColorCommand}" />
+            <Label Text="CellHintFontSize" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellHintFontSizeCommand}" />
+        </l:WrapLayout>
+        <ai:SettingsView
+            BackgroundColor="{Binding BackgroundColor.Value}"
+            SeparatorColor="{Binding SeparatorColor.Value}"
+            HeaderPadding="{Binding HeaderPadding.Value}"
+            HeaderTextColor="{Binding HeaderTextColor.Value}"
+            HeaderFontSize="{Binding HeaderFontSize.Value}"
+            HeaderTextVerticalAlign="{Binding HeaderTextVerticalAlign.Value}"
+            HeaderBackgroundColor="{Binding HeaderBackgroundColor.Value}"
+            HeaderHeight="{Binding HeaderHeight.Value}"
+            FooterTextColor="{Binding FooterTextColor.Value}"
+            FooterFontSize="{Binding FooterFontSize.Value}"
+            FooterBackgroundColor="{Binding FooterBackgroundColor.Value}"
+            FooterPadding="{Binding FooterPadding.Value}"
+            RowHeight="{Binding RowHeight.Value}"
+            HasUnevenRows="{Binding HasUnevenRows.Value}"
+            CellTitleColor="{Binding CellTitleColor.Value}"
+            CellTitleFontSize="{Binding CellTitleFontSize.Value}"
+            CellValueTextColor="{Binding CellValueTextColor.Value}"
+            CellDescriptionColor="{Binding CellDescriptionColor.Value}"
+            CellDescriptionFontSize="{Binding CellDescriptionFontSize.Value}"
+            CellBackgroundColor="{Binding CellBackgroundColor.Value}"
+            CellIconSize="{Binding CellIconSize.Value}"
+            CellAccentColor="{Binding CellAccentColor.Value}"
+            CellHintTextColor="{Binding CellHintTextColor.Value}"
+            CellHintFontSize="{Binding CellHintFontSize.Value}"
+        >
+            <ai:Section Title="Section1" FooterText="Footer1" >
+                <ai:LabelCell        Title="LabelCell"        Description="HogeFuga" HintText="hint" ValueText="Value"/>
+                <ai:CommandCell      Title="CommandCell"      Description="HogeFuga" HintText="hint" ValueText="Value"/>
+                <ai:SwitchCell       Title="SwitchCell"       Description="HogeFuga" HintText="hint" />
+                <ai:CheckboxCell     Title="CheckboxCell"     Description="HogeFuga" HintText="hint" />
+                <ai:NumberPickerCell Title="NumberPickerCell" Description="HogeFuga" HintText="hint" Number="20"/>
+                <ai:TimePickerCell   Title="TimePickerCell"   Description="HogeFuga" HintText="hint" Time="15:15"/>
+                <ai:DatePickerCell   Title="DatePickerCell"   Description="HogeFuga" HintText="hint" Date="2017/10/10"/>
+                <ai:PickerCell       Title="PickerCell"       Description="HogeFuga" HintText="hint" ValueText="selected"/>
+                <ai:EntryCell        Title="EntryCell"        Description="HogeFuga" HintText="hint" ValueText="inputText"/>
+            </ai:Section>
+            <ai:Section Title="Section2" FooterText="Footer2">
+                <ai:LabelCell        Title="LabelCell"        Description="HogeFuga" HintText="hint" ValueText="Value"/>
+                <ai:CommandCell      Title="CommandCell"      Description="HogeFuga" HintText="hint" ValueText="Value"/>
+                <ai:SwitchCell       Title="SwitchCell"       Description="HogeFuga" HintText="hint" />
+                <ai:CheckboxCell     Title="CheckboxCell"     Description="HogeFuga" HintText="hint" />
+                <ai:NumberPickerCell Title="NumberPickerCell" Description="HogeFuga" HintText="hint" Number="20"/>
+                <ai:TimePickerCell   Title="TimePickerCell"   Description="HogeFuga" HintText="hint" Time="15:15"/>
+                <ai:DatePickerCell   Title="DatePickerCell"   Description="HogeFuga" HintText="hint" Date="2017/10/10"/>
+                <ai:PickerCell       Title="PickerCell"       Description="HogeFuga" HintText="hint" ValueText="selected"/>
+                <ai:EntryCell        Title="EntryCell"        Description="HogeFuga" HintText="hint" ValueText="inputText"/>
+            </ai:Section>
+
+        </ai:SettingsView>
+    </StackLayout>
+    
+</ContentPage>

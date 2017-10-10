@@ -221,11 +221,14 @@ namespace AiForms.Renderers.Droid
                 textView.Gravity = _settingsView.HeaderTextVerticalAlign.ToNativeVertical() | GravityFlags.Left;
                 textView.TextAlignment = Android.Views.TextAlignment.Gravity;
                 textView.SetTextSize(Android.Util.ComplexUnitType.Sp, (float)_settingsView.HeaderFontSize);
-                textView.SetTextColor(_settingsView.HeaderTextColor.ToAndroid());
                 textView.SetBackgroundColor(_settingsView.HeaderBackgroundColor.ToAndroid());
                 textView.SetMaxLines(1);
                 textView.SetMinLines(1);
                 textView.Ellipsize = TextUtils.TruncateAt.End;
+                if (_settingsView.HeaderTextColor != Xamarin.Forms.Color.Default)
+                {
+                    textView.SetTextColor(_settingsView.HeaderTextColor.ToAndroid());
+                }
 
                 //border設定
                 border.SetBackgroundColor(_settingsView.SeparatorColor.ToAndroid());
@@ -313,8 +316,11 @@ namespace AiForms.Renderers.Droid
                 );
 
                 textView.SetTextSize(Android.Util.ComplexUnitType.Sp, (float)_settingsView.FooterFontSize);
-                textView.SetTextColor(_settingsView.FooterTextColor.ToAndroid());
                 textView.SetBackgroundColor(_settingsView.FooterBackgroundColor.ToAndroid());
+                if (_settingsView.FooterTextColor != Xamarin.Forms.Color.Default)
+                { 
+                    textView.SetTextColor(_settingsView.FooterTextColor.ToAndroid());
+                }
 
                 convertView.Tag = textView;
             }

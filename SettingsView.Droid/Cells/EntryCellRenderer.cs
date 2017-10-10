@@ -22,23 +22,23 @@ namespace AiForms.Renderers.Droid
     {
         AiEntryCell _EntryCell => Cell as AiEntryCell;
 
-        AiEditText EditText;
+        AiEditText _EditText;
 
         public EntryCellView(Context context,Cell cell):base(context,cell)
         {
-            EditText = new AiEditText(context);
+            _EditText = new AiEditText(context);
 
-            EditText.Focusable = true;
-            EditText.ImeOptions = ImeAction.Done;
-            EditText.SetOnEditorActionListener(this);
-            EditText.AddTextChangedListener(this);
-            EditText.OnFocusChangeListener = this;
-            EditText.SetSingleLine(true);
-            EditText.Gravity = GravityFlags.Right | GravityFlags.CenterVertical;
+            _EditText.Focusable = true;
+            _EditText.ImeOptions = ImeAction.Done;
+            _EditText.SetOnEditorActionListener(this);
+            //_EditText.AddTextChangedListener(this);
+            _EditText.OnFocusChangeListener = this;
+            _EditText.SetSingleLine(true);
+            _EditText.Gravity = GravityFlags.Right | GravityFlags.CenterVertical;
 
-            EditText.Background.Alpha = 0;  //下線は非表示
+            _EditText.Background.Alpha = 0;  //下線は非表示
 
-            EditText.ClearFocusAction = DoneEdit;
+            _EditText.ClearFocusAction = DoneEdit;
             Click += EntryCellView_Click;
 
             var lparams = new LinearLayout.LayoutParams(
@@ -48,19 +48,19 @@ namespace AiForms.Renderers.Droid
             };
             using (lparams)
             {
-                ContentStack.AddView(EditText, lparams);
+                ContentStack.AddView(_EditText, lparams);
             }
         }
 
         public override void UpdateCell()
         {
-            base.UpdateCell();
             UpdateValueText();
             UpdateValueTextColor();
             UpdateValueTextFontSize();
             UpdateKeyboard();
             UpdatePlaceholder();
             UpdateAccentColor();
+            base.UpdateCell();
         }
 
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -112,40 +112,42 @@ namespace AiForms.Renderers.Droid
         {
             if(disposing){
                 Click -= EntryCellView_Click;
-                EditText.RemoveFromParent();
-                EditText.SetOnEditorActionListener(null);
-                EditText.RemoveTextChangedListener(this);
-                EditText.OnFocusChangeListener = null;
-                EditText.ClearFocusAction = null;
-                EditText.Dispose();
-                EditText = null;
+                _EditText.RemoveFromParent();
+                _EditText.SetOnEditorActionListener(null);
+                _EditText.RemoveTextChangedListener(this);
+                _EditText.OnFocusChangeListener = null;
+                _EditText.ClearFocusAction = null;
+                _EditText.Dispose();
+                _EditText = null;
             }
             base.Dispose(disposing);
         }
 
         void EntryCellView_Click(object sender, EventArgs e)
         {
-            EditText.RequestFocus();
-            ShowKeyboard(EditText);
+            _EditText.RequestFocus();
+            ShowKeyboard(_EditText);
         }
 
         void UpdateValueText()
         {
-            if (EditText.Text != _EntryCell.ValueText)
+            _EditText.RemoveTextChangedListener(this);
+            if (_EditText.Text != _EntryCell.ValueText)
             {
-                EditText.Text = _EntryCell.ValueText;
+                _EditText.Text = _EntryCell.ValueText;
             }
+            _EditText.AddTextChangedListener(this);
         }
 
         void UpdateValueTextFontSize()
         {
             if (_EntryCell.ValueTextFontSize > 0)
             {
-                EditText.SetTextSize(Android.Util.ComplexUnitType.Sp, (float)_EntryCell.ValueTextFontSize);
+                _EditText.SetTextSize(Android.Util.ComplexUnitType.Sp, (float)_EntryCell.ValueTextFontSize);
             }
             else if (CellParent != null)
             {
-                EditText.SetTextSize(Android.Util.ComplexUnitType.Sp, (float)CellParent.CellValueTextFontSize);
+                _EditText.SetTextSize(Android.Util.ComplexUnitType.Sp, (float)CellParent.CellValueTextFontSize);
             }
         }
 
@@ -153,23 +155,23 @@ namespace AiForms.Renderers.Droid
         {
             if (_EntryCell.ValueTextColor != Xamarin.Forms.Color.Default)
             {
-                EditText.SetTextColor(_EntryCell.ValueTextColor.ToAndroid());
+                _EditText.SetTextColor(_EntryCell.ValueTextColor.ToAndroid());
             }
             else if (CellParent != null && CellParent.CellValueTextColor != Xamarin.Forms.Color.Default)
             {
-                EditText.SetTextColor(CellParent.CellValueTextColor.ToAndroid());
+                _EditText.SetTextColor(CellParent.CellValueTextColor.ToAndroid());
             }
         }
 
         void UpdateKeyboard()
         {
-            EditText.InputType = _EntryCell.Keyboard.ToInputType();
+            _EditText.InputType = _EntryCell.Keyboard.ToInputType();
         }
 
         void UpdatePlaceholder()
         {
-            EditText.Hint = _EntryCell.Placeholder;
-            EditText.SetHintTextColor(Android.Graphics.Color.Rgb(210, 210, 210));
+            _EditText.Hint = _EntryCell.Placeholder;
+            _EditText.SetHintTextColor(Android.Graphics.Color.Rgb(210, 210, 210));
         }
 
         void UpdateAccentColor()
@@ -195,7 +197,7 @@ namespace AiForms.Renderers.Droid
                     Android.Graphics.Color.Argb(255,accent.R,accent.G,accent.B),
                     Android.Graphics.Color.Argb(255, 200, 200, 200)
             });
-            EditText.Background.SetTintList(colorlist);
+            _EditText.Background.SetTintList(colorlist);
         }
 
 
@@ -215,7 +217,7 @@ namespace AiForms.Renderers.Droid
         {
             var entryCell = (IEntryCellController)Cell;
             entryCell.SendCompleted();
-            EditText.ClearFocus();
+            _EditText.ClearFocus();
             ClearFocus();
         }
 
@@ -257,12 +259,12 @@ namespace AiForms.Renderers.Droid
             if (hasFocus)
             {
                 //フォーカス時のみ下線表示
-                EditText.Background.Alpha = 100;
+                _EditText.Background.Alpha = 100;
             }
             else
             {
                 //非フォーカス時は非表示
-                EditText.Background.Alpha = 0;
+                _EditText.Background.Alpha = 0;
             }
         }
     }

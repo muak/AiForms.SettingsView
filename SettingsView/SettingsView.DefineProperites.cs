@@ -19,40 +19,12 @@ namespace AiForms.Renderers
             set { SetValue(BackgroundColorProperty, value); }
         }
 
-        //public static BindableProperty HasUnevenRowsProperty =
-        //    BindableProperty.Create(
-        //        nameof(HasUnevenRows),
-        //        typeof(bool),
-        //        typeof(SettingsView),
-        //        default(bool),
-        //        defaultBindingMode: BindingMode.OneWay
-        //    );
-
-        //public bool HasUnevenRows {
-        //    get { return (bool)GetValue(HasUnevenRowsProperty); }
-        //    set { SetValue(HasUnevenRowsProperty, value); }
-        //}
-
-        //public static BindableProperty RowHeightProperty =
-        //    BindableProperty.Create(
-        //        nameof(RowHeight),
-        //        typeof(double),
-        //        typeof(SettingsView),
-        //        -1.0d,
-        //        defaultBindingMode: BindingMode.OneWay
-        //    );
-
-        //public double RowHeight {
-        //    get { return (double)GetValue(RowHeightProperty); }
-        //    set { SetValue(RowHeightProperty, value); }
-        //}
-
         public static BindableProperty SeparatorColorProperty =
             BindableProperty.Create(
                 nameof(SeparatorColor),
                 typeof(Color),
                 typeof(SettingsView),
-                default(Color),
+                Color.FromRgb(199, 199, 204),
                 defaultBindingMode: BindingMode.OneWay
             );
 
@@ -226,7 +198,7 @@ namespace AiForms.Renderers
                 nameof(CellTitleFontSize),
                 typeof(double),
                 typeof(SettingsView),
-                -1.0d,
+                -1.0,
                 defaultBindingMode: BindingMode.OneWay,
                 defaultValueCreator: bindable => Device.GetNamedSize(NamedSize.Default, (SettingsView)bindable)
             );
@@ -329,7 +301,7 @@ namespace AiForms.Renderers
                 nameof(CellAccentColor),
                 typeof(Color),
                 typeof(SettingsView),
-                default(Color),
+                Color.Accent,
                 defaultBindingMode: BindingMode.OneWay
             );
 
@@ -338,7 +310,38 @@ namespace AiForms.Renderers
             set { SetValue(CellAccentColorProperty, value); }
         }
 
-        //Android Only
+        public static BindableProperty CellHintTextColorProperty =
+            BindableProperty.Create(
+                nameof(CellHintTextColor),
+                typeof(Color),
+                typeof(SettingsView),
+                Color.Red,
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        public Color CellHintTextColor
+        {
+            get { return (Color)GetValue(CellHintTextColorProperty); }
+            set { SetValue(CellHintTextColorProperty, value); }
+        }
+
+        public static BindableProperty CellHintFontSizeProperty =
+            BindableProperty.Create(
+                nameof(CellHintFontSize),
+                typeof(double),
+                typeof(SettingsView),
+                10.0d,
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        [TypeConverter(typeof(FontSizeConverter))]
+        public double CellHintFontSize
+        {
+            get { return (double)GetValue(CellHintFontSizeProperty); }
+            set { SetValue(CellHintFontSizeProperty, value); }
+        }
+
+        //Android Only TODO:未実装
         public static BindableProperty ShowSectionTopBottomBorderProperty =
             BindableProperty.Create(
                 nameof(ShowSectionTopBottomBorder),

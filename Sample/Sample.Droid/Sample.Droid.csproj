@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Sample.Droid</RootNamespace>
     <AssemblyName>Sample.Droid</AssemblyName>
-    <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -129,6 +129,12 @@
     </Reference>
     <Reference Include="Xamarin.Forms.Xaml">
       <HintPath>..\packages\Xamarin.Forms.2.4.0.282\lib\MonoAndroid10\Xamarin.Forms.Xaml.dll</HintPath>
+    </Reference>
+    <Reference Include="AiForms.Effects">
+      <HintPath>..\packages\AiForms.Effects.1.1.0-pre1\lib\MonoAndroid\AiForms.Effects.dll</HintPath>
+    </Reference>
+    <Reference Include="AiForms.Effects.Droid">
+      <HintPath>..\packages\AiForms.Effects.1.1.0-pre1\lib\MonoAndroid\AiForms.Effects.Droid.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

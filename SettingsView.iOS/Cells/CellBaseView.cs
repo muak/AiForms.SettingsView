@@ -12,7 +12,7 @@ namespace AiForms.Renderers.iOS
 {
     public class CellBaseView : CellTableViewCell
     {
-        public UILabel ErrorLabel { get; private set; }
+        public UILabel HintLabel { get; private set; }
         public UILabel TitleLabel { get; private set; }
         public UILabel DescriptionLabel { get; private set; }
         public UIImageView IconView { get; private set; }
@@ -34,8 +34,8 @@ namespace AiForms.Renderers.iOS
             Cell = formsCell;
             //選択時背景色
             SelectionStyle = UITableViewCellSelectionStyle.None;
-            SetErrorMessageLabel();
-            SetContentView();
+            SetUpHintLabel();
+            SetUpContentView();
         }
 
         public virtual void CellPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -51,10 +51,6 @@ namespace AiForms.Renderers.iOS
             else if (e.PropertyName == CellBase.TitleFontSizeProperty.PropertyName)
             {
                 UpdateWithForceLayout(UpdateTitleFontSize);
-            }
-            else if (e.PropertyName == CellBase.ErrorMessageProperty.PropertyName)
-            {
-                UpdateWithForceLayout(UpdateErrorMessage);
             }
             else if (e.PropertyName == CellBase.DescriptionProperty.PropertyName)
             {
@@ -75,6 +71,15 @@ namespace AiForms.Renderers.iOS
             else if (e.PropertyName == CellBase.BackgroundColorProperty.PropertyName)
             {
                 UpdateBackgroundColor();
+            }
+            else if(e.PropertyName == CellBase.HintTextProperty.PropertyName){
+                UpdateWithForceLayout(UpdateHintText);
+            }
+            else if(e.PropertyName == CellBase.HintTextColorProperty.PropertyName){
+                UpdateHintTextColor();
+            }
+            else if (e.PropertyName == CellBase.HintFontSizeProperty.PropertyName){
+                UpdateWithForceLayout(UpdateHintFontSize);
             }
         }
 
@@ -100,6 +105,12 @@ namespace AiForms.Renderers.iOS
             {
                 UpdateBackgroundColor();
             }
+            else if(e.PropertyName == SettingsView.CellHintTextColorProperty.PropertyName){
+                UpdateHintTextColor();
+            }
+            else if(e.PropertyName == SettingsView.CellHintFontSizeProperty.PropertyName){
+                UpdateWithForceLayout(UpdateHintFontSize);
+            }
         }
 
         protected void UpdateWithForceLayout(System.Action updateAction)
@@ -117,6 +128,36 @@ namespace AiForms.Renderers.iOS
             else if (CellParent != null && CellParent.CellBackgroundColor != Xamarin.Forms.Color.Default)
             {
                 BackgroundColor = CellParent.CellBackgroundColor.ToUIColor();
+            }
+        }
+
+        void UpdateHintText()
+        {
+            HintLabel.Text = CellBase.HintText;
+            HintLabel.Hidden = string.IsNullOrEmpty(CellBase.HintText);
+        }
+
+        void UpdateHintTextColor()
+        {
+            if (CellBase.HintTextColor != Xamarin.Forms.Color.Default)
+            {
+                HintLabel.TextColor = CellBase.HintTextColor.ToUIColor();
+            }
+            else if (CellParent != null && CellParent.CellHintTextColor != Xamarin.Forms.Color.Default)
+            {
+                HintLabel.TextColor = CellParent.CellHintTextColor.ToUIColor();
+            }
+        }
+
+        void UpdateHintFontSize()
+        {
+            if (CellBase.HintFontSize > 0)
+            {
+                HintLabel.Font = HintLabel.Font.WithSize((nfloat)CellBase.HintFontSize);
+            }
+            else if (CellParent != null)
+            {
+                HintLabel.Font = HintLabel.Font.WithSize((nfloat)CellParent.CellHintFontSize);
             }
         }
 
@@ -282,12 +323,6 @@ namespace AiForms.Renderers.iOS
             });
         }
 
-        void UpdateErrorMessage()
-        {
-            ErrorLabel.Text = CellBase.ErrorMessage;
-            ErrorLabel.Hidden = string.IsNullOrEmpty(CellBase.ErrorMessage);
-        }
-
         public virtual void UpdateCell()
         {
             UpdateBackgroundColor();
@@ -297,7 +332,9 @@ namespace AiForms.Renderers.iOS
             UpdateDescriptionText();
             UpdateDescriptionColor();
             UpdateDescriptionFontSize();
-            UpdateErrorMessage();
+            UpdateHintText();
+            UpdateHintTextColor();
+            UpdateHintFontSize();
 
             UpdateIcon();
 
@@ -312,9 +349,9 @@ namespace AiForms.Renderers.iOS
                 CellParent.PropertyChanged -= ParentPropertyChanged;
 
                 Device.BeginInvokeOnMainThread(() => {
-                    ErrorLabel.RemoveFromSuperview();
-                    ErrorLabel.Dispose();
-                    ErrorLabel = null;
+                    HintLabel.RemoveFromSuperview();
+                    HintLabel.Dispose();
+                    HintLabel = null;
                     TitleLabel.Dispose();
                     TitleLabel = null;
                     DescriptionLabel.Dispose();
@@ -342,30 +379,28 @@ namespace AiForms.Renderers.iOS
             base.Dispose(disposing);
         }
 
-        void SetErrorMessageLabel()
+        void SetUpHintLabel()
         {
             var hoge = this.Subviews;
-            ErrorLabel = new UILabel();
-            ErrorLabel.LineBreakMode = UILineBreakMode.Clip;
-            ErrorLabel.Lines = 1;
-            //ErrorLabel.BackgroundColor = UIColor.FromWhiteAlpha(1, .5f);
-            ErrorLabel.TextColor = UIColor.Red.ColorWithAlpha(0.8f);
-            ErrorLabel.TintAdjustmentMode = UIViewTintAdjustmentMode.Automatic;
-            ErrorLabel.AdjustsFontSizeToFitWidth = true;
-            ErrorLabel.BaselineAdjustment = UIBaselineAdjustment.AlignCenters;
-            ErrorLabel.TextAlignment = UITextAlignment.Right;
-            ErrorLabel.AdjustsLetterSpacingToFitWidth = true;
-            ErrorLabel.Font = ErrorLabel.Font.WithSize(10);
+            HintLabel = new UILabel();
+            HintLabel.LineBreakMode = UILineBreakMode.Clip;
+            HintLabel.Lines = 1;          
+            HintLabel.TintAdjustmentMode = UIViewTintAdjustmentMode.Automatic;
+            HintLabel.AdjustsFontSizeToFitWidth = true;
+            HintLabel.BaselineAdjustment = UIBaselineAdjustment.AlignCenters;
+            HintLabel.TextAlignment = UITextAlignment.Right;
+            HintLabel.AdjustsLetterSpacingToFitWidth = true;
 
-            ContentView.AddSubview(ErrorLabel);
+            this.AddSubview(HintLabel);
 
-            ErrorLabel.TranslatesAutoresizingMaskIntoConstraints = false;
-            ErrorLabel.TopAnchor.ConstraintEqualTo(ContentView.TopAnchor, 2).Active = true;
-            ErrorLabel.RightAnchor.ConstraintEqualTo(ContentView.RightAnchor).Active = true;
-            ErrorLabel.HeightAnchor.ConstraintEqualTo(14).Active = true;
-            ErrorLabel.WidthAnchor.ConstraintEqualTo(ContentView.WidthAnchor).Active = true;
+            HintLabel.TranslatesAutoresizingMaskIntoConstraints = false;
+            HintLabel.TopAnchor.ConstraintEqualTo(this.TopAnchor, 2).Active = true;
+            HintLabel.RightAnchor.ConstraintEqualTo(this.RightAnchor,-10).Active = true;
+            HintLabel.HeightAnchor.ConstraintEqualTo(14).Active = true;
+            HintLabel.WidthAnchor.ConstraintEqualTo(this.WidthAnchor).Active = true;
 
-            ErrorLabel.SizeToFit();
+            HintLabel.SizeToFit();
+            BringSubviewToFront(HintLabel);
         }
 
         protected void SetRightMarginZero()
@@ -373,7 +408,7 @@ namespace AiForms.Renderers.iOS
             _stackH.LayoutMargins = new UIEdgeInsets(6, 16, 6, 0);
         }
 
-        void SetContentView()
+        void SetUpContentView()
         {
             //備え付け部品を剥がす
             ImageView.RemoveFromSuperview();

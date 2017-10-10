@@ -7,7 +7,7 @@
 	x:Class="Sample.Views.MainPage" Title="MainPage">
 	<StackLayout>
 		<Button Text="SettingsView" Command="{Binding GoToPage}" CommandParameter="SettingsView" />
-		<Button Text="NormalStack" Command="{Binding GoToPage}"  CommandParameter="NormalStack" />
+		<Button Text="ParentPropTest" Command="{Binding GoToTest}"  CommandParameter="ParentPropTest" />
 		<Button Text="NativeStack" Command="{Binding GoToPage}"  CommandParameter="NativeStack" />
 	</StackLayout>
 </ContentPage>

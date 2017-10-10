@@ -102,18 +102,49 @@ namespace AiForms.Renderers
             set { SetValue(DescriptionFontSizeProperty, value); }
         }
 
-        public static BindableProperty ErrorMessageProperty =
+        public static BindableProperty HintTextProperty =
             BindableProperty.Create(
-                nameof(ErrorMessage),
+                nameof(HintText),
                 typeof(string),
                 typeof(CellBase),
                 default(string),
                 defaultBindingMode: BindingMode.OneWay
             );
 
-        public string ErrorMessage {
-            get { return (string)GetValue(ErrorMessageProperty); }
-            set { SetValue(ErrorMessageProperty, value); }
+        public string HintText {
+            get { return (string)GetValue(HintTextProperty); }
+            set { SetValue(HintTextProperty, value); }
+        }
+
+        public static BindableProperty HintTextColorProperty =
+            BindableProperty.Create(
+                nameof(HintTextColor),
+                typeof(Color),
+                typeof(CellBase),
+                default(Color),
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        public Color HintTextColor
+        {
+            get { return (Color)GetValue(HintTextColorProperty); }
+            set { SetValue(HintTextColorProperty, value); }
+        }
+
+        public static BindableProperty HintFontSizeProperty =
+            BindableProperty.Create(
+                nameof(HintFontSize),
+                typeof(double),
+                typeof(CellBase),
+                -1.0d,
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        [TypeConverter(typeof(FontSizeConverter))]
+        public double HintFontSize
+        {
+            get { return (double)GetValue(HintFontSizeProperty); }
+            set { SetValue(HintFontSizeProperty, value); }
         }
 
         public static BindableProperty BackgroundColorProperty =

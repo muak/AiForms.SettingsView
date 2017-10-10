@@ -39,6 +39,11 @@
       <DependentUpon>SettingsViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\SettingsViewPageViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\ParentPropTest.xaml.cs">
+      <DependentUpon>ParentPropTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\ParentPropTestViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App.xaml">
@@ -151,6 +156,9 @@
     <EmbeddedResource Include="Resources\social-windows.svg" />
     <EmbeddedResource Include="Resources\soup-can-outline.svg" />
     <EmbeddedResource Include="Resources\umbrella.svg" />
+    <EmbeddedResource Include="Views\ParentPropTest.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Practices.ServiceLocation">
@@ -197,6 +205,12 @@
     </Reference>
     <Reference Include="Xamarin.Forms.Xaml">
       <HintPath>..\packages\Xamarin.Forms.2.4.0.282\lib\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.Xaml.dll</HintPath>
+    </Reference>
+    <Reference Include="AiForms.Effects">
+      <HintPath>..\packages\AiForms.Effects.1.1.0-pre1\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\AiForms.Effects.dll</HintPath>
+    </Reference>
+    <Reference Include="AiForms.Layouts">
+      <HintPath>..\packages\AiForms.Layouts.1.0.0\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\AiForms.Layouts.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

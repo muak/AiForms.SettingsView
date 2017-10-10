@@ -22,7 +22,6 @@ namespace AiForms.Renderers
             VerticalOptions = HorizontalOptions = LayoutOptions.FillAndExpand;
             Root = new SettingsRoot();
             Model = new SettingsModel(Root);
-
         }
 
         SettingsRoot _root;

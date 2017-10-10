@@ -23,6 +23,7 @@ namespace Sample
             Container.RegisterTypeForNavigation<NavigationPage>();
 			Container.RegisterTypeForNavigation<MainPage>();
 			Container.RegisterTypeForNavigation<SettingsViewPage>();
+            Container.RegisterTypeForNavigation<ParentPropTest>();
 		}
 	}
 }

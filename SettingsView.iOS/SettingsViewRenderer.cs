@@ -120,7 +120,7 @@ namespace AiForms.Renderers.iOS
         void UpdateSeparator() 
         {
             var color = Element.SeparatorColor;
-            Control.SeparatorColor = color == Color.Default ? UIColor.FromRGB(199,199,204) :color.ToUIColor();
+            Control.SeparatorColor = color.ToUIColor();
         }
 
         protected override void Dispose(bool disposing)

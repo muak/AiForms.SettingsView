@@ -16,9 +16,9 @@
 			<Button Text="ChV" Command="{Binding ToggleVisible}" />
 			<Button Text="ChRH" Command="{Binding ToggleRowHeight}" />
 		</StackLayout>
-		<ai:SettingsView x:Name="settings" VerticalOptions="FillAndExpand" 
+        <ai:SettingsView x:Name="settings" VerticalOptions="FillAndExpand" 
 			BackgroundColor="Green" CellBackgroundColor="#CCCCFF"
-			 HeaderBackgroundColor="Olive" 
+			 HeaderBackgroundColor="Olive" CellHintFontSize="6" CellHintTextColor="Fuchsia"
 			HeaderTextVerticalAlign="End" HeaderTextColor="White"
 			HeaderFontSize="16" HeaderHeight="44" 
 			FooterBackgroundColor="Purple" FooterFontSize="14" FooterTextColor="Green"
@@ -45,7 +45,7 @@
                 <ai:SwitchCell Title="Switch" On="{Binding SwitchOn.Value}" AccentColor="Red"
                 Description="これをあれするかどうかの設定。あれするばあいはONにしてください。それ以外はOFFにしてください。"/>
                 <ai:PickerCell Title="Picker" ItemsSource="{Binding PickerItems}" DisplayMember="Name"
-                    PageTitle="Hoge" ErrorMessage="error!" AccentColor="Red" KeepSelectedUntilBack="true"
+                    PageTitle="Hoge" HintText="error!" AccentColor="Red" KeepSelectedUntilBack="true"
                     MaxSelectedNumber="3" SelectedItems="{Binding SelectedItems}" />
                 <ai:CommandCell Title="Command" ValueText="1,2,3" Command="{Binding CellCommand}"
                     CommandParameter="{Binding CellCommandParameter.Value}" KeepSelectedUntilBack="true" />

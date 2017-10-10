@@ -80,10 +80,6 @@ namespace AiForms.Renderers.Droid
             {
                 UpdateTitleFontSize();
             }
-            else if (e.PropertyName == CellBase.ErrorMessageProperty.PropertyName)
-            {
-                UpdateHintText();
-            }
             else if (e.PropertyName == CellBase.DescriptionProperty.PropertyName)
             {
                 UpdateDescriptionText();
@@ -103,6 +99,18 @@ namespace AiForms.Renderers.Droid
             else if (e.PropertyName == CellBase.BackgroundColorProperty.PropertyName)
             {
                 UpdateBackgroundColor();
+            }
+            else if (e.PropertyName == CellBase.HintTextProperty.PropertyName)
+            {
+                UpdateWithForceLayout(UpdateHintText);
+            }
+            else if (e.PropertyName == CellBase.HintTextColorProperty.PropertyName)
+            {
+                UpdateHintTextColor();
+            }
+            else if (e.PropertyName == CellBase.HintFontSizeProperty.PropertyName)
+            {
+                UpdateWithForceLayout(UpdateHintFontSize);
             }
         }
 
@@ -128,6 +136,14 @@ namespace AiForms.Renderers.Droid
             {
                 UpdateBackgroundColor();
             }
+            else if (e.PropertyName == SettingsView.CellHintTextColorProperty.PropertyName)
+            {
+                UpdateHintTextColor();
+            }
+            else if (e.PropertyName == SettingsView.CellHintFontSizeProperty.PropertyName)
+            {
+                UpdateWithForceLayout(UpdateHintFontSize);
+            }
         }
 
         protected void UpdateWithForceLayout(System.Action updateAction)
@@ -146,6 +162,9 @@ namespace AiForms.Renderers.Droid
             UpdateDescriptionColor();
             UpdateDescriptionFontSize();
             UpdateHintText();
+            UpdateHintTextColor();
+            UpdateHintFontSize();
+
             UpdateIcon();
 
             Invalidate();
@@ -244,7 +263,7 @@ namespace AiForms.Renderers.Droid
 
         void UpdateHintText()
         {
-            var msg = CellBase.ErrorMessage;
+            var msg = CellBase.HintText;
             if (string.IsNullOrEmpty(msg))
             {
                 HintLabel.Visibility = ViewStates.Gone;
@@ -253,6 +272,38 @@ namespace AiForms.Renderers.Droid
 
             HintLabel.Text = msg;
             HintLabel.Visibility = ViewStates.Visible;
+        }
+
+        void UpdateHintTextColor()
+        {
+            if (CellBase.HintTextColor != Xamarin.Forms.Color.Default)
+            {
+                HintLabel.SetTextColor(CellBase.HintTextColor.ToAndroid());
+            }
+            else if (CellParent != null && CellParent.CellHintTextColor != Xamarin.Forms.Color.Default)
+            {
+                HintLabel.SetTextColor(CellParent.CellHintTextColor.ToAndroid());
+            }
+            else
+            {
+                HintLabel.SetTextColor(_defaultTextColor);
+            }
+        }
+
+        void UpdateHintFontSize()
+        {
+            if (CellBase.HintFontSize > 0)
+            {
+                HintLabel.SetTextSize(ComplexUnitType.Sp, (float)CellBase.HintFontSize);
+            }
+            else if (CellParent != null)
+            {
+                HintLabel.SetTextSize(ComplexUnitType.Sp, (float)CellParent.CellHintFontSize);
+            }
+            else
+            {
+                HintLabel.SetTextSize(ComplexUnitType.Sp, _defaultFontSize);
+            }
         }
 
         void UpdateIconSize()
