@@ -3,17 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:minHeight="44dp"
-    android:paddingLeft="8dp"
+    android:paddingLeft="10dp"
     android:paddingRight="8dp"
     android:paddingTop="4dp"
     android:paddingBottom="4dp">
-    <ImageView
+    <AiForms.Renderers.Droid.RoundImageView
         android:id="@+id/CellIcon"
         android:scaleType="fitCenter"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="12dp" />
     <LinearLayout
         android:id="@+id/CellBody"
         android:orientation="vertical"

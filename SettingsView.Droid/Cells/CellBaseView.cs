@@ -24,7 +24,7 @@ namespace AiForms.Renderers.Droid
 
         public TextView TitleLabel { get; set; }
         public TextView DescriptionLabel { get; set; }
-        public ImageView IconView { get; set; }
+        public RoundImageView IconView { get; set; }
         public LinearLayout ContentStack { get; set; }
         public LinearLayout AccessoryStack { get; set; }
         public TextView HintLabel { get; private set; }
@@ -47,7 +47,9 @@ namespace AiForms.Renderers.Droid
         {
             var contentView = (_context as FormsAppCompatActivity).LayoutInflater.Inflate(Resource.Layout.CellBaseView, this, true);
 
-            IconView = contentView.FindViewById<ImageView>(Resource.Id.CellIcon);
+            contentView.LayoutParameters = new ViewGroup.LayoutParams(-1, -1);
+
+            IconView = contentView.FindViewById<RoundImageView>(Resource.Id.CellIcon);
             TitleLabel = contentView.FindViewById<TextView>(Resource.Id.CellTitle);
             DescriptionLabel = contentView.FindViewById<TextView>(Resource.Id.CellDescription);
             ContentStack = contentView.FindViewById<LinearLayout>(Resource.Id.CellContentStack);
@@ -112,6 +114,13 @@ namespace AiForms.Renderers.Droid
             {
                 UpdateWithForceLayout(UpdateHintFontSize);
             }
+            else if (e.PropertyName == CellBase.IconSizeProperty.PropertyName)
+            {
+                UpdateWithForceLayout(UpdateIconSize);
+            }
+            else if(e.PropertyName == CellBase.IconRadiusProperty.PropertyName){
+                UpdateWithForceLayout(UpdateIconRadius);
+            }
         }
 
         public virtual void ParentPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -144,6 +153,13 @@ namespace AiForms.Renderers.Droid
             {
                 UpdateWithForceLayout(UpdateHintFontSize);
             }
+            else if(e.PropertyName == SettingsView.CellIconSizeProperty.PropertyName){
+               UpdateWithForceLayout(UpdateIcon);
+            }
+            else if( e.PropertyName == SettingsView.CellIconRadiusProperty.PropertyName){
+                UpdateIconRadius();
+                UpdateWithForceLayout(UpdateIcon);
+            }
         }
 
         protected void UpdateWithForceLayout(System.Action updateAction)
@@ -166,6 +182,7 @@ namespace AiForms.Renderers.Droid
             UpdateHintFontSize();
 
             UpdateIcon();
+            UpdateIconRadius();
 
             Invalidate();
         }
@@ -306,6 +323,18 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        void UpdateIconRadius()
+        {
+            if (CellBase.IconRadius >= 0)
+            {
+                IconView.CornerRadius = _context.ToPixels(CellBase.IconRadius);
+            }
+            else if (CellParent != null)
+            {
+                IconView.CornerRadius = _context.ToPixels(CellParent.CellIconRadius);
+            }
+        }
+
         void UpdateIconSize()
         {
             Xamarin.Forms.Size size;
@@ -319,11 +348,12 @@ namespace AiForms.Renderers.Droid
             }
             else
             {
-                size = new Xamarin.Forms.Size(50, 50);
+                size = new Xamarin.Forms.Size(36, 36);
             }
 
             IconView.LayoutParameters.Width = (int)_context.ToPixels(size.Width);
             IconView.LayoutParameters.Height = (int)_context.ToPixels(size.Height);
+            //IconView.CornerRadius = _context.ToPixels(12);
         }
 
         void UpdateIcon()

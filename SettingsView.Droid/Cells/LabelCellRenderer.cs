@@ -19,6 +19,9 @@ namespace AiForms.Renderers.Droid
         LabelCell _LabelCell => Cell as LabelCell;
         public TextView ValueLabel { get; set; }
 
+        public TextView vValueLabel;
+
+
         public LabelCellView(Context context, Cell cell) : base(context, cell) {
            
             ValueLabel = new TextView(context);
@@ -72,14 +75,27 @@ namespace AiForms.Renderers.Droid
         public override void UpdateCell()
         {
             base.UpdateCell();
+            UpdateUseDescriptionAsValue();  //at first after base
             UpdateValueText();
             UpdateValueTextColor();
             UpdateValueTextFontSize();
+
+        }
+
+        void UpdateUseDescriptionAsValue()
+        {
+            if(CellParent != null && CellParent.UseDescriptionAsValue){
+                vValueLabel = DescriptionLabel;
+                DescriptionLabel.Visibility = ViewStates.Visible;
+            }
+            else{
+                vValueLabel = ValueLabel;
+            }
         }
 
         void UpdateValueText()
         {
-            ValueLabel.Text = _LabelCell.ValueText;
+            vValueLabel.Text = _LabelCell.ValueText;
         }
 
         void UpdateValueTextFontSize()

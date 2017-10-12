@@ -58,6 +58,26 @@ namespace AiForms.Renderers.iOS
             }
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                DummyField.RemoveFromSuperview();
+                DummyField?.Dispose();
+                DummyField = null;
+                _picker.Dispose();
+                _picker = null;
+            }
+            base.Dispose(disposing);
+        }
+
+        public override void LayoutSubviews()
+        {
+            base.LayoutSubviews();
+
+            DummyField.Frame = new CGRect(0, 0, Frame.Width, Frame.Height);
+        }
+
         void SetUpDatePicker()
         {
             _picker = new UIDatePicker { Mode = UIDatePickerMode.Date, TimeZone = new Foundation.NSTimeZone("UTC") };

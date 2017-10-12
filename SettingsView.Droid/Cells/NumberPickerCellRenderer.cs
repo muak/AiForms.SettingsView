@@ -95,7 +95,7 @@ namespace AiForms.Renderers.Droid
 
         void UpdateNumber()
         {
-            ValueLabel.Text = _NumberPikcerCell.Number.ToString();
+            vValueLabel.Text = _NumberPikcerCell.Number.ToString();
         }
 
         void UpdatePickerTitle()

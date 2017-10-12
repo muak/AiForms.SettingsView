@@ -7,6 +7,7 @@ This is a flexble TableView specialized in settings for Android / iOS.
 ### General
 
 * To set separator color.
+* To set selected cell color.
 
 ### Sections
 
@@ -16,13 +17,14 @@ This is a flexble TableView specialized in settings for Android / iOS.
 
 ### Cells
 
-* To set options of all the cells as options of SettingsView at once.
-* To set options of indivisual cell. (indivisual cell options  is superior to SettingsView options.)
+* To set options of all the cells as SettingsView options at once.
+* To set indivisual cell options. (indivisual cell options  is superior to SettingsView options.)
 * To set a cell HintText.
-* To use a icon  cached in memory at all cells.
+* To use an icon  cached in memory at all cells.
+* To change corner radius of an icon.
 * To use various defined cells.
 * To use Xamarin.Forms.ViewCell and the others.
-* To use the cells of SettingsView in ListView and TableView.
+* To use SettingsView cells in ListView and TableView.
 
 ## Minimum Device and Version etc
 
@@ -60,7 +62,9 @@ hogehoge...
 ## Properties of SettingsView
 
 * BackgroundColor
+	* A color of out of region and entire region. They contains header, footer and cell (in case android).
 * SeparatorColor
+* SelectedColor
 * HeaderPadding
 * HeaderTextColor
 * HeaderFontSize
@@ -72,7 +76,10 @@ hogehoge...
 * FooterBackgroundColor
 * FooterPadding
 * RowHeight
+	* If HasUnevenRows is false, this value apply to each row height;
+	* otherwise this value is used as minimum row height. 
 * HasUnevenRows
+	* Whether row height is fixed.
 * CellTitleColor
 * CellTitleFontSize
 * CellValueTextColor
@@ -81,9 +88,14 @@ hogehoge...
 * CellDescriptionFontSize
 * CellBackgroundColor
 * CellIconSize
+* CellIconRadius
 * CellAccentColor
 * CellHintTextColor
 * CellHintFontSize
+* UseDescriptionAsValue (for Android)
+	* Whether description field  is used as value field. (like general android app)
+* ShowSectionTopBottomBorder (for Android)
+	* Whether a separator is shown at section top and bottom. (like general android app)
 
 ## Method of SettingsView
 

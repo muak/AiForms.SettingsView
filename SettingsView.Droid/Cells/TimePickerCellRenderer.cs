@@ -92,7 +92,7 @@ namespace AiForms.Renderers.Droid
 
         void UpdateTime()
         {
-           ValueLabel.Text = DateTime.Today.Add(_TimePickerCell.Time).ToString(_TimePickerCell.Format);
+           vValueLabel.Text = DateTime.Today.Add(_TimePickerCell.Time).ToString(_TimePickerCell.Format);
         }
 
         void UpdatePickerTitle()
@@ -103,7 +103,7 @@ namespace AiForms.Renderers.Droid
         void TimeSelected(object sender, TimePickerDialog.TimeSetEventArgs e)
         {
             _TimePickerCell.Time = new TimeSpan(e.HourOfDay, e.Minute, 0);
-            ValueLabel.Text = DateTime.Today.Add(_TimePickerCell.Time).ToString(_TimePickerCell.Format);
+            UpdateTime();
         }
 
     }

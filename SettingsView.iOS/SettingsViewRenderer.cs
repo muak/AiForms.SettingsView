@@ -14,7 +14,7 @@ namespace AiForms.Renderers.iOS
     {
         Page _parentPage;
         KeyboardInsetTracker _insetTracker;
-        const float MinRowHeight = 44;
+        internal static float MinRowHeight = 44;
         UITableView _tableview;
 
         bool _disposed = false;

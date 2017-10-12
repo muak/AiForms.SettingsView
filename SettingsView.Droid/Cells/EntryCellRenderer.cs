@@ -35,7 +35,7 @@ namespace AiForms.Renderers.Droid
             _EditText.OnFocusChangeListener = this;
             _EditText.SetSingleLine(true);
             _EditText.Gravity = GravityFlags.Right | GravityFlags.CenterVertical;
-
+            _EditText.InputType |= InputTypes.TextFlagNoSuggestions;  //disabled spell check
             _EditText.Background.Alpha = 0;  //下線は非表示
 
             _EditText.ClearFocusAction = DoneEdit;
@@ -165,7 +165,7 @@ namespace AiForms.Renderers.Droid
 
         void UpdateKeyboard()
         {
-            _EditText.InputType = _EntryCell.Keyboard.ToInputType();
+            _EditText.InputType = _EntryCell.Keyboard.ToInputType() | InputTypes.TextFlagNoSuggestions;
         }
 
         void UpdatePlaceholder()

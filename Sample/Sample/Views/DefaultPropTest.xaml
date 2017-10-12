@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:ai="clr-namespace:AiForms.Renderers;assembly=SettingsView"
+    x:Class="Sample.Views.DefaultPropTest">
+	<StackLayout>
+        <ai:SettingsView>
+            <ai:Section Title="Section1" FooterText="Footer1" >
+                <ai:LabelCell        IconSource="icon.png" Title="LabelCell"        Description="HogeFuga" HintText="hint" ValueText="Value"/>
+                <ai:CommandCell      IconSource="icon.png" Title="CommandCell"      Description="HogeFuga" HintText="hint" ValueText="Value"/>
+                <ai:SwitchCell       IconSource="icon.png" Title="SwitchCell"       Description="HogeFuga" HintText="hint" />
+                <ai:CheckboxCell     IconSource="icon.png" Title="CheckboxCell"     Description="HogeFuga" HintText="hint" />
+                <ai:NumberPickerCell IconSource="icon.png" Title="NumberPickerCell" Description="HogeFuga" HintText="hint" Number="20"/>
+                <ai:TimePickerCell   IconSource="icon.png" Title="TimePickerCell"   Description="HogeFuga" HintText="hint" Time="15:15"/>
+                <ai:DatePickerCell   IconSource="icon.png" Title="DatePickerCell"   Description="HogeFuga" HintText="hint" Date="2017/10/10"/>
+                <ai:PickerCell       IconSource="icon.png" Title="PickerCell"       Description="HogeFuga" HintText="hint" ValueText="selected"/>
+                <ai:EntryCell        IconSource="icon.png" Title="EntryCell"        Description="HogeFuga" HintText="hint" ValueText="inputText"/>
+            </ai:Section>
+            <ai:Section Title="Section2" FooterText="Footer2" >
+                <ai:LabelCell        Title="LabelCell"        ValueText="Value"/>
+                <ai:CommandCell      Title="CommandCell"      ValueText="Value"/>
+                <ai:SwitchCell       Title="SwitchCell"       />
+                <ai:CheckboxCell     Title="CheckboxCell"     />
+                <ai:NumberPickerCell Title="NumberPickerCell" Number="20"/>
+                <ai:TimePickerCell   Title="TimePickerCell"   Time="15:15"/>
+                <ai:DatePickerCell   Title="DatePickerCell"   Date="2017/10/10"/>
+                <ai:PickerCell       Title="PickerCell"       ValueText="selected"/>
+                <ai:EntryCell        Title="EntryCell"        ValueText="inputText" />
+             </ai:Section>
+            <ai:Section Title="Section3" FooterText="Footer3">
+                <ai:LabelCell         />
+                <ai:CommandCell       />
+                <ai:SwitchCell        />
+                <ai:CheckboxCell      />
+                <ai:NumberPickerCell  />
+                <ai:TimePickerCell    />
+                <ai:DatePickerCell    />
+                <ai:PickerCell        />
+                <ai:EntryCell         />
+            </ai:Section>
+
+        </ai:SettingsView>
+    </StackLayout>
+    
+</ContentPage>

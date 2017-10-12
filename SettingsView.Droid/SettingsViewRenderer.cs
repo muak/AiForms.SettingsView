@@ -33,10 +33,9 @@ namespace AiForms.Renderers.Droid
                 Control.Focusable = false;
                 Control.DescendantFocusability = DescendantFocusability.AfterDescendants;
                 Control.SetDrawSelectorOnTop(true);
-              
-                Control.Selector = DrawableUtility.CreateRipple(Android.Graphics.Color.Rgb(180, 180, 180));
 
-
+                UpdateSelectedColor();
+                UpdateBackgroundColor();
 
                 _adapter = new SettingsViewAdapter(Context, e.NewElement, Control);
                 Control.Adapter = _adapter;
@@ -75,13 +74,43 @@ namespace AiForms.Renderers.Droid
         {
             base.OnElementPropertyChanged(sender, e);
             if (e.PropertyName == SettingsView.SeparatorColorProperty.PropertyName) {
-                _adapter.NotifyDataSetChanged();
+                _adapter.NotifyDataSetChanged();       
             }
             else if (e.PropertyName == SettingsView.BackgroundColorProperty.PropertyName) {
                 UpdateBackgroundColor();
             }
             else if (e.PropertyName == TableView.RowHeightProperty.PropertyName) {
                 _adapter.NotifyDataSetChanged();
+            }
+            else if( e.PropertyName == SettingsView.UseDescriptionAsValueProperty.PropertyName){
+                _adapter.NotifyDataSetChanged();
+            }
+            else if(e.PropertyName == SettingsView.SelectedColorProperty.PropertyName){
+                UpdateSelectedColor();
+            }
+            else if(e.PropertyName == SettingsView.ShowSectionTopBottomBorderProperty.PropertyName){
+                _adapter.NotifyDataSetChanged();
+            }
+            else if(e.PropertyName == TableView.HasUnevenRowsProperty.PropertyName){
+                _adapter.NotifyDataSetChanged();
+            }
+        }
+
+        void UpdateSelectedColor()
+        {
+            var color = Android.Graphics.Color.Rgb(180, 180, 180);
+            if (Element.SelectedColor != Xamarin.Forms.Color.Default)
+            {
+                color = Element.SelectedColor.ToAndroid();
+            }
+
+            Control.Selector = DrawableUtility.CreateRipple(color);
+        }      
+
+        new void UpdateBackgroundColor()
+        {
+            if (Element.BackgroundColor != Xamarin.Forms.Color.Default){
+                Control.SetBackgroundColor(Element.BackgroundColor.ToAndroid());
             }
         }
 

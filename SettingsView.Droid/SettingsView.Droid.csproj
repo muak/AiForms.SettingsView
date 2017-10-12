@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>AiForms.Renderers.Droid</RootNamespace>
     <AssemblyName>SettingsView.Droid</AssemblyName>
-    <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
@@ -104,6 +104,7 @@
     <Compile Include="Cells\IPickerCell.cs" />
     <Compile Include="Cells\DatePickerCellRenderer.cs" />
     <Compile Include="Cells\EntryCellRenderer.cs" />
+    <Compile Include="Cells\RoundImageView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

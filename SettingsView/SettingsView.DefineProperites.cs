@@ -33,6 +33,21 @@ namespace AiForms.Renderers
             set { SetValue(SeparatorColorProperty, value); }
         }
 
+        public static BindableProperty SelectedColorProperty =
+            BindableProperty.Create(
+                nameof(SelectedColor),
+                typeof(Color),
+                typeof(SettingsView),
+                default(Color),
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        public Color SelectedColor
+        {
+            get { return (Color)GetValue(SelectedColorProperty); }
+            set { SetValue(SelectedColorProperty, value); }
+        }
+
         public static BindableProperty HeaderPaddingProperty =
             BindableProperty.Create(
                 nameof(HeaderPadding),
@@ -296,6 +311,21 @@ namespace AiForms.Renderers
             set { SetValue(CellIconSizeProperty, value); }
         }
 
+        public static BindableProperty CellIconRadiusProperty =
+            BindableProperty.Create(
+                nameof(CellIconRadius),
+                typeof(double),
+                typeof(SettingsView),
+                6.0d,
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        public double CellIconRadius
+        {
+            get { return (double)GetValue(CellIconRadiusProperty); }
+            set { SetValue(CellIconRadiusProperty, value); }
+        }
+
         public static BindableProperty CellAccentColorProperty =
             BindableProperty.Create(
                 nameof(CellAccentColor),
@@ -341,13 +371,29 @@ namespace AiForms.Renderers
             set { SetValue(CellHintFontSizeProperty, value); }
         }
 
-        //Android Only TODO:未実装
+        //Android Only
+        public static BindableProperty UseDescriptionAsValueProperty =
+            BindableProperty.Create(
+                nameof(UseDescriptionAsValue),
+                typeof(bool),
+                typeof(SettingsView),
+                true,
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        public bool UseDescriptionAsValue
+        {
+            get { return (bool)GetValue(UseDescriptionAsValueProperty); }
+            set { SetValue(UseDescriptionAsValueProperty, value); }
+        }
+
+        //Android Only
         public static BindableProperty ShowSectionTopBottomBorderProperty =
             BindableProperty.Create(
                 nameof(ShowSectionTopBottomBorder),
                 typeof(bool),
                 typeof(SettingsView),
-                true,
+                false,
                 defaultBindingMode: BindingMode.OneWay
             );
 

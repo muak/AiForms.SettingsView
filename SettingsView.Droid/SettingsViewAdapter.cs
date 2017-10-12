@@ -31,7 +31,7 @@ namespace AiForms.Renderers.Droid
 
         Dictionary<Type, int> _viewTypes;
 
-        const float MinRowHeight = 44;
+        float MinRowHeight => _context.ToPixels(44);
         SettingsView _settingsView;
         AListView _listView;
         Context _context;
@@ -74,7 +74,9 @@ namespace AiForms.Renderers.Droid
             //      が、今はiOS側でそういう処理をしていないので後回し
             DeselectRow();
 
-            var cell = (view as ViewGroup)?.GetChildAt(0) ;
+            var cell = view.FindViewById<LinearLayout>(Resource.Id.ContentCellBody).GetChildAt(0);
+
+            //var cell = (view as ViewGroup)?.GetChildAt(0) ;
 
             _settingsView.Model.RowSelected(CellCaches[position].Cell);
 
@@ -97,6 +99,11 @@ namespace AiForms.Renderers.Droid
             }
             else if(cell is PickerCellView){
                 var pCell = cell as PickerCellView;
+
+                if((pCell.Cell as PickerCell).ItemsSource == null){
+                    return;
+                }
+
                 if((pCell.Cell as PickerCell).KeepSelectedUntilBack){
                     cell.Selected = true;
                 }
@@ -197,47 +204,48 @@ namespace AiForms.Renderers.Droid
             if (convertView == null)
             {
                 convertView = (_context as FormsAppCompatActivity).LayoutInflater.Inflate(Resource.Layout.HeaderCell, _listView, false);
-
-                //セルの高さ
-                int cellHeight = (int)_context.ToPixels(44);
-                if (_settingsView.HeaderHeight > -1)
-                {
-                    cellHeight = (int)_context.ToPixels(_settingsView.HeaderHeight);
-                }
-                convertView.SetMinimumHeight(cellHeight);
-                convertView.LayoutParameters.Height = cellHeight;
-
-                textView = convertView.FindViewById<TextView>(Resource.Id.HeaderCellText);
-                var border = convertView.FindViewById<LinearLayout>(Resource.Id.HeaderCellBorder);
-
-                //Text設定
-                textView.SetPadding(
-                    (int)_context.ToPixels(_settingsView.HeaderPadding.Left),
-                    (int)_context.ToPixels(_settingsView.HeaderPadding.Top),
-                    (int)_context.ToPixels(_settingsView.HeaderPadding.Right),
-                    (int)_context.ToPixels(_settingsView.HeaderPadding.Bottom)
-                );
-
-                textView.Gravity = _settingsView.HeaderTextVerticalAlign.ToNativeVertical() | GravityFlags.Left;
-                textView.TextAlignment = Android.Views.TextAlignment.Gravity;
-                textView.SetTextSize(Android.Util.ComplexUnitType.Sp, (float)_settingsView.HeaderFontSize);
-                textView.SetBackgroundColor(_settingsView.HeaderBackgroundColor.ToAndroid());
-                textView.SetMaxLines(1);
-                textView.SetMinLines(1);
-                textView.Ellipsize = TextUtils.TruncateAt.End;
-                if (_settingsView.HeaderTextColor != Xamarin.Forms.Color.Default)
-                {
-                    textView.SetTextColor(_settingsView.HeaderTextColor.ToAndroid());
-                }
-
-                //border設定
-                border.SetBackgroundColor(_settingsView.SeparatorColor.ToAndroid());
-
-                convertView.Tag = textView;
             }
-            else
+
+            //セルの高さ
+            int cellHeight = (int)_context.ToPixels(44);
+            if (_settingsView.HeaderHeight > -1)
             {
-                textView = convertView.Tag as TextView;
+                cellHeight = (int)_context.ToPixels(_settingsView.HeaderHeight);
+            }
+            convertView.SetMinimumHeight(cellHeight);
+            convertView.LayoutParameters.Height = cellHeight;
+
+            textView = convertView.FindViewById<TextView>(Resource.Id.HeaderCellText);
+            var border = convertView.FindViewById<LinearLayout>(Resource.Id.HeaderCellBorder);
+
+            //Text設定
+            textView.SetPadding(
+                (int)_context.ToPixels(_settingsView.HeaderPadding.Left),
+                (int)_context.ToPixels(_settingsView.HeaderPadding.Top),
+                (int)_context.ToPixels(_settingsView.HeaderPadding.Right),
+                (int)_context.ToPixels(_settingsView.HeaderPadding.Bottom)
+            );
+
+            textView.Gravity = _settingsView.HeaderTextVerticalAlign.ToNativeVertical() | GravityFlags.Left;
+            textView.TextAlignment = Android.Views.TextAlignment.Gravity;
+            textView.SetTextSize(Android.Util.ComplexUnitType.Sp, (float)_settingsView.HeaderFontSize);
+            textView.SetBackgroundColor(_settingsView.HeaderBackgroundColor.ToAndroid());
+            textView.SetMaxLines(1);
+            textView.SetMinLines(1);
+            textView.Ellipsize = TextUtils.TruncateAt.End;
+
+            if (_settingsView.HeaderTextColor != Xamarin.Forms.Color.Default)
+            {
+                textView.SetTextColor(_settingsView.HeaderTextColor.ToAndroid());
+            }
+
+            //border設定
+            if (_settingsView.ShowSectionTopBottomBorder)
+            {
+                border.SetBackgroundColor(_settingsView.SeparatorColor.ToAndroid());
+            }
+            else{
+                border.SetBackgroundColor(Android.Graphics.Color.Transparent);
             }
 
 
@@ -250,24 +258,19 @@ namespace AiForms.Renderers.Droid
         AView GetContentView(AView convertView, Cell formsCell, ViewGroup parent,int position)
         {
             AView nativeCell = null;
-            LinearLayout layout = convertView as LinearLayout;
+            AView layout = convertView as AView;
 
             if (layout == null)
             {
-                layout = new LinearLayout(_context) {
-                    Orientation = Orientation.Vertical,
-                    LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent)
-                };
-
-                var border = new LinearLayout(_context) { LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, 1) };
-                border.SetBackgroundColor(_settingsView.SeparatorColor.ToAndroid());
-
-                layout.AddView(border);
+                layout = (_context as FormsAppCompatActivity).LayoutInflater.Inflate(Resource.Layout.ContentCell, _listView, false);
             }
-            else
-            {
-                nativeCell = layout.GetChildAt(0);
-                layout.RemoveViewAt(0);
+
+            var body = layout.FindViewById<LinearLayout>(Resource.Id.ContentCellBody);
+            var border = layout.FindViewById(Resource.Id.ContentCellBorder);
+
+            nativeCell = body.GetChildAt(0);
+            if(nativeCell != null){
+                body.RemoveViewAt(0);
             }
 
             nativeCell = CellFactory.GetCell(formsCell, nativeCell, parent, _context, _settingsView);
@@ -280,19 +283,35 @@ namespace AiForms.Renderers.Droid
                 _preSelectedCell = nativeCell;
             }
 
+            var minHeight = (int)Math.Max(_context.ToPixels(_settingsView.RowHeight), MinRowHeight);
+
+            //it is neccesary to set both
+            layout.SetMinimumHeight(minHeight);
+            nativeCell.SetMinimumHeight(minHeight);
+
             if (!_settingsView.HasUnevenRows)
             {
                 //Unevenでない場合は指定RowHeightかMinRowHeightの大きい方にする
-                nativeCell.SetMinimumHeight((int)Math.Max(_settingsView.RowHeight, MinRowHeight));
+                layout.LayoutParameters.Height = minHeight;
             }
             else if (formsCell.Height > -1)
             {
                 //Cell自身にHeightが指定されて入ればそれを
-                nativeCell.SetMinimumHeight((int)formsCell.Height);
+                layout.SetMinimumHeight((int)_context.ToPixels(formsCell.Height));
+                layout.LayoutParameters.Height = (int)_context.ToPixels(formsCell.Height);
+            }
+            else{
+                layout.LayoutParameters.Height = -1;
             }
 
-            layout.AddView(nativeCell, 0);
+            if(!CellCaches[position].IsLastCell || _settingsView.ShowSectionTopBottomBorder){
+               border.SetBackgroundColor(_settingsView.SeparatorColor.ToAndroid());
+            }
+            else{
+                border.SetBackgroundColor(Android.Graphics.Color.Transparent);
+            }
 
+            body.AddView(nativeCell, 0);
 
             return layout;
         }
@@ -304,30 +323,25 @@ namespace AiForms.Renderers.Droid
             if (convertView == null)
             {
                 convertView = (_context as FormsAppCompatActivity).LayoutInflater.Inflate(Resource.Layout.FooterCell, _listView, false);
-
-                textView = convertView.FindViewById<TextView>(Resource.Id.FooterCellText);
-
-                //Text設定
-                textView.SetPadding(
-                    (int)_context.ToPixels(_settingsView.FooterPadding.Left),
-                    (int)_context.ToPixels(_settingsView.FooterPadding.Top),
-                    (int)_context.ToPixels(_settingsView.FooterPadding.Right),
-                    (int)_context.ToPixels(_settingsView.FooterPadding.Bottom)
-                );
-
-                textView.SetTextSize(Android.Util.ComplexUnitType.Sp, (float)_settingsView.FooterFontSize);
-                textView.SetBackgroundColor(_settingsView.FooterBackgroundColor.ToAndroid());
-                if (_settingsView.FooterTextColor != Xamarin.Forms.Color.Default)
-                { 
-                    textView.SetTextColor(_settingsView.FooterTextColor.ToAndroid());
-                }
-
-                convertView.Tag = textView;
             }
-            else
+
+            textView = convertView.FindViewById<TextView>(Resource.Id.FooterCellText);
+
+            //Text設定
+            textView.SetPadding(
+                (int)_context.ToPixels(_settingsView.FooterPadding.Left),
+                (int)_context.ToPixels(_settingsView.FooterPadding.Top),
+                (int)_context.ToPixels(_settingsView.FooterPadding.Right),
+                (int)_context.ToPixels(_settingsView.FooterPadding.Bottom)
+            );
+
+            textView.SetTextSize(Android.Util.ComplexUnitType.Sp, (float)_settingsView.FooterFontSize);
+            textView.SetBackgroundColor(_settingsView.FooterBackgroundColor.ToAndroid());
+            if (_settingsView.FooterTextColor != Xamarin.Forms.Color.Default)
             {
-                textView = convertView.Tag as TextView;
+                textView.SetTextColor(_settingsView.FooterTextColor.ToAndroid());
             }
+
 
             //セルの高さ
             if (string.IsNullOrEmpty(formsCell.Text))
@@ -371,8 +385,10 @@ namespace AiForms.Renderers.Droid
 
                 for (int i = 0; i < sectionRowCount; i++)
                 {
-                    newCellCaches.Add(new CellCache {
-                        Cell = (Cell)model.GetItem(sectionIndex, i)
+                    newCellCaches.Add(new CellCache
+                    {
+                        Cell = (Cell)model.GetItem(sectionIndex, i),
+                        IsLastCell = i == sectionRowCount - 1
                     });
                 }
 
@@ -403,13 +419,12 @@ namespace AiForms.Renderers.Droid
         }
 
 
-
-
         class CellCache
         {
             public Cell Cell { get; set; }
             public bool IsHeader { get; set; } = false;
             public bool IsFooter { get; set; } = false;
+            public bool IsLastCell { get; set; } = false;
         }
     }
 }

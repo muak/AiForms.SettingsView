@@ -68,6 +68,7 @@ namespace AiForms.Renderers.iOS
             if (e.PropertyName == SettingsView.CellValueTextColorProperty.PropertyName)
             {
                 UpdateValueTextColor();
+                ValueField.SetNeedsLayout();    // immediately reflect
             }
             else if (e.PropertyName == SettingsView.CellValueTextFontSizeProperty.PropertyName)
             {

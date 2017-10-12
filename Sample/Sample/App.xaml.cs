@@ -24,6 +24,7 @@ namespace Sample
 			Container.RegisterTypeForNavigation<MainPage>();
 			Container.RegisterTypeForNavigation<SettingsViewPage>();
             Container.RegisterTypeForNavigation<ParentPropTest>();
+            Container.RegisterTypeForNavigation<DefaultPropTest>();
 		}
 	}
 }

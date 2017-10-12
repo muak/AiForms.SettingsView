@@ -27,6 +27,7 @@ namespace AiForms.Renderers.iOS
         Size _iconSize;
         NSLayoutConstraint _iconConstraintHeight;
         NSLayoutConstraint _iconConstraintWidth;
+        NSLayoutConstraint _minheightConstraint;
         CancellationTokenSource _iconTokenSource;
 
         public CellBaseView(Cell formsCell) : base(UIKit.UITableViewCellStyle.Default, formsCell.GetType().FullName)
@@ -36,6 +37,8 @@ namespace AiForms.Renderers.iOS
             SelectionStyle = UITableViewCellSelectionStyle.None;
             SetUpHintLabel();
             SetUpContentView();
+
+            UpdateSelectedColor();
         }
 
         public virtual void CellPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -81,6 +84,10 @@ namespace AiForms.Renderers.iOS
             else if (e.PropertyName == CellBase.HintFontSizeProperty.PropertyName){
                 UpdateWithForceLayout(UpdateHintFontSize);
             }
+            else if (e.PropertyName == CellBase.IconRadiusProperty.PropertyName)
+            {
+                UpdateWithForceLayout(UpdateIconRadius);
+            }
         }
 
         public virtual void ParentPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -105,11 +112,28 @@ namespace AiForms.Renderers.iOS
             {
                 UpdateBackgroundColor();
             }
-            else if(e.PropertyName == SettingsView.CellHintTextColorProperty.PropertyName){
+            else if (e.PropertyName == SettingsView.CellHintTextColorProperty.PropertyName)
+            {
                 UpdateHintTextColor();
             }
-            else if(e.PropertyName == SettingsView.CellHintFontSizeProperty.PropertyName){
+            else if (e.PropertyName == SettingsView.CellHintFontSizeProperty.PropertyName)
+            {
                 UpdateWithForceLayout(UpdateHintFontSize);
+            }
+            else if(e.PropertyName == SettingsView.CellIconSizeProperty.PropertyName)
+            {
+                UpdateWithForceLayout(UpdateIconSize);
+            }
+            else if (e.PropertyName == SettingsView.CellIconRadiusProperty.PropertyName)
+            {
+                UpdateWithForceLayout(UpdateIconRadius);
+            }
+            else if (e.PropertyName == SettingsView.SelectedColorProperty.PropertyName)
+            {
+                UpdateSelectedColor();
+            }
+            else if(e.PropertyName == TableView.RowHeightProperty.PropertyName){
+                UpdateMinRowHeight();
             }
         }
 
@@ -117,6 +141,18 @@ namespace AiForms.Renderers.iOS
         {
             updateAction();
             SetNeedsLayout();
+        }
+
+        void UpdateSelectedColor(){
+            if (CellParent != null && CellParent.SelectedColor != Xamarin.Forms.Color.Default)
+            {
+                if(SelectedBackgroundView != null){
+                    SelectedBackgroundView.BackgroundColor = CellParent.SelectedColor.ToUIColor();
+                }
+                else{
+                    SelectedBackgroundView = new UIView { BackgroundColor = CellParent.SelectedColor.ToUIColor() };
+                }
+            }
         }
 
         void UpdateBackgroundColor()
@@ -234,7 +270,7 @@ namespace AiForms.Renderers.iOS
             }
             else
             {
-                size = new Size(50, 50);
+                size = new Size(32, 32);
             }
 
             //前のサイズと変わらなければ何もしない
@@ -263,6 +299,16 @@ namespace AiForms.Renderers.iOS
             _iconSize = size;
         }
 
+        void UpdateIconRadius()
+        {
+            if(CellBase.IconRadius >= 0){
+                IconView.Layer.CornerRadius = (float)CellBase.IconRadius;
+            }
+            else if(CellParent != null){
+                IconView.Layer.CornerRadius = (float)CellParent.CellIconRadius;
+            }
+
+        }
 
         void UpdateIcon()
         {
@@ -323,6 +369,24 @@ namespace AiForms.Renderers.iOS
             });
         }
 
+
+        void UpdateMinRowHeight()
+        {
+            if(_minheightConstraint != null){
+                _minheightConstraint.Active = false;
+                _minheightConstraint.Dispose();
+                _minheightConstraint = null;
+            }
+
+            if(CellParent.HasUnevenRows){
+                _minheightConstraint = _stackH.HeightAnchor.ConstraintGreaterThanOrEqualTo(CellParent.RowHeight);
+                _minheightConstraint.Active = true;
+
+            }
+
+            _stackH.UpdateConstraints();
+        }
+
         public virtual void UpdateCell()
         {
             UpdateBackgroundColor();
@@ -337,6 +401,7 @@ namespace AiForms.Renderers.iOS
             UpdateHintFontSize();
 
             UpdateIcon();
+            UpdateIconRadius();
 
             SetNeedsLayout();
         }
@@ -347,6 +412,9 @@ namespace AiForms.Renderers.iOS
             {
                 CellBase.PropertyChanged -= CellPropertyChanged;
                 CellParent.PropertyChanged -= ParentPropertyChanged;
+
+                SelectedBackgroundView?.Dispose();
+                SelectedBackgroundView = null;
 
                 Device.BeginInvokeOnMainThread(() => {
                     HintLabel.RemoveFromSuperview();
@@ -373,6 +441,7 @@ namespace AiForms.Renderers.iOS
 
                     _stackH.RemoveFromSuperview();
                     _stackH.Dispose();
+
                 });
             }
 
@@ -420,7 +489,7 @@ namespace AiForms.Renderers.iOS
             _stackH = new UIStackView {
                 Axis = UILayoutConstraintAxis.Horizontal,
                 Alignment = UIStackViewAlignment.Center,
-                Spacing = 4,
+                Spacing = 16,
                 Distribution = UIStackViewDistribution.Fill
             };
             //マージン設定
@@ -432,7 +501,6 @@ namespace AiForms.Renderers.iOS
 
             //角丸対応
             IconView.ClipsToBounds = true;
-            IconView.Layer.CornerRadius = 6;
 
             _stackH.AddArrangedSubview(IconView);
 
@@ -498,7 +566,10 @@ namespace AiForms.Renderers.iOS
             _stackH.LeftAnchor.ConstraintEqualTo(ContentView.LeftAnchor).Active = true;
             _stackH.BottomAnchor.ConstraintEqualTo(ContentView.BottomAnchor).Active = true;
             _stackH.RightAnchor.ConstraintEqualTo(ContentView.RightAnchor).Active = true;
-            _stackH.HeightAnchor.ConstraintGreaterThanOrEqualTo(44f).Active = true;  //min height
+
+            var minHeight = Math.Max(CellParent.RowHeight, SettingsViewRenderer.MinRowHeight);
+            _minheightConstraint = _stackH.HeightAnchor.ConstraintGreaterThanOrEqualTo(minHeight);
+            _minheightConstraint.Active = true;
         }
 
     }

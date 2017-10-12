@@ -170,6 +170,7 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
+        [TypeConverter(typeof(ImageSourceConverter))]
         public ImageSource IconSource {
             get { return (ImageSource)GetValue(IconSourceProperty); }
             set { SetValue(IconSourceProperty, value); }
@@ -188,6 +189,21 @@ namespace AiForms.Renderers
         public Size IconSize {
             get { return (Size)GetValue(IconSizeProperty); }
             set { SetValue(IconSizeProperty, value); }
+        }
+
+        public static BindableProperty IconRadiusProperty =
+            BindableProperty.Create(
+                nameof(IconRadius),
+                typeof(double),
+                typeof(CellBase),
+                -1.0d,
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        public double IconRadius
+        {
+            get { return (double)GetValue(IconRadiusProperty); }
+            set { SetValue(IconRadiusProperty, value); }
         }
 
     }

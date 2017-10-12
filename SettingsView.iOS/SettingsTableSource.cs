@@ -192,6 +192,12 @@ namespace AiForms.Renderers.iOS
             }
             else if(cell is PickerCellView){
                 var pickerCell = (cell as PickerCellView).Cell as PickerCell;
+
+                if(pickerCell.ItemsSource == null){
+                    tableView.DeselectRow(indexPath, true);
+                    return;
+                }
+
                 //TODO: これでどんなパターンでも大丈夫なのか要検証
                 var naviCtrl = UIApplication.SharedApplication.KeyWindow.RootViewController.ChildViewControllers[0] as UINavigationController;
 

@@ -44,6 +44,9 @@
       <DependentUpon>ParentPropTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\ParentPropTestViewModel.cs" />
+    <Compile Include="Views\DefaultPropTest.xaml.cs">
+      <DependentUpon>DefaultPropTest.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App.xaml">
@@ -157,6 +160,9 @@
     <EmbeddedResource Include="Resources\soup-can-outline.svg" />
     <EmbeddedResource Include="Resources\umbrella.svg" />
     <EmbeddedResource Include="Views\ParentPropTest.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\DefaultPropTest.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

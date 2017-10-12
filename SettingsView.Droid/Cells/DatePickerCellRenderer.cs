@@ -87,7 +87,7 @@ namespace AiForms.Renderers.Droid
         void UpdateDate()
         {
             var format = _datePickerCell.Format;
-            ValueLabel.Text = _datePickerCell.Date.ToString(format);
+            vValueLabel.Text = _datePickerCell.Date.ToString(format);
         }
 
         void UpdateMaximumDate()
