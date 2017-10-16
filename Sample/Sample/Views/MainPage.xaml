@@ -9,6 +9,6 @@
 		<Button Text="SettingsView" Command="{Binding GoToPage}" CommandParameter="SettingsView" />
         <Button Text="DefaultPropTest" Command="{Binding GoToTest}"  CommandParameter="DefaultPropTest" />
 		<Button Text="ParentPropTest" Command="{Binding GoToTest}"  CommandParameter="ParentPropTest" />
-		<Button Text="NativeStack" Command="{Binding GoToPage}"  CommandParameter="NativeStack" />
+		<Button Text="CollectionChangedTest" Command="{Binding GoToTest}"  CommandParameter="CollectionChangedTest" />
 	</StackLayout>
 </ContentPage>

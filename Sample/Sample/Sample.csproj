@@ -47,6 +47,10 @@
     <Compile Include="Views\DefaultPropTest.xaml.cs">
       <DependentUpon>DefaultPropTest.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CollectionChangedTest.xaml.cs">
+      <DependentUpon>CollectionChangedTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\CollectionChangedTestViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App.xaml">
@@ -163,6 +167,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\DefaultPropTest.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\CollectionChangedTest.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
