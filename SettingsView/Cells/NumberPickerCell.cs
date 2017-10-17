@@ -77,5 +77,6 @@ namespace AiForms.Renderers
             set { SetValue(SelectedCommandProperty, value); }
         }
 
+        private new string ValueText { get; set; }
     }
 }

@@ -51,6 +51,13 @@
       <DependentUpon>CollectionChangedTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\CollectionChangedTestViewModel.cs" />
+    <Compile Include="Views\LabelCellTest.xaml.cs">
+      <DependentUpon>LabelCellTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ParentController.xaml.cs">
+      <DependentUpon>ParentController.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\LabelCellTestViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App.xaml">
@@ -170,6 +177,12 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\CollectionChangedTest.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LabelCellTest.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ParentController.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

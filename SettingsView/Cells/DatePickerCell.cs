@@ -78,5 +78,7 @@ namespace AiForms.Renderers
             get { return (string)GetValue(TodayTextProperty); }
             set { SetValue(TodayTextProperty, value); }
         }
+
+        private new string ValueText { get; set; }
     }
 }

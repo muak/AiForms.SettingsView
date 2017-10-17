@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using AiForms.Renderers;
 using Prism.Mvvm;
 using Reactive.Bindings;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
+using Xamarin.Forms.Svg;
 
 namespace Sample.ViewModels
 {
@@ -39,6 +44,25 @@ namespace Sample.ViewModels
 
         public ReactiveCommand PropertyChangeCommand { get; } = new ReactiveCommand();
 
+        public ReactiveProperty<ImageSource> IconSource { get; } = new ReactiveProperty<ImageSource>();
+        public ReactiveProperty<Size> IconSize { get; } = new ReactiveProperty<Size>();
+        public ReactiveProperty<double> IconRadius { get; } = new ReactiveProperty<double>();
+        public ReactiveProperty<string> Title { get; } = new ReactiveProperty<string>();
+        public ReactiveProperty<string> Description { get; } = new ReactiveProperty<string>();
+        public ReactiveProperty<string> HintText { get; } = new ReactiveProperty<string>();
+        public ReactiveProperty<string> ValueText { get; } = new ReactiveProperty<string>();
+        public ReactiveProperty<Color> BgColor { get; } = new ReactiveProperty<Color>();
+        public ReactiveProperty<Color> TitleColor { get; } = new ReactiveProperty<Color>();
+        public ReactiveProperty<double> TitleFontSize { get; } = new ReactiveProperty<double>();
+        public ReactiveProperty<Color> ValueTextColor { get; } = new ReactiveProperty<Color>();
+        public ReactiveProperty<double> ValueTextFontSize { get; } = new ReactiveProperty<double>();
+        public ReactiveProperty<Color> DescriptionColor { get; } = new ReactiveProperty<Color>();
+        public ReactiveProperty<double> DescriptionFontSize { get; } = new ReactiveProperty<double>();
+        public ReactiveProperty<Color> HintTextColor { get; } = new ReactiveProperty<Color>();
+        public ReactiveProperty<double> HintFontSize { get; } = new ReactiveProperty<double>();
+
+
+        public ReactiveCommand CellChangeCommand { get; } = new ReactiveCommand();
 
 
         public static Color OuterColor = Color.DeepPink;
@@ -74,6 +98,26 @@ namespace Sample.ViewModels
             PaleTextColor,PaleTextColor2,Color.Transparent
         };
 
+        public static string[] TitleTexts = {
+            "Title","LongTitleTextTextTextTextTextTextTextTextTextTextTextTextTextText",""
+        };
+
+        public static string[] ValueTexts = {
+            "Value","LongValueTextTextTextTextTextTextTextTextTextTextTextTextTextText",""
+        };
+
+        public static string[] DescriptionTexts = {
+            "Description","LongLongDescription\nTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText",""
+        };
+
+        public static string[] HintTexts = {
+            "hint","LongHintTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText",""
+        };
+
+        public static ImageSource[] IconSources = {
+            "icon.png",SvgImageSource.FromSvg("umbrella.svg"),null
+        };
+
         public ViewModelBase()
         {
             BackgroundColor.Value = OuterColor;
@@ -105,7 +149,324 @@ namespace Sample.ViewModels
             ShowSectionTopBottomBorder.Value = true;
 
 
-            //RowHeight.Value = 150;
+            IconSource.Value = null;
+            IconSize.Value = new Size();
+            IconRadius.Value = 0;
+            Title.Value = "Title";
+            Description.Value = "Description";
+            HintText.Value = "hint";
+            ValueText.Value = "value";
+            BgColor.Value = Color.Transparent;
+            TitleColor.Value = DeepTextColor;
+            TitleFontSize.Value = 12;
+            ValueTextColor.Value = PaleTextColor;
+            ValueTextFontSize.Value = 12;
+            DescriptionColor.Value = PaleTextColor;
+            DescriptionFontSize.Value = 10;
+            HintTextColor.Value = Color.Red;
+            HintFontSize.Value = 9;
+
+
+            PropertyChangeCommand.Subscribe(ParentChanged);
+            CellChangeCommand.Subscribe(CellChanged);
+        }
+
+        protected virtual void ParentChanged(object obj)
+        {
+            var text = (obj as Label).Text;
+            switch (text)
+            {
+                case nameof(SettingsView.BackgroundColor):
+                    NextColor(BackgroundColor, OuterColors);
+                    break;
+                case nameof(SettingsView.SeparatorColor):
+                    NextColor(SeparatorColor, AccentColors);
+                    break;
+                case nameof(SettingsView.SelectedColor):
+                    NextColor(SelectedColor, BackColors);
+                    break;
+                case nameof(SettingsView.HeaderTextColor):
+                    NextColor(HeaderTextColor, DeepTextColors);
+                    break;
+                case nameof(SettingsView.HeaderBackgroundColor):
+                    NextColor(HeaderBackgroundColor, BackColors);
+                    break;
+                case nameof(SettingsView.FooterTextColor):
+                    NextColor(FooterTextColor, DeepTextColors);
+                    break;
+                case nameof(SettingsView.FooterBackgroundColor):
+                    NextColor(FooterBackgroundColor, BackColors);
+                    break;
+                case nameof(SettingsView.CellTitleColor):
+                    NextColor(CellTitleColor, DeepTextColors);
+                    break;
+                case nameof(SettingsView.CellValueTextColor):
+                    NextColor(CellValueTextColor, PaleTextColors);
+                    break;
+                case nameof(SettingsView.CellDescriptionColor):
+                    NextColor(CellDescriptionColor, PaleTextColors);
+                    break;
+                case nameof(SettingsView.CellBackgroundColor):
+                    NextColor(CellBackgroundColor, CellBackColors);
+                    break;
+                case nameof(SettingsView.CellAccentColor):
+                    NextColor(CellAccentColor, AccentColors);
+                    break;
+                case nameof(SettingsView.CellHintTextColor):
+                    NextColor(CellHintTextColor, AccentColors);
+                    break;
+                case nameof(SettingsView.ShowSectionTopBottomBorder):
+                    ToggleBool(ShowSectionTopBottomBorder);
+                    break;
+                case nameof(SettingsView.UseDescriptionAsValue):
+                    ToggleBool(UseDescriptionAsValue);
+                    break;
+                case nameof(SettingsView.HasUnevenRows):
+                    ToggleBool(HasUnevenRows);
+                    break;
+                case nameof(SettingsView.HeaderPadding):
+                    ChangeThickness(HeaderPadding);
+                    break;
+                case nameof(SettingsView.FooterPadding):
+                    ChangeThickness(FooterPadding);
+                    break;
+                case nameof(SettingsView.HeaderFontSize):
+                    ChangeFontSize(HeaderFontSize);
+                    break;
+                case nameof(SettingsView.FooterFontSize):
+                    ChangeFontSize(FooterFontSize);
+                    break;
+                case nameof(SettingsView.CellTitleFontSize):
+                    ChangeFontSize(CellTitleFontSize);
+                    break;
+                case nameof(SettingsView.CellValueTextFontSize):
+                    ChangeFontSize(CellValueTextFontSize);
+                    break;
+                case nameof(SettingsView.CellDescriptionFontSize):
+                    ChangeFontSize(CellDescriptionFontSize);
+                    break;
+                case nameof(SettingsView.CellHintFontSize):
+                    ChangeFontSize(CellHintFontSize);
+                    break;
+                case nameof(SettingsView.HeaderHeight):
+                    ChangeHeight(HeaderHeight);
+                    break;
+                case nameof(SettingsView.HeaderTextVerticalAlign):
+                    ChangeAlign(HeaderTextVerticalAlign);
+                    break;
+                case nameof(SettingsView.CellIconSize):
+                    ChangeSize(CellIconSize);
+                    break;
+                case nameof(SettingsView.CellIconRadius):
+                    ChangeHeight(CellIconRadius);
+                    break;
+                case nameof(SettingsView.RowHeight):
+                    ChangeRowHeight(RowHeight);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        protected virtual void CellChanged(object obj)
+        {
+            var text = (obj as Label).Text;
+            switch (text)
+            {
+                case nameof(CellBase.Title):
+                    NextText(Title, TitleTexts);
+                    break;
+                case nameof(LabelCell.ValueText):
+                    NextText(ValueText, ValueTexts);
+                    break;
+                case nameof(CellBase.Description):
+                    NextText(Description, DescriptionTexts);
+                    break;
+                case nameof(CellBase.HintText):
+                    NextText(HintText, HintTexts);
+                    break;
+                case nameof(CellBase.TitleColor):
+                    NextColor(TitleColor, DeepTextColors);
+                    break;
+                case nameof(LabelCell.ValueTextColor):
+                    NextColor(ValueTextColor, PaleTextColors);
+                    break;
+                case nameof(CellBase.DescriptionColor):
+                    NextColor(DescriptionColor, PaleTextColors);
+                    break;
+                case nameof(CellBase.BackgroundColor):
+                    NextColor(BgColor, CellBackColors);
+                    break;              
+                case nameof(CellBase.HintTextColor):
+                    NextColor(HintTextColor, AccentColors);
+                    break;
+                case nameof(CellBase.TitleFontSize):
+                    ChangeFontSize(TitleFontSize);
+                    break;
+                case nameof(LabelCell.ValueTextFontSize):
+                    ChangeFontSize(ValueTextFontSize);
+                    break;
+                case nameof(CellBase.DescriptionFontSize):
+                    ChangeFontSize(DescriptionFontSize);
+                    break;
+                case nameof(CellBase.IconSource):
+                    break;
+                case nameof(CellBase.IconRadius):
+                    ChangeHeight(IconRadius);
+                    break;
+                case nameof(CellBase.HintFontSize):
+                    ChangeFontSize(HintFontSize);
+                    break;
+            }
+        }
+
+        void ChangeIconSource(ReactiveProperty<ImageSource> current)
+        {
+            var idx = IconSources.IndexOf(current.Value);
+            if (idx == IconSources.Length - 1)
+            {
+                current.Value = IconSources[0];
+                return;
+            }
+
+            current.Value = IconSources[idx + 1];
+        }
+
+        void NextText(ReactiveProperty<string> current,string[] texts){
+            var idx = texts.IndexOf(current.Value);
+            if (idx == texts.Length - 1)
+            {
+                current.Value = texts[0];
+                return;
+            }
+
+            current.Value = texts[idx + 1];
+        }
+
+        void NextColor(ReactiveProperty<Color> current, Color[] colors)
+        {
+            var idx = colors.IndexOf(current.Value);
+            if (idx == colors.Length - 1)
+            {
+                current.Value = colors[0];
+                return;
+            }
+
+            current.Value = colors[idx + 1];
+        }
+
+        void ToggleBool(ReactiveProperty<bool> current)
+        {
+            current.Value = !current.Value;
+        }
+
+        void ChangeFontSize(ReactiveProperty<double> current)
+        {
+            if (current.Value > 30)
+            {
+                current.Value = 0;
+            }
+            else
+            {
+                current.Value += 1.0d;
+            }
+        }
+
+        void ChangeThickness(ReactiveProperty<Thickness> current)
+        {
+            var t = current.Value.Top;
+            var b = current.Value.Bottom;
+            var l = current.Value.Left;
+            var r = current.Value.Right;
+
+            var list = new List<double>{
+                l,t,r,b
+            };
+
+            if (t + b + l + r < 80d)
+            {
+                var idx = list.IndexOf(list.Min());
+                list[idx] += 5d;
+
+                current.Value = new Thickness(list[0], list[1], list[2], list[3]);
+            }
+            else
+            {
+                current.Value = new Thickness(0, 0, 0, 0);
+            }
+        }
+
+        void ChangeHeight(ReactiveProperty<double> current)
+        {
+            if (current.Value > 80)
+            {
+                current.Value = 0;
+            }
+            else
+            {
+                current.Value += 2;
+            }
+        }
+
+        void ChangeRowHeight(ReactiveProperty<int> current)
+        {
+            if (current.Value > 150)
+            {
+                current.Value = 0;
+            }
+            else
+            {
+                current.Value += 5;
+            }
+        }
+
+        void ChangeAlign(ReactiveProperty<LayoutAlignment> current)
+        {
+            if (current.Value == LayoutAlignment.Start)
+            {
+                current.Value = LayoutAlignment.Center;
+                return;
+            }
+
+            if (current.Value == LayoutAlignment.Center)
+            {
+                current.Value = LayoutAlignment.End;
+                return;
+            }
+
+            if (current.Value == LayoutAlignment.End)
+            {
+                current.Value = LayoutAlignment.Fill;
+                return;
+            }
+
+            current.Value = LayoutAlignment.Start;
+
+        }
+
+        void ChangeSize(ReactiveProperty<Size> current)
+        {
+            var size = current.Value;
+
+            if (size.Width + size.Height > 200)
+            {
+                current.Value = new Size(0, 0);
+                return;
+            }
+
+            if (size.Width < 100)
+            {
+                size.Width += 10;
+                current.Value = new Size(size.Width, 10);
+                return;
+            }
+
+            size.Height += 10;
+
+            current.Value = new Size(size.Width, size.Height);
+
+
         }
     }
 }

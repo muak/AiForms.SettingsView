@@ -26,6 +26,7 @@ namespace Sample
             Container.RegisterTypeForNavigation<ParentPropTest>();
             Container.RegisterTypeForNavigation<DefaultPropTest>();
             Container.RegisterTypeForNavigation<CollectionChangedTest>();
+            Container.RegisterTypeForNavigation<LabelCellTest>();
 		}
 	}
 }

@@ -10,5 +10,6 @@
         <Button Text="DefaultPropTest" Command="{Binding GoToTest}"  CommandParameter="DefaultPropTest" />
 		<Button Text="ParentPropTest" Command="{Binding GoToTest}"  CommandParameter="ParentPropTest" />
 		<Button Text="CollectionChangedTest" Command="{Binding GoToTest}"  CommandParameter="CollectionChangedTest" />
+        <Button Text="LabelCellTest" Command="{Binding GoToTest}"  CommandParameter="LabelCellTest" />
 	</StackLayout>
 </ContentPage>

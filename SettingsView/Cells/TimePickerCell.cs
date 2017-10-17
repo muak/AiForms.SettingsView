@@ -50,5 +50,7 @@ namespace AiForms.Renderers
             get { return (string)GetValue(PickerTitleProperty); }
             set { SetValue(PickerTitleProperty, value); }
         }
+
+        private new string ValueText { get; set; }
     }
 }

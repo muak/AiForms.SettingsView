@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentView 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+        xmlns:l="clr-namespace:AiForms.Layouts;assembly=AiForms.Layouts"
+    xmlns:ef="clr-namespace:AiForms.Effects;assembly=AiForms.Effects"
+    x:Class="Sample.Views.ParentController">
+    <l:WrapLayout VerticalOptions="StartAndExpand" Spacing="4">
+        <Label Text="BackgroundColor"         ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="SeparatorColor"          ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="SelectedColor"           ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="HeaderTextColor"         ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="HeaderBackgroundColor"   ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="FooterTextColor"         ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="FooterBackgroundColor"   ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="CellTitleColor"          ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="CellValueTextColor"      ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="CellDescriptionColor"    ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="CellBackgroundColor"     ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="CellAccentColor"         ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="CellHintTextColor"       ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="ShowSectionTopBottomBorder" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="UseDescriptionAsValue"   ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="HeaderPadding"           ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="FooterPadding"           ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="HeaderFontSize"          ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="HeaderTextVerticalAlign" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="HeaderHeight"            ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="FooterFontSize"          ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="RowHeight"               ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="HasUnevenRows"           ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="CellTitleFontSize"       ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="CellValueTextFontSize"   ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="CellDescriptionFontSize" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="CellIconSize"            ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="CellIconRadius"          ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="CellHintFontSize"        ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+    </l:WrapLayout>
+</ContentView>

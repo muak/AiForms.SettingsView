@@ -526,7 +526,7 @@ namespace AiForms.Renderers.iOS
             DescriptionLabel = new UILabel();
 
             DescriptionLabel.Lines = 0;
-            DescriptionLabel.LineBreakMode = UILineBreakMode.CharacterWrap;
+            DescriptionLabel.LineBreakMode = UILineBreakMode.WordWrap;
 
             ContentStack.AddArrangedSubview(TitleLabel);
 
