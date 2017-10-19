@@ -6,6 +6,7 @@ namespace AiForms.Renderers
 {
     public class NumberPickerCell:LabelCell
     {
+        
 
         public static BindableProperty NumberProperty =
             BindableProperty.Create(

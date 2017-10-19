@@ -65,7 +65,7 @@ namespace AiForms.Renderers.iOS
             }
             else if (e.PropertyName == CellBase.DescriptionColorProperty.PropertyName)
             {
-                UpdateDescriptionFontSize();
+                UpdateDescriptionColor();
             }
             else if (e.PropertyName == CellBase.IconSourceProperty.PropertyName)
             {
@@ -75,14 +75,21 @@ namespace AiForms.Renderers.iOS
             {
                 UpdateBackgroundColor();
             }
-            else if(e.PropertyName == CellBase.HintTextProperty.PropertyName){
+            else if (e.PropertyName == CellBase.HintTextProperty.PropertyName)
+            {
                 UpdateWithForceLayout(UpdateHintText);
             }
-            else if(e.PropertyName == CellBase.HintTextColorProperty.PropertyName){
+            else if (e.PropertyName == CellBase.HintTextColorProperty.PropertyName)
+            {
                 UpdateHintTextColor();
             }
-            else if (e.PropertyName == CellBase.HintFontSizeProperty.PropertyName){
+            else if (e.PropertyName == CellBase.HintFontSizeProperty.PropertyName)
+            {
                 UpdateWithForceLayout(UpdateHintFontSize);
+            }
+            else if (e.PropertyName == CellBase.IconSizeProperty.PropertyName)
+            {
+                UpdateWithForceLayout(UpdateIconSize);
             }
             else if (e.PropertyName == CellBase.IconRadiusProperty.PropertyName)
             {
@@ -120,7 +127,7 @@ namespace AiForms.Renderers.iOS
             {
                 UpdateWithForceLayout(UpdateHintFontSize);
             }
-            else if(e.PropertyName == SettingsView.CellIconSizeProperty.PropertyName)
+            else if (e.PropertyName == SettingsView.CellIconSizeProperty.PropertyName)
             {
                 UpdateWithForceLayout(UpdateIconSize);
             }
@@ -132,7 +139,8 @@ namespace AiForms.Renderers.iOS
             {
                 UpdateSelectedColor();
             }
-            else if(e.PropertyName == TableView.RowHeightProperty.PropertyName){
+            else if (e.PropertyName == TableView.RowHeightProperty.PropertyName)
+            {
                 UpdateMinRowHeight();
             }
         }
@@ -143,13 +151,16 @@ namespace AiForms.Renderers.iOS
             SetNeedsLayout();
         }
 
-        void UpdateSelectedColor(){
+        void UpdateSelectedColor()
+        {
             if (CellParent != null && CellParent.SelectedColor != Xamarin.Forms.Color.Default)
             {
-                if(SelectedBackgroundView != null){
+                if (SelectedBackgroundView != null)
+                {
                     SelectedBackgroundView.BackgroundColor = CellParent.SelectedColor.ToUIColor();
                 }
-                else{
+                else
+                {
                     SelectedBackgroundView = new UIView { BackgroundColor = CellParent.SelectedColor.ToUIColor() };
                 }
             }
@@ -301,10 +312,12 @@ namespace AiForms.Renderers.iOS
 
         void UpdateIconRadius()
         {
-            if(CellBase.IconRadius >= 0){
+            if (CellBase.IconRadius >= 0)
+            {
                 IconView.Layer.CornerRadius = (float)CellBase.IconRadius;
             }
-            else if(CellParent != null){
+            else if (CellParent != null)
+            {
                 IconView.Layer.CornerRadius = (float)CellParent.CellIconRadius;
             }
 
@@ -333,7 +346,8 @@ namespace AiForms.Renderers.iOS
                 IconView.Hidden = false;
 
                 var cache = ImageCacheController.Instance.ObjectForKey(FromObject(CellBase.IconSource.GetHashCode())) as UIImage;
-                if(cache != null){
+                if (cache != null)
+                {
                     IconView.Image = cache;
                     return;
                 }
@@ -354,14 +368,17 @@ namespace AiForms.Renderers.iOS
             UIImage image = null;
 
             var scale = (float)UIScreen.MainScreen.Scale;
-            Task.Run(async () => {
+            Task.Run(async () =>
+            {
                 image = await handler.LoadImageAsync(source, token, scale: scale);
                 token.ThrowIfCancellationRequested();
-            }, token).ContinueWith(t => {
+            }, token).ContinueWith(t =>
+            {
                 if (t.IsCompleted)
                 {
-                    ImageCacheController.Instance.SetObjectforKey(image,FromObject(CellBase.IconSource.GetHashCode()));
-                    BeginInvokeOnMainThread(() => {
+                    ImageCacheController.Instance.SetObjectforKey(image, FromObject(CellBase.IconSource.GetHashCode()));
+                    BeginInvokeOnMainThread(() =>
+                    {
                         IconView.Image = image;
                         SetNeedsLayout();
                     });
@@ -372,13 +389,15 @@ namespace AiForms.Renderers.iOS
 
         void UpdateMinRowHeight()
         {
-            if(_minheightConstraint != null){
+            if (_minheightConstraint != null)
+            {
                 _minheightConstraint.Active = false;
                 _minheightConstraint.Dispose();
                 _minheightConstraint = null;
             }
 
-            if(CellParent.HasUnevenRows){
+            if (CellParent.HasUnevenRows)
+            {
                 _minheightConstraint = _stackH.HeightAnchor.ConstraintGreaterThanOrEqualTo(CellParent.RowHeight);
                 _minheightConstraint.Active = true;
 
@@ -416,7 +435,8 @@ namespace AiForms.Renderers.iOS
                 SelectedBackgroundView?.Dispose();
                 SelectedBackgroundView = null;
 
-                Device.BeginInvokeOnMainThread(() => {
+                Device.BeginInvokeOnMainThread(() =>
+                {
                     HintLabel.RemoveFromSuperview();
                     HintLabel.Dispose();
                     HintLabel = null;
@@ -453,7 +473,7 @@ namespace AiForms.Renderers.iOS
             var hoge = this.Subviews;
             HintLabel = new UILabel();
             HintLabel.LineBreakMode = UILineBreakMode.Clip;
-            HintLabel.Lines = 1;          
+            HintLabel.Lines = 0;
             HintLabel.TintAdjustmentMode = UIViewTintAdjustmentMode.Automatic;
             HintLabel.AdjustsFontSizeToFitWidth = true;
             HintLabel.BaselineAdjustment = UIBaselineAdjustment.AlignCenters;
@@ -464,9 +484,9 @@ namespace AiForms.Renderers.iOS
 
             HintLabel.TranslatesAutoresizingMaskIntoConstraints = false;
             HintLabel.TopAnchor.ConstraintEqualTo(this.TopAnchor, 2).Active = true;
-            HintLabel.RightAnchor.ConstraintEqualTo(this.RightAnchor,-10).Active = true;
-            HintLabel.HeightAnchor.ConstraintEqualTo(14).Active = true;
-            HintLabel.WidthAnchor.ConstraintEqualTo(this.WidthAnchor).Active = true;
+            HintLabel.LeftAnchor.ConstraintEqualTo(this.LeftAnchor, 16).Active = true;
+            HintLabel.RightAnchor.ConstraintEqualTo(this.RightAnchor, -10).Active = true;
+            HintLabel.BottomAnchor.ConstraintLessThanOrEqualTo(this.BottomAnchor, -12).Active = true;
 
             HintLabel.SizeToFit();
             BringSubviewToFront(HintLabel);
@@ -486,7 +506,8 @@ namespace AiForms.Renderers.iOS
             TextLabel.Hidden = true;
 
             //外側のHoriontalStackView
-            _stackH = new UIStackView {
+            _stackH = new UIStackView
+            {
                 Axis = UILayoutConstraintAxis.Horizontal,
                 Alignment = UIStackViewAlignment.Center,
                 Spacing = 16,
@@ -507,7 +528,8 @@ namespace AiForms.Renderers.iOS
             UpdateIconSize();
 
             //右に配置するVerticalStackView（LabelTextとValueTextとDetailTextを格納）
-            var stackV = new UIStackView {
+            var stackV = new UIStackView
+            {
                 Axis = UILayoutConstraintAxis.Vertical,
                 Alignment = UIStackViewAlignment.Fill,
                 Spacing = 0,
@@ -515,7 +537,8 @@ namespace AiForms.Renderers.iOS
             };
 
             //右側上段に配置するHorizontalStackView(LabelTextとValueTextを格納）
-            ContentStack = new UIStackView {
+            ContentStack = new UIStackView
+            {
                 Axis = UILayoutConstraintAxis.Horizontal,
                 Alignment = UIStackViewAlignment.Fill,
                 Spacing = 0,

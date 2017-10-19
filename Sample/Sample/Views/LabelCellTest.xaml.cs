@@ -14,7 +14,7 @@ namespace Sample.Views
 
         void Handle_Tapped(object sender, System.EventArgs e)
         {
-            DisplayAlert("Tapped","","OK");
+            //DisplayAlert("Tapped","","OK");
         }
     }
 }

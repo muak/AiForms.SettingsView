@@ -99,19 +99,19 @@ namespace Sample.ViewModels
         };
 
         public static string[] TitleTexts = {
-            "Title","LongTitleTextTextTextTextTextTextTextTextTextTextTextTextTextText",""
+            "Title","LongTitleTextTextTextTextTextTextTextTextTextTextTextTextTextTextEnd",""
         };
 
         public static string[] ValueTexts = {
-            "Value","LongValueTextTextTextTextTextTextTextTextTextTextTextTextTextText",""
+            "Value","LongValueTextTextTextTextTextTextTextTextTextTextTextTextTextTextEnd",""
         };
 
         public static string[] DescriptionTexts = {
-            "Description","LongLongDescription\nTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText",""
+            "Description","LongLongDescription\nTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextEnd",""
         };
 
         public static string[] HintTexts = {
-            "hint","LongHintTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText",""
+            "hint","LongHintTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextEnd",""
         };
 
         public static ImageSource[] IconSources = {
@@ -311,9 +311,13 @@ namespace Sample.ViewModels
                     ChangeFontSize(DescriptionFontSize);
                     break;
                 case nameof(CellBase.IconSource):
+                    ChangeIconSource(IconSource);
                     break;
                 case nameof(CellBase.IconRadius):
                     ChangeHeight(IconRadius);
+                    break;
+                case nameof(CellBase.IconSize):
+                    ChangeSize(IconSize);
                     break;
                 case nameof(CellBase.HintFontSize):
                     ChangeFontSize(HintFontSize);

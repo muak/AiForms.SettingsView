@@ -46,6 +46,7 @@ namespace AiForms.Renderers.iOS
             }
             else if (e.PropertyName == NumberPickerCell.PickerTitleProperty.PropertyName) {
                 UpdateTitle();
+
             }
             else if(e.PropertyName == NumberPickerCell.SelectedCommandProperty.PropertyName){
                 UpdateCommand();
@@ -83,9 +84,11 @@ namespace AiForms.Renderers.iOS
         {
             _picker = new UIPickerView();
 
-            _titleLabel = new UILabel();
-
             var width = UIScreen.MainScreen.Bounds.Width;
+
+            _titleLabel = new UILabel();
+            _titleLabel.TextAlignment = UITextAlignment.Center;
+
             var toolbar = new UIToolbar(new CGRect(0, 0, (float)width, 44)) { BarStyle = UIBarStyle.Default, Translucent = true };
             var cancelButton = new UIBarButtonItem(UIBarButtonSystemItem.Cancel, (o, e) => {
                 DummyField.ResignFirstResponder();
@@ -101,8 +104,7 @@ namespace AiForms.Renderers.iOS
             });
 
             toolbar.SetItems(new[] { cancelButton, spacer, labelButton, spacer, doneButton }, false);
-
-
+           
             DummyField.InputView = _picker;
             DummyField.InputAccessoryView = toolbar;
 
@@ -127,6 +129,7 @@ namespace AiForms.Renderers.iOS
         {
             _titleLabel.Text = _NumberPikcerCell.PickerTitle;
             _titleLabel.SizeToFit();
+            _titleLabel.Frame = new CGRect(0, 0, 200, 44);
         }
 
         void UpdateCommand()
