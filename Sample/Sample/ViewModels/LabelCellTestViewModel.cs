@@ -3,6 +3,7 @@ using Reactive.Bindings;
 using Xamarin.Forms;
 using AiForms.Renderers;
 using Xamarin.Forms.Internals;
+using Prism.Services;
 
 namespace Sample.ViewModels
 {
@@ -16,7 +17,7 @@ namespace Sample.ViewModels
     /// </summary>
     public class LabelCellTestViewModel:ViewModelBase
     {
-        public ReactiveProperty<DateTime> Time { get; } = new ReactiveProperty<DateTime>();
+        public ReactiveProperty<TimeSpan> Time { get; } = new ReactiveProperty<TimeSpan>();
         public ReactiveProperty<string> TimeFormat { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<string> PickerTitle { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<int> Number { get; } = new ReactiveProperty<int>();
@@ -34,12 +35,29 @@ namespace Sample.ViewModels
         static int[] MaxNumbers = { 0,10, 15 ,  1};
         static int[] MinNumbers = { 0, 1, 15 , 10 };
         static string[] PickerTitles = { "Hoge", "LongTitleFugaFugaFugaFuga", "" };
+        static TimeSpan[] Times = {new TimeSpan(0,0,0),new TimeSpan(12,30,0),new TimeSpan(23,20,15),new TimeSpan(47,55,0)};
+        static string[] TimeFormats = { "t", "hh:mm", "H:m" };
+        static DateTime[] Dates = { new DateTime(2017, 1, 1),new DateTime(2015,1,1),new DateTime(2017,6,10) };
+        static DateTime[] MinDates = {new DateTime(2016,1,1),  new DateTime(2017,4,1), new DateTime(2017,10,10)  , new DateTime(2017,12,15) };
+        static DateTime[] MaxDates = {new DateTime(2025,12,31),new DateTime(2017,5,15),new DateTime(2017, 10, 10), new DateTime(2017,6,15) };
+        static string[] DateFormats = { "d", "yyyy/M/d (ddd)", "ddd MMM d yyyy" };
+        static string[] TodayTexts = { "Today", "今日", "" };
 
-        public LabelCellTestViewModel()
+        public LabelCellTestViewModel(IPageDialogService pageDialog)
         {
             BackgroundColor.Value = Color.White;
             PickerTitle.Value = "Hoge";
+            TimeFormat.Value = "t";
+            Time.Value = new TimeSpan(12, 0, 0);
+            Date.Value = Dates[0];
+            MinDate.Value = MinDates[0];
+            MaxDate.Value = MaxDates[0];
+            DateFormat.Value = DateFormats[0];
+            TodayText.Value = TodayTexts[0];
 
+            NumberSelectedCommand.Subscribe(async p=>{
+                await pageDialog.DisplayAlertAsync("", p.ToString(), "OK");
+            });
         }
 
         protected override void CellChanged(object obj)
@@ -59,6 +77,25 @@ namespace Sample.ViewModels
                     break;
                 case nameof(NumberPickerCell.PickerTitle):
                     NextVal(PickerTitle, PickerTitles);
+                    break;
+                case nameof(Time):
+                    NextVal(Time, Times);
+                    break;
+                case nameof(TimeFormat):
+                    NextVal(TimeFormat, TimeFormats);
+                    break;
+                case nameof(Date):
+                    NextVal(Date, Dates);
+                    break;
+                case nameof(DateFormat):
+                    NextVal(DateFormat, DateFormats);
+                    break;
+                case "MinMaxDateChange":
+                    NextVal(MinDate, MinDates);
+                    NextVal(MaxDate,MaxDates);
+                    break;             
+                case nameof(TodayText):
+                    NextVal(TodayText, TodayTexts);
                     break;
             }
 

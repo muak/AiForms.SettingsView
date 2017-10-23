@@ -123,6 +123,7 @@ namespace AiForms.Renderers.iOS
         void UpdateNumberList()
         {
             _model.SetNumbers(_NumberPikcerCell.Min, _NumberPikcerCell.Max);
+            Select(_NumberPikcerCell.Number);
         }
 
         void UpdateTitle()
