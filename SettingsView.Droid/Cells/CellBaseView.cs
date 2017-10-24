@@ -33,6 +33,7 @@ namespace AiForms.Renderers.Droid
         CancellationTokenSource _iconTokenSource;
         Android.Graphics.Color _defaultTextColor;
         ColorDrawable _backgroundColor;
+        ColorDrawable _selectedColor;
         float _defaultFontSize;
 
         public CellBaseView(Context context, Cell cell) : base(context)
@@ -57,11 +58,14 @@ namespace AiForms.Renderers.Droid
             HintLabel = contentView.FindViewById<TextView>(Resource.Id.CellHintText);
 
             _backgroundColor = new ColorDrawable();
+            _selectedColor = new ColorDrawable(Android.Graphics.Color.Argb(125, 180, 180, 180));
+
             var sel = new StateListDrawable();
 
-            sel.AddState(new int[] { global::Android.Resource.Attribute.StateSelected },
-                         new ColorDrawable(Android.Graphics.Color.Argb(125,180, 180, 180)));
+            sel.AddState(new int[] { global::Android.Resource.Attribute.StateSelected },_selectedColor);
             sel.AddState(new int[]{-global::Android.Resource.Attribute.StateSelected},_backgroundColor);
+            sel.SetExitFadeDuration(250);
+            sel.SetEnterFadeDuration(250);
             Background = sel;
 
             _defaultTextColor = new Android.Graphics.Color(TitleLabel.CurrentTextColor);
@@ -92,7 +96,7 @@ namespace AiForms.Renderers.Droid
             }
             else if (e.PropertyName == CellBase.DescriptionColorProperty.PropertyName)
             {
-                UpdateDescriptionFontSize();
+                UpdateDescriptionColor();
             }
             else if (e.PropertyName == CellBase.IconSourceProperty.PropertyName)
             {
@@ -116,10 +120,11 @@ namespace AiForms.Renderers.Droid
             }
             else if (e.PropertyName == CellBase.IconSizeProperty.PropertyName)
             {
-                UpdateWithForceLayout(UpdateIconSize);
+                UpdateWithForceLayout(UpdateIcon);
             }
             else if(e.PropertyName == CellBase.IconRadiusProperty.PropertyName){
-                UpdateWithForceLayout(UpdateIconRadius);
+                UpdateIconRadius();
+                UpdateWithForceLayout(UpdateIcon);
             }
         }
 
@@ -160,6 +165,9 @@ namespace AiForms.Renderers.Droid
                 UpdateIconRadius();
                 UpdateWithForceLayout(UpdateIcon);
             }
+            else if(e.PropertyName == SettingsView.SelectedColorProperty.PropertyName){
+                UpdateSelectedColor();
+            }
         }
 
         protected void UpdateWithForceLayout(System.Action updateAction)
@@ -171,6 +179,7 @@ namespace AiForms.Renderers.Droid
         public virtual void UpdateCell()
         {
             UpdateBackgroundColor();
+            UpdateSelectedColor();
             UpdateTitleText();
             UpdateTitleColor();
             UpdateTitleFontSize();
@@ -194,15 +203,23 @@ namespace AiForms.Renderers.Droid
             if (CellBase.BackgroundColor != Xamarin.Forms.Color.Default)
             {
                 _backgroundColor.Color = CellBase.BackgroundColor.ToAndroid();
-                //SetBackgroundColor(CellBase.BackgroundColor.ToAndroid());
             }
             else if (CellParent != null && CellParent.CellBackgroundColor != Xamarin.Forms.Color.Default)
             {
                 _backgroundColor.Color = CellParent.CellBackgroundColor.ToAndroid();
-                //SetBackgroundColor(CellParent.CellBackgroundColor.ToAndroid());
             }
             else{
                 _backgroundColor.Color = Android.Graphics.Color.Transparent;
+            }
+        }
+
+        void UpdateSelectedColor()
+        {
+            if (CellParent != null && CellParent.SelectedColor != Xamarin.Forms.Color.Default) {
+                _selectedColor.Color = CellParent.SelectedColor.MultiplyAlpha(0.5).ToAndroid();
+            }
+            else {
+                _selectedColor.Color = Android.Graphics.Color.Argb(125, 180, 180, 180);
             }
         }
 
@@ -369,6 +386,7 @@ namespace AiForms.Renderers.Droid
 
             if (IconView.Drawable != null)
             {
+                IconView.SetImageDrawable(null);
                 IconView.SetImageBitmap(null);
             }
 
@@ -439,6 +457,14 @@ namespace AiForms.Renderers.Droid
                 _iconTokenSource?.Dispose();
                 _iconTokenSource = null;
                 _context = null;
+
+                _backgroundColor?.Dispose();
+                _backgroundColor = null;
+                _selectedColor?.Dispose();
+                _selectedColor = null;
+
+                Background?.Dispose();
+                Background = null;
             }
             base.Dispose(disposing);
         }

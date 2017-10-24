@@ -3,6 +3,7 @@ using AiForms.Renderers.iOS;
 using Xamarin.Forms;
 using System;
 using UIKit;
+using System.Windows.Input;
 
 [assembly: ExportRenderer(typeof(CommandCell), typeof(CommandCellRenderer))]
 namespace AiForms.Renderers.iOS
@@ -13,6 +14,7 @@ namespace AiForms.Renderers.iOS
     {
         public Action Execute { get; set; }
         CommandCell _CommandCell => Cell as CommandCell;
+        ICommand _command;
 
         public CommandCellView(Cell formsCell) : base(formsCell)
         {
@@ -40,35 +42,41 @@ namespace AiForms.Renderers.iOS
         protected override void Dispose(bool disposing)
         {
             if(disposing){
-                if(_CommandCell.Command != null){
-                    _CommandCell.Command.CanExecuteChanged -= Command_CanExecuteChanged;
+                if(_command != null){
+                    _command.CanExecuteChanged -= Command_CanExecuteChanged;
                 }
                 Execute = null;
+                _command = null;
             }
             base.Dispose(disposing);
         }
 
         void UpdateCommand(){
-            if(_CommandCell.Command != null){
-                _CommandCell.Command.CanExecuteChanged -= Command_CanExecuteChanged;
+            if(_command != null){
+                _command.CanExecuteChanged -= Command_CanExecuteChanged;
+            }
+
+            _command = _CommandCell.Command;
+
+            if (_command != null) {
+                _command.CanExecuteChanged += Command_CanExecuteChanged;
+                Command_CanExecuteChanged(_command, System.EventArgs.Empty);
             }
 
             Execute = () => {
-                if(_CommandCell.Command == null){
+                if(_command == null){
                     return;
                 }
-                if(_CommandCell.Command.CanExecute(_CommandCell.CommandParameter)){
-                    _CommandCell.Command.Execute(_CommandCell.CommandParameter);
+                if(_command.CanExecute(_CommandCell.CommandParameter)){
+                    _command.Execute(_CommandCell.CommandParameter);
                 }
             };
 
-            _CommandCell.Command.CanExecuteChanged += Command_CanExecuteChanged;
-            Command_CanExecuteChanged(_CommandCell.Command, System.EventArgs.Empty);
         }
 
         void Command_CanExecuteChanged(object sender, EventArgs e)
         {
-            if(_CommandCell.Command.CanExecute(_CommandCell.CommandParameter)){
+            if(_command.CanExecute(_CommandCell.CommandParameter)){
                 UserInteractionEnabled = true;
                 TitleLabel.Alpha = 1f;
                 DescriptionLabel.Alpha = 1f;

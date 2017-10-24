@@ -87,9 +87,11 @@ namespace AiForms.Renderers.Droid
             if(CellParent != null && CellParent.UseDescriptionAsValue){
                 vValueLabel = DescriptionLabel;
                 DescriptionLabel.Visibility = ViewStates.Visible;
+                ValueLabel.Visibility = ViewStates.Gone;
             }
             else{
                 vValueLabel = ValueLabel;
+                ValueLabel.Visibility = ViewStates.Visible;
             }
         }
 

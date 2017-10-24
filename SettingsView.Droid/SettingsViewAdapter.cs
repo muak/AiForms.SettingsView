@@ -16,18 +16,8 @@ namespace AiForms.Renderers.Droid
 {
     public class SettingsViewAdapter : BaseAdapter<object>, AdapterView.IOnItemClickListener
     {
-        enum ViewType
-        {
-            Header,
-            Footer,
-            Content
-        }
-
         const int ViewTypeHeader = 0;
         const int ViewTypeFooter = 1;
-
-        static readonly int CacheSize = (int)(Java.Lang.Runtime.GetRuntime().MaxMemory() / 1024 / 8);
-        public MemoryLimitedLruCache ImageCache = new MemoryLimitedLruCache(CacheSize);
 
         Dictionary<Type, int> _viewTypes;
 
@@ -45,6 +35,7 @@ namespace AiForms.Renderers.Droid
                 return _cellCaches;
             }
         }
+        List<AView> _recycleViews = new List<AView>();
 
         public SettingsViewAdapter(Context context, SettingsView settingsView, AListView listView)
         {
@@ -193,6 +184,10 @@ namespace AiForms.Renderers.Droid
                     break;
             }
 
+            if(convertView == null){
+                _recycleViews.Add(nativeCell); 
+            }
+
             return nativeCell;
 
         }
@@ -272,6 +267,7 @@ namespace AiForms.Renderers.Droid
             if(nativeCell != null){
                 body.RemoveViewAt(0);
             }
+
 
             nativeCell = CellFactory.GetCell(formsCell, nativeCell, parent, _context, _settingsView);
 
@@ -414,8 +410,45 @@ namespace AiForms.Renderers.Droid
                 _cellCaches = null;
                 _settingsView = null;
                 _viewTypes = null;
+
+                foreach (var cell in _recycleViews) {
+                    ClearCell(cell);
+                }
+                _recycleViews.Clear();
+                _recycleViews = null;
             }
             base.Dispose(disposing);
+        }
+
+        void ClearCell(AView view)
+        {
+            var body = view.FindViewById<LinearLayout>(Resource.Id.ContentCellBody);
+            if(body != null){
+                var border = view.FindViewById(Resource.Id.ContentCellBorder);
+                var nativeCell = body.GetChildAt(0);
+                nativeCell.Dispose();
+                border.Dispose();
+                body.Dispose();
+                view.Dispose();
+                return;
+            }       
+
+            var headerText = view.FindViewById<TextView>(Resource.Id.HeaderCellText);
+            if(headerText != null){
+                var border = view.FindViewById<LinearLayout>(Resource.Id.HeaderCellBorder);
+                headerText.Dispose();
+                border?.Dispose();
+                view.Dispose();
+                return;
+            }
+
+            var footerText = view.FindViewById<TextView>(Resource.Id.FooterCellText);
+            if (footerText != null){
+                footerText.Dispose();
+                footerText = null;
+                view.Dispose();
+                return;
+            }
         }
 
 

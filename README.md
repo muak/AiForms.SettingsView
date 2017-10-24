@@ -113,7 +113,7 @@ hogehoge...
 
 ## Cells
 
-* [CellBase](#CellBase)
+* [CellBase](#cellbase)
 * [LabelCell](#labelcell)
 * [CommandCell](#commandcell)
 * [SwitchCell](#switchcell)
@@ -123,6 +123,8 @@ hogehoge...
 * [DatePickerCell](#datepickercell)
 * [PickerCell](#pickercell)
 * [EntryCell](#entrycell)
+
+## CellBase
 
 
 

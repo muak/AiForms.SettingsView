@@ -64,10 +64,7 @@ namespace AiForms.Renderers.Droid
 
         void ParentPageAppearing(object sender, EventArgs e)
         {
-            Task.Run(async() => {
-                await Task.Delay(300);
-                Device.BeginInvokeOnMainThread(() => _adapter.DeselectRow());
-            });
+            Device.BeginInvokeOnMainThread(() => _adapter.DeselectRow());
         }
 
         protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

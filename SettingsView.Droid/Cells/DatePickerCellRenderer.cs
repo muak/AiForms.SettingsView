@@ -48,9 +48,11 @@ namespace AiForms.Renderers.Droid
         protected override void Dispose(bool disposing)
         {
             if(disposing){
-                _dialog.CancelEvent -= OnCancelButtonClicked;
-                _dialog?.Dispose();
-                _dialog = null;
+                if(_dialog != null){
+                    _dialog.CancelEvent -= OnCancelButtonClicked;
+                    _dialog?.Dispose();
+                    _dialog = null;
+                }
             }
             base.Dispose(disposing);
         }
