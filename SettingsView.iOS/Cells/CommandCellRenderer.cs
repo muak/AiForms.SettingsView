@@ -19,6 +19,7 @@ namespace AiForms.Renderers.iOS
             Accessory = UITableViewCellAccessory.DisclosureIndicator;
             SelectionStyle = UITableViewCellSelectionStyle.Default;
             SetRightMarginZero();
+           
         }
 
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -39,12 +40,19 @@ namespace AiForms.Renderers.iOS
         protected override void Dispose(bool disposing)
         {
             if(disposing){
+                if(_CommandCell.Command != null){
+                    _CommandCell.Command.CanExecuteChanged -= Command_CanExecuteChanged;
+                }
                 Execute = null;
             }
             base.Dispose(disposing);
         }
 
         void UpdateCommand(){
+            if(_CommandCell.Command != null){
+                _CommandCell.Command.CanExecuteChanged -= Command_CanExecuteChanged;
+            }
+
             Execute = () => {
                 if(_CommandCell.Command == null){
                     return;
@@ -53,6 +61,25 @@ namespace AiForms.Renderers.iOS
                     _CommandCell.Command.Execute(_CommandCell.CommandParameter);
                 }
             };
+
+            _CommandCell.Command.CanExecuteChanged += Command_CanExecuteChanged;
+            Command_CanExecuteChanged(_CommandCell.Command, System.EventArgs.Empty);
+        }
+
+        void Command_CanExecuteChanged(object sender, EventArgs e)
+        {
+            if(_CommandCell.Command.CanExecute(_CommandCell.CommandParameter)){
+                UserInteractionEnabled = true;
+                TitleLabel.Alpha = 1f;
+                DescriptionLabel.Alpha = 1f;
+                ValueLabel.Alpha = 1f;
+            }
+            else{
+                UserInteractionEnabled = false;
+                TitleLabel.Alpha = 0.6f;
+                DescriptionLabel.Alpha = 0.6f;
+                ValueLabel.Alpha = 0.6f;
+            }
         }
     }
 
