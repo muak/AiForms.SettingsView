@@ -16,7 +16,7 @@ namespace AiForms.Renderers.Droid
     [Register("aiforms.renderers.droid.RoundImageView")]
     public class RoundImageView:ImageView
     {
-        Bitmap _image;
+        //Bitmap _image;
         //public float CornerRadius
         //{
         //    get { return mMaskDrawable.CornerRadius; }
@@ -24,9 +24,9 @@ namespace AiForms.Renderers.Droid
         //}
         public float CornerRadius { get; set; } = 18f;
 
-        Paint mMaskedPaint;
-        Paint mCopyPaint;
-        GradientDrawable mMaskDrawable;
+        //Paint mMaskedPaint;
+        //Paint mCopyPaint;
+        //GradientDrawable mMaskDrawable;
 
         public RoundImageView(Context context):this(context,null){}
         public RoundImageView(Context context,IAttributeSet attrs):base(context,attrs)
@@ -34,75 +34,75 @@ namespace AiForms.Renderers.Droid
             
         }
 
-        public override void SetImageDrawable(Drawable drawable)
-        {
-            var image = (drawable as BitmapDrawable)?.Bitmap;
-            SetRoundBitmap(image);
-        }
+        //public override void SetImageDrawable(Drawable drawable)
+        //{
+        //    var image = (drawable as BitmapDrawable)?.Bitmap;
+        //    SetRoundBitmap(image);
+        //}
 
-        public override void SetImageResource(int resId)
-        {
-            var image = BitmapFactory.DecodeResource(Context.Resources, resId);
-            SetRoundBitmap(image);
-        }
+        //public override void SetImageResource(int resId)
+        //{
+        //    var image = BitmapFactory.DecodeResource(Context.Resources, resId);
+        //    SetRoundBitmap(image);
+        //}
 
-        public override void SetImageBitmap(Bitmap bm)
-        {
-            SetRoundBitmap(bm);
-        }
+        //public override void SetImageBitmap(Bitmap bm)
+        //{
+        //    SetRoundBitmap(bm);
+        //}
 
-        protected override void OnDetachedFromWindow()
-        {
-            base.OnDetachedFromWindow();
-            base.SetImageDrawable(null);
-            Background = null;
+        //protected override void OnDetachedFromWindow()
+        //{
+        //    base.OnDetachedFromWindow();
+        //    base.SetImageDrawable(null);
+        //    Background = null;
 
-            DestroyDrawingCache();
+        //    DestroyDrawingCache();
 
-            _image?.Recycle();
-            _image?.Dispose();
-            _image = null;
-        }
+        //    _image?.Recycle();
+        //    _image?.Dispose();
+        //    _image = null;
+        //}
 
-        void SetRoundBitmap(Bitmap image)
-        {
-            if (_image != null) {
-                _image.Recycle();
-                _image.Dispose();
-                _image = null;
-            }
+        //void SetRoundBitmap(Bitmap image)
+        //{
+        //    if (_image != null) {
+        //        _image.Recycle();
+        //        _image.Dispose();
+        //        _image = null;
+        //    }
 
-            if(image == null){
-                //base.SetImageDrawable(null);
-                //base.SetImageBitmap(null);
-                return;
-            }
+        //    if(image == null){
+        //        //base.SetImageDrawable(null);
+        //        //base.SetImageBitmap(null);
+        //        return;
+        //    }
 
-            int width = image.Width;
-            int height = image.Height;
+        //    int width = image.Width;
+        //    int height = image.Height;
 
-            Bitmap clipArea = Bitmap.CreateBitmap(width, height, Bitmap.Config.Argb8888);
+        //    Bitmap clipArea = Bitmap.CreateBitmap(width, height, Bitmap.Config.Argb8888);
 
-            Canvas c = new Canvas(clipArea);
-            c.DrawARGB(0, 0, 0, 0);
-            c.DrawRoundRect(new RectF(0, 0, width, height), CornerRadius, CornerRadius, new Paint(PaintFlags.AntiAlias));
+        //    Canvas c = new Canvas(clipArea);
+        //    c.DrawARGB(0, 0, 0, 0);
+        //    c.DrawRoundRect(new RectF(0, 0, width, height), CornerRadius, CornerRadius, new Paint(PaintFlags.AntiAlias));
 
 
 
-            _image = Bitmap.CreateBitmap(width, height, Bitmap.Config.Argb8888);
+        //    _image = Bitmap.CreateBitmap(width, height, Bitmap.Config.Argb8888);
 
-            Canvas canvas = new Canvas(_image);
-            Paint paint = new Paint();
-            canvas.DrawBitmap(clipArea, 0, 0, paint);
+        //    Canvas canvas = new Canvas(_image);
+        //    Paint paint = new Paint();
+        //    canvas.DrawBitmap(clipArea, 0, 0, paint);
 
-            paint.SetXfermode(new PorterDuffXfermode(PorterDuff.Mode.SrcIn));
-            canvas.DrawBitmap(image, new Rect(0, 0, width, height), new Rect(0, 0, width, height), paint);
-            clipArea.Recycle();
-            clipArea.Dispose();
-            clipArea = null;
-            base.SetImageDrawable(new BitmapDrawable(Context.Resources, _image));
+        //    paint.SetXfermode(new PorterDuffXfermode(PorterDuff.Mode.SrcIn));
+        //    canvas.DrawBitmap(image, new Rect(0, 0, width, height), new Rect(0, 0, width, height), paint);
+        //    clipArea.Recycle();
+        //    clipArea.Dispose();
+        //    clipArea = null;
+        //    base.SetImageDrawable(new BitmapDrawable(Context.Resources, _image));
 
-        }
+        //}
 
 
         //public RoundImageView(Context context, IAttributeSet attrs) : base(context, attrs)

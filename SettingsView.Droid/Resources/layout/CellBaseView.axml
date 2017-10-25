@@ -7,7 +7,7 @@
     android:paddingRight="8dp"
     android:paddingTop="4dp"
     android:paddingBottom="4dp">
-    <AiForms.Renderers.Droid.RoundImageView
+    <ImageView
         android:id="@+id/CellIcon"
         android:scaleType="fitXY"
         android:layout_centerVertical="true"

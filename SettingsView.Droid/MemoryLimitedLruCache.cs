@@ -11,7 +11,7 @@ namespace AiForms.Renderers.Droid
 
         protected override int SizeOf(Java.Lang.Object key, Java.Lang.Object value)
         {
-            return (value as Bitmap).ByteCount;
+            return (value as Bitmap).ByteCount / 1024;
         }
     }
 }

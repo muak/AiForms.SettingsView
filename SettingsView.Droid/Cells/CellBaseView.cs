@@ -24,7 +24,7 @@ namespace AiForms.Renderers.Droid
 
         public TextView TitleLabel { get; set; }
         public TextView DescriptionLabel { get; set; }
-        public RoundImageView IconView { get; set; }
+        public ImageView IconView { get; set; }
         public LinearLayout ContentStack { get; set; }
         public LinearLayout AccessoryStack { get; set; }
         public TextView HintLabel { get; private set; }
@@ -35,6 +35,7 @@ namespace AiForms.Renderers.Droid
         ColorDrawable _backgroundColor;
         ColorDrawable _selectedColor;
         float _defaultFontSize;
+        float _iconRadius;
 
         public CellBaseView(Context context, Cell cell) : base(context)
         {
@@ -50,7 +51,7 @@ namespace AiForms.Renderers.Droid
 
             contentView.LayoutParameters = new ViewGroup.LayoutParams(-1, -1);
 
-            IconView = contentView.FindViewById<RoundImageView>(Resource.Id.CellIcon);
+            IconView = contentView.FindViewById<ImageView>(Resource.Id.CellIcon);
             TitleLabel = contentView.FindViewById<TextView>(Resource.Id.CellTitle);
             DescriptionLabel = contentView.FindViewById<TextView>(Resource.Id.CellDescription);
             ContentStack = contentView.FindViewById<LinearLayout>(Resource.Id.CellContentStack);
@@ -120,11 +121,11 @@ namespace AiForms.Renderers.Droid
             }
             else if (e.PropertyName == CellBase.IconSizeProperty.PropertyName)
             {
-                UpdateWithForceLayout(UpdateIcon);
+                UpdateIcon();
             }
             else if(e.PropertyName == CellBase.IconRadiusProperty.PropertyName){
                 UpdateIconRadius();
-                UpdateWithForceLayout(UpdateIcon);
+                UpdateIcon(true);
             }
         }
 
@@ -159,11 +160,11 @@ namespace AiForms.Renderers.Droid
                 UpdateWithForceLayout(UpdateHintFontSize);
             }
             else if(e.PropertyName == SettingsView.CellIconSizeProperty.PropertyName){
-               UpdateWithForceLayout(UpdateIcon);
+               UpdateIcon();
             }
             else if( e.PropertyName == SettingsView.CellIconRadiusProperty.PropertyName){
                 UpdateIconRadius();
-                UpdateWithForceLayout(UpdateIcon);
+                UpdateIcon(true);
             }
             else if(e.PropertyName == SettingsView.SelectedColorProperty.PropertyName){
                 UpdateSelectedColor();
@@ -344,11 +345,11 @@ namespace AiForms.Renderers.Droid
         {
             if (CellBase.IconRadius >= 0)
             {
-                IconView.CornerRadius = _context.ToPixels(CellBase.IconRadius);
+                _iconRadius = _context.ToPixels(CellBase.IconRadius);
             }
             else if (CellParent != null)
             {
-                IconView.CornerRadius = _context.ToPixels(CellParent.CellIconRadius);
+                _iconRadius = _context.ToPixels(CellParent.CellIconRadius);
             }
         }
 
@@ -370,10 +371,9 @@ namespace AiForms.Renderers.Droid
 
             IconView.LayoutParameters.Width = (int)_context.ToPixels(size.Width);
             IconView.LayoutParameters.Height = (int)_context.ToPixels(size.Height);
-            //IconView.CornerRadius = _context.ToPixels(12);
         }
 
-        void UpdateIcon()
+        void UpdateIcon(bool forceLoad = false)
         {
 
             if (_iconTokenSource != null && !_iconTokenSource.IsCancellationRequested)
@@ -393,9 +393,8 @@ namespace AiForms.Renderers.Droid
             if (CellBase.IconSource != null)
             {
                 IconView.Visibility = ViewStates.Visible;
-
                 var cache = ImageCacheController.Instance.Get(CellBase.IconSource.GetHashCode()) as Bitmap;
-                if (cache != null)
+                if (cache != null && !forceLoad)
                 {
                     IconView.SetImageBitmap(cache);
                     return;
@@ -420,16 +419,46 @@ namespace AiForms.Renderers.Droid
             Task.Run(async () => {
                 image = await handler.LoadImageAsync(source, _context, token);
                 token.ThrowIfCancellationRequested();
+                image = CreateRoundImage(image);
             }, token).ContinueWith(t => {
                 if (t.IsCompleted)
                 {
+                    //entrust disposal of returned old image to Android OS.
                     ImageCacheController.Instance.Put(CellBase.IconSource.GetHashCode(), image);
+                   
                     Device.BeginInvokeOnMainThread(() => {
                         IconView.SetImageBitmap(image);
                         Invalidate();
                     });
                 }
             });
+        }
+
+        Bitmap CreateRoundImage(Bitmap image)
+        {
+            var clipArea = Bitmap.CreateBitmap(image.Width, image.Height, Bitmap.Config.Argb8888);
+            var canvas = new Canvas(clipArea);
+            var paint = new Paint(PaintFlags.AntiAlias);
+            canvas.DrawARGB(0,0,0,0);
+            canvas.DrawRoundRect(new RectF(0,0,image.Width,image.Height),_iconRadius,_iconRadius,paint);
+
+
+            paint.SetXfermode(new PorterDuffXfermode(PorterDuff.Mode.SrcIn));
+
+            var rect = new Rect(0, 0, image.Width, image.Height);
+            canvas.DrawBitmap(image,rect,rect,paint);
+
+            image.Recycle();
+            image.Dispose();
+            image = null;
+            canvas.Dispose();
+            canvas = null;
+            paint.Dispose();
+            paint = null;
+            rect.Dispose();
+            rect = null;
+
+            return clipArea;
         }
 
         protected override void Dispose(bool disposing)
@@ -445,6 +474,7 @@ namespace AiForms.Renderers.Droid
                 TitleLabel = null;
                 DescriptionLabel?.Dispose();
                 DescriptionLabel = null;
+                IconView?.SetImageDrawable(null);
                 IconView?.SetImageBitmap(null);
                 IconView?.Dispose();
                 IconView = null;
