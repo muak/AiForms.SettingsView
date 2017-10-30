@@ -80,7 +80,7 @@ namespace Sample.ViewModels
         public static Color PaleTextColor2 = Color.FromHex("#CCA3B0");
 
         public static Color[] OuterColors = {
-            OuterColor,OuterColor2,Color.Transparent
+            OuterColor,OuterColor2,Color.Transparent,Color.White
         };
         public static Color[] AccentColors = {
             AccentColor,AccentColor2,Color.Transparent
@@ -120,7 +120,7 @@ namespace Sample.ViewModels
 
         public ViewModelBase()
         {
-            BackgroundColor.Value = OuterColor;
+            BackgroundColor.Value = OuterColors[3];
             SeparatorColor.Value = AccentColor;
             SelectedColor.Value = BackColor;
             HeaderTextColor.Value = DeepTextColor;
@@ -323,6 +323,18 @@ namespace Sample.ViewModels
                     ChangeFontSize(HintFontSize);
                     break;
             }
+        }
+
+        protected void NextVal<T>(ReactiveProperty<T> current, T[] array)
+        {
+            var idx = array.IndexOf(current.Value);
+            if (idx == array.Length - 1)
+            {
+                current.Value = array[0];
+                return;
+            }
+
+            current.Value = array[idx + 1];
         }
 
         void ChangeIconSource(ReactiveProperty<ImageSource> current)

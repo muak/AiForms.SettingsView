@@ -2,7 +2,7 @@
 <ContentView 
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-        xmlns:l="clr-namespace:AiForms.Layouts;assembly=AiForms.Layouts"
+    xmlns:l="clr-namespace:AiForms.Layouts;assembly=AiForms.Layouts"
     xmlns:ef="clr-namespace:AiForms.Effects;assembly=AiForms.Effects"
     x:Class="Sample.Views.ParentController">
     <l:WrapLayout VerticalOptions="StartAndExpand" Spacing="4">

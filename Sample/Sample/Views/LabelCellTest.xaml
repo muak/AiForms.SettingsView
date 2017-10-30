@@ -33,24 +33,7 @@
             </l:WrapLayout>
         </ScrollView>
         <ScrollView VerticalOptions="Start" HeightRequest="100" BackgroundColor="#efefef">
-            <l:WrapLayout Spacing="4">
-                <Label Text="Title"               ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
-                <Label Text="ValueText"           ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
-                <Label Text="Description"         ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
-                <Label Text="HintText"            ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
-                <Label Text="TitleColor"          ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
-                <Label Text="ValueTextColor"      ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
-                <Label Text="DescriptionColor"    ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
-                <Label Text="BackgroundColor"     ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
-                <Label Text="HintTextColor"       ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
-                <Label Text="TitleFontSize"       ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
-                <Label Text="ValueTextFontSize"   ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
-                <Label Text="DescriptionFontSize" ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
-                <Label Text="IconSource"          ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
-                <Label Text="IconSize"            ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
-                <Label Text="IconRadius"          ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
-                <Label Text="HintFontSize"        ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
-            </l:WrapLayout>
+            <me:CellController />
         </ScrollView>
         <ScrollView VerticalOptions="Start" HeightRequest="100">
             <me:ParentController />

@@ -14,26 +14,67 @@ namespace AiForms.Renderers.iOS
     {
         
         PickerCell _pickerCell;
+        PickerCellView _pickerCellNative;
         SettingsView _parent;
         IList _source;
         Dictionary<int, object> _selectedCache = new Dictionary<int, object>();
         UIColor _accentColor;
+        UIColor _titleColor;
+        nfloat _fontSize;
+        UIColor _background;
+        UITableView _tableView;
 
-        public PickerTableViewController(PickerCellView pickerCellView)
+        public PickerTableViewController(PickerCellView pickerCellView,UITableView tableView)
         {
             _pickerCell = pickerCellView.Cell as PickerCell;
+            _pickerCellNative = pickerCellView;
             _parent = pickerCellView.CellParent;
             _source = _pickerCell.ItemsSource as IList;
+            _tableView = tableView;
 
             if(_pickerCell.SelectedItems == null){
                 _pickerCell.SelectedItems = new List<object>();
             }
 
-            if (_pickerCell.AccentColor != Xamarin.Forms.Color.Default){
+            SetUpProperties();
+        }
+
+        void SetUpProperties()
+        {
+            if (_pickerCell.AccentColor != Xamarin.Forms.Color.Default)
+            {
                 _accentColor = _pickerCell.AccentColor.ToUIColor();
             }
-            else if (_parent.CellAccentColor != Xamarin.Forms.Color.Default){
+            else if (_parent.CellAccentColor != Xamarin.Forms.Color.Default)
+            {
                 _accentColor = _parent.CellAccentColor.ToUIColor();
+            }
+
+            if (_pickerCell.TitleColor != Xamarin.Forms.Color.Default)
+            {
+                _titleColor = _pickerCell.TitleColor.ToUIColor();
+            }
+            else if (_parent != null && _parent.CellTitleColor != Xamarin.Forms.Color.Default)
+            {
+                _titleColor = _parent.CellTitleColor.ToUIColor();
+            }
+
+            if (_pickerCell.TitleFontSize > 0)
+            {
+                _fontSize = (nfloat)_pickerCell.TitleFontSize;
+            }
+            else if (_parent != null)
+            {
+                _fontSize = (nfloat)_parent.CellTitleFontSize;
+            }
+
+            if (_pickerCell.BackgroundColor != Xamarin.Forms.Color.Default)
+            {
+                _background = _pickerCell.BackgroundColor.ToUIColor();
+            }
+            else if (_parent != null && _parent.CellBackgroundColor != Xamarin.Forms.Color.Default)
+            {
+                _background = _parent.CellBackgroundColor.ToUIColor();
             }
         }
 
@@ -44,23 +85,23 @@ namespace AiForms.Renderers.iOS
             if(reusableCell == null){
                 reusableCell = new UITableViewCell(UITableViewCellStyle.Default, "pickercell");
 
-                if (_parent != null) {
-                    reusableCell.TextLabel.TextColor = _parent.CellTitleColor.ToUIColor();
-                    reusableCell.TextLabel.Font = reusableCell.TextLabel.Font.WithSize((System.nfloat)_parent.CellTitleFontSize);
-                    reusableCell.BackgroundColor = _parent.CellBackgroundColor.ToUIColor();
-                    reusableCell.TintColor = _accentColor;
-                }
-
+                reusableCell.TextLabel.TextColor = _titleColor;
+                reusableCell.TextLabel.Font = reusableCell.TextLabel.Font.WithSize(_fontSize);
+                reusableCell.BackgroundColor = _background;
+                reusableCell.TintColor = _accentColor;
             }
 
             var text = _pickerCell.DisplayValue(_source[indexPath.Row]);
             reusableCell.TextLabel.Text = $"{text}";
+
             reusableCell.Accessory = _selectedCache.ContainsKey(indexPath.Row) ? 
                 UITableViewCellAccessory.Checkmark : UITableViewCellAccessory.None;
 
 
             return reusableCell;
         }
+
+
 
         public override nint NumberOfSections(UITableView tableView)
         {
@@ -134,23 +175,36 @@ namespace AiForms.Renderers.iOS
                 if(idx < 0){
                     continue;
                 }
-                RowSelected(TableView,NSIndexPath.Create(new nint[] { 0, idx }));              
+                _selectedCache[idx] = _source[idx];
+                if(_pickerCell.MaxSelectedNumber >= 1 && _selectedCache.Count >= _pickerCell.MaxSelectedNumber){
+                    break;
+                }
             }
+
+            if(_pickerCell.SelectedItems.Count > 0){
+                var idx = _source.IndexOf(_pickerCell.SelectedItems[0]);
+                BeginInvokeOnMainThread(()=>{
+                    TableView.ScrollToRow(NSIndexPath.Create(new nint[] { 0, idx }), UITableViewScrollPosition.Middle, false);
+                });
+            }
+
         }
 
         public override void ViewWillDisappear(bool animated)
         {
             _pickerCell.SelectedItems.Clear();
-            var strList = new List<string>();
 
             foreach(var kv in _selectedCache){
                 _pickerCell.SelectedItems.Add(kv.Value);
-                strList.Add(_pickerCell.DisplayValue(kv.Value).ToString());
             }
 
-            //TODO: 後で自動でテキストをセットするか、またセットする場所（Value or Description）にするか選択可能にする
-            _pickerCell.ValueText = string.Join(",", strList.ToArray());
-            //TODO: それから選択終了で発火するコマンドがあっても良いかも
+
+            _pickerCellNative.UpdateSelectedItems(true);
+
+            if (_pickerCell.KeepSelectedUntilBack)
+            {
+                _tableView.DeselectRow(_tableView.IndexPathForSelectedRow, true);
+            }
         }
 
         protected override void Dispose(bool disposing)
@@ -160,6 +214,13 @@ namespace AiForms.Renderers.iOS
                 _selectedCache = null;
                 _source = null;
                 _parent = null;
+                _accentColor.Dispose();
+                _accentColor = null;
+                _titleColor.Dispose();
+                _titleColor = null;
+                _background.Dispose();
+                _background = null;
+                _tableView = null;
             }
             base.Dispose(disposing);
         }

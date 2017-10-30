@@ -92,6 +92,7 @@ namespace AiForms.Renderers.iOS
         void ChangeCheckColor(CGColor accent){
             _checkbox.Layer.BorderColor = accent;
             _checkbox.FillColor = accent;
+            _checkbox.SetNeedsDisplay(); //update inner rect
         }
     }
 
@@ -99,7 +100,6 @@ namespace AiForms.Renderers.iOS
     {
         public UIEdgeInsets Inset { get; set; } = new UIEdgeInsets(20, 20, 20, 20);
         public CGColor FillColor { get; set; }
-        //public event EventHandler CheckChanged;
         public Action<UIButton> CheckChanged { get; set; }
 
         public CheckBox(CGRect rect) : base(rect)
@@ -107,7 +107,6 @@ namespace AiForms.Renderers.iOS
             this.AddGestureRecognizer(new UITapGestureRecognizer((obj) => {
                 Selected = !Selected;
                 CheckChanged?.Invoke(this);
-                //CheckChanged?.Invoke(this, EventArgs.Empty);
             }));
         }
 

@@ -31,7 +31,8 @@ namespace AiForms.Renderers
                 typeof(IEnumerable),
                 typeof(PickerCell),
                 default(IEnumerable),
-                defaultBindingMode: BindingMode.OneWay
+                defaultBindingMode: BindingMode.OneWay,
+                propertyChanging:ItemsSourceChanging
             );
 
         public IEnumerable ItemsSource {
@@ -45,7 +46,8 @@ namespace AiForms.Renderers
                 typeof(string),
                 typeof(PickerCell),
                 default(string),
-                defaultBindingMode: BindingMode.OneWay
+                defaultBindingMode: BindingMode.OneWay,
+                propertyChanging:DisplayMemberChanging
             );
 
         public string DisplayMember {
@@ -109,52 +111,67 @@ namespace AiForms.Renderers
             set { SetValue(AccentColorProperty, value); }
         }
 
-        static ConcurrentDictionary<Type, Func<object, object>> DisplayValueCache = new ConcurrentDictionary<Type, Func<object, object>>();
+        //getters cache
+        static ConcurrentDictionary<Type, Dictionary<string,Func<object, object>>> DisplayValueCache = new ConcurrentDictionary<Type, Dictionary<string,Func<object, object>>>();
 
-        internal Func<object, object> DisplayValue;
+        internal Func<object, object> DisplayValue = (obj)=>obj;
 
-        Func<object,object> CreateGetProperty(Type t)
+        static void ItemsSourceChanging(BindableObject bindable, object oldValue, object newValue)
         {
-            var prop = t.GetRuntimeProperties()
-                                .Where(x => x.DeclaringType == t && x.Name == DisplayMember).FirstOrDefault();
-
-            var target = Expression.Parameter(typeof(object), "target");
-
-            var body = Expression.PropertyOrField(Expression.Convert(target, t), prop.Name);
-
-            var lambda = Expression.Lambda<Func<object, object>>(
-                Expression.Convert(body, typeof(object)), target
-            );
-
-            return lambda.Compile();
-        }
-
-        protected override void OnPropertyChanged(string propertyName = null)
-        {
-            base.OnPropertyChanged(propertyName);
-            if(propertyName == ItemsSourceProperty.PropertyName || 
-               propertyName == DisplayMemberProperty.PropertyName){
-               SetUpPropertyCache(); 
-            }
-        }
-
-        void SetUpPropertyCache()
-        {
-            if(ItemsSource == null){
+            var controll = bindable as PickerCell;
+            if(newValue == null ||  string.IsNullOrEmpty(controll.DisplayMember)){
                 return;
             }
 
-            var list = ItemsSource as IList;
+            controll.SetUpPropertyCache(newValue as IList,controll.DisplayMember);
+        }
 
-            if(list.Count == 0){
+        static void DisplayMemberChanging(BindableObject bindable, object oldValue, object newValue)
+        {
+            var controll = bindable as PickerCell;
+            if(controll.ItemsSource == null || string.IsNullOrEmpty((string)newValue)){
+                return;
+            }
+
+            controll.SetUpPropertyCache(controll.ItemsSource as IList,(string)newValue);
+        }
+
+        // Create all property getter
+        Dictionary<string,Func<object,object>> CreateGetProperty(Type t)
+        {           
+            var prop =t.GetRuntimeProperties()
+                                .Where(x => x.DeclaringType == t && !x.Name.StartsWith("_", StringComparison.Ordinal));
+
+            var target = Expression.Parameter(typeof(object), "target");
+
+            var dictGetter = new Dictionary<string, Func<object, object>>();
+
+            foreach (var p in prop) {
+
+                var body = Expression.PropertyOrField(Expression.Convert(target,t), p.Name);
+
+                var lambda = Expression.Lambda<Func<object, object>>(
+                    Expression.Convert(body,typeof(object)),target
+                );
+
+                dictGetter[p.Name] = lambda.Compile();
+            }
+
+            return dictGetter;
+        }
+
+        void SetUpPropertyCache(IList itemsSource,string displayMember)
+        {
+            if(itemsSource.Count == 0){
                 throw new ArgumentException("ItemsSource must have items more than or equal 1.");
             }
 
-            if(string.IsNullOrEmpty(DisplayMember)){
-                DisplayValue = (obj) => obj;
+            var getters = DisplayValueCache.GetOrAdd(itemsSource[0].GetType(), CreateGetProperty);
+            if(getters.ContainsKey(displayMember)){
+                DisplayValue = getters[displayMember];
             }
             else{
-                DisplayValue = DisplayValueCache.GetOrAdd(list[0].GetType(),CreateGetProperty);
+                DisplayValue = (obj) => obj;
             }
         }
     }

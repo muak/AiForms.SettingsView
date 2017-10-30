@@ -143,16 +143,6 @@ namespace Sample.ViewModels
 
         }
 
-        void NextVal<T>(ReactiveProperty<T> current, T[] array)
-        {
-            var idx = array.IndexOf(current.Value);
-            if (idx == array.Length - 1)
-            {
-                current.Value = array[0];
-                return;
-            }
 
-            current.Value = array[idx + 1];
-        }
     }
 }

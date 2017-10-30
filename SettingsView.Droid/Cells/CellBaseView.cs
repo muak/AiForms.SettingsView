@@ -397,6 +397,7 @@ namespace AiForms.Renderers.Droid
                 if (cache != null && !forceLoad)
                 {
                     IconView.SetImageBitmap(cache);
+                    Invalidate();
                     return;
                 }
 
@@ -427,6 +428,7 @@ namespace AiForms.Renderers.Droid
                     ImageCacheController.Instance.Put(CellBase.IconSource.GetHashCode(), image);
                    
                     Device.BeginInvokeOnMainThread(() => {
+                        Task.Delay(50); // in case repeating the same source, sometimes the icon not be shown. by inserting delay it be shown.
                         IconView.SetImageBitmap(image);
                         Invalidate();
                     });

@@ -69,7 +69,6 @@ namespace AiForms.Renderers.iOS
             _tableview.DeselectRow(_tableview.IndexPathForSelectedRow, true);
         }
 
-
         public override SizeRequest GetDesiredSize(double widthConstraint, double heightConstraint)
         {
             return Control.GetSizeRequest(widthConstraint, heightConstraint, MinRowHeight, MinRowHeight);

@@ -5,7 +5,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>Sample</string>
 	<key>CFBundleIdentifier</key>
-	<string>kamusoft.sample</string>
+	<string>jp.kamusoft.sample</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>

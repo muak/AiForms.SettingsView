@@ -11,5 +11,7 @@
 		<Button Text="ParentPropTest" Command="{Binding GoToTest}"  CommandParameter="ParentPropTest" />
 		<Button Text="CollectionChangedTest" Command="{Binding GoToTest}"  CommandParameter="CollectionChangedTest" />
         <Button Text="LabelCellTest" Command="{Binding GoToTest}"  CommandParameter="LabelCellTest" />
+        <Button Text="SwitchCellTest" Command="{Binding GoToTest}"  CommandParameter="SwitchCellTest" />
+        <Button Text="PickerCellTest" Command="{Binding GoToTest}"  CommandParameter="PickerCellTest" />
 	</StackLayout>
 </ContentPage>

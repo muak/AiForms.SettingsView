@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using AiForms.Renderers.iOS.Extensions;
 using CoreGraphics;
 using Foundation;
@@ -199,11 +200,10 @@ namespace AiForms.Renderers.iOS
                 }
 
                 //TODO: これでどんなパターンでも大丈夫なのか要検証
-                var naviCtrl = UIApplication.SharedApplication.KeyWindow.RootViewController.ChildViewControllers[0] as UINavigationController;
-
+                var naviCtrl = GetUINavigationController(UIApplication.SharedApplication.Windows[0].RootViewController); 
                 _pickerVC?.Dispose();
-                _pickerVC = new PickerTableViewController((PickerCellView)cell);
-                naviCtrl.PushViewController(_pickerVC, true);
+                _pickerVC = new PickerTableViewController((PickerCellView)cell,tableView);
+                BeginInvokeOnMainThread(() => naviCtrl.PushViewController(_pickerVC, true));
 
                 if(!pickerCell.KeepSelectedUntilBack){
                     tableView.DeselectRow(indexPath, true);
@@ -219,6 +219,38 @@ namespace AiForms.Renderers.iOS
                 eCell.ValueField.BecomeFirstResponder();
             }
 
+        }
+
+        // Refer to https://forums.xamarin.com/discussion/comment/294088/#Comment_294088
+        UINavigationController GetUINavigationController(UIViewController controller)
+        {
+            if (controller != null)
+            {
+                if (controller is UINavigationController)
+                {
+                    return (controller as UINavigationController);
+                }
+
+                if (controller.ChildViewControllers.Count() != 0)
+                {
+                    var count = controller.ChildViewControllers.Count();
+
+                    for (int c = 0; c < count; c++)
+                    {
+                        var child = GetUINavigationController(controller.ChildViewControllers[c]);
+                        if (child == null)
+                        {
+                            //TODO: Analytics...
+                        }
+                        else if (child is UINavigationController)
+                        {
+                            return (child as UINavigationController);
+                        }
+                    }
+                }
+            }
+
+            return null;
         }
 
 

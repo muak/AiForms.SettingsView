@@ -1,4 +1,7 @@
-﻿using Prism.Unity;
+﻿using System.Linq;
+using System.Reflection;
+using Microsoft.Practices.ObjectBuilder2;
+using Prism.Unity;
 using Sample.Views;
 using Xamarin.Forms;
 
@@ -21,12 +24,19 @@ namespace Sample
 		protected override void RegisterTypes()
 		{
             Container.RegisterTypeForNavigation<NavigationPage>();
-			Container.RegisterTypeForNavigation<MainPage>();
-			Container.RegisterTypeForNavigation<SettingsViewPage>();
-            Container.RegisterTypeForNavigation<ParentPropTest>();
-            Container.RegisterTypeForNavigation<DefaultPropTest>();
-            Container.RegisterTypeForNavigation<CollectionChangedTest>();
-            Container.RegisterTypeForNavigation<LabelCellTest>();
+			//Container.RegisterTypeForNavigation<MainPage>();
+			//Container.RegisterTypeForNavigation<SettingsViewPage>();
+            //Container.RegisterTypeForNavigation<ParentPropTest>();
+            //Container.RegisterTypeForNavigation<DefaultPropTest>();
+            //Container.RegisterTypeForNavigation<CollectionChangedTest>();
+            //Container.RegisterTypeForNavigation<LabelCellTest>();
+
+            this.GetType().GetTypeInfo().Assembly
+            .DefinedTypes
+            .Where(t => t.Namespace?.EndsWith(".Views", System.StringComparison.Ordinal) ?? false)
+            .ForEach(t => {
+                Container.RegisterTypeForNavigation(t.AsType(), t.Name);
+            });
 		}
 	}
 }

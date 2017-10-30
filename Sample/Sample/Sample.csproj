@@ -58,6 +58,17 @@
       <DependentUpon>ParentController.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\LabelCellTestViewModel.cs" />
+    <Compile Include="Views\CellController.xaml.cs">
+      <DependentUpon>CellController.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SwitchCellTest.xaml.cs">
+      <DependentUpon>SwitchCellTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\SwitchCellTestViewModel.cs" />
+    <Compile Include="Views\PickerCellTest.xaml.cs">
+      <DependentUpon>PickerCellTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\PickerCellTestViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App.xaml">
@@ -183,6 +194,15 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\ParentController.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\CellController.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SwitchCellTest.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\PickerCellTest.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

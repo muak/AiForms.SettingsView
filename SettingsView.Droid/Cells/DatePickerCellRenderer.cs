@@ -64,6 +64,13 @@ namespace AiForms.Renderers.Droid
             UpdateMinimumDate();
             UpdateMaximumDate();
 
+            if(_datePickerCell.MinimumDate > _datePickerCell.MaximumDate){
+                throw new ArgumentOutOfRangeException(
+                    nameof(DatePickerCell.MaximumDate),
+                    "MaximumDate must be greater than or equal to MinimumDate."
+                );
+            }
+
             _dialog.CancelEvent += OnCancelButtonClicked;
 
             _dialog.Show();
