@@ -16,6 +16,7 @@ namespace AiForms.Renderers
                 default(string),
                 defaultBindingMode: BindingMode.TwoWay,
                 propertyChanging:ValueTextPropertyChanging
+
             );
 
         static void  ValueTextPropertyChanging(BindableObject bindable, object oldValue, object newValue)
@@ -25,7 +26,15 @@ namespace AiForms.Renderers
 
             var newString = newValue.ToString();
             if (newString.Length > maxlength) {
-                bindable.SetValue(ValueTextProperty,oldValue);
+                var oldString = oldValue.ToString();
+                if(oldString.Length > maxlength){
+                    var trimStr = oldString.Substring(0, maxlength);
+                    bindable.SetValue(ValueTextProperty, trimStr);
+                }
+                else{
+                    bindable.SetValue(ValueTextProperty, oldString);
+                }
+               
             }
         }
 
@@ -110,6 +119,21 @@ namespace AiForms.Renderers
         public string Placeholder {
             get { return (string)GetValue(PlaceholderProperty); }
             set { SetValue(PlaceholderProperty, value); }
+        }
+
+        public static BindableProperty TextAlignmentProperty =
+            BindableProperty.Create(
+                nameof(TextAlignment),
+                typeof(TextAlignment),
+                typeof(EntryCell),
+                TextAlignment.End,
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        public TextAlignment TextAlignment
+        {
+            get { return (TextAlignment)GetValue(TextAlignmentProperty); }
+            set { SetValue(TextAlignmentProperty, value); }
         }
 
         public static BindableProperty AccentColorProperty =

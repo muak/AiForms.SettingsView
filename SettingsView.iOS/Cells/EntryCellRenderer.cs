@@ -3,6 +3,7 @@ using Xamarin.Forms;
 using AiEntryCell = AiForms.Renderers.EntryCell;
 using UIKit;
 using Xamarin.Forms.Platform.iOS;
+using AiForms.Renderers.iOS.Extensions;
 
 [assembly: ExportRenderer(typeof(AiEntryCell), typeof(AiForms.Renderers.iOS.EntryCellRenderer))]
 namespace AiForms.Renderers.iOS
@@ -13,18 +14,24 @@ namespace AiForms.Renderers.iOS
     {
         AiEntryCell _EntryCell => Cell as AiEntryCell;
         internal UITextField ValueField;
+        UIView _FieldWrapper;
 
         public EntryCellView(Cell formsCell):base(formsCell)
         {
             ValueField = new UITextField() { BorderStyle = UITextBorderStyle.None };
-            ValueField.TextAlignment = UITextAlignment.Right;
+            ValueField.AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
 
             ValueField.EditingChanged += _textField_EditingChanged;
             ValueField.ShouldReturn = OnShouldReturn;
 
-            ContentStack.AddArrangedSubview(ValueField);
-            ValueField.SetContentHuggingPriority(100f, UILayoutConstraintAxis.Horizontal);
-            ValueField.SetContentCompressionResistancePriority(100f, UILayoutConstraintAxis.Horizontal);
+
+            _FieldWrapper = new UIView();
+            _FieldWrapper.AutosizesSubviews = true;
+            _FieldWrapper.SetContentHuggingPriority(100f, UILayoutConstraintAxis.Horizontal);
+            _FieldWrapper.SetContentCompressionResistancePriority(100f, UILayoutConstraintAxis.Horizontal);
+
+            _FieldWrapper.AddSubview(ValueField);
+            ContentStack.AddArrangedSubview(_FieldWrapper);
         }
 
         public override void UpdateCell()
@@ -35,6 +42,7 @@ namespace AiForms.Renderers.iOS
             UpdateValueTextFontSize();
             UpdatePlaceholder();
             UpdateKeyboard();
+            UpdateTextAlignment();
         }
 
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -60,6 +68,9 @@ namespace AiForms.Renderers.iOS
             {
                 UpdatePlaceholder();
             }
+            else if(e.PropertyName == AiEntryCell.TextAlignmentProperty.PropertyName){
+                UpdateTextAlignment();
+            }
         }
 
         public override void ParentPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -84,6 +95,9 @@ namespace AiForms.Renderers.iOS
                 ValueField.RemoveFromSuperview();
                 ValueField.Dispose();
                 ValueField = null;
+                ContentStack.RemoveArrangedSubview(_FieldWrapper);
+                _FieldWrapper.Dispose();
+                _FieldWrapper = null;
             }
             base.Dispose(disposing);
         }
@@ -103,6 +117,11 @@ namespace AiForms.Renderers.iOS
             {
                 ValueField.Font = ValueField.Font.WithSize((nfloat)CellParent.CellValueTextFontSize);
             }
+            //make the view height fit font size
+            var contentH = ValueField.IntrinsicContentSize.Height;
+            var bounds = ValueField.Bounds;
+            ValueField.Bounds = new CoreGraphics.CGRect(0, 0, bounds.Width, contentH);
+            _FieldWrapper.Bounds = new CoreGraphics.CGRect(0, 0, _FieldWrapper.Bounds.Width, contentH);
         }
 
         void UpdateValueTextColor()
@@ -115,6 +134,7 @@ namespace AiForms.Renderers.iOS
             {
                 ValueField.TextColor = CellParent.CellValueTextColor.ToUIColor();
             }
+            ValueField.SetNeedsLayout();
         }
 
         void UpdateKeyboard()
@@ -125,6 +145,11 @@ namespace AiForms.Renderers.iOS
         void UpdatePlaceholder()
         {
             ValueField.Placeholder = _EntryCell.Placeholder;
+        }
+
+        void UpdateTextAlignment(){
+            ValueField.TextAlignment = _EntryCell.TextAlignment.ToUITextAlignment();
+            ValueField.SetNeedsLayout();
         }
 
 

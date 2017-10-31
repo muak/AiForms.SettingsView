@@ -11,6 +11,7 @@ using Android.Views;
 using Xamarin.Forms.Platform.Android;
 using Android.OS;
 using Android.Content.Res;
+using AiForms.Renderers.Droid.Extensions;
 
 [assembly: ExportRenderer(typeof(AiEntryCell), typeof(AiForms.Renderers.Droid.EntryCellRenderer))]
 namespace AiForms.Renderers.Droid
@@ -31,21 +32,25 @@ namespace AiForms.Renderers.Droid
             _EditText.Focusable = true;
             _EditText.ImeOptions = ImeAction.Done;
             _EditText.SetOnEditorActionListener(this);
-            //_EditText.AddTextChangedListener(this);
+
             _EditText.OnFocusChangeListener = this;
             _EditText.SetSingleLine(true);
-            _EditText.Gravity = GravityFlags.Right | GravityFlags.CenterVertical;
+            _EditText.Ellipsize = TextUtils.TruncateAt.End;
+
             _EditText.InputType |= InputTypes.TextFlagNoSuggestions;  //disabled spell check
-            _EditText.Background.Alpha = 0;  //下線は非表示
+            _EditText.Background.Alpha = 0;  //hide underline
 
             _EditText.ClearFocusAction = DoneEdit;
             Click += EntryCellView_Click;
 
-            var lparams = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WrapContent,
-                ViewGroup.LayoutParams.WrapContent) {
+            //remove weight and change width due to fill _EditText.
+            var titleParam = TitleLabel.LayoutParameters as LinearLayout.LayoutParams;
+            titleParam.Weight = 0;
+            titleParam.Width = ViewGroup.LayoutParams.WrapContent;
+            titleParam = null;
 
-            };
+            var lparams = new LinearLayout.LayoutParams(0,ViewGroup.LayoutParams.WrapContent, 1f);
+
             using (lparams)
             {
                 ContentStack.AddView(_EditText, lparams);
@@ -60,6 +65,7 @@ namespace AiForms.Renderers.Droid
             UpdateKeyboard();
             UpdatePlaceholder();
             UpdateAccentColor();
+            UpdateTextAlignment();
             base.UpdateCell();
         }
 
@@ -88,6 +94,10 @@ namespace AiForms.Renderers.Droid
             }
             else if(e.PropertyName == AiEntryCell.AccentColorProperty.PropertyName){
                 UpdateAccentColor();
+            }
+            else if (e.PropertyName == AiEntryCell.TextAlignmentProperty.PropertyName)
+            {
+                UpdateTextAlignment();
             }
         }
 
@@ -172,6 +182,11 @@ namespace AiForms.Renderers.Droid
         {
             _EditText.Hint = _EntryCell.Placeholder;
             _EditText.SetHintTextColor(Android.Graphics.Color.Rgb(210, 210, 210));
+        }
+
+        void UpdateTextAlignment()
+        {
+            _EditText.Gravity = _EntryCell.TextAlignment.ToGravityFlags();
         }
 
         void UpdateAccentColor()

@@ -104,6 +104,7 @@
     <Compile Include="Cells\IPickerCell.cs" />
     <Compile Include="Cells\DatePickerCellRenderer.cs" />
     <Compile Include="Cells\EntryCellRenderer.cs" />
+    <Compile Include="Extensions\TextAlignmentExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

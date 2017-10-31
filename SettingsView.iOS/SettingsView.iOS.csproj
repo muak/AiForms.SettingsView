@@ -89,6 +89,7 @@
     <Compile Include="Cells\IPickerCell.cs" />
     <Compile Include="Cells\EntryCellRenderer.cs" />
     <Compile Include="ImageCacheController.cs" />
+    <Compile Include="Extensions\TextAlignmentExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SettingsView\SettingsView.csproj">

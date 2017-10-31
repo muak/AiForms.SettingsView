@@ -46,8 +46,7 @@ namespace AiForms.Renderers
                 typeof(string),
                 typeof(PickerCell),
                 default(string),
-                defaultBindingMode: BindingMode.OneWay,
-                propertyChanging:DisplayMemberChanging
+                defaultBindingMode: BindingMode.OneWay
             );
 
         public string DisplayMember {
@@ -111,32 +110,93 @@ namespace AiForms.Renderers
             set { SetValue(AccentColorProperty, value); }
         }
 
+        public static BindableProperty SelectedItemsOrderKeyProperty =
+            BindableProperty.Create(
+                nameof(SelectedItemsOrderKey),
+                typeof(string),
+                typeof(PickerCell),
+                default(string),
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        public string SelectedItemsOrderKey
+        {
+            get { return (string)GetValue(SelectedItemsOrderKeyProperty); }
+            set { SetValue(SelectedItemsOrderKeyProperty, value); }
+        }
+
         //getters cache
         static ConcurrentDictionary<Type, Dictionary<string,Func<object, object>>> DisplayValueCache = new ConcurrentDictionary<Type, Dictionary<string,Func<object, object>>>();
 
-        internal Func<object, object> DisplayValue = (obj)=>obj;
+        //DisplayMember getter
+        internal Func<object, object> DisplayValue{
+            get{
+                if(_getters == null || DisplayMember == null){
+                    return (obj) => obj;
+                }
+                if(_getters.ContainsKey(DisplayMember)){
+                    return _getters[DisplayMember];
+                }
+                else{
+                    return (obj) => obj;
+                } 
+            }
+        }
+
+        //OrderKey getter
+        internal Func<object, object> KeyValue{
+            get{
+                if(_getters == null || SelectedItemsOrderKey == null){
+                    return null;
+                }
+               
+                if (_getters.ContainsKey(SelectedItemsOrderKey))
+                {
+                    return _getters[SelectedItemsOrderKey];
+                }
+
+                return null;
+            }
+        }
+
+        internal string GetSelectedItemsText(){
+            List<string> sortedList = null;
+
+            if (KeyValue != null)
+            {
+                var dict = new Dictionary<object, string>();
+                foreach (var item in SelectedItems)
+                {
+                    dict.Add(KeyValue(item), DisplayValue(item).ToString());
+                }
+                sortedList = dict.OrderBy(x => x.Key).Select(x => x.Value).ToList();
+            }
+            else
+            {
+                var strList = new List<string>();
+                foreach (var item in SelectedItems)
+                {
+                    strList.Add(DisplayValue(item).ToString());
+                }
+                sortedList = strList.OrderBy(x => x, new NaturalComparer()).ToList();
+            }
+
+            return string.Join(",", sortedList.ToArray());
+        }
+
+        Dictionary<string, Func<object, object>> _getters;
 
         static void ItemsSourceChanging(BindableObject bindable, object oldValue, object newValue)
         {
             var controll = bindable as PickerCell;
-            if(newValue == null ||  string.IsNullOrEmpty(controll.DisplayMember)){
+            if(newValue == null){
                 return;
             }
 
-            controll.SetUpPropertyCache(newValue as IList,controll.DisplayMember);
+            controll.SetUpPropertyCache(newValue as IList);
         }
 
-        static void DisplayMemberChanging(BindableObject bindable, object oldValue, object newValue)
-        {
-            var controll = bindable as PickerCell;
-            if(controll.ItemsSource == null || string.IsNullOrEmpty((string)newValue)){
-                return;
-            }
-
-            controll.SetUpPropertyCache(controll.ItemsSource as IList,(string)newValue);
-        }
-
-        // Create all property getter
+        // Create all propertiy getters
         Dictionary<string,Func<object,object>> CreateGetProperty(Type t)
         {           
             var prop =t.GetRuntimeProperties()
@@ -160,19 +220,15 @@ namespace AiForms.Renderers
             return dictGetter;
         }
 
-        void SetUpPropertyCache(IList itemsSource,string displayMember)
+        void SetUpPropertyCache(IList itemsSource)
         {
             if(itemsSource.Count == 0){
                 throw new ArgumentException("ItemsSource must have items more than or equal 1.");
             }
 
-            var getters = DisplayValueCache.GetOrAdd(itemsSource[0].GetType(), CreateGetProperty);
-            if(getters.ContainsKey(displayMember)){
-                DisplayValue = getters[displayMember];
-            }
-            else{
-                DisplayValue = (obj) => obj;
-            }
+            _getters = DisplayValueCache.GetOrAdd(itemsSource[0].GetType(), CreateGetProperty);
         }
+
+
     }
 }

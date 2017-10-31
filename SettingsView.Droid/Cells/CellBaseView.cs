@@ -227,6 +227,8 @@ namespace AiForms.Renderers.Droid
         void UpdateTitleText()
         {
             TitleLabel.Text = CellBase.Title;
+            //hide TextView right padding when TextView.Text empty.
+            TitleLabel.Visibility = string.IsNullOrEmpty(TitleLabel.Text) ? ViewStates.Gone : ViewStates.Visible; 
         }
 
         void UpdateTitleColor()

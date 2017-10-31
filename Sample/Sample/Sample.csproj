@@ -69,6 +69,10 @@
       <DependentUpon>PickerCellTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\PickerCellTestViewModel.cs" />
+    <Compile Include="Views\EntryCellTest.xaml.cs">
+      <DependentUpon>EntryCellTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\EntryCellTestViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App.xaml">
@@ -203,6 +207,10 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\PickerCellTest.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EntryCellTest.xaml">
+      <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

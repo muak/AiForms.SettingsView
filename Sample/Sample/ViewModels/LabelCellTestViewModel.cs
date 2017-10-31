@@ -5,6 +5,7 @@ using AiForms.Renderers;
 using Xamarin.Forms.Internals;
 using Prism.Services;
 using System.Reactive.Linq;
+using Prism.Navigation;
 
 namespace Sample.ViewModels
 {
@@ -52,7 +53,7 @@ namespace Sample.ViewModels
         static object[] Parameters = { null, "Def", "Xzy" };
         static bool[] CanExecutes = { true, false };
 
-        public LabelCellTestViewModel(IPageDialogService pageDialog)
+        public LabelCellTestViewModel(INavigationService navigationService,IPageDialogService pageDialog)
         {
             BackgroundColor.Value = Color.White;
             PickerTitle.Value = "Hoge";
@@ -77,6 +78,7 @@ namespace Sample.ViewModels
             Commands[0].Subscribe(async p =>
             {
                 await pageDialog.DisplayAlertAsync("Command1", p?.ToString(), "OK");
+                await navigationService.NavigateAsync("ContentPage");
             });
 
             Commands[1].Subscribe(async p =>

@@ -24,6 +24,7 @@ namespace Sample
 		protected override void RegisterTypes()
 		{
             Container.RegisterTypeForNavigation<NavigationPage>();
+            Container.RegisterTypeForNavigation<ContentPage>();
 			//Container.RegisterTypeForNavigation<MainPage>();
 			//Container.RegisterTypeForNavigation<SettingsViewPage>();
             //Container.RegisterTypeForNavigation<ParentPropTest>();

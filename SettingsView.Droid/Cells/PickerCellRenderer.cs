@@ -8,6 +8,7 @@ using AListView = Android.Widget.ListView;
 using System.Collections.Generic;
 using Xamarin.Forms.Platform.Android;
 using System.Collections;
+using System.Linq;
 
 [assembly: ExportRenderer(typeof(PickerCell), typeof(PickerCellRenderer))]
 namespace AiForms.Renderers.Droid
@@ -21,7 +22,7 @@ namespace AiForms.Renderers.Droid
         AListView _listView;
         PickerAdapter _adapter;
         Context _context;
-
+        string _valueTextCache;
 
         public PickerCellView(Context context, Cell cell) : base(context, cell)
         {
@@ -31,18 +32,28 @@ namespace AiForms.Renderers.Droid
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
-            if (e.PropertyName == PickerCell.ItemsSourceProperty.PropertyName)
+            if (e.PropertyName == PickerCell.SelectedItemsProperty.PropertyName||
+                e.PropertyName == PickerCell.DisplayMemberProperty.PropertyName ||
+                e.PropertyName == PickerCell.SelectedItemsOrderKeyProperty.PropertyName)
             {
-
+                UpdateSelectedItems(true);
             }
-            else if (e.PropertyName == PickerCell.SelectedItemsProperty.PropertyName)
+        }
+
+        public override void UpdateCell()
+        {
+            base.UpdateCell();
+            UpdateSelectedItems();
+        }
+
+        public void UpdateSelectedItems(bool force = false)
+        {
+            if (force || string.IsNullOrEmpty(_valueTextCache))
             {
-
+                _valueTextCache = _PickerCell.GetSelectedItemsText();
             }
-            else if (e.PropertyName == PickerCell.KeepSelectedUntilBackProperty.PropertyName)
-            {
 
-            }
+            ValueLabel.Text = _valueTextCache;
         }
 
         protected override void Dispose(bool disposing)
@@ -88,6 +99,7 @@ namespace AiForms.Renderers.Droid
                     });
                     builder.SetPositiveButton(global::Android.Resource.String.Ok, (o, args) => {
                         _adapter.DoneSelect();
+                        UpdateSelectedItems(true);
                         ClearFocus();
                     });
 

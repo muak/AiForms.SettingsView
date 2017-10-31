@@ -15,6 +15,7 @@ namespace Sample.ViewModels
         public ReactiveProperty<string> DisplayMember2 { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<int> MaxSelectedNumber { get; } = new ReactiveProperty<int>();
         public ReactiveProperty<bool> KeepSelected { get; } = new ReactiveProperty<bool>();
+        public ReactiveProperty<string> SelectedItemsOrderKey { get; } = new ReactiveProperty<string>();
 
         public ObservableCollection<Person> ItemsSource { get; } = new ObservableCollection<Person>();
         public ObservableCollection<int> ItemsSource2 { get; } = new ObservableCollection<int>();
@@ -23,7 +24,7 @@ namespace Sample.ViewModels
         public ObservableCollection<int> SelectedItems2 { get; } = new ObservableCollection<int>();
 
         static string[] PageTitles = { "", "Select value", "LongTitleTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextEnd" };
-        static string[] DisplayMembers = { "Name", "Age" };
+        static string[] DisplayMembers = { "Name", "Age",""};
         static int[] MaxSelectedNumbers = { 0, 1, 3 };
         static bool[] bools = { false, true };
        
@@ -35,7 +36,7 @@ namespace Sample.ViewModels
                 ItemsSource.Add(new Person()
                 {
                     Name = $"Name{i}",
-                    Age = i
+                    Age = 30-i
                 });
                 ItemsSource2.Add(i);
             }
@@ -47,6 +48,8 @@ namespace Sample.ViewModels
             PageTitle.Value = PageTitles[0];
             MaxSelectedNumber.Value = MaxSelectedNumbers[0];
             KeepSelected.Value = bools[0];
+            SelectedItemsOrderKey.Value = DisplayMembers[0];
+            ChangeSelectedItems();
         }
 
         protected override void CellChanged(object obj)
@@ -74,6 +77,9 @@ namespace Sample.ViewModels
                     break;
                 case nameof(SelectedItems):
                     ChangeSelectedItems();
+                    break;
+                case nameof(SelectedItemsOrderKey):
+                    NextVal(SelectedItemsOrderKey, DisplayMembers);
                     break;
             }
         }

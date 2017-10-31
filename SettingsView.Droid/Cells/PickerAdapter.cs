@@ -23,8 +23,9 @@ namespace AiForms.Renderers.Droid
         bool _unLimited => _pickerCell.MaxSelectedNumber == 0;
 
         internal Color _accentColor;
-        internal Color _textColor;
-        internal double _textSize;
+        internal Color _titleColor;
+        internal Color _background;
+        internal double _fontSize;
 
         public PickerAdapter(Android.Content.Context context, PickerCell pickerCell,ListView listview)
         {
@@ -39,18 +40,51 @@ namespace AiForms.Renderers.Droid
                 pickerCell.SelectedItems = new List<object>();
             }
 
-            if (pickerCell.AccentColor != Xamarin.Forms.Color.Default)
+            if(_parent != null){
+                _listview.SetBackgroundColor(_parent.BackgroundColor.ToAndroid());
+                _listview.Divider = new ColorDrawable(_parent.SeparatorColor.ToAndroid());
+                _listview.DividerHeight = 1;
+            }
+
+            SetUpProperties();
+        }
+
+        void SetUpProperties()
+        {
+            if (_pickerCell.AccentColor != Xamarin.Forms.Color.Default)
             {
-                _accentColor = pickerCell.AccentColor.ToAndroid();
+                _accentColor = _pickerCell.AccentColor.ToAndroid();
             }
             else if (_parent.CellAccentColor != Xamarin.Forms.Color.Default)
             {
                 _accentColor = _parent.CellAccentColor.ToAndroid();
             }
 
-            if(_parent != null){
-                _textColor = _parent.CellTitleColor.ToAndroid();
-                _textSize = _parent.CellTitleFontSize;
+            if (_pickerCell.TitleColor != Xamarin.Forms.Color.Default)
+            {
+                _titleColor = _pickerCell.TitleColor.ToAndroid();
+            }
+            else if (_parent != null && _parent.CellTitleColor != Xamarin.Forms.Color.Default)
+            {
+                _titleColor = _parent.CellTitleColor.ToAndroid();
+            }
+
+            if (_pickerCell.TitleFontSize > 0)
+            {
+                _fontSize = _pickerCell.TitleFontSize;
+            }
+            else if (_parent != null)
+            {
+                _fontSize = _parent.CellTitleFontSize;
+            }
+
+            if (_pickerCell.BackgroundColor != Xamarin.Forms.Color.Default)
+            {
+                _background = _pickerCell.BackgroundColor.ToAndroid();
+            }
+            else if (_parent != null && _parent.CellBackgroundColor != Xamarin.Forms.Color.Default)
+            {
+                _background = _parent.CellBackgroundColor.ToAndroid();
             }
         }
 
@@ -69,7 +103,6 @@ namespace AiForms.Renderers.Droid
         {
             _pickerCell.SelectedItems.Clear();
 
-            var strList = new List<string>();
             var positions = _listview.CheckedItemPositions;
 
             for (var i = 0; i < positions.Size(); i++)
@@ -78,10 +111,7 @@ namespace AiForms.Renderers.Droid
 
                 var index = positions.KeyAt(i);
                 _pickerCell.SelectedItems.Add(_source[index]);
-                strList.Add(_pickerCell.DisplayValue(_source[index]).ToString());
             }
-
-            _pickerCell.ValueText = string.Join(",", strList.ToArray());
         }
 
         public void RestoreSelect()
@@ -90,9 +120,18 @@ namespace AiForms.Renderers.Droid
                 return;
             }
 
-            foreach (var item in _pickerCell.SelectedItems)
+            for (var i = 0; i < _pickerCell.SelectedItems.Count;i++)
             {
+                if (_pickerCell.MaxSelectedNumber >= 1 && i >= _pickerCell.MaxSelectedNumber)
+                {
+                    break;
+                }
+
+                var item = _pickerCell.SelectedItems[i];
                 var pos = _source.IndexOf(item);
+                if(pos < 0){
+                    continue;
+                }
                 _listview.SetItemChecked(pos, true);
             }
 
@@ -126,6 +165,8 @@ namespace AiForms.Renderers.Droid
                 _parent = null;
                 _pickerCell = null;
                 _source = null;
+                _listview = null;
+                _context = null;
             }
             base.Dispose(disposing);
         }
@@ -136,21 +177,25 @@ namespace AiForms.Renderers.Droid
         TextView _textLabel;
         SimpleCheck _checkBox;
        
-        public PickerInnerView(Android.Content.Context context,PickerAdapter adapter):base(context){
-
+        public PickerInnerView(Android.Content.Context context,PickerAdapter adapter):base(context)
+        {
             this.LayoutParameters = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
 
             var padding = (int)context.ToPixels(8);
             SetPadding(padding,padding,padding,padding);
 
+            SetBackgroundColor(adapter._background);
+
             _textLabel = new TextView(context);
             _textLabel.Id = AView.GenerateViewId();
-            _textLabel.SetTextColor(adapter._textColor);
-            _textLabel.SetTextSize(Android.Util.ComplexUnitType.Sp, (float)adapter._textSize);
 
             _checkBox = new SimpleCheck(context);
+            _checkBox.Focusable = false;
+
+            _textLabel.SetTextColor(adapter._titleColor);
+            _textLabel.SetTextSize(Android.Util.ComplexUnitType.Sp, (float)adapter._fontSize);
             _checkBox.Color = adapter._accentColor;
-            _checkBox.Focusable = false;          
+            SetBackgroundColor(adapter._background);
 
             using (var param1 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.WrapContent))
             {
@@ -231,7 +276,7 @@ namespace AiForms.Renderers.Droid
             }
 
             _paint.SetStyle(Paint.Style.Stroke);
-            _paint.Color = Android.Graphics.Color.Red;
+            _paint.Color = Color;
             _paint.StrokeWidth = _context.ToPixels(2);
             _paint.AntiAlias = true;
 

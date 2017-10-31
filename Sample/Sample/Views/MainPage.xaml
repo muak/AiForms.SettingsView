@@ -13,5 +13,6 @@
         <Button Text="LabelCellTest" Command="{Binding GoToTest}"  CommandParameter="LabelCellTest" />
         <Button Text="SwitchCellTest" Command="{Binding GoToTest}"  CommandParameter="SwitchCellTest" />
         <Button Text="PickerCellTest" Command="{Binding GoToTest}"  CommandParameter="PickerCellTest" />
+        <Button Text="EntryCellTest" Command="{Binding GoToTest}"  CommandParameter="EntryCellTest" />
 	</StackLayout>
 </ContentPage>

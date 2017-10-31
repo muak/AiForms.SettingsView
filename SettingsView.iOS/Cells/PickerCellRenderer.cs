@@ -10,8 +10,8 @@ using System.Text.RegularExpressions;
 
 [assembly: ExportRenderer(typeof(PickerCell), typeof(PickerCellRenderer))]
 namespace AiForms.Renderers.iOS
-{                 
-    public class PickerCellRenderer:CellBaseRenderer<PickerCellView>{}
+{
+    public class PickerCellRenderer : CellBaseRenderer<PickerCellView> { }
 
     public class PickerCellView : LabelCellView
     {
@@ -30,15 +30,11 @@ namespace AiForms.Renderers.iOS
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
-            if(e.PropertyName == PickerCell.ItemsSourceProperty.PropertyName){
-                
-            }
-            else if(e.PropertyName == PickerCell.SelectedItemsProperty.PropertyName ||
-                    e.PropertyName == PickerCell.DisplayMemberProperty.PropertyName){
+            if (e.PropertyName == PickerCell.SelectedItemsProperty.PropertyName ||
+                e.PropertyName == PickerCell.DisplayMemberProperty.PropertyName ||
+                e.PropertyName == PickerCell.SelectedItemsOrderKeyProperty.PropertyName)
+            {
                 UpdateSelectedItems(true);
-            }
-            else if(e.PropertyName == PickerCell.KeepSelectedUntilBackProperty.PropertyName){
-                
             }
         }
 
@@ -52,13 +48,7 @@ namespace AiForms.Renderers.iOS
         {
             if (force || string.IsNullOrEmpty(_valueTextCache))
             {
-                var strList = new List<string>();
-                foreach (var item in _PickerCell.SelectedItems)
-                {
-                    strList.Add(_PickerCell.DisplayValue(item).ToString());
-                }
-
-                _valueTextCache = string.Join(",", strList.OrderBy(x=>x,new NaturalComparer()).ToArray());
+                _valueTextCache = _PickerCell.GetSelectedItemsText();
             }
 
             ValueLabel.Text = _valueTextCache;
@@ -66,8 +56,9 @@ namespace AiForms.Renderers.iOS
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing) {
-                
+            if (disposing)
+            {
+
             }
             base.Dispose(disposing);
         }

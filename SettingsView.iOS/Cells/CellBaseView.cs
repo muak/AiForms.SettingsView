@@ -211,6 +211,15 @@ namespace AiForms.Renderers.iOS
         void UpdateTitleText()
         {
             TitleLabel.Text = CellBase.Title;
+            //Since Layout breaks when text empty, prevent Label height from resizing 0.
+            if(string.IsNullOrEmpty(TitleLabel.Text)){
+                TitleLabel.Hidden = true;
+                TitleLabel.Text = " ";
+            }
+            else{
+                TitleLabel.Hidden = false;
+            }
+
         }
 
         void UpdateTitleColor()
@@ -541,7 +550,7 @@ namespace AiForms.Renderers.iOS
             {
                 Axis = UILayoutConstraintAxis.Horizontal,
                 Alignment = UIStackViewAlignment.Fill,
-                Spacing = 0,
+                Spacing = 6,
                 Distribution = UIStackViewDistribution.Fill,
             };
 
