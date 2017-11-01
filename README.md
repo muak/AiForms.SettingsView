@@ -1,5 +1,3 @@
-<link href="https://raw.githubusercontent.com/muak/AiForms.Renderers/master/css/readme.css" rel="stylesheet"></link>
-
 # AiForms.Renderes.SettingsView for Xamarin.Forms
 
 This is a flexble TableView specialized in settings for Android / iOS.
