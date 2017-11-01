@@ -5,7 +5,6 @@ using CoreGraphics;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
-using System.Diagnostics;
 
 [assembly: ExportRenderer(typeof(SettingsView), typeof(SettingsViewRenderer))]
 namespace AiForms.Renderers.iOS
@@ -24,7 +23,7 @@ namespace AiForms.Renderers.iOS
             base.OnElementChanged(e);
 
             if (e.NewElement != null) {
-                
+
                 _tableview = new UITableView(CGRect.Empty, UITableViewStyle.Grouped);
                 SetNativeControl(_tableview);
                 _tableview.ScrollEnabled = true;
@@ -36,7 +35,7 @@ namespace AiForms.Renderers.iOS
                 _tableview.SectionHeaderHeight = UITableView.AutomaticDimension;
                 _tableview.EstimatedSectionHeaderHeight = MinRowHeight;
 
-                //Footerの高さを可変にするにはこの2つが必須
+                //need the following two because of make footer height variable.
                 _tableview.SectionFooterHeight = UITableView.AutomaticDimension;
                 _tableview.EstimatedSectionFooterHeight = MinRowHeight;
 
@@ -45,9 +44,9 @@ namespace AiForms.Renderers.iOS
                 UpdateRowHeight();
 
                 Element elm = Element;
-                while(elm != null){
+                while (elm != null) {
                     elm = elm.Parent;
-                    if(elm is Page){
+                    if (elm is Page) {
                         break;
                     }
                 }
@@ -90,13 +89,13 @@ namespace AiForms.Renderers.iOS
         protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
-            if(e.PropertyName == SettingsView.SeparatorColorProperty.PropertyName){
+            if (e.PropertyName == SettingsView.SeparatorColorProperty.PropertyName) {
                 UpdateSeparator();
             }
-            else if(e.PropertyName == SettingsView.BackgroundColorProperty.PropertyName){
+            else if (e.PropertyName == SettingsView.BackgroundColorProperty.PropertyName) {
                 UpdateBackgroundColor();
             }
-            else if(e.PropertyName == TableView.RowHeightProperty.PropertyName){
+            else if (e.PropertyName == TableView.RowHeightProperty.PropertyName) {
                 UpdateRowHeight();
             }
         }
@@ -105,18 +104,18 @@ namespace AiForms.Renderers.iOS
         void UpdateRowHeight()
         {
             _tableview.EstimatedRowHeight = Math.Max((float)Element.RowHeight, MinRowHeight);
-            _tableview.ReloadData();        
+            _tableview.ReloadData();
         }
 
         void UpdateBackgroundColor()
         {
             var color = Element.BackgroundColor;
-            if(color != Color.Default){
+            if (color != Color.Default) {
                 Control.BackgroundColor = color.ToUIColor();
             }
         }
 
-        void UpdateSeparator() 
+        void UpdateSeparator()
         {
             var color = Element.SeparatorColor;
             Control.SeparatorColor = color.ToUIColor();

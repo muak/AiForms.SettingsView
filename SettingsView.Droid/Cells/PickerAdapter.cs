@@ -1,19 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Android.Graphics;
+using Android.Graphics.Drawables;
 using Android.Views;
 using Android.Widget;
 using Xamarin.Forms.Platform.Android;
 using AView = Android.Views.View;
-using System.Threading.Tasks;
-using Android.Support.V7.Widget;
-using Android.Graphics.Drawables;
-using Android.Content.Res;
-using Android.App;
 
 namespace AiForms.Renderers.Droid
 {
-    public class PickerAdapter:BaseAdapter<object>,AdapterView.IOnItemClickListener
+    public class PickerAdapter : BaseAdapter<object>, AdapterView.IOnItemClickListener
     {
         Android.Content.Context _context;
         SettingsView _parent;
@@ -27,7 +23,7 @@ namespace AiForms.Renderers.Droid
         internal Color _background;
         internal double _fontSize;
 
-        public PickerAdapter(Android.Content.Context context, PickerCell pickerCell,ListView listview)
+        public PickerAdapter(Android.Content.Context context, PickerCell pickerCell, ListView listview)
         {
             _context = context;
             _listview = listview;
@@ -35,12 +31,11 @@ namespace AiForms.Renderers.Droid
             _parent = pickerCell.Parent as SettingsView;
             _source = pickerCell.ItemsSource as IList;
 
-            if (pickerCell.SelectedItems == null)
-            {
+            if (pickerCell.SelectedItems == null) {
                 pickerCell.SelectedItems = new List<object>();
             }
 
-            if(_parent != null){
+            if (_parent != null) {
                 _listview.SetBackgroundColor(_parent.BackgroundColor.ToAndroid());
                 _listview.Divider = new ColorDrawable(_parent.SeparatorColor.ToAndroid());
                 _listview.DividerHeight = 1;
@@ -51,50 +46,42 @@ namespace AiForms.Renderers.Droid
 
         void SetUpProperties()
         {
-            if (_pickerCell.AccentColor != Xamarin.Forms.Color.Default)
-            {
+            if (_pickerCell.AccentColor != Xamarin.Forms.Color.Default) {
                 _accentColor = _pickerCell.AccentColor.ToAndroid();
             }
-            else if (_parent.CellAccentColor != Xamarin.Forms.Color.Default)
-            {
+            else if (_parent.CellAccentColor != Xamarin.Forms.Color.Default) {
                 _accentColor = _parent.CellAccentColor.ToAndroid();
             }
 
-            if (_pickerCell.TitleColor != Xamarin.Forms.Color.Default)
-            {
+            if (_pickerCell.TitleColor != Xamarin.Forms.Color.Default) {
                 _titleColor = _pickerCell.TitleColor.ToAndroid();
             }
-            else if (_parent != null && _parent.CellTitleColor != Xamarin.Forms.Color.Default)
-            {
+            else if (_parent != null && _parent.CellTitleColor != Xamarin.Forms.Color.Default) {
                 _titleColor = _parent.CellTitleColor.ToAndroid();
             }
 
-            if (_pickerCell.TitleFontSize > 0)
-            {
+            if (_pickerCell.TitleFontSize > 0) {
                 _fontSize = _pickerCell.TitleFontSize;
             }
-            else if (_parent != null)
-            {
+            else if (_parent != null) {
                 _fontSize = _parent.CellTitleFontSize;
             }
 
-            if (_pickerCell.BackgroundColor != Xamarin.Forms.Color.Default)
-            {
+            if (_pickerCell.BackgroundColor != Xamarin.Forms.Color.Default) {
                 _background = _pickerCell.BackgroundColor.ToAndroid();
             }
-            else if (_parent != null && _parent.CellBackgroundColor != Xamarin.Forms.Color.Default)
-            {
+            else if (_parent != null && _parent.CellBackgroundColor != Xamarin.Forms.Color.Default) {
                 _background = _parent.CellBackgroundColor.ToAndroid();
             }
         }
 
         public void OnItemClick(AdapterView parent, AView view, int position, long id)
         {
-            if(_listview.ChoiceMode == ChoiceMode.Single || _unLimited){
+            if (_listview.ChoiceMode == ChoiceMode.Single || _unLimited) {
                 return;
             }
 
-            if (_listview.CheckedItemCount > _pickerCell.MaxSelectedNumber){              
+            if (_listview.CheckedItemCount > _pickerCell.MaxSelectedNumber) {
                 _listview.SetItemChecked(position, false);
             }
         }
@@ -105,8 +92,7 @@ namespace AiForms.Renderers.Droid
 
             var positions = _listview.CheckedItemPositions;
 
-            for (var i = 0; i < positions.Size(); i++)
-            {
+            for (var i = 0; i < positions.Size(); i++) {
                 if (!positions.ValueAt(i)) continue;
 
                 var index = positions.KeyAt(i);
@@ -120,16 +106,14 @@ namespace AiForms.Renderers.Droid
                 return;
             }
 
-            for (var i = 0; i < _pickerCell.SelectedItems.Count;i++)
-            {
-                if (_pickerCell.MaxSelectedNumber >= 1 && i >= _pickerCell.MaxSelectedNumber)
-                {
+            for (var i = 0; i < _pickerCell.SelectedItems.Count; i++) {
+                if (_pickerCell.MaxSelectedNumber >= 1 && i >= _pickerCell.MaxSelectedNumber) {
                     break;
                 }
 
                 var item = _pickerCell.SelectedItems[i];
                 var pos = _source.IndexOf(item);
-                if(pos < 0){
+                if (pos < 0) {
                     continue;
                 }
                 _listview.SetItemChecked(pos, true);
@@ -149,7 +133,7 @@ namespace AiForms.Renderers.Droid
 
         public override AView GetView(int position, AView convertView, ViewGroup parent)
         {
-            if(convertView == null){
+            if (convertView == null) {
                 convertView = new PickerInnerView(_context, this);
             }
 
@@ -161,7 +145,7 @@ namespace AiForms.Renderers.Droid
 
         protected override void Dispose(bool disposing)
         {
-            if(disposing){
+            if (disposing) {
                 _parent = null;
                 _pickerCell = null;
                 _source = null;
@@ -172,17 +156,17 @@ namespace AiForms.Renderers.Droid
         }
     }
 
-    public class PickerInnerView: RelativeLayout,Android.Widget.ICheckable
+    public class PickerInnerView : RelativeLayout, Android.Widget.ICheckable
     {
         TextView _textLabel;
         SimpleCheck _checkBox;
-       
-        public PickerInnerView(Android.Content.Context context,PickerAdapter adapter):base(context)
+
+        public PickerInnerView(Android.Content.Context context, PickerAdapter adapter) : base(context)
         {
             this.LayoutParameters = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
 
             var padding = (int)context.ToPixels(8);
-            SetPadding(padding,padding,padding,padding);
+            SetPadding(padding, padding, padding, padding);
 
             SetBackgroundColor(adapter._background);
 
@@ -197,32 +181,34 @@ namespace AiForms.Renderers.Droid
             _checkBox.Color = adapter._accentColor;
             SetBackgroundColor(adapter._background);
 
-            using (var param1 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.WrapContent))
-            {
+            using (var param1 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.WrapContent)) {
                 param1.AddRule(LayoutRules.AlignParentStart);
                 param1.AddRule(LayoutRules.CenterVertical);
-                AddView(_textLabel,param1);
+                AddView(_textLabel, param1);
             }
 
-            using (var param2 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.MatchParent) {
+            using (var param2 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.MatchParent)
+            {
                 Width = (int)context.ToPixels(30),
                 Height = (int)context.ToPixels(30)
-            }){
+            }) {
                 param2.AddRule(LayoutRules.AlignParentEnd);
                 param2.AddRule(LayoutRules.CenterVertical);
-                AddView(_checkBox,param2);
+                AddView(_checkBox, param2);
             }
         }
 
-        public bool Checked { 
-            get{
+        public bool Checked
+        {
+            get {
                 return _checkBox.Selected;
             }
-            set{
+            set {
                 _checkBox.Selected = value;
             }
         }
-        public void Toggle(){
+        public void Toggle()
+        {
             _checkBox.Selected = !_checkBox.Selected;
         }
 
@@ -233,7 +219,7 @@ namespace AiForms.Renderers.Droid
 
         protected override void Dispose(bool disposing)
         {
-            if(disposing){
+            if (disposing) {
                 _textLabel?.Dispose();
                 _textLabel = null;
                 _checkBox?.Dispose();
@@ -243,25 +229,24 @@ namespace AiForms.Renderers.Droid
         }
     }
 
-    public class SimpleCheck: AView
+    public class SimpleCheck : AView
     {
         public Color Color { get; set; }
         Paint _paint = new Paint();
         Android.Content.Context _context;
 
-        public SimpleCheck(Android.Content.Context context):base(context)
+        public SimpleCheck(Android.Content.Context context) : base(context)
         {
             _context = context;
             SetWillNotDraw(false);
         }
 
-        public override bool Selected {
-            get
-            {
+        public override bool Selected
+        {
+            get {
                 return base.Selected;
             }
-            set
-            {
+            set {
                 base.Selected = value;
                 Invalidate();
             }
@@ -271,7 +256,7 @@ namespace AiForms.Renderers.Droid
         {
             base.OnDraw(canvas);
 
-            if(!base.Selected){
+            if (!base.Selected) {
                 return;
             }
 
@@ -285,24 +270,20 @@ namespace AiForms.Renderers.Droid
             var toX = 38f / 100f * canvas.Width;
             var toY = 68f / 100f * canvas.Height;
 
-            canvas.DrawLine(fromX, fromY, toX, toY,_paint);
+            canvas.DrawLine(fromX, fromY, toX, toY, _paint);
 
-            //fromX = toX;
-            //fromY = toY;
             fromX = 36f / 100f * canvas.Width;
             fromY = 66f / 100f * canvas.Height;
 
-            //toX = 76f / 100f * canvas.Width;
-            //toY = 30f / 100f * canvas.Height;
             toX = 74f / 100f * canvas.Width;
             toY = 28f / 100f * canvas.Height;
 
-            canvas.DrawLine(fromX, fromY,toX,toY,_paint);
+            canvas.DrawLine(fromX, fromY, toX, toY, _paint);
         }
 
         protected override void Dispose(bool disposing)
         {
-            if(disposing){
+            if (disposing) {
                 _paint?.Dispose();
                 _paint = null;
                 _context = null;

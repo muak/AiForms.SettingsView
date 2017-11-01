@@ -9,9 +9,9 @@ using Xamarin.Forms;
 [assembly: ExportRenderer(typeof(NumberPickerCell), typeof(NumberPickerCellRenderer))]
 namespace AiForms.Renderers.iOS
 {
-    public class NumberPickerCellRenderer:CellBaseRenderer<NumberPickerCellView>{}
+    public class NumberPickerCellRenderer : CellBaseRenderer<NumberPickerCellView> { }
 
-    public class NumberPickerCellView : LabelCellView,IPickerCell
+    public class NumberPickerCellView : LabelCellView, IPickerCell
     {
         public UITextField DummyField { get; set; }
         NumberPickerSource _model;
@@ -21,7 +21,8 @@ namespace AiForms.Renderers.iOS
 
         NumberPickerCell _NumberPikcerCell => Cell as NumberPickerCell;
 
-        public NumberPickerCellView(Cell formsCell):base(formsCell){
+        public NumberPickerCellView(Cell formsCell) : base(formsCell)
+        {
 
             DummyField = new NoCaretField();
             DummyField.BorderStyle = UITextBorderStyle.None;
@@ -48,7 +49,7 @@ namespace AiForms.Renderers.iOS
                 UpdateTitle();
 
             }
-            else if(e.PropertyName == NumberPickerCell.SelectedCommandProperty.PropertyName){
+            else if (e.PropertyName == NumberPickerCell.SelectedCommandProperty.PropertyName) {
                 UpdateCommand();
             }
         }
@@ -64,7 +65,7 @@ namespace AiForms.Renderers.iOS
 
         protected override void Dispose(bool disposing)
         {
-            if(disposing){
+            if (disposing) {
                 DummyField.RemoveFromSuperview();
                 DummyField?.Dispose();
                 DummyField = null;
@@ -90,21 +91,23 @@ namespace AiForms.Renderers.iOS
             _titleLabel.TextAlignment = UITextAlignment.Center;
 
             var toolbar = new UIToolbar(new CGRect(0, 0, (float)width, 44)) { BarStyle = UIBarStyle.Default, Translucent = true };
-            var cancelButton = new UIBarButtonItem(UIBarButtonSystemItem.Cancel, (o, e) => {
+            var cancelButton = new UIBarButtonItem(UIBarButtonSystemItem.Cancel, (o, e) =>
+            {
                 DummyField.ResignFirstResponder();
                 Select(_model.PreSelectedItem);
             });
 
             var labelButton = new UIBarButtonItem(_titleLabel);
             var spacer = new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace);
-            var doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, (o, a) => {
+            var doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, (o, a) =>
+            {
                 _model.OnUpdatePickerFormModel();
                 DummyField.ResignFirstResponder();
                 _command?.Execute(_model.SelectedItem);
             });
 
             toolbar.SetItems(new[] { cancelButton, spacer, labelButton, spacer, doneButton }, false);
-           
+
             DummyField.InputView = _picker;
             DummyField.InputAccessoryView = toolbar;
 
@@ -158,7 +161,7 @@ namespace AiForms.Renderers.iOS
                 number = _model.Items[0];
                 idx = 0;
             }
-            _picker.Select(idx,0,false);
+            _picker.Select(idx, 0, false);
             _model.SelectedItem = number;
             _model.SelectedIndex = idx;
             _model.PreSelectedItem = number;

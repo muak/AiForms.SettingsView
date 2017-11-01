@@ -8,8 +8,7 @@ namespace AiForms.Renderers.Droid.Extensions
     {
         public static GravityFlags ToGravityFlags(this TextAlignment forms)
         {
-            switch (forms)
-            {
+            switch (forms) {
                 case TextAlignment.Start:
                     return GravityFlags.Left | GravityFlags.CenterVertical;
                 case TextAlignment.Center:

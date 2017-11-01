@@ -1,31 +1,30 @@
 ﻿using System;
-using AiEntryCell = AiForms.Renderers.EntryCell;
-using Android.Content;
-using Xamarin.Forms;
-using Android.Text;
-using Android.Widget;
-using AView = Android.Views.View;
-using Android.Views.InputMethods;
-using Java.Lang;
-using Android.Views;
-using Xamarin.Forms.Platform.Android;
-using Android.OS;
-using Android.Content.Res;
 using AiForms.Renderers.Droid.Extensions;
+using Android.Content;
+using Android.Content.Res;
+using Android.OS;
+using Android.Text;
+using Android.Views;
+using Android.Views.InputMethods;
+using Android.Widget;
+using Java.Lang;
+using Xamarin.Forms;
+using Xamarin.Forms.Platform.Android;
+using AiEntryCell = AiForms.Renderers.EntryCell;
 
 [assembly: ExportRenderer(typeof(AiEntryCell), typeof(AiForms.Renderers.Droid.EntryCellRenderer))]
 namespace AiForms.Renderers.Droid
 {
-    public class EntryCellRenderer:CellBaseRenderer<EntryCellView>{}
+    public class EntryCellRenderer : CellBaseRenderer<EntryCellView> { }
 
-    public class EntryCellView:CellBaseView,ITextWatcher,
-        TextView.IOnFocusChangeListener,TextView.IOnEditorActionListener
+    public class EntryCellView : CellBaseView, ITextWatcher,
+        TextView.IOnFocusChangeListener, TextView.IOnEditorActionListener
     {
         AiEntryCell _EntryCell => Cell as AiEntryCell;
 
         AiEditText _EditText;
 
-        public EntryCellView(Context context,Cell cell):base(context,cell)
+        public EntryCellView(Context context, Cell cell) : base(context, cell)
         {
             _EditText = new AiEditText(context);
 
@@ -49,10 +48,9 @@ namespace AiForms.Renderers.Droid
             titleParam.Width = ViewGroup.LayoutParams.WrapContent;
             titleParam = null;
 
-            var lparams = new LinearLayout.LayoutParams(0,ViewGroup.LayoutParams.WrapContent, 1f);
+            var lparams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WrapContent, 1f);
 
-            using (lparams)
-            {
+            using (lparams) {
                 ContentStack.AddView(_EditText, lparams);
             }
         }
@@ -72,31 +70,25 @@ namespace AiForms.Renderers.Droid
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
-            if (e.PropertyName == AiEntryCell.ValueTextProperty.PropertyName)
-            {
+            if (e.PropertyName == AiEntryCell.ValueTextProperty.PropertyName) {
                 UpdateValueText();
             }
-            else if (e.PropertyName == AiEntryCell.ValueTextFontSizeProperty.PropertyName)
-            {
+            else if (e.PropertyName == AiEntryCell.ValueTextFontSizeProperty.PropertyName) {
                 UpdateWithForceLayout(UpdateValueTextFontSize);
             }
-            else if (e.PropertyName == AiEntryCell.ValueTextColorProperty.PropertyName)
-            {
+            else if (e.PropertyName == AiEntryCell.ValueTextColorProperty.PropertyName) {
                 UpdateWithForceLayout(UpdateValueTextColor);
             }
-            else if (e.PropertyName == AiEntryCell.KeyboardProperty.PropertyName)
-            {
+            else if (e.PropertyName == AiEntryCell.KeyboardProperty.PropertyName) {
                 UpdateKeyboard();
             }
-            else if (e.PropertyName == AiEntryCell.PlaceholderProperty.PropertyName)
-            {
+            else if (e.PropertyName == AiEntryCell.PlaceholderProperty.PropertyName) {
                 UpdatePlaceholder();
             }
-            else if(e.PropertyName == AiEntryCell.AccentColorProperty.PropertyName){
+            else if (e.PropertyName == AiEntryCell.AccentColorProperty.PropertyName) {
                 UpdateAccentColor();
             }
-            else if (e.PropertyName == AiEntryCell.TextAlignmentProperty.PropertyName)
-            {
+            else if (e.PropertyName == AiEntryCell.TextAlignmentProperty.PropertyName) {
                 UpdateTextAlignment();
             }
         }
@@ -104,15 +96,13 @@ namespace AiForms.Renderers.Droid
         public override void ParentPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.ParentPropertyChanged(sender, e);
-            if (e.PropertyName == SettingsView.CellValueTextColorProperty.PropertyName)
-            {
+            if (e.PropertyName == SettingsView.CellValueTextColorProperty.PropertyName) {
                 UpdateValueTextColor();
             }
-            else if (e.PropertyName == SettingsView.CellValueTextFontSizeProperty.PropertyName)
-            {
+            else if (e.PropertyName == SettingsView.CellValueTextFontSizeProperty.PropertyName) {
                 UpdateWithForceLayout(UpdateValueTextFontSize);
             }
-            else if( e.PropertyName == SettingsView.CellAccentColorProperty.PropertyName){
+            else if (e.PropertyName == SettingsView.CellAccentColorProperty.PropertyName) {
                 UpdateAccentColor();
             }
         }
@@ -120,7 +110,7 @@ namespace AiForms.Renderers.Droid
 
         protected override void Dispose(bool disposing)
         {
-            if(disposing){
+            if (disposing) {
                 Click -= EntryCellView_Click;
                 _EditText.RemoveFromParent();
                 _EditText.SetOnEditorActionListener(null);
@@ -142,8 +132,7 @@ namespace AiForms.Renderers.Droid
         void UpdateValueText()
         {
             _EditText.RemoveTextChangedListener(this);
-            if (_EditText.Text != _EntryCell.ValueText)
-            {
+            if (_EditText.Text != _EntryCell.ValueText) {
                 _EditText.Text = _EntryCell.ValueText;
             }
             _EditText.AddTextChangedListener(this);
@@ -151,24 +140,20 @@ namespace AiForms.Renderers.Droid
 
         void UpdateValueTextFontSize()
         {
-            if (_EntryCell.ValueTextFontSize > 0)
-            {
+            if (_EntryCell.ValueTextFontSize > 0) {
                 _EditText.SetTextSize(Android.Util.ComplexUnitType.Sp, (float)_EntryCell.ValueTextFontSize);
             }
-            else if (CellParent != null)
-            {
+            else if (CellParent != null) {
                 _EditText.SetTextSize(Android.Util.ComplexUnitType.Sp, (float)CellParent.CellValueTextFontSize);
             }
         }
 
         void UpdateValueTextColor()
         {
-            if (_EntryCell.ValueTextColor != Xamarin.Forms.Color.Default)
-            {
+            if (_EntryCell.ValueTextColor != Xamarin.Forms.Color.Default) {
                 _EditText.SetTextColor(_EntryCell.ValueTextColor.ToAndroid());
             }
-            else if (CellParent != null && CellParent.CellValueTextColor != Xamarin.Forms.Color.Default)
-            {
+            else if (CellParent != null && CellParent.CellValueTextColor != Xamarin.Forms.Color.Default) {
                 _EditText.SetTextColor(CellParent.CellValueTextColor.ToAndroid());
             }
         }
@@ -191,12 +176,10 @@ namespace AiForms.Renderers.Droid
 
         void UpdateAccentColor()
         {
-            if (_EntryCell.AccentColor != Xamarin.Forms.Color.Default)
-            {
+            if (_EntryCell.AccentColor != Xamarin.Forms.Color.Default) {
                 ChangeTextViewBack(_EntryCell.AccentColor.ToAndroid());
             }
-            else if (CellParent != null && CellParent.CellAccentColor != Xamarin.Forms.Color.Default)
-            {
+            else if (CellParent != null && CellParent.CellAccentColor != Xamarin.Forms.Color.Default) {
                 ChangeTextViewBack(CellParent.CellAccentColor.ToAndroid());
             }
         }
@@ -219,8 +202,7 @@ namespace AiForms.Renderers.Droid
         bool TextView.IOnEditorActionListener.OnEditorAction(TextView v, ImeAction actionId, Android.Views.KeyEvent e)
         {
             if (actionId == ImeAction.Done ||
-                    (actionId == ImeAction.ImeNull && e.KeyCode == Keycode.Enter))
-            {
+                    (actionId == ImeAction.ImeNull && e.KeyCode == Keycode.Enter)) {
                 HideKeyboard(v);
                 DoneEdit();
             }
@@ -238,8 +220,7 @@ namespace AiForms.Renderers.Droid
 
         void HideKeyboard(Android.Views.View inputView)
         {
-            using (var inputMethodManager = (InputMethodManager)Forms.Context.GetSystemService(Context.InputMethodService))
-            {
+            using (var inputMethodManager = (InputMethodManager)Forms.Context.GetSystemService(Context.InputMethodService)) {
                 IBinder windowToken = inputView.WindowToken;
                 if (windowToken != null)
                     inputMethodManager.HideSoftInputFromWindow(windowToken, HideSoftInputFlags.None);
@@ -247,8 +228,7 @@ namespace AiForms.Renderers.Droid
         }
         void ShowKeyboard(Android.Views.View inputView)
         {
-            using (var inputMethodManager = (InputMethodManager)Forms.Context.GetSystemService(Context.InputMethodService))
-            {
+            using (var inputMethodManager = (InputMethodManager)Forms.Context.GetSystemService(Context.InputMethodService)) {
 
                 inputMethodManager.ShowSoftInput(inputView, ShowFlags.Forced);
                 inputMethodManager.ToggleSoftInput(ShowFlags.Forced, HideSoftInputFlags.ImplicitOnly);
@@ -271,29 +251,27 @@ namespace AiForms.Renderers.Droid
 
         void IOnFocusChangeListener.OnFocusChange(Android.Views.View v, bool hasFocus)
         {
-            if (hasFocus)
-            {
-                //フォーカス時のみ下線表示
+            if (hasFocus) {
+                //show underline when on focus.
                 _EditText.Background.Alpha = 100;
             }
-            else
-            {
-                //非フォーカス時は非表示
+            else {
+                //hide underline
                 _EditText.Background.Alpha = 0;
             }
         }
     }
 
-    internal class AiEditText:EditText
+    internal class AiEditText : EditText
     {
         public Action ClearFocusAction { get; set; }
-        public AiEditText(Context context):base(context)
+        public AiEditText(Context context) : base(context)
         {
         }
 
         public override bool OnKeyPreIme(Keycode keyCode, KeyEvent e)
         {
-            if(keyCode == Keycode.Back && e.Action == KeyEventActions.Up){
+            if (keyCode == Keycode.Back && e.Action == KeyEventActions.Up) {
                 ClearFocus();
                 ClearFocusAction?.Invoke();
             }

@@ -1,13 +1,10 @@
 ﻿using System;
 using AiForms.Renderers;
 using AiForms.Renderers.Droid;
-using Android.Content.Res;
-using Android.Graphics.Drawables;
 using Android.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using AListView = Android.Widget.ListView;
-using System.Threading.Tasks;
 
 [assembly: ExportRenderer(typeof(SettingsView), typeof(SettingsViewRenderer))]
 namespace AiForms.Renderers.Droid
@@ -41,18 +38,16 @@ namespace AiForms.Renderers.Droid
                 _adapter = new SettingsViewAdapter(Context, e.NewElement, Control);
                 Control.Adapter = _adapter;
 
-                //Divider非表示
+                //hide Divider
                 Control.DividerHeight = 0;
                 Control.Divider = null;
                 Control.SetFooterDividersEnabled(false);
                 Control.SetHeaderDividersEnabled(false);
 
                 Element elm = Element;
-                while (elm != null)
-                {
+                while (elm != null) {
                     elm = elm.Parent;
-                    if (elm is Page)
-                    {
+                    if (elm is Page) {
                         break;
                     }
                 }
@@ -71,7 +66,7 @@ namespace AiForms.Renderers.Droid
         {
             base.OnElementPropertyChanged(sender, e);
             if (e.PropertyName == SettingsView.SeparatorColorProperty.PropertyName) {
-                _adapter.NotifyDataSetChanged();       
+                _adapter.NotifyDataSetChanged();
             }
             else if (e.PropertyName == SettingsView.BackgroundColorProperty.PropertyName) {
                 UpdateBackgroundColor();
@@ -79,26 +74,26 @@ namespace AiForms.Renderers.Droid
             else if (e.PropertyName == TableView.RowHeightProperty.PropertyName) {
                 UpdateRowHeight();
             }
-            else if( e.PropertyName == SettingsView.UseDescriptionAsValueProperty.PropertyName){
+            else if (e.PropertyName == SettingsView.UseDescriptionAsValueProperty.PropertyName) {
                 _adapter.NotifyDataSetChanged();
             }
-            else if(e.PropertyName == SettingsView.SelectedColorProperty.PropertyName){
+            else if (e.PropertyName == SettingsView.SelectedColorProperty.PropertyName) {
                 UpdateSelectedColor();
             }
-            else if(e.PropertyName == SettingsView.ShowSectionTopBottomBorderProperty.PropertyName){
+            else if (e.PropertyName == SettingsView.ShowSectionTopBottomBorderProperty.PropertyName) {
                 _adapter.NotifyDataSetChanged();
             }
-            else if(e.PropertyName == TableView.HasUnevenRowsProperty.PropertyName){
+            else if (e.PropertyName == TableView.HasUnevenRowsProperty.PropertyName) {
                 _adapter.NotifyDataSetChanged();
             }
         }
 
         void UpdateRowHeight()
         {
-            if(Element.RowHeight == -1){
+            if (Element.RowHeight == -1) {
                 Element.RowHeight = 60;
             }
-            else{
+            else {
                 _adapter?.NotifyDataSetChanged();
             }
         }
@@ -106,24 +101,23 @@ namespace AiForms.Renderers.Droid
         void UpdateSelectedColor()
         {
             var color = Android.Graphics.Color.Rgb(180, 180, 180);
-            if (Element.SelectedColor != Xamarin.Forms.Color.Default)
-            {
+            if (Element.SelectedColor != Xamarin.Forms.Color.Default) {
                 color = Element.SelectedColor.ToAndroid();
             }
 
             Control.Selector = DrawableUtility.CreateRipple(color);
-        }      
+        }
 
         new void UpdateBackgroundColor()
         {
-            if (Element.BackgroundColor != Xamarin.Forms.Color.Default){
+            if (Element.BackgroundColor != Xamarin.Forms.Color.Default) {
                 Control.SetBackgroundColor(Element.BackgroundColor.ToAndroid());
             }
         }
 
         protected override void Dispose(bool disposing)
         {
-            if(disposing){
+            if (disposing) {
                 _parentPage.Appearing -= ParentPageAppearing;
                 Control?.Selector?.Dispose();
                 _adapter?.Dispose();

@@ -58,22 +58,26 @@ public override bool FinishedLaunching(UIApplication app, NSDictionary options) 
 
 hogehoge...
 
-## Properties of SettingsView
+## SettingsView Properties
 
 * BackgroundColor
 	* A color of out of region and entire region. They contains header, footer and cell (in case android).
 * SeparatorColor
+    * row separator color.
 * SelectedColor
+    * backgraound color when row is selected.
 * HeaderPadding
 * HeaderTextColor
 * HeaderFontSize
 * HeaderTextVerticalAlign
 * HeaderBackgroundColor
 * HeaderHeight
+    * they are section header options.
 * FooterTextColor
 * FooterFontSize
 * FooterBackgroundColor
 * FooterPadding
+    * they are section footer options.
 * RowHeight
 	* If HasUnevenRows is false, this value apply to each row height;
 	* otherwise this value is used as minimum row height. 
@@ -91,20 +95,23 @@ hogehoge...
 * CellAccentColor
 * CellHintTextColor
 * CellHintFontSize
+    * they are bulk cell options.
 * UseDescriptionAsValue (for Android)
 	* Whether description field  is used as value field. (like general android app)
+    * default true
 * ShowSectionTopBottomBorder (for Android)
 	* Whether a separator is shown at section top and bottom. (like general android app)
+    * default false
 
-## Method of SettingsView
+## SettingsView Methods
 
 * ClearCache (static)
 	* clear all memory cache.
 
-## Properties of Section
+## Section Properties
 
 * Title
-	* same Xamarin.Forms.TableSection.
+	* the same Xamarin.Forms.TableSection.
 * FooterText
 	* Section footer text.
 * IsVisible
@@ -122,10 +129,39 @@ hogehoge...
 * [DatePickerCell](#datepickercell)
 * [PickerCell](#pickercell)
 * [EntryCell](#entrycell)
+* [ButtonCell](#buttoncell)
 
 ## CellBase
 
+### Layout of cellbase
 
+<div style="display:flex;width:360px;height:100px;border:solid 1px silver">
+    <div style="display:flex;align-items:center;justify-content:center;width:100px;height:100px;border-right:solid 1px silver;">Icon</div>
+    <div style="display:flex;flex-direction:column;flex-grow:100;">
+        <div style="display:flex;align-items:center;height:50px;border-bottom:solid 1px silver;">
+            <div style="display:flex;padding-left:6px;">Title</div>
+            <div style="display:flex;flex-grow:100;justify-content:flex-end;padding-right:6px;">ValueText</div>            
+        </div>
+        <div style="display:flex;align-items:center;height:50px;padding-left:6px;">
+            Description
+        </div>
+    </div>
+    <div style="display:flex;align-items:center;justify-cntent:center;width:30px;height:100;border-left:solid 1px silver;padding:3px;">
+        Accessory
+    </div>
+</div>
+<br/>
+
+* Icon
+    * If not specify a imagesource, icon will be hidden.
+* Description
+    * If not specify any text, description will be hidden.
+* Accessory
+    * Be used by a CheckboxCell and  a SwitchCell; Otherwise will be hidden. 
+
+### Properties
+
+* 
 
 ## License
 

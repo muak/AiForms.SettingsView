@@ -3,14 +3,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using Android.Content;
 using Android.Graphics;
+using Android.Graphics.Drawables;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using ARelativeLayout = Android.Widget.RelativeLayout;
-using Android.Graphics.Drawables;
-using Android.Content.Res;
 
 namespace AiForms.Renderers.Droid
 {
@@ -63,8 +62,8 @@ namespace AiForms.Renderers.Droid
 
             var sel = new StateListDrawable();
 
-            sel.AddState(new int[] { global::Android.Resource.Attribute.StateSelected },_selectedColor);
-            sel.AddState(new int[]{-global::Android.Resource.Attribute.StateSelected},_backgroundColor);
+            sel.AddState(new int[] { global::Android.Resource.Attribute.StateSelected }, _selectedColor);
+            sel.AddState(new int[] { -global::Android.Resource.Attribute.StateSelected }, _backgroundColor);
             sel.SetExitFadeDuration(250);
             sel.SetEnterFadeDuration(250);
             Background = sel;
@@ -75,55 +74,43 @@ namespace AiForms.Renderers.Droid
 
         public virtual void CellPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == CellBase.TitleProperty.PropertyName)
-            {
+            if (e.PropertyName == CellBase.TitleProperty.PropertyName) {
                 UpdateTitleText();
             }
-            else if (e.PropertyName == CellBase.TitleColorProperty.PropertyName)
-            {
+            else if (e.PropertyName == CellBase.TitleColorProperty.PropertyName) {
                 UpdateTitleColor();
             }
-            else if (e.PropertyName == CellBase.TitleFontSizeProperty.PropertyName)
-            {
+            else if (e.PropertyName == CellBase.TitleFontSizeProperty.PropertyName) {
                 UpdateTitleFontSize();
             }
-            else if (e.PropertyName == CellBase.DescriptionProperty.PropertyName)
-            {
+            else if (e.PropertyName == CellBase.DescriptionProperty.PropertyName) {
                 UpdateDescriptionText();
             }
-            else if (e.PropertyName == CellBase.DescriptionFontSizeProperty.PropertyName)
-            {
+            else if (e.PropertyName == CellBase.DescriptionFontSizeProperty.PropertyName) {
                 UpdateDescriptionFontSize();
             }
-            else if (e.PropertyName == CellBase.DescriptionColorProperty.PropertyName)
-            {
+            else if (e.PropertyName == CellBase.DescriptionColorProperty.PropertyName) {
                 UpdateDescriptionColor();
             }
-            else if (e.PropertyName == CellBase.IconSourceProperty.PropertyName)
-            {
+            else if (e.PropertyName == CellBase.IconSourceProperty.PropertyName) {
                 UpdateIcon();
             }
-            else if (e.PropertyName == CellBase.BackgroundColorProperty.PropertyName)
-            {
+            else if (e.PropertyName == CellBase.BackgroundColorProperty.PropertyName) {
                 UpdateBackgroundColor();
             }
-            else if (e.PropertyName == CellBase.HintTextProperty.PropertyName)
-            {
+            else if (e.PropertyName == CellBase.HintTextProperty.PropertyName) {
                 UpdateWithForceLayout(UpdateHintText);
             }
-            else if (e.PropertyName == CellBase.HintTextColorProperty.PropertyName)
-            {
+            else if (e.PropertyName == CellBase.HintTextColorProperty.PropertyName) {
                 UpdateHintTextColor();
             }
-            else if (e.PropertyName == CellBase.HintFontSizeProperty.PropertyName)
-            {
+            else if (e.PropertyName == CellBase.HintFontSizeProperty.PropertyName) {
                 UpdateWithForceLayout(UpdateHintFontSize);
             }
-            else if (e.PropertyName == CellBase.IconSizeProperty.PropertyName)
-            {
+            else if (e.PropertyName == CellBase.IconSizeProperty.PropertyName) {
                 UpdateIcon();
             }
-            else if(e.PropertyName == CellBase.IconRadiusProperty.PropertyName){
+            else if (e.PropertyName == CellBase.IconRadiusProperty.PropertyName) {
                 UpdateIconRadius();
                 UpdateIcon(true);
             }
@@ -131,42 +118,35 @@ namespace AiForms.Renderers.Droid
 
         public virtual void ParentPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == SettingsView.CellTitleColorProperty.PropertyName)
-            {
+            if (e.PropertyName == SettingsView.CellTitleColorProperty.PropertyName) {
                 UpdateTitleColor();
             }
-            else if (e.PropertyName == SettingsView.CellTitleFontSizeProperty.PropertyName)
-            {
+            else if (e.PropertyName == SettingsView.CellTitleFontSizeProperty.PropertyName) {
                 UpdateWithForceLayout(UpdateTitleFontSize);
             }
-            else if (e.PropertyName == SettingsView.CellDescriptionColorProperty.PropertyName)
-            {
+            else if (e.PropertyName == SettingsView.CellDescriptionColorProperty.PropertyName) {
                 UpdateDescriptionColor();
             }
-            else if (e.PropertyName == SettingsView.CellDescriptionFontSizeProperty.PropertyName)
-            {
+            else if (e.PropertyName == SettingsView.CellDescriptionFontSizeProperty.PropertyName) {
                 UpdateWithForceLayout(UpdateDescriptionFontSize);
             }
-            else if (e.PropertyName == SettingsView.CellBackgroundColorProperty.PropertyName)
-            {
+            else if (e.PropertyName == SettingsView.CellBackgroundColorProperty.PropertyName) {
                 UpdateBackgroundColor();
             }
-            else if (e.PropertyName == SettingsView.CellHintTextColorProperty.PropertyName)
-            {
+            else if (e.PropertyName == SettingsView.CellHintTextColorProperty.PropertyName) {
                 UpdateHintTextColor();
             }
-            else if (e.PropertyName == SettingsView.CellHintFontSizeProperty.PropertyName)
-            {
+            else if (e.PropertyName == SettingsView.CellHintFontSizeProperty.PropertyName) {
                 UpdateWithForceLayout(UpdateHintFontSize);
             }
-            else if(e.PropertyName == SettingsView.CellIconSizeProperty.PropertyName){
-               UpdateIcon();
+            else if (e.PropertyName == SettingsView.CellIconSizeProperty.PropertyName) {
+                UpdateIcon();
             }
-            else if( e.PropertyName == SettingsView.CellIconRadiusProperty.PropertyName){
+            else if (e.PropertyName == SettingsView.CellIconRadiusProperty.PropertyName) {
                 UpdateIconRadius();
                 UpdateIcon(true);
             }
-            else if(e.PropertyName == SettingsView.SelectedColorProperty.PropertyName){
+            else if (e.PropertyName == SettingsView.SelectedColorProperty.PropertyName) {
                 UpdateSelectedColor();
             }
         }
@@ -201,15 +181,13 @@ namespace AiForms.Renderers.Droid
         {
             Selected = false;
 
-            if (CellBase.BackgroundColor != Xamarin.Forms.Color.Default)
-            {
+            if (CellBase.BackgroundColor != Xamarin.Forms.Color.Default) {
                 _backgroundColor.Color = CellBase.BackgroundColor.ToAndroid();
             }
-            else if (CellParent != null && CellParent.CellBackgroundColor != Xamarin.Forms.Color.Default)
-            {
+            else if (CellParent != null && CellParent.CellBackgroundColor != Xamarin.Forms.Color.Default) {
                 _backgroundColor.Color = CellParent.CellBackgroundColor.ToAndroid();
             }
-            else{
+            else {
                 _backgroundColor.Color = Android.Graphics.Color.Transparent;
             }
         }
@@ -228,36 +206,32 @@ namespace AiForms.Renderers.Droid
         {
             TitleLabel.Text = CellBase.Title;
             //hide TextView right padding when TextView.Text empty.
-            TitleLabel.Visibility = string.IsNullOrEmpty(TitleLabel.Text) ? ViewStates.Gone : ViewStates.Visible; 
+            TitleLabel.Visibility = string.IsNullOrEmpty(TitleLabel.Text) ? ViewStates.Gone : ViewStates.Visible;
         }
 
         void UpdateTitleColor()
         {
-            if (CellBase.TitleColor != Xamarin.Forms.Color.Default)
-            {
+            if (CellBase.TitleColor != Xamarin.Forms.Color.Default) {
                 TitleLabel.SetTextColor(CellBase.TitleColor.ToAndroid());
             }
-            else if (CellParent != null && CellParent.CellTitleColor != Xamarin.Forms.Color.Default)
-            {
+            else if (CellParent != null && CellParent.CellTitleColor != Xamarin.Forms.Color.Default) {
                 TitleLabel.SetTextColor(CellParent.CellTitleColor.ToAndroid());
             }
-            else{
+            else {
                 TitleLabel.SetTextColor(_defaultTextColor);
             }
         }
 
         void UpdateTitleFontSize()
         {
-            if (CellBase.TitleFontSize > 0)
-            {
+            if (CellBase.TitleFontSize > 0) {
                 TitleLabel.SetTextSize(ComplexUnitType.Sp, (float)CellBase.TitleFontSize);
             }
-            else if (CellParent != null)
-            {
+            else if (CellParent != null) {
                 TitleLabel.SetTextSize(ComplexUnitType.Sp, (float)CellParent.CellTitleFontSize);
             }
-            else{
-                TitleLabel.SetTextSize(ComplexUnitType.Sp,_defaultFontSize);
+            else {
+                TitleLabel.SetTextSize(ComplexUnitType.Sp, _defaultFontSize);
             }
         }
 
@@ -270,30 +244,26 @@ namespace AiForms.Renderers.Droid
 
         void UpdateDescriptionFontSize()
         {
-            if (CellBase.DescriptionFontSize > 0)
-            {
+            if (CellBase.DescriptionFontSize > 0) {
                 DescriptionLabel.SetTextSize(ComplexUnitType.Sp, (float)CellBase.DescriptionFontSize);
             }
-            else if (CellParent != null)
-            {
+            else if (CellParent != null) {
                 DescriptionLabel.SetTextSize(ComplexUnitType.Sp, (float)CellParent.CellDescriptionFontSize);
             }
-            else{
+            else {
                 DescriptionLabel.SetTextSize(ComplexUnitType.Sp, _defaultFontSize);
             }
         }
 
         void UpdateDescriptionColor()
         {
-            if (CellBase.DescriptionColor != Xamarin.Forms.Color.Default)
-            {
+            if (CellBase.DescriptionColor != Xamarin.Forms.Color.Default) {
                 DescriptionLabel.SetTextColor(CellBase.DescriptionColor.ToAndroid());
             }
-            else if (CellParent != null && CellParent.CellDescriptionColor != Xamarin.Forms.Color.Default)
-            {
+            else if (CellParent != null && CellParent.CellDescriptionColor != Xamarin.Forms.Color.Default) {
                 DescriptionLabel.SetTextColor(CellParent.CellDescriptionColor.ToAndroid());
             }
-            else{
+            else {
                 DescriptionLabel.SetTextColor(_defaultTextColor);
             }
         }
@@ -301,8 +271,7 @@ namespace AiForms.Renderers.Droid
         void UpdateHintText()
         {
             var msg = CellBase.HintText;
-            if (string.IsNullOrEmpty(msg))
-            {
+            if (string.IsNullOrEmpty(msg)) {
                 HintLabel.Visibility = ViewStates.Gone;
                 return;
             }
@@ -313,44 +282,36 @@ namespace AiForms.Renderers.Droid
 
         void UpdateHintTextColor()
         {
-            if (CellBase.HintTextColor != Xamarin.Forms.Color.Default)
-            {
+            if (CellBase.HintTextColor != Xamarin.Forms.Color.Default) {
                 HintLabel.SetTextColor(CellBase.HintTextColor.ToAndroid());
             }
-            else if (CellParent != null && CellParent.CellHintTextColor != Xamarin.Forms.Color.Default)
-            {
+            else if (CellParent != null && CellParent.CellHintTextColor != Xamarin.Forms.Color.Default) {
                 HintLabel.SetTextColor(CellParent.CellHintTextColor.ToAndroid());
             }
-            else
-            {
+            else {
                 HintLabel.SetTextColor(_defaultTextColor);
             }
         }
 
         void UpdateHintFontSize()
         {
-            if (CellBase.HintFontSize > 0)
-            {
+            if (CellBase.HintFontSize > 0) {
                 HintLabel.SetTextSize(ComplexUnitType.Sp, (float)CellBase.HintFontSize);
             }
-            else if (CellParent != null)
-            {
+            else if (CellParent != null) {
                 HintLabel.SetTextSize(ComplexUnitType.Sp, (float)CellParent.CellHintFontSize);
             }
-            else
-            {
+            else {
                 HintLabel.SetTextSize(ComplexUnitType.Sp, _defaultFontSize);
             }
         }
 
         void UpdateIconRadius()
         {
-            if (CellBase.IconRadius >= 0)
-            {
+            if (CellBase.IconRadius >= 0) {
                 _iconRadius = _context.ToPixels(CellBase.IconRadius);
             }
-            else if (CellParent != null)
-            {
+            else if (CellParent != null) {
                 _iconRadius = _context.ToPixels(CellParent.CellIconRadius);
             }
         }
@@ -358,16 +319,13 @@ namespace AiForms.Renderers.Droid
         void UpdateIconSize()
         {
             Xamarin.Forms.Size size;
-            if (CellBase.IconSize != default(Xamarin.Forms.Size))
-            {
+            if (CellBase.IconSize != default(Xamarin.Forms.Size)) {
                 size = CellBase.IconSize;
             }
-            else if (CellParent != null && CellParent.CellIconSize != default(Xamarin.Forms.Size))
-            {
+            else if (CellParent != null && CellParent.CellIconSize != default(Xamarin.Forms.Size)) {
                 size = CellParent.CellIconSize;
             }
-            else
-            {
+            else {
                 size = new Xamarin.Forms.Size(36, 36);
             }
 
@@ -378,26 +336,22 @@ namespace AiForms.Renderers.Droid
         void UpdateIcon(bool forceLoad = false)
         {
 
-            if (_iconTokenSource != null && !_iconTokenSource.IsCancellationRequested)
-            {
-                //前のがキャンセルされてなければとりあえずキャンセル
+            if (_iconTokenSource != null && !_iconTokenSource.IsCancellationRequested) {
+                //if previous task be alive, cancel. 
                 _iconTokenSource.Cancel();
             }
 
             UpdateIconSize();
 
-            if (IconView.Drawable != null)
-            {
+            if (IconView.Drawable != null) {
                 IconView.SetImageDrawable(null);
                 IconView.SetImageBitmap(null);
             }
 
-            if (CellBase.IconSource != null)
-            {
+            if (CellBase.IconSource != null) {
                 IconView.Visibility = ViewStates.Visible;
                 var cache = ImageCacheController.Instance.Get(CellBase.IconSource.GetHashCode()) as Bitmap;
-                if (cache != null && !forceLoad)
-                {
+                if (cache != null && !forceLoad) {
                     IconView.SetImageBitmap(cache);
                     Invalidate();
                     return;
@@ -406,8 +360,7 @@ namespace AiForms.Renderers.Droid
                 var handler = Xamarin.Forms.Internals.Registrar.Registered.GetHandler<IImageSourceHandler>(CellBase.IconSource.GetType());
                 LoadIconImage(handler, CellBase.IconSource);
             }
-            else
-            {
+            else {
                 IconView.Visibility = ViewStates.Gone;
             }
         }
@@ -419,17 +372,19 @@ namespace AiForms.Renderers.Droid
             Bitmap image = null;
 
             var scale = (float)_context.Resources.DisplayMetrics.Density;
-            Task.Run(async () => {
+            Task.Run(async () =>
+            {
                 image = await handler.LoadImageAsync(source, _context, token);
                 token.ThrowIfCancellationRequested();
                 image = CreateRoundImage(image);
-            }, token).ContinueWith(t => {
-                if (t.IsCompleted)
-                {
+            }, token).ContinueWith(t =>
+            {
+                if (t.IsCompleted) {
                     //entrust disposal of returned old image to Android OS.
                     ImageCacheController.Instance.Put(CellBase.IconSource.GetHashCode(), image);
-                   
-                    Device.BeginInvokeOnMainThread(() => {
+
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
                         Task.Delay(50); // in case repeating the same source, sometimes the icon not be shown. by inserting delay it be shown.
                         IconView.SetImageBitmap(image);
                         Invalidate();
@@ -443,14 +398,14 @@ namespace AiForms.Renderers.Droid
             var clipArea = Bitmap.CreateBitmap(image.Width, image.Height, Bitmap.Config.Argb8888);
             var canvas = new Canvas(clipArea);
             var paint = new Paint(PaintFlags.AntiAlias);
-            canvas.DrawARGB(0,0,0,0);
-            canvas.DrawRoundRect(new RectF(0,0,image.Width,image.Height),_iconRadius,_iconRadius,paint);
+            canvas.DrawARGB(0, 0, 0, 0);
+            canvas.DrawRoundRect(new RectF(0, 0, image.Width, image.Height), _iconRadius, _iconRadius, paint);
 
 
             paint.SetXfermode(new PorterDuffXfermode(PorterDuff.Mode.SrcIn));
 
             var rect = new Rect(0, 0, image.Width, image.Height);
-            canvas.DrawBitmap(image,rect,rect,paint);
+            canvas.DrawBitmap(image, rect, rect, paint);
 
             image.Recycle();
             image.Dispose();
@@ -467,8 +422,7 @@ namespace AiForms.Renderers.Droid
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
+            if (disposing) {
                 CellBase.PropertyChanged -= CellPropertyChanged;
                 CellParent.PropertyChanged -= ParentPropertyChanged;
 

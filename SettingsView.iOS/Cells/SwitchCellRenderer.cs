@@ -8,7 +8,7 @@ using AiSwitchCell = AiForms.Renderers.SwitchCell;
 [assembly: ExportRenderer(typeof(AiSwitchCell), typeof(AiSwitchCellRenderer))]
 namespace AiForms.Renderers.iOS
 {
-    public class SwitchCellRenderer : CellBaseRenderer<SwitchCellView>{}
+    public class SwitchCellRenderer : CellBaseRenderer<SwitchCellView> { }
 
     public class SwitchCellView : CellBaseView
     {
@@ -22,7 +22,6 @@ namespace AiForms.Renderers.iOS
             _switch.ValueChanged += _switch_ValueChanged;
 
             this.AccessoryView = _switch;
-            //ContentStack.AddArrangedSubview(_switch);
         }
 
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

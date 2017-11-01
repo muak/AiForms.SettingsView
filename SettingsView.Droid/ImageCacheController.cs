@@ -4,9 +4,10 @@ namespace AiForms.Renderers.Droid
 {
     public static class ImageCacheController
     {
-        public static MemoryLimitedLruCache Instance{
+        public static MemoryLimitedLruCache Instance
+        {
             get {
-                if(_CacheInstance == null){
+                if (_CacheInstance == null) {
                     _CacheInstance = new MemoryLimitedLruCache(CacheSize);
                     SettingsView._clearCache = Clear;
                 }

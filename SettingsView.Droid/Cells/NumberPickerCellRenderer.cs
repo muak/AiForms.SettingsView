@@ -12,9 +12,9 @@ using APicker = Android.Widget.NumberPicker;
 [assembly: ExportRenderer(typeof(NumberPickerCell), typeof(NumberPickerCellRenderer))]
 namespace AiForms.Renderers.Droid
 {
-    public class NumberPickerCellRenderer:CellBaseRenderer<NumberPickerCellView>{}
+    public class NumberPickerCellRenderer : CellBaseRenderer<NumberPickerCellView> { }
 
-    public class NumberPickerCellView : LabelCellView,IPickerCell
+    public class NumberPickerCellView : LabelCellView, IPickerCell
     {
         NumberPickerCell _NumberPikcerCell => Cell as NumberPickerCell;
         APicker _picker;
@@ -33,24 +33,19 @@ namespace AiForms.Renderers.Droid
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
-            if (e.PropertyName == NumberPickerCell.MinProperty.PropertyName)
-            {
+            if (e.PropertyName == NumberPickerCell.MinProperty.PropertyName) {
                 UpdateMin();
             }
-            else if (e.PropertyName == NumberPickerCell.MaxProperty.PropertyName)
-            {
+            else if (e.PropertyName == NumberPickerCell.MaxProperty.PropertyName) {
                 UpdateMax();
             }
-            else if (e.PropertyName == NumberPickerCell.NumberProperty.PropertyName)
-            {
+            else if (e.PropertyName == NumberPickerCell.NumberProperty.PropertyName) {
                 UpdateNumber();
             }
-            else if (e.PropertyName == NumberPickerCell.PickerTitleProperty.PropertyName)
-            {
+            else if (e.PropertyName == NumberPickerCell.PickerTitleProperty.PropertyName) {
                 UpdatePickerTitle();
             }
-            else if (e.PropertyName == NumberPickerCell.SelectedCommandProperty.PropertyName)
-            {
+            else if (e.PropertyName == NumberPickerCell.SelectedCommandProperty.PropertyName) {
                 UpdateCommand();
             }
         }
@@ -67,7 +62,7 @@ namespace AiForms.Renderers.Droid
 
         protected override void Dispose(bool disposing)
         {
-            if(disposing){
+            if (disposing) {
                 _picker?.Dispose();
                 _picker = null;
                 _dialog?.Dispose();
@@ -115,10 +110,8 @@ namespace AiForms.Renderers.Droid
             _picker.MaxValue = _max;
             _picker.Value = _NumberPikcerCell.Number;
 
-            if (_dialog == null)
-            {
-                using (var builder = new AlertDialog.Builder(_context))
-                {
+            if (_dialog == null) {
+                using (var builder = new AlertDialog.Builder(_context)) {
 
                     builder.SetTitle(_title);
 
@@ -130,10 +123,12 @@ namespace AiForms.Renderers.Droid
                     builder.SetView(parent);
 
 
-                    builder.SetNegativeButton(global::Android.Resource.String.Cancel, (o, args) => {
+                    builder.SetNegativeButton(global::Android.Resource.String.Cancel, (o, args) =>
+                    {
                         ClearFocus();
                     });
-                    builder.SetPositiveButton(global::Android.Resource.String.Ok, (o, args) => {
+                    builder.SetPositiveButton(global::Android.Resource.String.Ok, (o, args) =>
+                    {
                         _NumberPikcerCell.Number = _picker.Value;
                         _command?.Execute(_picker.Value);
                         ClearFocus();
@@ -142,7 +137,8 @@ namespace AiForms.Renderers.Droid
                     _dialog = builder.Create();
                 }
                 _dialog.SetCanceledOnTouchOutside(true);
-                _dialog.DismissEvent += (ss, ee) => {
+                _dialog.DismissEvent += (ss, ee) =>
+                {
                     _dialog.Dispose();
                     _dialog = null;
                     _picker.RemoveFromParent();
@@ -154,7 +150,5 @@ namespace AiForms.Renderers.Droid
             }
 
         }
-
-
     }
 }

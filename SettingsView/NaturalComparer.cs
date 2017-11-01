@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
-// Refer to https://github.com/tomochan154/toy-box/edit/master/NaturalComparer.cs
+// Copy from https://github.com/tomochan154/toy-box/edit/master/NaturalComparer.cs
 
 namespace AiForms.Renderers
 {

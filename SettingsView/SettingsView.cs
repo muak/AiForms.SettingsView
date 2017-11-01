@@ -10,7 +10,8 @@ namespace AiForms.Renderers
     public partial class SettingsView : TableView
     {
         internal static Action _clearCache;
-        public static void ClearCache(){
+        public static void ClearCache()
+        {
             _clearCache?.Invoke();
         }
 
@@ -25,7 +26,8 @@ namespace AiForms.Renderers
         }
 
         SettingsRoot _root;
-        public new SettingsRoot Root {
+        public new SettingsRoot Root
+        {
             get { return _root; }
             set {
                 if (_root != null) {
@@ -36,7 +38,7 @@ namespace AiForms.Renderers
 
                 _root = value;
 
-                //子要素にBindingContextを伝える（多分…）
+                //transfer binding context to the children (maybe...)
                 SetInheritedBindingContext(_root, BindingContext);
 
                 _root.PropertyChanged += RootOnPropertyChanged;
@@ -81,13 +83,13 @@ namespace AiForms.Renderers
             }
         }
 
-        //Section単位のCollectionChanged
+        //CollectionChanged by the section
         public void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             OnModelChanged();
         }
 
-        //Section内の子要素のCollectionChanged
+        //CollectionChanged by the child in section
         public void OnSectionCollectionChanged(object sender, EventArgs childCollectionChangedEventArgs)
         {
             OnModelChanged();
@@ -95,17 +97,17 @@ namespace AiForms.Renderers
 
         new void OnModelChanged()
         {
-            //Parentを設定しないとViewCellでのサイズが決まらない
+            //ViewCell size is not decided if parent isn't set.
             foreach (Cell cell in Root.SelectMany(r => r))
                 cell.Parent = this;
 
-            //Nativeに変更を通知するためにイベントを発火させる
+            //notify Native
             if (ModelChanged != null)
                 ModelChanged(this, EventArgs.Empty);
 
         }
 
-        //既存のTableViewの不要なプロパティの隠蔽
+        //make the unnecessary property existing at TableView sealed.
         private new int Intent { get; set; }
     }
 }

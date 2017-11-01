@@ -8,7 +8,7 @@ using System.Windows.Input;
 [assembly: ExportRenderer(typeof(CommandCell), typeof(CommandCellRenderer))]
 namespace AiForms.Renderers.iOS
 {
-    public class CommandCellRenderer:CellBaseRenderer<CommandCellView>{}
+    public class CommandCellRenderer : CellBaseRenderer<CommandCellView> { }
 
     public class CommandCellView : LabelCellView
     {
@@ -21,14 +21,14 @@ namespace AiForms.Renderers.iOS
             Accessory = UITableViewCellAccessory.DisclosureIndicator;
             SelectionStyle = UITableViewCellSelectionStyle.Default;
             SetRightMarginZero();
-           
+
         }
 
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
-            if(e.PropertyName == CommandCell.CommandProperty.PropertyName ||
-               e.PropertyName == CommandCell.CommandParameterProperty.PropertyName){
+            if (e.PropertyName == CommandCell.CommandProperty.PropertyName ||
+               e.PropertyName == CommandCell.CommandParameterProperty.PropertyName) {
                 UpdateCommand();
             }
         }
@@ -41,8 +41,8 @@ namespace AiForms.Renderers.iOS
 
         protected override void Dispose(bool disposing)
         {
-            if(disposing){
-                if(_command != null){
+            if (disposing) {
+                if (_command != null) {
                     _command.CanExecuteChanged -= Command_CanExecuteChanged;
                 }
                 Execute = null;
@@ -51,8 +51,9 @@ namespace AiForms.Renderers.iOS
             base.Dispose(disposing);
         }
 
-        void UpdateCommand(){
-            if(_command != null){
+        void UpdateCommand()
+        {
+            if (_command != null) {
                 _command.CanExecuteChanged -= Command_CanExecuteChanged;
             }
 
@@ -63,11 +64,12 @@ namespace AiForms.Renderers.iOS
                 Command_CanExecuteChanged(_command, System.EventArgs.Empty);
             }
 
-            Execute = () => {
-                if(_command == null){
+            Execute = () =>
+            {
+                if (_command == null) {
                     return;
                 }
-                if(_command.CanExecute(_CommandCell.CommandParameter)){
+                if (_command.CanExecute(_CommandCell.CommandParameter)) {
                     _command.Execute(_CommandCell.CommandParameter);
                 }
             };
@@ -76,13 +78,13 @@ namespace AiForms.Renderers.iOS
 
         void Command_CanExecuteChanged(object sender, EventArgs e)
         {
-            if(_command.CanExecute(_CommandCell.CommandParameter)){
+            if (_command.CanExecute(_CommandCell.CommandParameter)) {
                 UserInteractionEnabled = true;
                 TitleLabel.Alpha = 1f;
                 DescriptionLabel.Alpha = 1f;
                 ValueLabel.Alpha = 1f;
             }
-            else{
+            else {
                 UserInteractionEnabled = false;
                 TitleLabel.Alpha = 0.6f;
                 DescriptionLabel.Alpha = 0.6f;

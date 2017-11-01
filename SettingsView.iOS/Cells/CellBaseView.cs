@@ -1,12 +1,10 @@
-﻿using CoreGraphics;
+﻿using System;
+using System.ComponentModel;
+using System.Threading;
+using System.Threading.Tasks;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
-using System.ComponentModel;
-using System;
-using System.Threading.Tasks;
-using System.Threading;
-using Foundation;
 
 namespace AiForms.Renderers.iOS
 {
@@ -33,7 +31,7 @@ namespace AiForms.Renderers.iOS
         public CellBaseView(Cell formsCell) : base(UIKit.UITableViewCellStyle.Default, formsCell.GetType().FullName)
         {
             Cell = formsCell;
-            //選択時背景色
+
             SelectionStyle = UITableViewCellSelectionStyle.None;
             SetUpHintLabel();
             SetUpContentView();
@@ -43,104 +41,80 @@ namespace AiForms.Renderers.iOS
 
         public virtual void CellPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == CellBase.TitleProperty.PropertyName)
-            {
+            if (e.PropertyName == CellBase.TitleProperty.PropertyName) {
                 UpdateTitleText();
             }
-            else if (e.PropertyName == CellBase.TitleColorProperty.PropertyName)
-            {
+            else if (e.PropertyName == CellBase.TitleColorProperty.PropertyName) {
                 UpdateTitleColor();
             }
-            else if (e.PropertyName == CellBase.TitleFontSizeProperty.PropertyName)
-            {
+            else if (e.PropertyName == CellBase.TitleFontSizeProperty.PropertyName) {
                 UpdateWithForceLayout(UpdateTitleFontSize);
             }
-            else if (e.PropertyName == CellBase.DescriptionProperty.PropertyName)
-            {
+            else if (e.PropertyName == CellBase.DescriptionProperty.PropertyName) {
                 UpdateWithForceLayout(UpdateDescriptionText);
             }
-            else if (e.PropertyName == CellBase.DescriptionFontSizeProperty.PropertyName)
-            {
+            else if (e.PropertyName == CellBase.DescriptionFontSizeProperty.PropertyName) {
                 UpdateWithForceLayout(UpdateDescriptionFontSize);
             }
-            else if (e.PropertyName == CellBase.DescriptionColorProperty.PropertyName)
-            {
+            else if (e.PropertyName == CellBase.DescriptionColorProperty.PropertyName) {
                 UpdateDescriptionColor();
             }
-            else if (e.PropertyName == CellBase.IconSourceProperty.PropertyName)
-            {
+            else if (e.PropertyName == CellBase.IconSourceProperty.PropertyName) {
                 UpdateIcon();
             }
-            else if (e.PropertyName == CellBase.BackgroundColorProperty.PropertyName)
-            {
+            else if (e.PropertyName == CellBase.BackgroundColorProperty.PropertyName) {
                 UpdateBackgroundColor();
             }
-            else if (e.PropertyName == CellBase.HintTextProperty.PropertyName)
-            {
+            else if (e.PropertyName == CellBase.HintTextProperty.PropertyName) {
                 UpdateWithForceLayout(UpdateHintText);
             }
-            else if (e.PropertyName == CellBase.HintTextColorProperty.PropertyName)
-            {
+            else if (e.PropertyName == CellBase.HintTextColorProperty.PropertyName) {
                 UpdateHintTextColor();
             }
-            else if (e.PropertyName == CellBase.HintFontSizeProperty.PropertyName)
-            {
+            else if (e.PropertyName == CellBase.HintFontSizeProperty.PropertyName) {
                 UpdateWithForceLayout(UpdateHintFontSize);
             }
-            else if (e.PropertyName == CellBase.IconSizeProperty.PropertyName)
-            {
+            else if (e.PropertyName == CellBase.IconSizeProperty.PropertyName) {
                 UpdateWithForceLayout(UpdateIconSize);
             }
-            else if (e.PropertyName == CellBase.IconRadiusProperty.PropertyName)
-            {
+            else if (e.PropertyName == CellBase.IconRadiusProperty.PropertyName) {
                 UpdateWithForceLayout(UpdateIconRadius);
             }
         }
 
         public virtual void ParentPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == SettingsView.CellTitleColorProperty.PropertyName)
-            {
+            if (e.PropertyName == SettingsView.CellTitleColorProperty.PropertyName) {
                 UpdateTitleColor();
             }
-            else if (e.PropertyName == SettingsView.CellTitleFontSizeProperty.PropertyName)
-            {
+            else if (e.PropertyName == SettingsView.CellTitleFontSizeProperty.PropertyName) {
                 UpdateWithForceLayout(UpdateTitleFontSize);
             }
-            else if (e.PropertyName == SettingsView.CellDescriptionColorProperty.PropertyName)
-            {
+            else if (e.PropertyName == SettingsView.CellDescriptionColorProperty.PropertyName) {
                 UpdateDescriptionColor();
             }
-            else if (e.PropertyName == SettingsView.CellDescriptionFontSizeProperty.PropertyName)
-            {
+            else if (e.PropertyName == SettingsView.CellDescriptionFontSizeProperty.PropertyName) {
                 UpdateWithForceLayout(UpdateDescriptionFontSize);
             }
-            else if (e.PropertyName == SettingsView.CellBackgroundColorProperty.PropertyName)
-            {
+            else if (e.PropertyName == SettingsView.CellBackgroundColorProperty.PropertyName) {
                 UpdateBackgroundColor();
             }
-            else if (e.PropertyName == SettingsView.CellHintTextColorProperty.PropertyName)
-            {
+            else if (e.PropertyName == SettingsView.CellHintTextColorProperty.PropertyName) {
                 UpdateHintTextColor();
             }
-            else if (e.PropertyName == SettingsView.CellHintFontSizeProperty.PropertyName)
-            {
+            else if (e.PropertyName == SettingsView.CellHintFontSizeProperty.PropertyName) {
                 UpdateWithForceLayout(UpdateHintFontSize);
             }
-            else if (e.PropertyName == SettingsView.CellIconSizeProperty.PropertyName)
-            {
+            else if (e.PropertyName == SettingsView.CellIconSizeProperty.PropertyName) {
                 UpdateWithForceLayout(UpdateIconSize);
             }
-            else if (e.PropertyName == SettingsView.CellIconRadiusProperty.PropertyName)
-            {
+            else if (e.PropertyName == SettingsView.CellIconRadiusProperty.PropertyName) {
                 UpdateWithForceLayout(UpdateIconRadius);
             }
-            else if (e.PropertyName == SettingsView.SelectedColorProperty.PropertyName)
-            {
+            else if (e.PropertyName == SettingsView.SelectedColorProperty.PropertyName) {
                 UpdateSelectedColor();
             }
-            else if (e.PropertyName == TableView.RowHeightProperty.PropertyName)
-            {
+            else if (e.PropertyName == TableView.RowHeightProperty.PropertyName) {
                 UpdateMinRowHeight();
             }
         }
@@ -153,14 +127,11 @@ namespace AiForms.Renderers.iOS
 
         void UpdateSelectedColor()
         {
-            if (CellParent != null && CellParent.SelectedColor != Xamarin.Forms.Color.Default)
-            {
-                if (SelectedBackgroundView != null)
-                {
+            if (CellParent != null && CellParent.SelectedColor != Xamarin.Forms.Color.Default) {
+                if (SelectedBackgroundView != null) {
                     SelectedBackgroundView.BackgroundColor = CellParent.SelectedColor.ToUIColor();
                 }
-                else
-                {
+                else {
                     SelectedBackgroundView = new UIView { BackgroundColor = CellParent.SelectedColor.ToUIColor() };
                 }
             }
@@ -168,12 +139,10 @@ namespace AiForms.Renderers.iOS
 
         void UpdateBackgroundColor()
         {
-            if (CellBase.BackgroundColor != Xamarin.Forms.Color.Default)
-            {
+            if (CellBase.BackgroundColor != Xamarin.Forms.Color.Default) {
                 BackgroundColor = CellBase.BackgroundColor.ToUIColor();
             }
-            else if (CellParent != null && CellParent.CellBackgroundColor != Xamarin.Forms.Color.Default)
-            {
+            else if (CellParent != null && CellParent.CellBackgroundColor != Xamarin.Forms.Color.Default) {
                 BackgroundColor = CellParent.CellBackgroundColor.ToUIColor();
             }
         }
@@ -186,24 +155,20 @@ namespace AiForms.Renderers.iOS
 
         void UpdateHintTextColor()
         {
-            if (CellBase.HintTextColor != Xamarin.Forms.Color.Default)
-            {
+            if (CellBase.HintTextColor != Xamarin.Forms.Color.Default) {
                 HintLabel.TextColor = CellBase.HintTextColor.ToUIColor();
             }
-            else if (CellParent != null && CellParent.CellHintTextColor != Xamarin.Forms.Color.Default)
-            {
+            else if (CellParent != null && CellParent.CellHintTextColor != Xamarin.Forms.Color.Default) {
                 HintLabel.TextColor = CellParent.CellHintTextColor.ToUIColor();
             }
         }
 
         void UpdateHintFontSize()
         {
-            if (CellBase.HintFontSize > 0)
-            {
+            if (CellBase.HintFontSize > 0) {
                 HintLabel.Font = HintLabel.Font.WithSize((nfloat)CellBase.HintFontSize);
             }
-            else if (CellParent != null)
-            {
+            else if (CellParent != null) {
                 HintLabel.Font = HintLabel.Font.WithSize((nfloat)CellParent.CellHintFontSize);
             }
         }
@@ -212,11 +177,11 @@ namespace AiForms.Renderers.iOS
         {
             TitleLabel.Text = CellBase.Title;
             //Since Layout breaks when text empty, prevent Label height from resizing 0.
-            if(string.IsNullOrEmpty(TitleLabel.Text)){
+            if (string.IsNullOrEmpty(TitleLabel.Text)) {
                 TitleLabel.Hidden = true;
                 TitleLabel.Text = " ";
             }
-            else{
+            else {
                 TitleLabel.Hidden = false;
             }
 
@@ -224,24 +189,20 @@ namespace AiForms.Renderers.iOS
 
         void UpdateTitleColor()
         {
-            if (CellBase.TitleColor != Xamarin.Forms.Color.Default)
-            {
+            if (CellBase.TitleColor != Xamarin.Forms.Color.Default) {
                 TitleLabel.TextColor = CellBase.TitleColor.ToUIColor();
             }
-            else if (CellParent != null && CellParent.CellTitleColor != Xamarin.Forms.Color.Default)
-            {
+            else if (CellParent != null && CellParent.CellTitleColor != Xamarin.Forms.Color.Default) {
                 TitleLabel.TextColor = CellParent.CellTitleColor.ToUIColor();
             }
         }
 
         void UpdateTitleFontSize()
         {
-            if (CellBase.TitleFontSize > 0)
-            {
+            if (CellBase.TitleFontSize > 0) {
                 TitleLabel.Font = TitleLabel.Font.WithSize((nfloat)CellBase.TitleFontSize);
             }
-            else if (CellParent != null)
-            {
+            else if (CellParent != null) {
                 TitleLabel.Font = TitleLabel.Font.WithSize((nfloat)CellParent.CellTitleFontSize);
             }
         }
@@ -253,55 +214,44 @@ namespace AiForms.Renderers.iOS
 
         void UpdateDescriptionFontSize()
         {
-            if (CellBase.DescriptionFontSize > 0)
-            {
+            if (CellBase.DescriptionFontSize > 0) {
                 DescriptionLabel.Font = DescriptionLabel.Font.WithSize((nfloat)CellBase.DescriptionFontSize);
             }
-            else if (CellParent != null)
-            {
+            else if (CellParent != null) {
                 DescriptionLabel.Font = DescriptionLabel.Font.WithSize((nfloat)CellParent.CellDescriptionFontSize);
             }
         }
 
         void UpdateDescriptionColor()
         {
-            if (CellBase.DescriptionColor != Xamarin.Forms.Color.Default)
-            {
+            if (CellBase.DescriptionColor != Xamarin.Forms.Color.Default) {
                 DescriptionLabel.TextColor = CellBase.DescriptionColor.ToUIColor();
             }
-            else if (CellParent != null && CellParent.CellDescriptionColor != Xamarin.Forms.Color.Default)
-            {
+            else if (CellParent != null && CellParent.CellDescriptionColor != Xamarin.Forms.Color.Default) {
                 DescriptionLabel.TextColor = CellParent.CellDescriptionColor.ToUIColor();
             }
         }
 
-
-        //TODO:今の所PropertyChangedには非対応（アイコン自体が変わった時には呼ばれる）
         void UpdateIconSize()
         {
             Size size;
-            if (CellBase.IconSize != default(Size))
-            {
+            if (CellBase.IconSize != default(Size)) {
                 size = CellBase.IconSize;
             }
-            else if (CellParent != null && CellParent.CellIconSize != default(Size))
-            {
+            else if (CellParent != null && CellParent.CellIconSize != default(Size)) {
                 size = CellParent.CellIconSize;
             }
-            else
-            {
+            else {
                 size = new Size(32, 32);
             }
 
-            //前のサイズと変わらなければ何もしない
-            if (size == _iconSize)
-            {
+            //do nothing when current size is previous size
+            if (size == _iconSize) {
                 return;
             }
 
-            if (_iconSize != default(Size))
-            {
-                //前の制約を解除
+            if (_iconSize != default(Size)) {
+                //remove previous constraint
                 _iconConstraintHeight.Active = false;
                 _iconConstraintWidth.Active = false;
                 _iconConstraintHeight?.Dispose();
@@ -321,12 +271,10 @@ namespace AiForms.Renderers.iOS
 
         void UpdateIconRadius()
         {
-            if (CellBase.IconRadius >= 0)
-            {
+            if (CellBase.IconRadius >= 0) {
                 IconView.Layer.CornerRadius = (float)CellBase.IconRadius;
             }
-            else if (CellParent != null)
-            {
+            else if (CellParent != null) {
                 IconView.Layer.CornerRadius = (float)CellParent.CellIconRadius;
             }
 
@@ -335,28 +283,23 @@ namespace AiForms.Renderers.iOS
         void UpdateIcon()
         {
 
-            if (_iconTokenSource != null && !_iconTokenSource.IsCancellationRequested)
-            {
-                //前のがキャンセルされてなければとりあえずキャンセル
+            if (_iconTokenSource != null && !_iconTokenSource.IsCancellationRequested) {               
                 _iconTokenSource.Cancel();
             }
 
             UpdateIconSize();
 
-            if (IconView.Image != null)
-            {
-                //IconView.Image.Dispose();
+            if (IconView.Image != null) {
                 IconView.Image = null;
             }
 
-            if (CellBase.IconSource != null)
-            {
+            if (CellBase.IconSource != null) {
                 //image未設定の時はhiddenにしないとstackviewのDistributionが機能しなくなる
+                //hide IconView because UIStackView Distribution won't work when a image isn't set.
                 IconView.Hidden = false;
 
                 var cache = ImageCacheController.Instance.ObjectForKey(FromObject(CellBase.IconSource.GetHashCode())) as UIImage;
-                if (cache != null)
-                {
+                if (cache != null) {
                     IconView.Image = cache;
                     return;
                 }
@@ -364,8 +307,7 @@ namespace AiForms.Renderers.iOS
                 var handler = Xamarin.Forms.Internals.Registrar.Registered.GetHandler<IImageSourceHandler>(CellBase.IconSource.GetType());
                 LoadIconImage(handler, CellBase.IconSource);
             }
-            else
-            {
+            else {
                 IconView.Hidden = true;
             }
         }
@@ -383,8 +325,7 @@ namespace AiForms.Renderers.iOS
                 token.ThrowIfCancellationRequested();
             }, token).ContinueWith(t =>
             {
-                if (t.IsCompleted)
-                {
+                if (t.IsCompleted) {
                     ImageCacheController.Instance.SetObjectforKey(image, FromObject(CellBase.IconSource.GetHashCode()));
                     BeginInvokeOnMainThread(() =>
                     {
@@ -398,15 +339,13 @@ namespace AiForms.Renderers.iOS
 
         void UpdateMinRowHeight()
         {
-            if (_minheightConstraint != null)
-            {
+            if (_minheightConstraint != null) {
                 _minheightConstraint.Active = false;
                 _minheightConstraint.Dispose();
                 _minheightConstraint = null;
             }
 
-            if (CellParent.HasUnevenRows)
-            {
+            if (CellParent.HasUnevenRows) {
                 _minheightConstraint = _stackH.HeightAnchor.ConstraintGreaterThanOrEqualTo(CellParent.RowHeight);
                 _minheightConstraint.Active = true;
 
@@ -436,8 +375,7 @@ namespace AiForms.Renderers.iOS
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
+            if (disposing) {
                 CellBase.PropertyChanged -= CellPropertyChanged;
                 CellParent.PropertyChanged -= ParentPropertyChanged;
 
@@ -508,13 +446,14 @@ namespace AiForms.Renderers.iOS
 
         void SetUpContentView()
         {
-            //備え付け部品を剥がす
+            //remove existing views 
             ImageView.RemoveFromSuperview();
             TextLabel.RemoveFromSuperview();
             ImageView.Hidden = true;
             TextLabel.Hidden = true;
 
-            //外側のHoriontalStackView
+            //外側のHorizontalStackView
+            //Outer HorizontalStackView
             _stackH = new UIStackView
             {
                 Axis = UILayoutConstraintAxis.Horizontal,
@@ -522,21 +461,21 @@ namespace AiForms.Renderers.iOS
                 Spacing = 16,
                 Distribution = UIStackViewDistribution.Fill
             };
-            //マージン設定
+            //set margin
             _stackH.LayoutMargins = new UIEdgeInsets(6, 16, 6, 10);
             _stackH.LayoutMarginsRelativeArrangement = true;
 
             IconView = new UIImageView();
-            //IconView.ContentMode = UIViewContentMode.ScaleAspectFit;
 
-            //角丸対応
+            //round corners
             IconView.ClipsToBounds = true;
 
             _stackH.AddArrangedSubview(IconView);
 
             UpdateIconSize();
 
-            //右に配置するVerticalStackView（LabelTextとValueTextとDetailTextを格納）
+            //右に配置するVerticalStackView（コアの部品とDescriptionを格納）
+            //VerticalStackView that is arranged at right. ( put main parts and Description ) 
             var stackV = new UIStackView
             {
                 Axis = UILayoutConstraintAxis.Vertical,
@@ -546,6 +485,7 @@ namespace AiForms.Renderers.iOS
             };
 
             //右側上段に配置するHorizontalStackView(LabelTextとValueTextを格納）
+            //HorizontalStackView that is arranged at upper in right.(put LabelText and ValueText)
             ContentStack = new UIStackView
             {
                 Axis = UILayoutConstraintAxis.Horizontal,
@@ -568,7 +508,7 @@ namespace AiForms.Renderers.iOS
             _stackH.AddArrangedSubview(stackV);
 
             //余った領域を広げる優先度の設定（低いものが優先して拡大する）
-            IconView.SetContentHuggingPriority(999f, UILayoutConstraintAxis.Horizontal); //極力広げない
+            IconView.SetContentHuggingPriority(999f, UILayoutConstraintAxis.Horizontal); //if possible, not to expand. 極力広げない
             stackV.SetContentHuggingPriority(1f, UILayoutConstraintAxis.Horizontal);
             ContentStack.SetContentHuggingPriority(1f, UILayoutConstraintAxis.Horizontal);
             TitleLabel.SetContentHuggingPriority(1f, UILayoutConstraintAxis.Horizontal);
@@ -576,15 +516,11 @@ namespace AiForms.Renderers.iOS
 
 
             //縮まりやすさの設定（低いものが優先して縮まる）
-            IconView.SetContentCompressionResistancePriority(999f, UILayoutConstraintAxis.Horizontal); //極力縮めない
+            IconView.SetContentCompressionResistancePriority(999f, UILayoutConstraintAxis.Horizontal); //if possible, not to shrink. 極力縮めない
             stackV.SetContentCompressionResistancePriority(999f, UILayoutConstraintAxis.Horizontal);
             ContentStack.SetContentCompressionResistancePriority(999f, UILayoutConstraintAxis.Horizontal);
             TitleLabel.SetContentCompressionResistancePriority(999f, UILayoutConstraintAxis.Horizontal);
             DescriptionLabel.SetContentCompressionResistancePriority(999f, UILayoutConstraintAxis.Horizontal);
-
-            //ContentStack.SetContentHuggingPriority(100f, UILayoutConstraintAxis.Vertical);
-            //DescriptionLabel.SetContentHuggingPriority(1f, UILayoutConstraintAxis.Vertical);
-            //DescriptionLabel.SetContentCompressionResistancePriority(999f, UILayoutConstraintAxis.Vertical);
 
             IconView.SetContentCompressionResistancePriority(999f, UILayoutConstraintAxis.Vertical);
             IconView.SetContentHuggingPriority(1f, UILayoutConstraintAxis.Vertical);
@@ -599,7 +535,7 @@ namespace AiForms.Renderers.iOS
             _stackH.BottomAnchor.ConstraintEqualTo(ContentView.BottomAnchor).Active = true;
             _stackH.RightAnchor.ConstraintEqualTo(ContentView.RightAnchor).Active = true;
 
-            var minHeight = Math.Max(CellParent?.RowHeight ?? 44 , SettingsViewRenderer.MinRowHeight);
+            var minHeight = Math.Max(CellParent?.RowHeight ?? 44, SettingsViewRenderer.MinRowHeight);
             _minheightConstraint = _stackH.HeightAnchor.ConstraintGreaterThanOrEqualTo(minHeight);
             _minheightConstraint.Active = true;
         }

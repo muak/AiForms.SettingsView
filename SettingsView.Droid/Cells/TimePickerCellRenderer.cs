@@ -10,16 +10,16 @@ using Xamarin.Forms;
 [assembly: ExportRenderer(typeof(TimePickerCell), typeof(TimePickerCellRenderer))]
 namespace AiForms.Renderers.Droid
 {
-    public class TimePickerCellRenderer:CellBaseRenderer<TimePickerCellView>{}
+    public class TimePickerCellRenderer : CellBaseRenderer<TimePickerCellView> { }
 
-    public class TimePickerCellView:LabelCellView,IPickerCell
+    public class TimePickerCellView : LabelCellView, IPickerCell
     {
         TimePickerCell _TimePickerCell => Cell as TimePickerCell;
         TimePickerDialog _dialog;
         Context _context;
         string _title;
 
-        public TimePickerCellView(Context context,Cell cell):base(context,cell)
+        public TimePickerCellView(Context context, Cell cell) : base(context, cell)
         {
             _context = context;
         }
@@ -35,19 +35,17 @@ namespace AiForms.Renderers.Droid
         {
             base.CellPropertyChanged(sender, e);
             if (e.PropertyName == TimePickerCell.TimeProperty.PropertyName ||
-               e.PropertyName == TimePickerCell.FormatProperty.PropertyName)
-            {
+               e.PropertyName == TimePickerCell.FormatProperty.PropertyName) {
                 UpdateTime();
             }
-            else if (e.PropertyName == TimePickerCell.PickerTitleProperty.PropertyName)
-            {
+            else if (e.PropertyName == TimePickerCell.PickerTitleProperty.PropertyName) {
                 UpdatePickerTitle();
             }
         }
 
         protected override void Dispose(bool disposing)
         {
-            if(disposing){
+            if (disposing) {
                 _dialog?.Dispose();
                 _dialog = null;
             }
@@ -62,15 +60,13 @@ namespace AiForms.Renderers.Droid
         void CreateDialog()
         {
 
-            if (_dialog == null)
-            {
+            if (_dialog == null) {
                 bool is24HourFormat = DateFormat.Is24HourFormat(_context);
                 _dialog = new TimePickerDialog(_context, TimeSelected, _TimePickerCell.Time.Hours, _TimePickerCell.Time.Minutes, is24HourFormat);
 
                 var title = new TextView(_context);
 
-                if (!string.IsNullOrEmpty(_title))
-                {
+                if (!string.IsNullOrEmpty(_title)) {
                     title.Gravity = Android.Views.GravityFlags.Center;
                     title.SetPadding(10, 10, 10, 10);
                     title.Text = _title;
@@ -79,7 +75,8 @@ namespace AiForms.Renderers.Droid
 
                 _dialog.SetCanceledOnTouchOutside(true);
 
-                _dialog.DismissEvent += (ss, ee) => {
+                _dialog.DismissEvent += (ss, ee) =>
+                {
                     title.Dispose();
                     _dialog.Dispose();
                     _dialog = null;
@@ -92,7 +89,7 @@ namespace AiForms.Renderers.Droid
 
         void UpdateTime()
         {
-           vValueLabel.Text = DateTime.Today.Add(_TimePickerCell.Time).ToString(_TimePickerCell.Format);
+            vValueLabel.Text = DateTime.Today.Add(_TimePickerCell.Time).ToString(_TimePickerCell.Format);
         }
 
         void UpdatePickerTitle()

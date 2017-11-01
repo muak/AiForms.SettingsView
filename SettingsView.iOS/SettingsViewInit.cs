@@ -3,6 +3,6 @@ namespace AiForms.Renderers.iOS
 {
     public static class SettingsViewInit
     {
-        public static void Init(){}
+        public static void Init() { }
     }
 }

@@ -12,7 +12,7 @@ using Xamarin.Forms.Platform.Android;
 [assembly: ExportRenderer(typeof(LabelCell), typeof(LabelCellRenderer))]
 namespace AiForms.Renderers.Droid
 {
-    public class LabelCellRenderer:CellBaseRenderer<LabelCellView>{}
+    public class LabelCellRenderer : CellBaseRenderer<LabelCellView> { }
 
     public class LabelCellView : CellBaseView
     {
@@ -22,8 +22,9 @@ namespace AiForms.Renderers.Droid
         public TextView vValueLabel;
 
 
-        public LabelCellView(Context context, Cell cell) : base(context, cell) {
-           
+        public LabelCellView(Context context, Cell cell) : base(context, cell)
+        {
+
             ValueLabel = new TextView(context);
             ValueLabel.SetSingleLine(true);
             ValueLabel.Ellipsize = TextUtils.TruncateAt.End;
@@ -31,7 +32,8 @@ namespace AiForms.Renderers.Droid
 
             var textParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WrapContent,
-                ViewGroup.LayoutParams.WrapContent) {
+                ViewGroup.LayoutParams.WrapContent)
+            {
 
             };
             using (textParams) {
@@ -44,16 +46,13 @@ namespace AiForms.Renderers.Droid
         {
             base.CellPropertyChanged(sender, e);
 
-            if (e.PropertyName == LabelCell.ValueTextProperty.PropertyName)
-            {
+            if (e.PropertyName == LabelCell.ValueTextProperty.PropertyName) {
                 UpdateValueText();
             }
-            else if (e.PropertyName == LabelCell.ValueTextFontSizeProperty.PropertyName)
-            {
+            else if (e.PropertyName == LabelCell.ValueTextFontSizeProperty.PropertyName) {
                 UpdateValueTextFontSize();
             }
-            else if (e.PropertyName == LabelCell.ValueTextColorProperty.PropertyName)
-            {
+            else if (e.PropertyName == LabelCell.ValueTextColorProperty.PropertyName) {
                 UpdateValueTextColor();
             }
         }
@@ -62,12 +61,10 @@ namespace AiForms.Renderers.Droid
         {
             base.ParentPropertyChanged(sender, e);
 
-            if (e.PropertyName == SettingsView.CellValueTextColorProperty.PropertyName)
-            {
+            if (e.PropertyName == SettingsView.CellValueTextColorProperty.PropertyName) {
                 UpdateValueTextColor();
             }
-            else if (e.PropertyName == SettingsView.CellValueTextFontSizeProperty.PropertyName)
-            {
+            else if (e.PropertyName == SettingsView.CellValueTextFontSizeProperty.PropertyName) {
                 UpdateValueTextFontSize();
             }
         }
@@ -84,12 +81,12 @@ namespace AiForms.Renderers.Droid
 
         void UpdateUseDescriptionAsValue()
         {
-            if(CellParent != null && CellParent.UseDescriptionAsValue){
+            if (CellParent != null && CellParent.UseDescriptionAsValue) {
                 vValueLabel = DescriptionLabel;
                 DescriptionLabel.Visibility = ViewStates.Visible;
                 ValueLabel.Visibility = ViewStates.Gone;
             }
-            else{
+            else {
                 vValueLabel = ValueLabel;
                 ValueLabel.Visibility = ViewStates.Visible;
             }
@@ -102,31 +99,32 @@ namespace AiForms.Renderers.Droid
 
         void UpdateValueTextFontSize()
         {
-            if (_LabelCell.ValueTextFontSize > 0)
-            {
-                ValueLabel.SetTextSize(Android.Util.ComplexUnitType.Sp,(float)_LabelCell.ValueTextFontSize);
+            if (_LabelCell.ValueTextFontSize > 0) {
+                ValueLabel.SetTextSize(Android.Util.ComplexUnitType.Sp, (float)_LabelCell.ValueTextFontSize);
             }
-            else if (CellParent != null)
-            {
-                ValueLabel.SetTextSize(Android.Util.ComplexUnitType.Sp,(float)CellParent.CellValueTextFontSize);
+            else if (CellParent != null) {
+                ValueLabel.SetTextSize(Android.Util.ComplexUnitType.Sp, (float)CellParent.CellValueTextFontSize);
             }
             Invalidate();
         }
 
         void UpdateValueTextColor()
         {
-            if (_LabelCell.ValueTextColor != Xamarin.Forms.Color.Default)
-            {
+            if (_LabelCell.ValueTextColor != Xamarin.Forms.Color.Default) {
                 ValueLabel.SetTextColor(_LabelCell.ValueTextColor.ToAndroid());
             }
-            else if (CellParent != null && CellParent.CellValueTextColor != Xamarin.Forms.Color.Default)
-            {
+            else if (CellParent != null && CellParent.CellValueTextColor != Xamarin.Forms.Color.Default) {
                 ValueLabel.SetTextColor(CellParent.CellValueTextColor.ToAndroid());
             }
         }
 
         protected override void Dispose(bool disposing)
         {
+            if(disposing){
+                ValueLabel?.Dispose();
+                ValueLabel = null;
+                vValueLabel = null;
+            }
             base.Dispose(disposing);
         }
     }

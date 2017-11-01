@@ -14,7 +14,8 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
-        public new Color BackgroundColor {
+        public new Color BackgroundColor
+        {
             get { return (Color)GetValue(BackgroundColorProperty); }
             set { SetValue(BackgroundColorProperty, value); }
         }
@@ -28,7 +29,8 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
-        public Color SeparatorColor {
+        public Color SeparatorColor
+        {
             get { return (Color)GetValue(SeparatorColorProperty); }
             set { SetValue(SeparatorColorProperty, value); }
         }
@@ -53,11 +55,12 @@ namespace AiForms.Renderers
                 nameof(HeaderPadding),
                 typeof(Thickness),
                 typeof(SettingsView),
-                new Thickness(14,8,8,8),
+                new Thickness(14, 8, 8, 8),
                 defaultBindingMode: BindingMode.OneWay
             );
 
-        public Thickness HeaderPadding {
+        public Thickness HeaderPadding
+        {
             get { return (Thickness)GetValue(HeaderPaddingProperty); }
             set { SetValue(HeaderPaddingProperty, value); }
         }
@@ -71,7 +74,8 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
-        public Color HeaderTextColor {
+        public Color HeaderTextColor
+        {
             get { return (Color)GetValue(HeaderTextColorProperty); }
             set { SetValue(HeaderTextColorProperty, value); }
         }
@@ -87,7 +91,8 @@ namespace AiForms.Renderers
             );
 
         [TypeConverter(typeof(FontSizeConverter))]
-        public double HeaderFontSize {
+        public double HeaderFontSize
+        {
             get { return (double)GetValue(HeaderFontSizeProperty); }
             set { SetValue(HeaderFontSizeProperty, value); }
         }
@@ -101,7 +106,8 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
-        public LayoutAlignment HeaderTextVerticalAlign {
+        public LayoutAlignment HeaderTextVerticalAlign
+        {
             get { return (LayoutAlignment)GetValue(HeaderTextVerticalAlignProperty); }
             set { SetValue(HeaderTextVerticalAlignProperty, value); }
         }
@@ -115,7 +121,8 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
-        public Color HeaderBackgroundColor {
+        public Color HeaderBackgroundColor
+        {
             get { return (Color)GetValue(HeaderBackgroundColorProperty); }
             set { SetValue(HeaderBackgroundColorProperty, value); }
         }
@@ -129,7 +136,8 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
-        public double HeaderHeight {
+        public double HeaderHeight
+        {
             get { return (double)GetValue(HeaderHeightProperty); }
             set { SetValue(HeaderHeightProperty, value); }
         }
@@ -143,7 +151,8 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
-        public Color FooterTextColor {
+        public Color FooterTextColor
+        {
             get { return (Color)GetValue(FooterTextColorProperty); }
             set { SetValue(FooterTextColorProperty, value); }
         }
@@ -159,7 +168,8 @@ namespace AiForms.Renderers
             );
 
         [TypeConverter(typeof(FontSizeConverter))]
-        public double FooterFontSize {
+        public double FooterFontSize
+        {
             get { return (double)GetValue(FooterFontSizeProperty); }
             set { SetValue(FooterFontSizeProperty, value); }
         }
@@ -173,7 +183,8 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
-        public Color FooterBackgroundColor {
+        public Color FooterBackgroundColor
+        {
             get { return (Color)GetValue(FooterBackgroundColorProperty); }
             set { SetValue(FooterBackgroundColorProperty, value); }
         }
@@ -183,11 +194,12 @@ namespace AiForms.Renderers
                 nameof(FooterPadding),
                 typeof(Thickness),
                 typeof(SettingsView),
-                new Thickness(14,8,14,8),
+                new Thickness(14, 8, 14, 8),
                 defaultBindingMode: BindingMode.OneWay
             );
 
-        public Thickness FooterPadding {
+        public Thickness FooterPadding
+        {
             get { return (Thickness)GetValue(FooterPaddingProperty); }
             set { SetValue(FooterPaddingProperty, value); }
         }
@@ -202,7 +214,8 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
-        public Color CellTitleColor {
+        public Color CellTitleColor
+        {
             get { return (Color)GetValue(CellTitleColorProperty); }
             set { SetValue(CellTitleColorProperty, value); }
         }
@@ -219,7 +232,8 @@ namespace AiForms.Renderers
             );
 
         [TypeConverter(typeof(FontSizeConverter))]
-        public double CellTitleFontSize {
+        public double CellTitleFontSize
+        {
             get { return (double)GetValue(CellTitleFontSizeProperty); }
             set { SetValue(CellTitleFontSizeProperty, value); }
         }
@@ -233,7 +247,8 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
-        public Color CellValueTextColor {
+        public Color CellValueTextColor
+        {
             get { return (Color)GetValue(CellValueTextColorProperty); }
             set { SetValue(CellValueTextColorProperty, value); }
         }
@@ -248,7 +263,8 @@ namespace AiForms.Renderers
             );
 
         [TypeConverter(typeof(FontSizeConverter))]
-        public double CellValueTextFontSize {
+        public double CellValueTextFontSize
+        {
             get { return (double)GetValue(CellValueTextFontSizeProperty); }
             set { SetValue(CellValueTextFontSizeProperty, value); }
         }
@@ -262,7 +278,8 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
-        public Color CellDescriptionColor {
+        public Color CellDescriptionColor
+        {
             get { return (Color)GetValue(CellDescriptionColorProperty); }
             set { SetValue(CellDescriptionColorProperty, value); }
         }
@@ -277,7 +294,8 @@ namespace AiForms.Renderers
             );
 
         [TypeConverter(typeof(FontSizeConverter))]
-        public double CellDescriptionFontSize {
+        public double CellDescriptionFontSize
+        {
             get { return (double)GetValue(CellDescriptionFontSizeProperty); }
             set { SetValue(CellDescriptionFontSizeProperty, value); }
         }
@@ -291,7 +309,8 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
-        public Color CellBackgroundColor {
+        public Color CellBackgroundColor
+        {
             get { return (Color)GetValue(CellBackgroundColorProperty); }
             set { SetValue(CellBackgroundColorProperty, value); }
         }
@@ -306,7 +325,8 @@ namespace AiForms.Renderers
             );
 
         [TypeConverter(typeof(SizeConverter))]
-        public Size CellIconSize {
+        public Size CellIconSize
+        {
             get { return (Size)GetValue(CellIconSizeProperty); }
             set { SetValue(CellIconSizeProperty, value); }
         }
@@ -335,7 +355,8 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
-        public Color CellAccentColor {
+        public Color CellAccentColor
+        {
             get { return (Color)GetValue(CellAccentColorProperty); }
             set { SetValue(CellAccentColorProperty, value); }
         }
@@ -397,7 +418,8 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
-        public bool ShowSectionTopBottomBorder {
+        public bool ShowSectionTopBottomBorder
+        {
             get { return (bool)GetValue(ShowSectionTopBottomBorderProperty); }
             set { SetValue(ShowSectionTopBottomBorderProperty, value); }
         }

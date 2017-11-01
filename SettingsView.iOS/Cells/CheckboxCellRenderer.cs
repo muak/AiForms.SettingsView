@@ -9,14 +9,14 @@ using Xamarin.Forms.Platform.iOS;
 [assembly: ExportRenderer(typeof(CheckboxCell), typeof(CheckboxCellRenderer))]
 namespace AiForms.Renderers.iOS
 {
-    public class CheckboxCellRenderer:CellBaseRenderer<CheckboxCellView>{}
-   
-    public class CheckboxCellView:CellBaseView
+    public class CheckboxCellRenderer : CellBaseRenderer<CheckboxCellView> { }
+
+    public class CheckboxCellView : CellBaseView
     {
         CheckBox _checkbox;
         CheckboxCell _CheckboxCell => Cell as CheckboxCell;
 
-        public CheckboxCellView(Cell formsCell):base(formsCell)
+        public CheckboxCellView(Cell formsCell) : base(formsCell)
         {
             _checkbox = new CheckBox(new CGRect(0, 0, 20, 20));
             _checkbox.Layer.BorderWidth = 2;
@@ -38,12 +38,10 @@ namespace AiForms.Renderers.iOS
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
-            if (e.PropertyName == CheckboxCell.AccentColorProperty.PropertyName)
-            {
+            if (e.PropertyName == CheckboxCell.AccentColorProperty.PropertyName) {
                 UpdateAccentColor();
             }
-            if (e.PropertyName == CheckboxCell.CheckedProperty.PropertyName)
-            {
+            if (e.PropertyName == CheckboxCell.CheckedProperty.PropertyName) {
                 UpdateChecked();
             }
         }
@@ -51,15 +49,14 @@ namespace AiForms.Renderers.iOS
         public override void ParentPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.ParentPropertyChanged(sender, e);
-            if (e.PropertyName == SettingsView.CellAccentColorProperty.PropertyName)
-            {
+            if (e.PropertyName == SettingsView.CellAccentColorProperty.PropertyName) {
                 UpdateAccentColor();
             }
         }
 
         protected override void Dispose(bool disposing)
         {
-            if(disposing){
+            if (disposing) {
                 _checkbox.CheckChanged = null;
                 _checkbox?.Dispose();
                 _checkbox = null;
@@ -79,17 +76,16 @@ namespace AiForms.Renderers.iOS
 
         void UpdateAccentColor()
         {
-            if (_CheckboxCell.AccentColor != Xamarin.Forms.Color.Default)
-            {
+            if (_CheckboxCell.AccentColor != Xamarin.Forms.Color.Default) {
                 ChangeCheckColor(_CheckboxCell.AccentColor.ToCGColor());
             }
-            else if (CellParent != null && CellParent.CellAccentColor != Xamarin.Forms.Color.Default)
-            {
+            else if (CellParent != null && CellParent.CellAccentColor != Xamarin.Forms.Color.Default) {
                 ChangeCheckColor(CellParent.CellAccentColor.ToCGColor());
             }
         }
 
-        void ChangeCheckColor(CGColor accent){
+        void ChangeCheckColor(CGColor accent)
+        {
             _checkbox.Layer.BorderColor = accent;
             _checkbox.FillColor = accent;
             _checkbox.SetNeedsDisplay(); //update inner rect
@@ -104,7 +100,8 @@ namespace AiForms.Renderers.iOS
 
         public CheckBox(CGRect rect) : base(rect)
         {
-            this.AddGestureRecognizer(new UITapGestureRecognizer((obj) => {
+            this.AddGestureRecognizer(new UITapGestureRecognizer((obj) =>
+            {
                 Selected = !Selected;
                 CheckChanged?.Invoke(this);
             }));
@@ -117,8 +114,7 @@ namespace AiForms.Renderers.iOS
             var lineWidth = rect.Size.Width / 10;
 
             // Draw check mark
-            if (Selected)
-            {
+            if (Selected) {
                 this.Layer.BackgroundColor = FillColor;
 
 
@@ -133,8 +129,7 @@ namespace AiForms.Renderers.iOS
                 checkmark.Stroke();
             }
 
-            else
-            {
+            else {
                 this.Layer.BackgroundColor = new CGColor(0, 0, 0, 0);
             }
         }

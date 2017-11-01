@@ -10,16 +10,16 @@ using Xamarin.Forms.Platform.iOS;
 [assembly: ExportRenderer(typeof(DatePickerCell), typeof(DatePickerCellRenderer))]
 namespace AiForms.Renderers.iOS
 {
-    public class DatePickerCellRenderer:CellBaseRenderer<DatePickerCellView>{}
+    public class DatePickerCellRenderer : CellBaseRenderer<DatePickerCellView> { }
 
-    public class DatePickerCellView:LabelCellView,IPickerCell
+    public class DatePickerCellView : LabelCellView, IPickerCell
     {
         DatePickerCell _DatePickerCell => Cell as DatePickerCell;
         public UITextField DummyField { get; set; }
         NSDate _preSelectedDate;
         UIDatePicker _picker;
 
-        public DatePickerCellView(Cell formsCell):base(formsCell)
+        public DatePickerCellView(Cell formsCell) : base(formsCell)
         {
             DummyField = new NoCaretField();
             DummyField.BorderStyle = UITextBorderStyle.None;
@@ -44,24 +44,23 @@ namespace AiForms.Renderers.iOS
         {
             base.CellPropertyChanged(sender, e);
             if (e.PropertyName == DatePickerCell.DateProperty.PropertyName ||
-                e.PropertyName == DatePickerCell.FormatProperty.PropertyName){
+                e.PropertyName == DatePickerCell.FormatProperty.PropertyName) {
                 UpdateDate();
             }
-            else if(e.PropertyName == DatePickerCell.TodayTextProperty.PropertyName){
+            else if (e.PropertyName == DatePickerCell.TodayTextProperty.PropertyName) {
                 UpdateTodayText();
             }
-            else if(e.PropertyName == DatePickerCell.MaximumDateProperty.PropertyName ){
+            else if (e.PropertyName == DatePickerCell.MaximumDateProperty.PropertyName) {
                 UpdateMaximumDate();
             }
-            else if(e.PropertyName == DatePickerCell.MinimumDateProperty.PropertyName){
+            else if (e.PropertyName == DatePickerCell.MinimumDateProperty.PropertyName) {
                 UpdateMinimumDate();
             }
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
+            if (disposing) {
                 DummyField.RemoveFromSuperview();
                 DummyField?.Dispose();
                 DummyField = null;
@@ -85,27 +84,28 @@ namespace AiForms.Renderers.iOS
             var width = UIScreen.MainScreen.Bounds.Width;
             var toolbar = new UIToolbar(new CGRect(0, 0, width, 44)) { BarStyle = UIBarStyle.Default, Translucent = true };
 
-            var cancelButton = new UIBarButtonItem(UIBarButtonSystemItem.Cancel, (o, e) => {
+            var cancelButton = new UIBarButtonItem(UIBarButtonSystemItem.Cancel, (o, e) =>
+            {
                 DummyField.ResignFirstResponder();
                 _picker.Date = _preSelectedDate;
             });
 
             var spacer = new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace);
-            var doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, (o, a) => {
+            var doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, (o, a) =>
+            {
                 DummyField.ResignFirstResponder();
                 Done();
             });
 
-            if (!string.IsNullOrEmpty(_DatePickerCell.TodayText))
-            {
-                var labelButton = new UIBarButtonItem(_DatePickerCell.TodayText, UIBarButtonItemStyle.Plain, (sender, e) => {
+            if (!string.IsNullOrEmpty(_DatePickerCell.TodayText)) {
+                var labelButton = new UIBarButtonItem(_DatePickerCell.TodayText, UIBarButtonItemStyle.Plain, (sender, e) =>
+                {
                     SetToday();
                 });
                 var fixspacer = new UIBarButtonItem(UIBarButtonSystemItem.FixedSpace) { Width = 20 };
                 toolbar.SetItems(new[] { cancelButton, spacer, labelButton, fixspacer, doneButton }, false);
             }
-            else
-            {
+            else {
                 toolbar.SetItems(new[] { cancelButton, spacer, doneButton }, false);
             }
 
@@ -115,8 +115,7 @@ namespace AiForms.Renderers.iOS
 
         void SetToday()
         {
-            if (_picker.MinimumDate.ToDateTime() <= DateTime.Today && _picker.MaximumDate.ToDateTime() >= DateTime.Today)
-            {
+            if (_picker.MinimumDate.ToDateTime() <= DateTime.Today && _picker.MaximumDate.ToDateTime() >= DateTime.Today) {
                 _picker.SetDate(DateTime.Today.ToNSDate(), true);
             }
         }
@@ -145,7 +144,8 @@ namespace AiForms.Renderers.iOS
             _picker.MinimumDate = _DatePickerCell.MinimumDate.ToNSDate();
         }
 
-        void UpdateTodayText(){
+        void UpdateTodayText()
+        {
             SetUpDatePicker();
             UpdateDate();
             UpdateMaximumDate();

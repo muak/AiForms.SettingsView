@@ -7,8 +7,7 @@ namespace AiForms.Renderers.iOS.Extensions
     {
         public static UITextAlignment ToUITextAlignment(this TextAlignment forms)
         {
-            switch (forms)
-            {
+            switch (forms) {
                 case TextAlignment.Start:
                     return UITextAlignment.Left;
                 case TextAlignment.Center:

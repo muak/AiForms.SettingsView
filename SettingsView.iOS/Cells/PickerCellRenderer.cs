@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using AiForms.Renderers;
+﻿using AiForms.Renderers;
 using AiForms.Renderers.iOS;
 using UIKit;
 using Xamarin.Forms;
-using System.Linq;
-using System.Collections;
-using System.Text.RegularExpressions;
 
 [assembly: ExportRenderer(typeof(PickerCell), typeof(PickerCellRenderer))]
 namespace AiForms.Renderers.iOS
@@ -23,8 +18,6 @@ namespace AiForms.Renderers.iOS
             Accessory = UITableViewCellAccessory.DisclosureIndicator;
             SelectionStyle = UITableViewCellSelectionStyle.Default;
             SetRightMarginZero();
-
-
         }
 
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -32,8 +25,7 @@ namespace AiForms.Renderers.iOS
             base.CellPropertyChanged(sender, e);
             if (e.PropertyName == PickerCell.SelectedItemsProperty.PropertyName ||
                 e.PropertyName == PickerCell.DisplayMemberProperty.PropertyName ||
-                e.PropertyName == PickerCell.SelectedItemsOrderKeyProperty.PropertyName)
-            {
+                e.PropertyName == PickerCell.SelectedItemsOrderKeyProperty.PropertyName) {
                 UpdateSelectedItems(true);
             }
         }
@@ -46,8 +38,7 @@ namespace AiForms.Renderers.iOS
 
         public void UpdateSelectedItems(bool force = false)
         {
-            if (force || string.IsNullOrEmpty(_valueTextCache))
-            {
+            if (force || string.IsNullOrEmpty(_valueTextCache)) {
                 _valueTextCache = _PickerCell.GetSelectedItemsText();
             }
 
@@ -56,8 +47,7 @@ namespace AiForms.Renderers.iOS
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
+            if (disposing) {
 
             }
             base.Dispose(disposing);

@@ -4,7 +4,7 @@ using UIKit;
 
 namespace AiForms.Renderers.iOS
 {
-    public class NoCaretField: UITextField
+    public class NoCaretField : UITextField
     {
         public NoCaretField() : base(new CGRect())
         {

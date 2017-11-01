@@ -9,7 +9,7 @@ using Xamarin.Forms.Platform.iOS;
 [assembly: ExportRenderer(typeof(LabelCell), typeof(LabelCellRenderer))]
 namespace AiForms.Renderers.iOS
 {
-    public class LabelCellRenderer : CellBaseRenderer<LabelCellView>{}
+    public class LabelCellRenderer : CellBaseRenderer<LabelCellView> { }
 
     public class LabelCellView : CellBaseView
     {
@@ -71,7 +71,7 @@ namespace AiForms.Renderers.iOS
             if (_LabelCell.ValueTextFontSize > 0) {
                 ValueLabel.Font = ValueLabel.Font.WithSize((nfloat)_LabelCell.ValueTextFontSize);
             }
-            else if(CellParent != null){
+            else if (CellParent != null) {
                 ValueLabel.Font = ValueLabel.Font.WithSize((nfloat)CellParent.CellValueTextFontSize);
             }
         }

@@ -8,15 +8,15 @@ using Xamarin.Forms;
 [assembly: ExportRenderer(typeof(DatePickerCell), typeof(DatePickerCellRenderer))]
 namespace AiForms.Renderers.Droid
 {
-    public class DatePickerCellRenderer:CellBaseRenderer<DatePickerCellView>{}
+    public class DatePickerCellRenderer : CellBaseRenderer<DatePickerCellView> { }
 
-    public class DatePickerCellView:LabelCellView,IPickerCell
+    public class DatePickerCellView : LabelCellView, IPickerCell
     {
         DatePickerCell _datePickerCell => Cell as DatePickerCell;
         DatePickerDialog _dialog;
         Context _context;
 
-        public DatePickerCellView(Context context,Cell cell):base(context,cell)
+        public DatePickerCellView(Context context, Cell cell) : base(context, cell)
         {
             _context = context;
         }
@@ -31,24 +31,21 @@ namespace AiForms.Renderers.Droid
         {
             base.CellPropertyChanged(sender, e);
             if (e.PropertyName == DatePickerCell.DateProperty.PropertyName ||
-                e.PropertyName == DatePickerCell.FormatProperty.PropertyName)
-            {
+                e.PropertyName == DatePickerCell.FormatProperty.PropertyName) {
                 UpdateDate();
             }
-            else if (e.PropertyName == DatePickerCell.MaximumDateProperty.PropertyName)
-            {
+            else if (e.PropertyName == DatePickerCell.MaximumDateProperty.PropertyName) {
                 UpdateMaximumDate();
             }
-            else if (e.PropertyName == DatePickerCell.MinimumDateProperty.PropertyName)
-            {
+            else if (e.PropertyName == DatePickerCell.MinimumDateProperty.PropertyName) {
                 UpdateMinimumDate();
             }
         }
 
         protected override void Dispose(bool disposing)
         {
-            if(disposing){
-                if(_dialog != null){
+            if (disposing) {
+                if (_dialog != null) {
                     _dialog.CancelEvent -= OnCancelButtonClicked;
                     _dialog?.Dispose();
                     _dialog = null;
@@ -64,7 +61,7 @@ namespace AiForms.Renderers.Droid
             UpdateMinimumDate();
             UpdateMaximumDate();
 
-            if(_datePickerCell.MinimumDate > _datePickerCell.MaximumDate){
+            if (_datePickerCell.MinimumDate > _datePickerCell.MaximumDate) {
                 throw new ArgumentOutOfRangeException(
                     nameof(DatePickerCell.MaximumDate),
                     "MaximumDate must be greater than or equal to MinimumDate."
@@ -79,7 +76,8 @@ namespace AiForms.Renderers.Droid
         void CreateDatePickerDialog(int year, int month, int day)
         {
 
-            _dialog = new DatePickerDialog(_context, (o, e) => {
+            _dialog = new DatePickerDialog(_context, (o, e) =>
+            {
                 _datePickerCell.Date = e.Date;
                 ClearFocus();
                 _dialog.CancelEvent -= OnCancelButtonClicked;
@@ -101,8 +99,7 @@ namespace AiForms.Renderers.Droid
 
         void UpdateMaximumDate()
         {
-            if (_dialog != null)
-            {
+            if (_dialog != null) {
                 //when not to specify 23:59:59,last day can't be selected. 
                 _dialog.DatePicker.MaxDate = (long)_datePickerCell.MaximumDate.AddHours(23).AddMinutes(59).AddSeconds(59).ToUniversalTime().Subtract(DateTime.MinValue.AddYears(1969)).TotalMilliseconds;
             }
@@ -110,11 +107,10 @@ namespace AiForms.Renderers.Droid
 
         void UpdateMinimumDate()
         {
-            if (_dialog != null)
-            {
+            if (_dialog != null) {
                 _dialog.DatePicker.MinDate = (long)_datePickerCell.MinimumDate.ToUniversalTime().Subtract(DateTime.MinValue.AddYears(1969)).TotalMilliseconds;
             }
         }
-      
+
     }
 }

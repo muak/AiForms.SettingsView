@@ -7,8 +7,8 @@ namespace AiForms.Renderers.iOS
 {
     public class NumberPickerSource : UIPickerViewModel
     {
-        
-        public IList<int> Items { get; private set;}
+
+        public IList<int> Items { get; private set; }
 
         public event EventHandler UpdatePickerFromModel;
 
@@ -22,7 +22,7 @@ namespace AiForms.Renderers.iOS
 
         public int SelectedItem { get; internal set; }
 
-        public int PreSelectedItem { get; set;}
+        public int PreSelectedItem { get; set; }
 
         public override nint GetComponentCount(UIPickerView picker)
         {
@@ -41,7 +41,7 @@ namespace AiForms.Renderers.iOS
 
         public override void Selected(UIPickerView picker, nint row, nint component)
         {
-            
+
             if (Items.Count == 0) {
                 SelectedItem = 0;
                 SelectedIndex = -1;
@@ -57,8 +57,7 @@ namespace AiForms.Renderers.iOS
         {
             if (min < 0) min = 0;
             if (max < 0) max = 0;
-            if (min > max)
-            {
+            if (min > max) {
                 throw new ArgumentOutOfRangeException(
                     nameof(NumberPickerCell.Max),
                     "Max value must be greater than or equal to Min value."

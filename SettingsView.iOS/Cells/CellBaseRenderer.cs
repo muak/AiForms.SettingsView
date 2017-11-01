@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 
 namespace AiForms.Renderers.iOS
 {
-    public class CellBaseRenderer<TnativeCell> : CellRenderer where TnativeCell:CellBaseView
+    public class CellBaseRenderer<TnativeCell> : CellRenderer where TnativeCell : CellBaseView
     {
         /// <summary>
         /// Refer to 

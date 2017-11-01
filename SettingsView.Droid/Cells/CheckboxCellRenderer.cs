@@ -11,14 +11,14 @@ using Android.Graphics.Drawables;
 [assembly: ExportRenderer(typeof(AiForms.Renderers.CheckboxCell), typeof(AiForms.Renderers.Droid.CheckboxCellRenderer))]
 namespace AiForms.Renderers.Droid
 {
-    public class CheckboxCellRenderer:CellBaseRenderer<CheckboxCellView>{}
-   
-    public class CheckboxCellView:CellBaseView,CompoundButton.IOnCheckedChangeListener,ICheckableCell
+    public class CheckboxCellRenderer : CellBaseRenderer<CheckboxCellView> { }
+
+    public class CheckboxCellView : CellBaseView, CompoundButton.IOnCheckedChangeListener, ICheckableCell
     {
         AppCompatCheckBox _checkbox;
         CheckboxCell _CheckboxCell => Cell as CheckboxCell;
 
-        public CheckboxCellView(Context context,Cell cell):base(context,cell)
+        public CheckboxCellView(Context context, Cell cell) : base(context, cell)
         {
             _checkbox = new AppCompatCheckBox(context);
             _checkbox.SetOnCheckedChangeListener(this);
@@ -26,13 +26,13 @@ namespace AiForms.Renderers.Droid
 
             var lparam = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WrapContent,
-                ViewGroup.LayoutParams.WrapContent) {
+                ViewGroup.LayoutParams.WrapContent)
+            {
                 Width = (int)context.ToPixels(30),
                 Height = (int)context.ToPixels(30)
             };
 
-            using (lparam)
-            {
+            using (lparam) {
                 AccessoryStack.AddView(_checkbox, lparam);
             }
 
@@ -41,7 +41,8 @@ namespace AiForms.Renderers.Droid
             DescendantFocusability = Android.Views.DescendantFocusability.AfterDescendants;
         }
 
-        public void CheckChange(){
+        public void CheckChange()
+        {
             _checkbox.Checked = !_checkbox.Checked;
         }
 
@@ -55,12 +56,10 @@ namespace AiForms.Renderers.Droid
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
-            if (e.PropertyName == CheckboxCell.AccentColorProperty.PropertyName)
-            {
+            if (e.PropertyName == CheckboxCell.AccentColorProperty.PropertyName) {
                 UpdateAccentColor();
             }
-            if (e.PropertyName == CheckboxCell.CheckedProperty.PropertyName)
-            {
+            if (e.PropertyName == CheckboxCell.CheckedProperty.PropertyName) {
                 UpdateChecked();
             }
         }
@@ -68,15 +67,14 @@ namespace AiForms.Renderers.Droid
         public override void ParentPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.ParentPropertyChanged(sender, e);
-            if (e.PropertyName == SettingsView.CellAccentColorProperty.PropertyName)
-            {
+            if (e.PropertyName == SettingsView.CellAccentColorProperty.PropertyName) {
                 UpdateAccentColor();
             }
         }
 
         protected override void Dispose(bool disposing)
         {
-            if(disposing){
+            if (disposing) {
                 _checkbox.SetOnCheckedChangeListener(null);
                 _checkbox.Dispose();
                 _checkbox = null;
@@ -97,19 +95,18 @@ namespace AiForms.Renderers.Droid
 
         void UpdateAccentColor()
         {
-            if (_CheckboxCell.AccentColor != Xamarin.Forms.Color.Default)
-            {
+            if (_CheckboxCell.AccentColor != Xamarin.Forms.Color.Default) {
                 ChangeCheckColor(_CheckboxCell.AccentColor.ToAndroid());
             }
-            else if (CellParent != null && CellParent.CellAccentColor != Xamarin.Forms.Color.Default)
-            {
+            else if (CellParent != null && CellParent.CellAccentColor != Xamarin.Forms.Color.Default) {
                 ChangeCheckColor(CellParent.CellAccentColor.ToAndroid());
             }
         }
 
 
-        void ChangeCheckColor(Android.Graphics.Color accent){
-           
+        void ChangeCheckColor(Android.Graphics.Color accent)
+        {
+
             var colorList = new ColorStateList(
                 new int[][]{
                     new int[]{global::Android.Resource.Attribute.StateChecked},

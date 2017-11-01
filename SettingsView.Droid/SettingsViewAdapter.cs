@@ -11,7 +11,6 @@ using AListView = Android.Widget.ListView;
 using AView = Android.Views.View;
 using System.Linq;
 
-
 namespace AiForms.Renderers.Droid
 {
     public class SettingsViewAdapter : BaseAdapter<object>, AdapterView.IOnItemClickListener
@@ -27,9 +26,9 @@ namespace AiForms.Renderers.Droid
         Context _context;
 
         CellCache[] _cellCaches;
-        CellCache[] CellCaches {
-            get
-            {
+        CellCache[] CellCaches
+        {
+            get {
                 if (_cellCaches == null)
                     FillCache();
                 return _cellCaches;
@@ -49,57 +48,52 @@ namespace AiForms.Renderers.Droid
 
         void _settingsView_ModelChanged(object sender, EventArgs e)
         {
-            if (_listView != null)
-            {
+            if (_listView != null) {
                 _cellCaches = null;
                 NotifyDataSetChanged();
             }
         }
 
-        //Itemクリック AdapterView.IOnItemClickListenerに対応
+        //Item click. correspond to AdapterView.IOnItemClickListener
         int _selectedIndex = -1;
         Android.Views.View _preSelectedCell = null;
         public void OnItemClick(AdapterView parent, AView view, int position, long id)
         {
-            //TODO: 本当はForms側にSelectedを保持させておいてそれを反映するような処理が望ましい
-            //      が、今はiOS側でそういう処理をしていないので後回し
+            //TODO: It is desirable that the forms side has Selected property and reflects it.
+            //      But do it at a later as iOS side doesn't have that process.
             DeselectRow();
 
             var cell = view.FindViewById<LinearLayout>(Resource.Id.ContentCellBody).GetChildAt(0);
 
-            //var cell = (view as ViewGroup)?.GetChildAt(0) ;
-
             _settingsView.Model.RowSelected(CellCaches[position].Cell);
 
-            if(cell is CommandCellView){
+            if (cell is CommandCellView) {
                 var cmdCell = cell as CommandCellView;
                 cmdCell?.Execute?.Invoke();
-                if ((cmdCell.Cell as CommandCell).KeepSelectedUntilBack)
-                {
-                    SelectedRow(cell,position);
+                if ((cmdCell.Cell as CommandCell).KeepSelectedUntilBack) {
+                    SelectedRow(cell, position);
                 }
             }
-            else if(cell is ButtonCellView){
+            else if (cell is ButtonCellView) {
                 var buttonCell = cell as ButtonCellView;
                 buttonCell?.Execute?.Invoke();
             }
-            else if(cell is ICheckableCell){
+            else if (cell is ICheckableCell) {
                 var checkCell = cell as ICheckableCell;
                 checkCell.CheckChange();
             }
-            else if (cell is IPickerCell)
-            {
+            else if (cell is IPickerCell) {
                 var pCell = cell as IPickerCell;
                 pCell.ShowDialog();
             }
-            else if(cell is PickerCellView){
+            else if (cell is PickerCellView) {
                 var pCell = cell as PickerCellView;
 
-                if((pCell.Cell as PickerCell).ItemsSource == null){
+                if ((pCell.Cell as PickerCell).ItemsSource == null) {
                     return;
                 }
 
-                if((pCell.Cell as PickerCell).KeepSelectedUntilBack){
+                if ((pCell.Cell as PickerCell).KeepSelectedUntilBack) {
                     SelectedRow(cell, position);
                 }
                 pCell.ShowDialog();
@@ -107,7 +101,7 @@ namespace AiForms.Renderers.Droid
 
         }
 
-        public void SelectedRow(AView cell,int position)
+        public void SelectedRow(AView cell, int position)
         {
             _preSelectedCell = cell;
             _selectedIndex = position;
@@ -116,39 +110,38 @@ namespace AiForms.Renderers.Droid
 
         public void DeselectRow()
         {
-            if (_preSelectedCell != null)
-            {
+            if (_preSelectedCell != null) {
                 _preSelectedCell.Selected = false;
                 _preSelectedCell = null;
             }
             _selectedIndex = -1;
         }
 
-        //データソースのItemを返すインデクサ
-        public override object this[int position] {
-            get
-            {
+        //indexer that return data source item.
+        public override object this[int position]
+        {
+            get {
                 return CellCaches[position];
             }
         }
 
-        //Listの全行数
-        public override int Count {
-            get
-            {
+        //All the row counts of the list
+        public override int Count
+        {
+            get {
                 return CellCaches.Length;
             }
         }
 
-        //Idを返す（特に無いのでpositionを返しておく）
+        //return ID (As in paticular it doesn't exist, return the position.)
         public override long GetItemId(int position)
         {
             return position;
         }
 
-        public override int ViewTypeCount {
-            get
-            {
+        public override int ViewTypeCount
+        {
+            get {
                 //used types count + header/footer
                 return _viewTypes.Count() + 2;
             }
@@ -157,16 +150,13 @@ namespace AiForms.Renderers.Droid
         public override int GetItemViewType(int position)
         {
             var cellInfo = CellCaches[position];
-            if (cellInfo.IsHeader)
-            {
+            if (cellInfo.IsHeader) {
                 return ViewTypeHeader;
             }
-            else if (cellInfo.IsFooter)
-            {
+            else if (cellInfo.IsFooter) {
                 return ViewTypeFooter;
             }
-            else
-            {
+            else {
                 return _viewTypes[cellInfo.Cell.GetType()];
             }
         }
@@ -182,8 +172,7 @@ namespace AiForms.Renderers.Droid
             var cellInfo = CellCaches[position];
 
             AView nativeCell;
-            switch (GetItemViewType(position))
-            {
+            switch (GetItemViewType(position)) {
                 case ViewTypeHeader:
                     nativeCell = GetHeaderView(convertView, (TextCell)cellInfo.Cell);
                     break;
@@ -191,12 +180,12 @@ namespace AiForms.Renderers.Droid
                     nativeCell = GetFooterView(convertView, (TextCell)cellInfo.Cell);
                     break;
                 default:
-                    nativeCell = GetContentView(convertView, cellInfo.Cell, parent,position);
+                    nativeCell = GetContentView(convertView, cellInfo.Cell, parent, position);
                     break;
             }
 
-            if(convertView == null){
-                _recycleViews.Add(nativeCell); 
+            if (convertView == null) {
+                _recycleViews.Add(nativeCell);
             }
 
             return nativeCell;
@@ -207,15 +196,13 @@ namespace AiForms.Renderers.Droid
         {
             TextView textView = null;
 
-            if (convertView == null)
-            {
+            if (convertView == null) {
                 convertView = (_context as FormsAppCompatActivity).LayoutInflater.Inflate(Resource.Layout.HeaderCell, _listView, false);
             }
 
-            //セルの高さ
+            //judging cell height
             int cellHeight = (int)_context.ToPixels(44);
-            if (_settingsView.HeaderHeight > -1)
-            {
+            if (_settingsView.HeaderHeight > -1) {
                 cellHeight = (int)_context.ToPixels(_settingsView.HeaderHeight);
             }
             convertView.SetMinimumHeight(cellHeight);
@@ -224,7 +211,7 @@ namespace AiForms.Renderers.Droid
             textView = convertView.FindViewById<TextView>(Resource.Id.HeaderCellText);
             var border = convertView.FindViewById<LinearLayout>(Resource.Id.HeaderCellBorder);
 
-            //Text設定
+            //textview setting
             textView.SetPadding(
                 (int)_context.ToPixels(_settingsView.HeaderPadding.Left),
                 (int)_context.ToPixels(_settingsView.HeaderPadding.Top),
@@ -240,34 +227,30 @@ namespace AiForms.Renderers.Droid
             textView.SetMinLines(1);
             textView.Ellipsize = TextUtils.TruncateAt.End;
 
-            if (_settingsView.HeaderTextColor != Xamarin.Forms.Color.Default)
-            {
+            if (_settingsView.HeaderTextColor != Xamarin.Forms.Color.Default) {
                 textView.SetTextColor(_settingsView.HeaderTextColor.ToAndroid());
             }
 
-            //border設定
-            if (_settingsView.ShowSectionTopBottomBorder)
-            {
+            //border setting
+            if (_settingsView.ShowSectionTopBottomBorder) {
                 border.SetBackgroundColor(_settingsView.SeparatorColor.ToAndroid());
             }
-            else{
+            else {
                 border.SetBackgroundColor(Android.Graphics.Color.Transparent);
             }
 
-
-            //テキストの更新
+            //update text
             textView.Text = formsCell.Text;
 
             return convertView;
         }
 
-        AView GetContentView(AView convertView, Cell formsCell, ViewGroup parent,int position)
+        AView GetContentView(AView convertView, Cell formsCell, ViewGroup parent, int position)
         {
             AView nativeCell = null;
             AView layout = convertView as AView;
 
-            if (layout == null)
-            {
+            if (layout == null) {
                 layout = (_context as FormsAppCompatActivity).LayoutInflater.Inflate(Resource.Layout.ContentCell, _listView, false);
             }
 
@@ -275,15 +258,14 @@ namespace AiForms.Renderers.Droid
             var border = layout.FindViewById(Resource.Id.ContentCellBorder);
 
             nativeCell = body.GetChildAt(0);
-            if(nativeCell != null){
+            if (nativeCell != null) {
                 body.RemoveViewAt(0);
             }
 
-
             nativeCell = CellFactory.GetCell(formsCell, nativeCell, parent, _context, _settingsView);
 
-            if(position == _selectedIndex){
-                
+            if (position == _selectedIndex) {
+
                 DeselectRow();
                 nativeCell.Selected = true;
 
@@ -296,25 +278,23 @@ namespace AiForms.Renderers.Droid
             layout.SetMinimumHeight(minHeight);
             nativeCell.SetMinimumHeight(minHeight);
 
-            if (!_settingsView.HasUnevenRows)
-            {
-                //Unevenでない場合は指定RowHeightかMinRowHeightの大きい方にする
+            if (!_settingsView.HasUnevenRows) {
+                //if not Uneven, set the larger one of RowHeight and MinRowHeight.
                 layout.LayoutParameters.Height = minHeight;
             }
-            else if (formsCell.Height > -1)
-            {
-                //Cell自身にHeightが指定されて入ればそれを
+            else if (formsCell.Height > -1) {
+                //if the cell itself was specified height, set it.
                 layout.SetMinimumHeight((int)_context.ToPixels(formsCell.Height));
                 layout.LayoutParameters.Height = (int)_context.ToPixels(formsCell.Height);
             }
-            else{
+            else {
                 layout.LayoutParameters.Height = -1;
             }
 
-            if(!CellCaches[position].IsLastCell || _settingsView.ShowSectionTopBottomBorder){
-               border.SetBackgroundColor(_settingsView.SeparatorColor.ToAndroid());
+            if (!CellCaches[position].IsLastCell || _settingsView.ShowSectionTopBottomBorder) {
+                border.SetBackgroundColor(_settingsView.SeparatorColor.ToAndroid());
             }
-            else{
+            else {
                 border.SetBackgroundColor(Android.Graphics.Color.Transparent);
             }
 
@@ -327,14 +307,13 @@ namespace AiForms.Renderers.Droid
         {
             TextView textView = null;
 
-            if (convertView == null)
-            {
+            if (convertView == null) {
                 convertView = (_context as FormsAppCompatActivity).LayoutInflater.Inflate(Resource.Layout.FooterCell, _listView, false);
             }
 
             textView = convertView.FindViewById<TextView>(Resource.Id.FooterCellText);
 
-            //Text設定
+            //textview setting
             textView.SetPadding(
                 (int)_context.ToPixels(_settingsView.FooterPadding.Left),
                 (int)_context.ToPixels(_settingsView.FooterPadding.Top),
@@ -344,26 +323,23 @@ namespace AiForms.Renderers.Droid
 
             textView.SetTextSize(Android.Util.ComplexUnitType.Sp, (float)_settingsView.FooterFontSize);
             textView.SetBackgroundColor(_settingsView.FooterBackgroundColor.ToAndroid());
-            if (_settingsView.FooterTextColor != Xamarin.Forms.Color.Default)
-            {
+            if (_settingsView.FooterTextColor != Xamarin.Forms.Color.Default) {
                 textView.SetTextColor(_settingsView.FooterTextColor.ToAndroid());
             }
 
 
-            //セルの高さ
-            if (string.IsNullOrEmpty(formsCell.Text))
-            {
+            //footer visible setting
+            if (string.IsNullOrEmpty(formsCell.Text)) {
                 //テキスト未指定なら非表示（高さ0）
                 textView.Visibility = ViewStates.Gone;
                 convertView.Visibility = ViewStates.Gone;
             }
-            else
-            {
+            else {
                 textView.Visibility = ViewStates.Visible;
                 convertView.Visibility = ViewStates.Visible;
             }
 
-            //テキストの更新
+            //update text
             textView.Text = formsCell.Text;
 
             return convertView;
@@ -377,21 +353,20 @@ namespace AiForms.Renderers.Droid
 
             var newCellCaches = new List<CellCache>();
 
-            for (var sectionIndex = 0; sectionIndex < sectionCount; sectionIndex++)
-            {
+            for (var sectionIndex = 0; sectionIndex < sectionCount; sectionIndex++) {
                 var sectionTitle = model.GetSectionTitle(sectionIndex);
                 var sectionRowCount = model.GetRowCount(sectionIndex);
 
                 Cell headerCell = new TextCell { Text = sectionTitle };
                 headerCell.Parent = _settingsView;
 
-                newCellCaches.Add(new CellCache {
+                newCellCaches.Add(new CellCache
+                {
                     Cell = headerCell,
                     IsHeader = true,
                 });
 
-                for (int i = 0; i < sectionRowCount; i++)
-                {
+                for (int i = 0; i < sectionRowCount; i++) {
                     newCellCaches.Add(new CellCache
                     {
                         Cell = (Cell)model.GetItem(sectionIndex, i),
@@ -402,7 +377,8 @@ namespace AiForms.Renderers.Droid
                 Cell footerCell = new TextCell { Text = model.GetFooterText(sectionIndex) };
                 footerCell.Parent = _settingsView;
 
-                newCellCaches.Add(new CellCache {
+                newCellCaches.Add(new CellCache
+                {
                     Cell = footerCell,
                     IsFooter = true,
                 });
@@ -415,8 +391,7 @@ namespace AiForms.Renderers.Droid
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
+            if (disposing) {
                 _settingsView.ModelChanged -= _settingsView_ModelChanged;
                 _cellCaches = null;
                 _settingsView = null;
@@ -434,7 +409,7 @@ namespace AiForms.Renderers.Droid
         void ClearCell(AView view)
         {
             var body = view.FindViewById<LinearLayout>(Resource.Id.ContentCellBody);
-            if(body != null){
+            if (body != null) {
                 var border = view.FindViewById(Resource.Id.ContentCellBorder);
                 var nativeCell = body.GetChildAt(0);
                 nativeCell.Dispose();
@@ -442,10 +417,10 @@ namespace AiForms.Renderers.Droid
                 body.Dispose();
                 view.Dispose();
                 return;
-            }       
+            }
 
             var headerText = view.FindViewById<TextView>(Resource.Id.HeaderCellText);
-            if(headerText != null){
+            if (headerText != null) {
                 var border = view.FindViewById<LinearLayout>(Resource.Id.HeaderCellBorder);
                 headerText.Dispose();
                 border?.Dispose();
@@ -454,7 +429,7 @@ namespace AiForms.Renderers.Droid
             }
 
             var footerText = view.FindViewById<TextView>(Resource.Id.FooterCellText);
-            if (footerText != null){
+            if (footerText != null) {
                 footerText.Dispose();
                 footerText = null;
                 view.Dispose();

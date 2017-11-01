@@ -10,9 +10,9 @@ using Xamarin.Forms.Platform.iOS;
 [assembly: ExportRenderer(typeof(TimePickerCell), typeof(TimePickerCellRenderer))]
 namespace AiForms.Renderers.iOS
 {
-    public class TimePickerCellRenderer:CellBaseRenderer<TimePickerCellView>{}
+    public class TimePickerCellRenderer : CellBaseRenderer<TimePickerCellView> { }
 
-    public class TimePickerCellView:LabelCellView,IPickerCell
+    public class TimePickerCellView : LabelCellView, IPickerCell
     {
         TimePickerCell _TimePickerCell => Cell as TimePickerCell;
         UIDatePicker _picker;
@@ -20,7 +20,7 @@ namespace AiForms.Renderers.iOS
         UILabel _titleLabel;
         NSDate _preSelectedDate;
 
-        public TimePickerCellView(Cell formsCell):base(formsCell)
+        public TimePickerCellView(Cell formsCell) : base(formsCell)
         {
             DummyField = new NoCaretField();
             DummyField.BorderStyle = UITextBorderStyle.None;
@@ -43,18 +43,18 @@ namespace AiForms.Renderers.iOS
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
-            if(e.PropertyName == TimePickerCell.TimeProperty.PropertyName ||
-               e.PropertyName == TimePickerCell.FormatProperty.PropertyName){
+            if (e.PropertyName == TimePickerCell.TimeProperty.PropertyName ||
+               e.PropertyName == TimePickerCell.FormatProperty.PropertyName) {
                 UpdateTime();
             }
-            else if (e.PropertyName == TimePickerCell.PickerTitleProperty.PropertyName){
+            else if (e.PropertyName == TimePickerCell.PickerTitleProperty.PropertyName) {
                 UpdatePickerTitle();
             }
         }
 
         protected override void Dispose(bool disposing)
         {
-            if(disposing){
+            if (disposing) {
                 DummyField.RemoveFromSuperview();
                 DummyField?.Dispose();
                 DummyField = null;
@@ -82,14 +82,16 @@ namespace AiForms.Renderers.iOS
 
             var width = UIScreen.MainScreen.Bounds.Width;
             var toolbar = new UIToolbar(new CGRect(0, 0, (float)width, 44)) { BarStyle = UIBarStyle.Default, Translucent = true };
-            var cancelButton = new UIBarButtonItem(UIBarButtonSystemItem.Cancel, (o, e) => {
+            var cancelButton = new UIBarButtonItem(UIBarButtonSystemItem.Cancel, (o, e) =>
+            {
                 DummyField.ResignFirstResponder();
                 Canceled();
             });
 
             var labelButton = new UIBarButtonItem(_titleLabel);
             var spacer = new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace);
-            var doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, (o, a) => {
+            var doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, (o, a) =>
+            {
                 DummyField.ResignFirstResponder();
                 Done();
             });

@@ -1,21 +1,16 @@
-﻿using System;
-using AiForms.Renderers;
+﻿using AiForms.Renderers;
 using AiForms.Renderers.Droid;
 using Android.App;
 using Android.Content;
 using Xamarin.Forms;
 using AListView = Android.Widget.ListView;
-using System.Collections.Generic;
-using Xamarin.Forms.Platform.Android;
-using System.Collections;
-using System.Linq;
 
 [assembly: ExportRenderer(typeof(PickerCell), typeof(PickerCellRenderer))]
 namespace AiForms.Renderers.Droid
 {
-    public class PickerCellRenderer:CellBaseRenderer<PickerCellView>{}
+    public class PickerCellRenderer : CellBaseRenderer<PickerCellView> { }
 
-    public class PickerCellView : LabelCellView,IDialogInterfaceOnShowListener,IDialogInterfaceOnDismissListener
+    public class PickerCellView : LabelCellView, IDialogInterfaceOnShowListener, IDialogInterfaceOnDismissListener
     {
         PickerCell _PickerCell => Cell as PickerCell;
         AlertDialog _dialog;
@@ -32,10 +27,9 @@ namespace AiForms.Renderers.Droid
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
-            if (e.PropertyName == PickerCell.SelectedItemsProperty.PropertyName||
+            if (e.PropertyName == PickerCell.SelectedItemsProperty.PropertyName ||
                 e.PropertyName == PickerCell.DisplayMemberProperty.PropertyName ||
-                e.PropertyName == PickerCell.SelectedItemsOrderKeyProperty.PropertyName)
-            {
+                e.PropertyName == PickerCell.SelectedItemsOrderKeyProperty.PropertyName) {
                 UpdateSelectedItems(true);
             }
         }
@@ -48,8 +42,7 @@ namespace AiForms.Renderers.Droid
 
         public void UpdateSelectedItems(bool force = false)
         {
-            if (force || string.IsNullOrEmpty(_valueTextCache))
-            {
+            if (force || string.IsNullOrEmpty(_valueTextCache)) {
                 _valueTextCache = _PickerCell.GetSelectedItemsText();
             }
 
@@ -58,7 +51,7 @@ namespace AiForms.Renderers.Droid
 
         protected override void Dispose(bool disposing)
         {
-            if(disposing){
+            if (disposing) {
                 _dialog?.Dispose();
                 _dialog = null;
                 _listView?.Dispose();
@@ -72,7 +65,7 @@ namespace AiForms.Renderers.Droid
 
         internal void ShowDialog()
         {
-            CreateDialog();          
+            CreateDialog();
         }
 
         void CreateDialog()
@@ -82,22 +75,22 @@ namespace AiForms.Renderers.Droid
             _listView.DescendantFocusability = Android.Views.DescendantFocusability.AfterDescendants;
             _listView.SetDrawSelectorOnTop(true);
             _listView.ChoiceMode = _PickerCell.MaxSelectedNumber == 1 ? Android.Widget.ChoiceMode.Single : Android.Widget.ChoiceMode.Multiple;
-            _adapter = new PickerAdapter(_context,_PickerCell,_listView);
+            _adapter = new PickerAdapter(_context, _PickerCell, _listView);
             _listView.OnItemClickListener = _adapter;
             _listView.Adapter = _adapter;
 
 
-            if (_dialog == null)
-            {
-                using (var builder = new AlertDialog.Builder(_context))
-                {
+            if (_dialog == null) {
+                using (var builder = new AlertDialog.Builder(_context)) {
                     builder.SetTitle(_PickerCell.PageTitle);
                     builder.SetView(_listView);
 
-                    builder.SetNegativeButton(global::Android.Resource.String.Cancel, (o, args) => {
+                    builder.SetNegativeButton(global::Android.Resource.String.Cancel, (o, args) =>
+                    {
                         ClearFocus();
                     });
-                    builder.SetPositiveButton(global::Android.Resource.String.Ok, (o, args) => {
+                    builder.SetPositiveButton(global::Android.Resource.String.Ok, (o, args) =>
+                    {
                         _adapter.DoneSelect();
                         UpdateSelectedItems(true);
                         ClearFocus();
@@ -113,11 +106,13 @@ namespace AiForms.Renderers.Droid
             }
         }
 
-        public void OnShow(IDialogInterface dialog){
+        public void OnShow(IDialogInterface dialog)
+        {
             _adapter.RestoreSelect();
         }
 
-        public void OnDismiss(IDialogInterface dialog){
+        public void OnDismiss(IDialogInterface dialog)
+        {
             _dialog.SetOnShowListener(null);
             _dialog.SetOnDismissListener(null);
             _dialog.Dispose();

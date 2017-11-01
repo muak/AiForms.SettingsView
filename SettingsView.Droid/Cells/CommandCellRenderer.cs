@@ -1,15 +1,14 @@
-﻿using AiForms.Renderers;
+﻿using System;
+using System.Windows.Input;
+using AiForms.Renderers;
 using AiForms.Renderers.Droid;
 using Android.Content;
 using Xamarin.Forms;
-using Android.Support.V7.Widget;
-using System;
-using System.Windows.Input;
 
 [assembly: ExportRenderer(typeof(CommandCell), typeof(CommandCellRenderer))]
 namespace AiForms.Renderers.Droid
 {
-    public class CommandCellRenderer:CellBaseRenderer<CommandCellView>{}
+    public class CommandCellRenderer : CellBaseRenderer<CommandCellView> { }
 
     public class CommandCellView : LabelCellView
     {
@@ -25,8 +24,7 @@ namespace AiForms.Renderers.Droid
         {
             base.CellPropertyChanged(sender, e);
             if (e.PropertyName == CommandCell.CommandProperty.PropertyName ||
-               e.PropertyName == CommandCell.CommandParameterProperty.PropertyName)
-            {
+               e.PropertyName == CommandCell.CommandParameterProperty.PropertyName) {
                 UpdateCommand();
             }
         }
@@ -39,8 +37,7 @@ namespace AiForms.Renderers.Droid
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
+            if (disposing) {
                 if (_command != null) {
                     _command.CanExecuteChanged -= Command_CanExecuteChanged;
                 }
@@ -52,24 +49,23 @@ namespace AiForms.Renderers.Droid
 
         void UpdateCommand()
         {
-            if(_command != null){
+            if (_command != null) {
                 _command.CanExecuteChanged -= Command_CanExecuteChanged;
             }
 
             _command = _CommandCell.Command;
 
             if (_command != null) {
-                _command.CanExecuteChanged += Command_CanExecuteChanged;              
+                _command.CanExecuteChanged += Command_CanExecuteChanged;
                 Command_CanExecuteChanged(_command, System.EventArgs.Empty);
             }
 
-            Execute = () => {
-                if (_command == null)
-                {
+            Execute = () =>
+            {
+                if (_command == null) {
                     return;
                 }
-                if (_command.CanExecute(_CommandCell.CommandParameter))
-                {
+                if (_command.CanExecute(_CommandCell.CommandParameter)) {
                     _command.Execute(_CommandCell.CommandParameter);
                 }
             };

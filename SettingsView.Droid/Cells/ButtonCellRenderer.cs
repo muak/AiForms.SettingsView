@@ -9,15 +9,15 @@ using AiForms.Renderers.Droid;
 [assembly: ExportRenderer(typeof(ButtonCell), typeof(ButtonCellRenderer))]
 namespace AiForms.Renderers.Droid
 {
-    public class ButtonCellRenderer:CellBaseRenderer<ButtonCellView>{}
+    public class ButtonCellRenderer : CellBaseRenderer<ButtonCellView> { }
 
-    public class ButtonCellView:CellBaseView
+    public class ButtonCellView : CellBaseView
     {
         public Action Execute { get; set; }
         ButtonCell _ButtonCell => Cell as ButtonCell;
         ICommand _command;
 
-        public ButtonCellView(Context context, Cell cell):base(context, cell)
+        public ButtonCellView(Context context, Cell cell) : base(context, cell)
         {
             DescriptionLabel.Visibility = Android.Views.ViewStates.Gone;
         }
@@ -26,12 +26,10 @@ namespace AiForms.Renderers.Droid
         {
             base.CellPropertyChanged(sender, e);
             if (e.PropertyName == ButtonCell.CommandProperty.PropertyName ||
-                e.PropertyName == ButtonCell.CommandParameterProperty.PropertyName)
-            {
+                e.PropertyName == ButtonCell.CommandParameterProperty.PropertyName) {
                 UpdateCommand();
             }
-            else if (e.PropertyName == ButtonCell.TitleAlignmentProperty.PropertyName)
-            {
+            else if (e.PropertyName == ButtonCell.TitleAlignmentProperty.PropertyName) {
                 UpdateTitleAlignment();
             }
         }
@@ -45,10 +43,8 @@ namespace AiForms.Renderers.Droid
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                if (_command != null)
-                {
+            if (disposing) {
+                if (_command != null) {
                     _command.CanExecuteChanged -= Command_CanExecuteChanged;
                 }
                 Execute = null;
@@ -64,26 +60,23 @@ namespace AiForms.Renderers.Droid
 
         void UpdateCommand()
         {
-            if (_command != null)
-            {
+            if (_command != null) {
                 _command.CanExecuteChanged -= Command_CanExecuteChanged;
             }
 
             _command = _ButtonCell.Command;
 
-            if (_command != null)
-            {
+            if (_command != null) {
                 _command.CanExecuteChanged += Command_CanExecuteChanged;
                 Command_CanExecuteChanged(_command, System.EventArgs.Empty);
             }
 
-            Execute = () => {
-                if (_command == null)
-                {
+            Execute = () =>
+            {
+                if (_command == null) {
                     return;
                 }
-                if (_command.CanExecute(_ButtonCell.CommandParameter))
-                {
+                if (_command.CanExecute(_ButtonCell.CommandParameter)) {
                     _command.Execute(_ButtonCell.CommandParameter);
                 }
             };
@@ -93,15 +86,13 @@ namespace AiForms.Renderers.Droid
 
         void Command_CanExecuteChanged(object sender, EventArgs e)
         {
-            if (_command.CanExecute(_ButtonCell.CommandParameter))
-            {
+            if (_command.CanExecute(_ButtonCell.CommandParameter)) {
                 Focusable = false;
                 DescendantFocusability = Android.Views.DescendantFocusability.AfterDescendants;
                 TitleLabel.Alpha = 1f;
                 IconView.Alpha = 1f;
             }
-            else
-            {
+            else {
                 // not to invoke a ripple effect and not to selected
                 Focusable = true;
                 DescendantFocusability = Android.Views.DescendantFocusability.BlockDescendants;

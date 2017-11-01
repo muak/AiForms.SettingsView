@@ -31,16 +31,16 @@ namespace AiForms.Renderers.iOS
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
 
-            //FormsCell取得
+            //get forms cell
             var cell = _settingsView.Model.GetCell(indexPath.Section, indexPath.Row);
 
             var id = cell.GetType().FullName;
 
             var renderer = (CellRenderer)Xamarin.Forms.Internals.Registrar.Registered.GetHandler<IRegisterable>(cell.GetType());
 
-            //リサイクルCell取得
+            //get recycle cell
             var reusableCell = tableView.DequeueReusableCell(id);
-            //NativeCell取得
+            //get native cell
             var nativeCell = renderer.GetCell(cell, reusableCell, tableView);
 
             var cellWithContent = nativeCell;
@@ -54,7 +54,7 @@ namespace AiForms.Renderers.iOS
             if (cellWithContent != null)
                 cellWithContent.LayoutSubviews();
 
-            //選択時背景色
+            //selected background
             if (!(nativeCell is CellBaseView)) {
                 nativeCell.SelectionStyle = UITableViewCellSelectionStyle.None;
             }
@@ -62,7 +62,7 @@ namespace AiForms.Renderers.iOS
             return nativeCell;
         }
 
-        //行の高さ
+        //Row height
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
             if (!_settingsView.HasUnevenRows) {
@@ -73,16 +73,16 @@ namespace AiForms.Renderers.iOS
             var h = cell.Height;
 
             if (h == -1) {
-                //高さ自動
+                //automatic height
                 return tableView.RowHeight;
             }
 
-            //個別の高さが指定されていたらその高さにする
+            //individual height
             return (nfloat)h;
         }
 
 
-        //ヘッダーの高さ
+        //section header height
         public override nfloat GetHeightForHeader(UITableView tableView, nint section)
         {
             if (_settingsView.HeaderHeight == -1d) {
@@ -111,14 +111,14 @@ namespace AiForms.Renderers.iOS
             return container;
         }
 
-        //フッターの高さ
+        //section footer height
         public override nfloat GetHeightForFooter(UITableView tableView, nint section)
         {
             var footerText = _settingsView.Model.GetFooterText((int)section);
 
             if (string.IsNullOrEmpty(footerText)) {
-                //テキスト未指定だったら非表示にする
-                return nfloat.Epsilon;
+                //hide footer
+                return nfloat.Epsilon; // must not zero
             }
 
             return UITableView.AutomaticDimension;
@@ -145,39 +145,37 @@ namespace AiForms.Renderers.iOS
             return container;
         }
 
-        //フッターのテキスト
+        //section footer text
         public override string TitleForFooter(UITableView tableView, nint section)
         {
             return _settingsView.Model.GetFooterText((int)section);
         }
 
-        //セクションの数
+        //section count
         public override nint NumberOfSections(UITableView tableView)
         {
             _tableView = tableView;
             return _settingsView.Model.GetSectionCount();
         }
 
-        //1セクションの行数
         public override nint RowsInSection(UITableView tableview, nint section)
         {
             return _settingsView.Model.GetRowCount((int)section);
         }
 
-        //セクションのタイトル文字列の配列（何のためか不明）
+        //Title text string array (unknown what to do ) 
         public override string[] SectionIndexTitles(UITableView tableView)
         {
             return _settingsView.Model.GetSectionIndexTitles();
         }
 
-
-        //セクションタイトル
+        //section header title
         public override string TitleForHeader(UITableView tableView, nint section)
         {
             return _settingsView.Model.GetSectionTitle((int)section);
         }
 
-        //行が選択された時の処理
+        //processing when row is selected.
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {         
             var cell = tableView.CellAt(indexPath);
@@ -204,7 +202,6 @@ namespace AiForms.Renderers.iOS
                     return;
                 }
 
-                //TODO: これでどんなパターンでも大丈夫なのか要検証
                 var naviCtrl = GetUINavigationController(UIApplication.SharedApplication.Windows[0].RootViewController); 
                 _pickerVC?.Dispose();
                 _pickerVC = new PickerTableViewController((PickerCellView)cell,tableView);

@@ -1,11 +1,9 @@
 ﻿using System;
-using Android.Content;
-using Android.Graphics;
-using Xamarin.Forms.Platform.Android;
-using System.Runtime.InteropServices.ComTypes;
-using System.Reflection;
-using System.Linq.Expressions;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using Android.Content;
+using Xamarin.Forms.Platform.Android;
 
 namespace AiForms.Renderers.Droid
 {
@@ -28,8 +26,7 @@ namespace AiForms.Renderers.Droid
         protected override Android.Views.View GetCellCore(Xamarin.Forms.Cell item, Android.Views.View convertView, Android.Views.ViewGroup parent, Android.Content.Context context)
         {
             TnativeCell nativeCell = convertView as TnativeCell;
-            if (nativeCell == null)
-            {
+            if (nativeCell == null) {
                 nativeCell = InstanceCreator<Context, Xamarin.Forms.Cell, TnativeCell>.Create(context, item);
             }
 
@@ -50,8 +47,7 @@ namespace AiForms.Renderers.Droid
             formsCell.PropertyChanged -= nativeCell.CellPropertyChanged;
             formsCell.PropertyChanged += nativeCell.CellPropertyChanged;
 
-            if (parentElement != null)
-            {
+            if (parentElement != null) {
                 parentElement.PropertyChanged -= nativeCell.ParentPropertyChanged;
                 parentElement.PropertyChanged += nativeCell.ParentPropertyChanged;
             }
