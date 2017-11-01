@@ -105,6 +105,8 @@
     <Compile Include="Cells\DatePickerCellRenderer.cs" />
     <Compile Include="Cells\EntryCellRenderer.cs" />
     <Compile Include="Extensions\TextAlignmentExtensions.cs" />
+    <Compile Include="Cells\ButtonCellRenderer.cs" />
+    <Compile Include="Cells\ICheckableCell.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

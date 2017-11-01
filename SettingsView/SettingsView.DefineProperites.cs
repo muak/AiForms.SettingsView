@@ -371,7 +371,7 @@ namespace AiForms.Renderers
             set { SetValue(CellHintFontSizeProperty, value); }
         }
 
-        //Android Only
+        //Only Android 
         public static BindableProperty UseDescriptionAsValueProperty =
             BindableProperty.Create(
                 nameof(UseDescriptionAsValue),
@@ -387,7 +387,7 @@ namespace AiForms.Renderers
             set { SetValue(UseDescriptionAsValueProperty, value); }
         }
 
-        //Android Only
+        //Only Android
         public static BindableProperty ShowSectionTopBottomBorderProperty =
             BindableProperty.Create(
                 nameof(ShowSectionTopBottomBorder),

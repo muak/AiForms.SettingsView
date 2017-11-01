@@ -5,6 +5,7 @@
 	xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms" 
 	prism:ViewModelLocator.AutowireViewModel="True" 
 	x:Class="Sample.Views.MainPage" Title="MainPage">
+    <ScrollView>
 	<StackLayout>
 		<Button Text="SettingsView" Command="{Binding GoToPage}" CommandParameter="SettingsView" />
         <Button Text="DefaultPropTest" Command="{Binding GoToTest}"  CommandParameter="DefaultPropTest" />
@@ -14,5 +15,9 @@
         <Button Text="SwitchCellTest" Command="{Binding GoToTest}"  CommandParameter="SwitchCellTest" />
         <Button Text="PickerCellTest" Command="{Binding GoToTest}"  CommandParameter="PickerCellTest" />
         <Button Text="EntryCellTest" Command="{Binding GoToTest}"  CommandParameter="EntryCellTest" />
+        <Button Text="ButtonCellTest" Command="{Binding GoToTest}"  CommandParameter="ButtonCellTest" />
+        <Button Text="FormsCellTest" Command="{Binding GoToTest}"  CommandParameter="FormsCellTest" />
+        <Button Text="OnTableViewTest" Command="{Binding GoToTest}"  CommandParameter="OnTableViewTest" />
 	</StackLayout>
+     </ScrollView>
 </ContentPage>

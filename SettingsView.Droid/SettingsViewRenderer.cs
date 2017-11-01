@@ -19,7 +19,7 @@ namespace AiForms.Renderers.Droid
 
         public SettingsViewRenderer()
         {
-            //AutoPackage = false;
+            AutoPackage = false;
         }
 
         protected override void OnElementChanged(ElementChangedEventArgs<SettingsView> e)
@@ -36,6 +36,7 @@ namespace AiForms.Renderers.Droid
 
                 UpdateSelectedColor();
                 UpdateBackgroundColor();
+                UpdateRowHeight();
 
                 _adapter = new SettingsViewAdapter(Context, e.NewElement, Control);
                 Control.Adapter = _adapter;
@@ -58,7 +59,6 @@ namespace AiForms.Renderers.Droid
 
                 _parentPage = elm as Page;
                 _parentPage.Appearing += ParentPageAppearing;
-
             }
         }
 
@@ -77,7 +77,7 @@ namespace AiForms.Renderers.Droid
                 UpdateBackgroundColor();
             }
             else if (e.PropertyName == TableView.RowHeightProperty.PropertyName) {
-                _adapter.NotifyDataSetChanged();
+                UpdateRowHeight();
             }
             else if( e.PropertyName == SettingsView.UseDescriptionAsValueProperty.PropertyName){
                 _adapter.NotifyDataSetChanged();
@@ -90,6 +90,16 @@ namespace AiForms.Renderers.Droid
             }
             else if(e.PropertyName == TableView.HasUnevenRowsProperty.PropertyName){
                 _adapter.NotifyDataSetChanged();
+            }
+        }
+
+        void UpdateRowHeight()
+        {
+            if(Element.RowHeight == -1){
+                Element.RowHeight = 60;
+            }
+            else{
+                _adapter?.NotifyDataSetChanged();
             }
         }
 

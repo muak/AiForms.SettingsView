@@ -16,6 +16,7 @@
                 <ai:DatePickerCell   IconSource="icon.png" Title="DatePickerCell"   Description="HogeFuga" HintText="hint" Date="2017/10/10"/>
                 <ai:PickerCell       IconSource="icon.png" Title="PickerCell"       Description="HogeFuga" HintText="hint" ValueText="selected"/>
                 <ai:EntryCell        IconSource="icon.png" Title="EntryCell"        Description="HogeFuga" HintText="hint" ValueText="inputText"/>
+                <ai:ButtonCell       IconSource="icon.png" Title="ButtonCell"       HintText="hint" />
             </ai:Section>
             <ai:Section Title="Section2" FooterText="Footer2" >
                 <ai:LabelCell        Title="LabelCell"        ValueText="Value"/>
@@ -27,6 +28,7 @@
                 <ai:DatePickerCell   Title="DatePickerCell"   Date="2017/10/10"/>
                 <ai:PickerCell       Title="PickerCell"       ValueText="selected"/>
                 <ai:EntryCell        Title="EntryCell"        ValueText="inputText" />
+                <ai:ButtonCell      Title="ButtonCell"       HintText="hint" />
              </ai:Section>
             <ai:Section Title="Section3" FooterText="Footer3">
                 <ai:LabelCell         />
@@ -38,6 +40,7 @@
                 <ai:DatePickerCell    />
                 <ai:PickerCell        />
                 <ai:EntryCell         />
+                <ai:ButtonCell />
             </ai:Section>
 
         </ai:SettingsView>

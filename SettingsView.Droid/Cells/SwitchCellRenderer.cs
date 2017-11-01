@@ -12,7 +12,7 @@ namespace AiForms.Renderers.Droid
 {
     public class SwitchCellRenderer:CellBaseRenderer<SwitchCellView>{}
 
-    public class SwitchCellView : CellBaseView, CompoundButton.IOnCheckedChangeListener
+    public class SwitchCellView : CellBaseView, CompoundButton.IOnCheckedChangeListener,ICheckableCell
     {
         SwitchCompat _switch { get; set; }
         SwitchCell _SwitchCell => Cell as SwitchCell;
@@ -33,8 +33,13 @@ namespace AiForms.Renderers.Droid
                 AccessoryStack.AddView(_switch,switchParam);
             }
 
-            //ErrorLabel.BringToFront();
+            _switch.Focusable = false;
+            Focusable = false;
+            DescendantFocusability = Android.Views.DescendantFocusability.AfterDescendants;
+        }
 
+        public void CheckChange(){
+            _switch.Checked = !_switch.Checked;
         }
 
         public override void UpdateCell()

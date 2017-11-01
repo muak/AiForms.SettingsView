@@ -71,17 +71,21 @@ namespace AiForms.Renderers.Droid
 
             _settingsView.Model.RowSelected(CellCaches[position].Cell);
 
-            _preSelectedCell = cell;
-            _selectedIndex = position;
-
-
             if(cell is CommandCellView){
                 var cmdCell = cell as CommandCellView;
                 cmdCell?.Execute?.Invoke();
                 if ((cmdCell.Cell as CommandCell).KeepSelectedUntilBack)
                 {
-                    cell.Selected = true;
+                    SelectedRow(cell,position);
                 }
+            }
+            else if(cell is ButtonCellView){
+                var buttonCell = cell as ButtonCellView;
+                buttonCell?.Execute?.Invoke();
+            }
+            else if(cell is ICheckableCell){
+                var checkCell = cell as ICheckableCell;
+                checkCell.CheckChange();
             }
             else if (cell is IPickerCell)
             {
@@ -96,11 +100,18 @@ namespace AiForms.Renderers.Droid
                 }
 
                 if((pCell.Cell as PickerCell).KeepSelectedUntilBack){
-                    cell.Selected = true;
+                    SelectedRow(cell, position);
                 }
                 pCell.ShowDialog();
             }
 
+        }
+
+        public void SelectedRow(AView cell,int position)
+        {
+            _preSelectedCell = cell;
+            _selectedIndex = position;
+            cell.Selected = true;
         }
 
         public void DeselectRow()

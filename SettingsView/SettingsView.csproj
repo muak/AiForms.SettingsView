@@ -46,6 +46,7 @@
     <Compile Include="SizeTypeConverter.cs" />
     <Compile Include="Cells\CheckboxCell.cs" />
     <Compile Include="NaturalComparer.cs" />
+    <Compile Include="Cells\ButtonCell.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">

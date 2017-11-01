@@ -162,6 +162,10 @@ namespace AiForms.Renderers
         internal string GetSelectedItemsText(){
             List<string> sortedList = null;
 
+            if(SelectedItems == null){
+                return string.Empty;
+            }
+
             if (KeyValue != null)
             {
                 var dict = new Dictionary<object, string>();

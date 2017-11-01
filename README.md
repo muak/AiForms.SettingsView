@@ -24,7 +24,6 @@ This is a flexble TableView specialized in settings for Android / iOS.
 * To change corner radius of an icon.
 * To use various defined cells.
 * To use Xamarin.Forms.ViewCell and the others.
-* To use SettingsView cells in ListView and TableView.
 
 ## Minimum Device and Version etc
 

@@ -13,7 +13,7 @@ namespace AiForms.Renderers.Droid
 {
     public class CheckboxCellRenderer:CellBaseRenderer<CheckboxCellView>{}
    
-    public class CheckboxCellView:CellBaseView,CompoundButton.IOnCheckedChangeListener
+    public class CheckboxCellView:CellBaseView,CompoundButton.IOnCheckedChangeListener,ICheckableCell
     {
         AppCompatCheckBox _checkbox;
         CheckboxCell _CheckboxCell => Cell as CheckboxCell;
@@ -35,6 +35,14 @@ namespace AiForms.Renderers.Droid
             {
                 AccessoryStack.AddView(_checkbox, lparam);
             }
+
+            _checkbox.Focusable = false;
+            Focusable = false;
+            DescendantFocusability = Android.Views.DescendantFocusability.AfterDescendants;
+        }
+
+        public void CheckChange(){
+            _checkbox.Checked = !_checkbox.Checked;
         }
 
         public override void UpdateCell()

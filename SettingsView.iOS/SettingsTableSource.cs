@@ -191,6 +191,11 @@ namespace AiForms.Renderers.iOS
                     tableView.DeselectRow(indexPath, true);
                 }
             }
+            else if(cell is ButtonCellView){
+                var buttonCell = cell as ButtonCellView;
+                buttonCell?.Execute?.Invoke();
+                tableView.DeselectRow(indexPath,true);
+            }
             else if(cell is PickerCellView){
                 var pickerCell = (cell as PickerCellView).Cell as PickerCell;
 

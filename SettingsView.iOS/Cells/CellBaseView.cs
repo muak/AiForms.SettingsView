@@ -599,7 +599,7 @@ namespace AiForms.Renderers.iOS
             _stackH.BottomAnchor.ConstraintEqualTo(ContentView.BottomAnchor).Active = true;
             _stackH.RightAnchor.ConstraintEqualTo(ContentView.RightAnchor).Active = true;
 
-            var minHeight = Math.Max(CellParent.RowHeight, SettingsViewRenderer.MinRowHeight);
+            var minHeight = Math.Max(CellParent?.RowHeight ?? 44 , SettingsViewRenderer.MinRowHeight);
             _minheightConstraint = _stackH.HeightAnchor.ConstraintGreaterThanOrEqualTo(minHeight);
             _minheightConstraint.Active = true;
         }

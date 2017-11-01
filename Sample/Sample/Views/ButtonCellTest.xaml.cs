@@ -5,9 +5,9 @@ using Xamarin.Forms;
 
 namespace Sample.Views
 {
-    public partial class SwitchCellTest : ContentPage
+    public partial class ButtonCellTest : ContentPage
     {
-        public SwitchCellTest()
+        public ButtonCellTest()
         {
             InitializeComponent();
         }

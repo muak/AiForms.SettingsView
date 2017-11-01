@@ -53,7 +53,7 @@ namespace AiForms.Renderers.Droid
                 _valueTextCache = _PickerCell.GetSelectedItemsText();
             }
 
-            ValueLabel.Text = _valueTextCache;
+            vValueLabel.Text = _valueTextCache;
         }
 
         protected override void Dispose(bool disposing)
