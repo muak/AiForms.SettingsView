@@ -1,3 +1,5 @@
+<link href="https://raw.githubusercontent.com/muak/AiForms.Renderers/master/css/readme.css" rel="stylesheet"></link>
+
 # AiForms.Renderes.SettingsView for Xamarin.Forms
 
 This is a flexble TableView specialized in settings for Android / iOS.
@@ -135,18 +137,18 @@ hogehoge...
 
 ### Layout of cellbase
 
-<div id="hogehoge" style="display:flex;width:360px;height:100px;border:solid 1px silver">
-    <div style="display:flex;align-items:center;justify-content:center;width:100px;height:100px;border-right:solid 1px silver;">Icon</div>
-    <div style="display:flex;flex-direction:column;flex-grow:100;">
-        <div style="display:flex;align-items:center;height:50px;border-bottom:solid 1px silver;">
-            <div style="display:flex;padding-left:6px;">Title</div>
-            <div style="display:flex;flex-grow:100;justify-content:flex-end;padding-right:6px;">ValueText</div>            
+<div id="outerbox" style="display:flex;width:360px;height:100px;border:solid 1px silver">
+    <div id="iconbox" style="display:flex;align-items:center;justify-content:center;width:100px;height:100px;border-right:solid 1px silver;">Icon</div>
+    <div id="middlebox" style="display:flex;flex-direction:column;flex-grow:100;">
+        <div id="middletopbox" style="display:flex;align-items:center;height:50px;border-bottom:solid 1px silver;">
+            <div id="titlebox" style="display:flex;padding-left:6px;">Title</div>
+            <div id="valuebox" style="display:flex;flex-grow:100;justify-content:flex-end;padding-right:6px;">ValueText</div>            
         </div>
-        <div style="display:flex;align-items:center;height:50px;padding-left:6px;">
+        <div id="descriptionbox" style="display:flex;align-items:center;height:50px;padding-left:6px;">
             Description
         </div>
     </div>
-    <div style="display:flex;align-items:center;justify-cntent:center;width:30px;height:100;border-left:solid 1px silver;padding:3px;">
+    <div id="accessorybox" style="display:flex;align-items:center;justify-cntent:center;width:30px;height:100;border-left:solid 1px silver;padding:3px;">
         Accessory
     </div>
 </div>

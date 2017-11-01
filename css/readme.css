@@ -1,0 +1,38 @@
+#user-content-outerbox{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:100px;
+    height:100px;
+    border-right:solid 1px silver;
+}
+
+#user-content-middlebox{
+    display:flex;flex-direction:column;flex-grow:100;
+}
+
+#user-content-middletopbox{
+    display:flex;align-items:center;height:50px;border-bottom:solid 1px silver;
+}
+
+#user-content-titlebox{
+    display:flex;padding-left:6px;
+}
+
+#user-content-valuebox{
+    display:flex;flex-grow:100;justify-content:flex-end;padding-right:6px;
+}
+
+#user-content-descriptionbox{
+    display:flex;align-items:center;height:50px;padding-left:6px;
+}
+
+#user-content-accessorybox{
+    display:flex;
+    align-items:center;
+    justify-cntent:center;
+    width:30px;
+    height:100;
+    border-left:solid 1px silver;
+    padding:3px;
+}
