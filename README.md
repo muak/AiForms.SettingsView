@@ -135,7 +135,7 @@ hogehoge...
 
 ### Layout of cellbase
 
-<div style="display:flex;width:360px;height:100px;border:solid 1px silver">
+<div id="hogehoge" style="display:flex;width:360px;height:100px;border:solid 1px silver">
     <div style="display:flex;align-items:center;justify-content:center;width:100px;height:100px;border-right:solid 1px silver;">Icon</div>
     <div style="display:flex;flex-direction:column;flex-grow:100;">
         <div style="display:flex;align-items:center;height:50px;border-bottom:solid 1px silver;">
