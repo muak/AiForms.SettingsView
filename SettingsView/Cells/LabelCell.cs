@@ -51,5 +51,19 @@ namespace AiForms.Renderers
             set { SetValue(ValueTextFontSizeProperty, value); }
         }
 
+        public static BindableProperty IgnoreUseDescriptionAsValueProperty =
+            BindableProperty.Create(
+                nameof(IgnoreUseDescriptionAsValue),
+                typeof(bool),
+                typeof(LabelCell),
+                false,
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        public bool IgnoreUseDescriptionAsValue
+        {
+            get { return (bool)GetValue(IgnoreUseDescriptionAsValueProperty); }
+            set { SetValue(IgnoreUseDescriptionAsValueProperty, value); }
+        }
     }
 }

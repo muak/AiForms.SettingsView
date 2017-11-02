@@ -55,6 +55,9 @@ namespace AiForms.Renderers.Droid
             else if (e.PropertyName == LabelCell.ValueTextColorProperty.PropertyName) {
                 UpdateValueTextColor();
             }
+            else if(e.PropertyName == LabelCell.IgnoreUseDescriptionAsValueProperty.PropertyName){
+                UpdateUseDescriptionAsValue();
+            }
         }
 
         public override void ParentPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -81,7 +84,7 @@ namespace AiForms.Renderers.Droid
 
         void UpdateUseDescriptionAsValue()
         {
-            if (CellParent != null && CellParent.UseDescriptionAsValue) {
+            if (!_LabelCell.IgnoreUseDescriptionAsValue && CellParent != null && CellParent.UseDescriptionAsValue) {
                 vValueLabel = DescriptionLabel;
                 DescriptionLabel.Visibility = ViewStates.Visible;
                 ValueLabel.Visibility = ViewStates.Gone;

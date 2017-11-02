@@ -98,7 +98,7 @@ hogehoge...
     * they are bulk cell options.
 * UseDescriptionAsValue (for Android)
 	* Whether description field  is used as value field. (like general android app)
-    * default true
+    * default false
 * ShowSectionTopBottomBorder (for Android)
 	* Whether a separator is shown at section top and bottom. (like general android app)
     * default false
@@ -122,6 +122,7 @@ hogehoge...
 * [CellBase](#cellbase)
 * [LabelCell](#labelcell)
 * [CommandCell](#commandcell)
+* [ButtonCell](#buttoncell)
 * [SwitchCell](#switchcell)
 * [CheckboxCell](#checkboxcell)
 * [NumberPickerCell](#numberpickercell)
@@ -129,7 +130,7 @@ hogehoge...
 * [DatePickerCell](#datepickercell)
 * [PickerCell](#pickercell)
 * [EntryCell](#entrycell)
-* [ButtonCell](#buttoncell)
+
 
 ## CellBase
 
@@ -159,9 +160,203 @@ hogehoge...
 * Accessory
     * Be used by a CheckboxCell and  a SwitchCell; Otherwise will be hidden. 
 
+### Properties (all cell types)
+
+* Title
+    * Title text.
+* TitleColor
+    * Title text color.
+* TitleFontSize
+    * Title text font size.
+* Description
+    * Description text.
+* DescriptionColor
+    * Description text color.
+* DescriptionFontSize
+    * Description text font size.
+* HintText
+    * Hint text.(for some information, validation error and so on)
+* HintTextColor
+    * Hint text color.
+* HintFontSize
+    * Hint text font size.
+* BackgroundColor
+    * Cell background color.
+* IconSource
+    * Icon image source. (any ImageSource object)
+* IconSize
+    * Icon size. (width,height)
+* IconRadius
+    * Icon corners radius.
+
+## LabelCell
+
+This is a cell showing read only text.
+
 ### Properties
 
-* 
+* ValueText
+    * Value text.
+* ValueTextColor
+    * Value text color.
+* ValueTextFontSize
+    * Value text font size.
+* IgnoreUseDescriptionAsValue
+    * Whether ignore the setting that SettingsView property of UseDescriptionAsValue.
+
+## CommandCell
+
+This is a Labelcell invoked an action.
+
+### Properties
+
+* Command
+    * Invoked action.
+* CommandParameter
+* KeepSelectedUntilBack
+    * When moving next page, whether keep the cell selected until being back to the page.
+
+the others are the same as LabelText.
+
+## ButtonCell
+
+This is a simple cell invoked an action like a button. 
+
+### Properties
+
+* TitleAlignment
+    * Button title horizontal alignment.
+* Command
+* CommandParameter
+
+This cell don't use Description property.
+
+## SwitchCell
+
+This is a LabelCell equipped a switch.
+
+### Properties
+
+* On
+    * Switch toggle on / off. On is true, Off is false. 
+* AccentColor
+    * Swich accent color. (background color and so on)
+
+## CheckboxCell
+
+This is a LabelCell equipped a checkbox.
+
+### Properties
+
+* Checked
+    * Check on / off. On is true, Off is false.
+* AccentColor
+    * Checkbox accent color. (frame and background)
+
+## NumberPickerCell
+
+This is a LabelCell calling a number picker.
+
+### Properties
+
+* Number
+    * Current number.(default two way binding)
+* Min
+    * Minimum number.
+* Max
+    * Maximum number.
+* PickerTitle
+    * Picker title text.
+* SelectedCommand
+    * A command invoked when a number is selected.
+
+This cell can't use ValueText propertiy.
+
+## TimePickerCell
+
+This is a LabelCell calling a time picker.
+
+### Properties
+
+* Time
+    * Current time (default two way binding)
+* Format
+    * Time format. (for example "hh:mm")
+* PickerTitle
+    * Picker title text.
+
+This cell can't use ValueText propertiy.
+
+## DatePickerCell
+
+This is a LabelCell calling a date picker.
+
+### Properties
+
+* Date
+    * Current date. (default two way binding)
+* MinimumDate
+* MaximumDate
+* Format
+    * Date format. (for example "ddd MMM d yyyy")
+* TodayText
+    * Text of the button selecting  today's date. (only iOS)
+    * If this text is empty, the button will be hidden.
+
+This cell can't use ValueText propertiy.
+
+## PickerCell
+
+This is a LabelCell calling a multiple select picker.
+When tapped on iOS, move next page and show picker there.
+When tapped on Android, show the picker on a dialog. 
+
+### Properties
+
+* PageTitle
+    * Picker page title text.
+* ItemsSource
+    * Picker data source implementing IEnumerable.
+    * This have to assing a instance and must not null.
+* DisplayMember
+    * Class member(property) name Displayed on the picker.
+* SelectedItems
+    * IList where selected items is stored.
+    * This have to assing a instance and must not null.
+* SelectedItemsOrderKey
+    * Class member(Property) name that becomes a order key when selected items is displayed  as text.
+    * If this property is null, order type becomes naturalsort.
+* MaxSelectedNumber
+    * Selectable items number.
+    * If zero, unlimited multi select mode. Else if One, single select mode. Otherwise limited multi select mode.
+* KeepSelectedUntilBack
+    * When moving next page or showing a dialog, whether keep the cell selected until being back to the page.
+* AccentColor
+    * Picker checkbox color.
+
+
+## EntryCell
+
+This is a cell inputing some text.
+
+### Properties
+
+* ValueText
+    * Input text. (default two way binding)
+* ValueTextColor
+    * Input text color.
+* ValueTextFontSize
+    * Input text font size.
+* MaxLength
+    * Input text maximum length.
+* Keyboard
+    * Keyboard type.
+* Placeholder
+    * Placeholder text.
+* TextAlignment
+    * Input text horizontal alignment.
+* AccentColor
+    * Under line color on focus. (only android)
 
 ## License
 

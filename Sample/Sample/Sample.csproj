@@ -85,6 +85,7 @@
       <DependentUpon>OnTableViewTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\OnTableViewTestViewModel.cs" />
+    <Compile Include="Views\MyNavigationPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App.xaml">

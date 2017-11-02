@@ -15,22 +15,11 @@ namespace Sample.ViewModels
 {
     public class SettingsViewPageViewModel : BindableBase
     {
-        public ReactiveProperty<string> Cell1 { get; } = new ReactiveProperty<string>("ABC");
-        public ReactiveProperty<string> Cell2 { get; } = new ReactiveProperty<string>("DEF");
-        public ReactiveProperty<string> Cell3 { get; } = new ReactiveProperty<string>("ViewCell");
+        
 
-        public ReactiveProperty<string> Title1 { get; } = new ReactiveProperty<string>();
-        public ReactiveProperty<string> Title2 { get; } = new ReactiveProperty<string>();
 
-        public ReactiveProperty<bool> Sec1Visible { get; } = new ReactiveProperty<bool>(true);
-        public ReactiveProperty<bool> Sec2Visible { get; } = new ReactiveProperty<bool>(true);
 
-        public ReactiveProperty<bool> HasUneven { get; } = new ReactiveProperty<bool>(true);
-
-        public ReactiveCommand ToggleVisible { get; set; } = new ReactiveCommand();
-        public ReactiveCommand ToggleRowHeight { get; set; } = new ReactiveCommand();
-
-        public ReactiveCommand NextPageCommand { get; set; } = new ReactiveCommand();
+        public ReactiveCommand ToProfileCommand { get; set; } = new ReactiveCommand();
 
         public ReactiveProperty<ImageSource> Image { get; } = new ReactiveProperty<ImageSource>();
         public ReactiveProperty<string> Description { get; } = new ReactiveProperty<string>();
@@ -41,55 +30,38 @@ namespace Sample.ViewModels
         public List<int> IntList { get; } = new List<int>();
         public List<int> SelectedInt { get; } = new List<int>();
 
-        public ObservableCollection<Person> PickerItems { get; } = new ObservableCollection<Person>();
-        public ObservableCollection<Person> SelectedItems { get; }
+        public ObservableCollection<Person> ItemsSource { get; } = new ObservableCollection<Person>();
+        public ObservableCollection<Person> SelectedItems { get; } = new ObservableCollection<Person>();
 
         public ReactiveProperty<bool> SwitchOn { get; } = new ReactiveProperty<bool>();
 
         public ReactiveCommand GeneralCommand { get; set; } = new ReactiveCommand();
 
+        string[] languages = { "Java", "C#", "JavaScript", "PHP", "Perl", "C++",  "Swift", "Kotlin", "Python", "Ruby", "Scala", "F#" };
+
         public SettingsViewPageViewModel(INavigationService navigationService, IPageDialogService pageDlg)
         {
-            Title1.Value = "aaaaaafsdfsdfsdfあｆｄさｆｓｄｆｓｄふぁｓだｆｓｄｆさｆｄｓｆｓふぁｓｆｓだふぁｆ";
-            Title2.Value = "Sec2";
+            
 
-            ToggleVisible.Subscribe(_ => {
-                if (Sec1Visible.Value) {
-                    Sec1Visible.Value = false;
-                    return;
-                }
-                if (Sec2Visible.Value) {
-                    Sec2Visible.Value = false;
-                    return;
-                }
 
-                Sec1Visible.Value = true;
-                Sec2Visible.Value = true;
-
-            });
-
-            ToggleRowHeight.Subscribe(_ => {
-                HasUneven.Value = !HasUneven.Value;
-            });
-
-            //Image.Value = SvgImageSource.FromSvg("alert-circled.svg",50,50);
-            Description.Value = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaEND";
-
-            NextPageCommand.Subscribe(async _ => {
-                await navigationService.NavigateAsync("MainPage");
+            ToProfileCommand.Subscribe(async _ => {
+                await navigationService.NavigateAsync("ContentPage");
             });
 
 
 
-            for (var i = 0; i < 20; i++) {
-                PickerItems.Add(new Person() {
-                    Name = $"Name{i}",
-                    Age = i
+            foreach(var item in languages){
+                ItemsSource.Add(new Person() {
+                    Name = item,
+                    Age = 1
                 });
-                IntList.Add(i);
             }
 
-            SelectedItems = new ObservableCollection<Person>(PickerItems.Where(x => x.Age == 1));
+            SelectedItems.Add(ItemsSource[1]);
+            SelectedItems.Add(ItemsSource[2]);
+            SelectedItems.Add(ItemsSource[3]);
+
+
 
 
             CellCommand.Subscribe(async p => {

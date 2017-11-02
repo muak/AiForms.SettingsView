@@ -3,72 +3,85 @@
 	xmlns="http://xamarin.com/schemas/2014/forms" 
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
 	xmlns:ai="clr-namespace:AiForms.Renderers;assembly=SettingsView"
-	x:Class="Sample.Views.SettingsViewPage">
-	<StackLayout>
-		<StackLayout Orientation="Horizontal" VerticalOptions="Start">
-			<Button Text="AddC" Clicked="AddCell" />
-			<Button Text="AddS" Clicked="AddSection" />
-			<Button Text="DelC" Clicked="DelCell" />
-            <Button Text="Next" Command="{Binding NextPageCommand}" />
-		</StackLayout>
-		<StackLayout Orientation="Horizontal" VerticalOptions="Start">
-			<Button Text="DelS"  Clicked="DelSec" />
-			<Button Text="ChV" Command="{Binding ToggleVisible}" />
-			<Button Text="ChRH" Command="{Binding ToggleRowHeight}" />
-		</StackLayout>
-        <ai:SettingsView x:Name="settings" VerticalOptions="FillAndExpand" 
-			BackgroundColor="Green" CellBackgroundColor="#CCCCFF"
-			 HeaderBackgroundColor="Olive" CellHintFontSize="6" CellHintTextColor="Fuchsia"
-			HeaderTextVerticalAlign="End" HeaderTextColor="White"
-			HeaderFontSize="16" HeaderHeight="44" 
-			FooterBackgroundColor="Purple" FooterFontSize="14" FooterTextColor="Green"
-			SeparatorColor="Red"
-			RowHeight="60" HasUnevenRows="{Binding HasUneven.Value}"
-            CellValueTextColor="Gray" CellTitleColor="Blue" CellTitleFontSize="13" CellValueTextFontSize="11"
-            CellDescriptionFontSize="9"
-            >
-			<ai:Section Title="{Binding Title1.Value}" FooterText="" IsVisible="{Binding Sec1Visible.Value}">
-                <ViewCell>
-                    <StackLayout Orientation="Horizontal">
-                        <Button Text="Button" />
-                        <Label Text="ViewCell" />
-                        <Slider Value="0.5" />
-                    </StackLayout>
-                </ViewCell>
-                <TextCell Text="{Binding Cell1.Value}" Detail="aaあああああああああああああああああああああああああああああああああああ" />
-				<TextCell Text="{Binding Cell2.Value}" /> 
-                <ai:DatePickerCell Title="DatePicker" Date="2017/10/10" TodayText="Today"
-                    MaximumDate="2030/12/31" MinimumDate="2010/01/01" />
-                <ai:TimePickerCell Title="TimePicker" Time="15:15:00" PickerTitle="Select Time" />
-                <ai:CheckboxCell Title="Checkbox" Checked="{Binding SwitchOn.Value}" AccentColor="Navy"
-                    Description="ほげ" />
-                <ai:SwitchCell Title="Switch" On="{Binding SwitchOn.Value}" AccentColor="Red"
-                Description="これをあれするかどうかの設定。あれするばあいはONにしてください。それ以外はOFFにしてください。"/>
-                <ai:PickerCell Title="Picker" ItemsSource="{Binding PickerItems}" DisplayMember="Name"
-                    PageTitle="Hoge" HintText="error!" AccentColor="Red" KeepSelectedUntilBack="true"
-                    MaxSelectedNumber="3" SelectedItems="{Binding SelectedItems}" />
-                <ai:CommandCell Title="Command" ValueText="1,2,3" Command="{Binding CellCommand}"
-                    CommandParameter="{Binding CellCommandParameter.Value}" KeepSelectedUntilBack="true" />
-                <ai:NumberPickerCell Title="NumberPicker" Min="10" Max="999" Number="20" PickerTitle="数値選択"
-                 SelectedCommand="{Binding GeneralCommand}"/>
-                <ai:EntryCell Title="AiEntryCell" MaxLength="50" Keyboard="Email" Placeholder="input"
-                    ValueText="123" AccentColor="Yellow"
-                    Description=""/>
-                <ai:LabelCell Title="Hoge" ValueText="あああああああ"  BackgroundColor="Purple"
-                    IconSize="50,50" Description="{Binding Description.Value}" DescriptionColor="Silver" />
-			</ai:Section>
-			<ai:Section Title="{Binding Title2.Value}" IsVisible="{Binding Sec2Visible.Value}"
-				FooterText="フッター2です。ああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああEnd">
-<!--				<TextCell Text="{Binding Cell3.Value}" />-->
-				<ViewCell>
-					<StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" IsClippedToBounds="true">
-						<Label Text="{Binding Cell3.Value}" VerticalOptions="FillAndExpand"/>
-						<BoxView Color="Blue" HeightRequest="30" />
-						<Switch HorizontalOptions="End" />
-					</StackLayout>
-				</ViewCell>
-			</ai:Section>
-		</ai:SettingsView>
+	x:Class="Sample.Views.SettingsViewPage"
+    Title="Settings">
 
-	</StackLayout>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!-- アプリ全体の背景色 -->
+            <Color x:Key="AppBackground">#ffffff</Color>
+            <!-- アクセントカラー -->
+            <Color x:Key="AccentColor">#FFBF00</Color>
+            <!-- 非アクティブカラー -->
+            <Color x:Key="DisabledColor">#E6DAB9</Color>
+            <!-- タイトルテキストカラー -->
+            <Color x:Key="TitleTextColor">#CC9900</Color>
+            <!-- 薄い背景色1 -->
+            <Color x:Key="PaleBackColorPrimary">#F2EFE6</Color>
+            <!-- 薄い背景色2 -->
+            <Color x:Key="PaleBackColorSecondary">#F2EDDA</Color>
+            <!-- 濃いめの文字色 -->
+            <Color x:Key="DeepTextColor">#444444</Color>
+            <!-- 通常文字色 -->
+            <Color x:Key="NormalTextColor">#666666</Color>
+            <!-- 薄い文字色 -->
+            <Color x:Key="PaleTextColor">#999999</Color>
+            <!-- 強調文字色 -->
+            <Color x:Key="EmphasisTextColor">#FF0000</Color>
+            <!-- 通常フォントサイズ -->
+            <x:Double x:Key="BaseFontSize">12</x:Double>
+            <!-- ちょい大きいフォントサイズ -->
+            <x:Double x:Key="BaseFontSize+">14</x:Double>
+            <!-- 大きいフォントサイズ -->
+            <x:Double x:Key="BaseFontSize++">17</x:Double>
+            <!-- ちょい小さいフォントサイズ -->
+            <x:Double x:Key="BaseFontSize-">11</x:Double>
+
+            <Style TargetType="ai:SettingsView">
+                <Setter Property="SeparatorColor" Value="{StaticResource DisabledColor}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource PaleBackColorPrimary}" />
+                <Setter Property="HeaderBackgroundColor" Value="{StaticResource PaleBackColorPrimary}" />
+                <Setter Property="CellBackgroundColor" Value="{StaticResource AppBackground}" />
+                <Setter Property="CellTitleColor" Value="{StaticResource DeepTextColor}" />
+                <Setter Property="CellValueTextColor" Value="{StaticResource NormalTextColor}" />
+                <Setter Property="CellTitleFontSize" Value="{StaticResource BaseFontSize++}" />
+                <Setter Property="CellValueTextFontSize" Value="{StaticResource BaseFontSize}" />
+                <Setter Property="CellDescriptionColor" Value="{StaticResource NormalTextColor}" />
+                <Setter Property="CellDescriptionFontSize" Value="{StaticResource BaseFontSize-}" />
+                <Setter Property="CellAccentColor" Value="{StaticResource AccentColor}" />
+                <Setter Property="SelectedColor" Value="#50FFBF00" />
+                <Setter Property="HeaderTextColor" Value="{StaticResource TitleTextColor}" />
+                <Setter Property="FooterFontSize" Value="{StaticResource BaseFontSize-}" />
+                <Setter Property="FooterTextColor" Value="{StaticResource PaleTextColor}" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+	
+	<ai:SettingsView HasUnevenRows="true" HeaderHeight="36" HeaderPadding="14,0,0,6" HeaderTextVerticalAlign="End"
+        FooterPadding="14,4,4,6"
+        >
+     
+		<ai:Section FooterText="This is a footer. optionaly you can write here.">
+            <ai:CommandCell IconSource="icon.png" IconSize="60,60" IconRadius="30" Title="Xam Xamarin" Height="80"
+                Description="hoge@fuga.com" Command="{Binding ToProfileCommand}" KeepSelectedUntilBack="true"
+                IgnoreUseDescriptionAsValue="true"
+            />
+		</ai:Section>
+
+        <ai:Section Title="LabelCell">
+            <ai:LabelCell Title="Storage" ValueText="3,065MB" />
+        </ai:Section>
+
+        <ai:Section Title="CheckableCell">
+            <ai:SwitchCell Title="Switch" On="true" 
+                Description="This is description. you can write detail explanation of the item here. long text wrap automatically." />
+            <ai:CheckboxCell Title="Checkbox" Checked="true" />
+        </ai:Section>
+
+        <ai:Section Title="Picker" FooterText="This is a multi select picker. you are free to select items until MaxSelectedNumber.">
+            <ai:PickerCell Title="Favorites" ItemsSource="{Binding ItemsSource}" DisplayMember="Name" MaxSelectedNumber="3" 
+            SelectedItems="{Binding SelectedItems}" KeepSelectedUntilBack="true" PageTitle="select 3 items" />
+        </ai:Section>
+	</ai:SettingsView>
+        
 </ContentPage>

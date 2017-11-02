@@ -18,7 +18,7 @@ namespace Sample
 
             Xamarin.Forms.Svg.SvgImageSource.RegisterAssembly();
 
-			NavigationService.NavigateAsync("NavigationPage/MainPage");
+			NavigationService.NavigateAsync("MyNavigationPage/MainPage");
 		}
 
 		protected override void RegisterTypes()

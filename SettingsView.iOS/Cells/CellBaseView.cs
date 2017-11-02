@@ -210,6 +210,8 @@ namespace AiForms.Renderers.iOS
         void UpdateDescriptionText()
         {
             DescriptionLabel.Text = CellBase.Description;
+            //layout break because of StackView spacing.DescriptionLabel hidden to fix it. 
+            DescriptionLabel.Hidden = string.IsNullOrEmpty(DescriptionLabel.Text);
         }
 
         void UpdateDescriptionFontSize()
@@ -480,7 +482,7 @@ namespace AiForms.Renderers.iOS
             {
                 Axis = UILayoutConstraintAxis.Vertical,
                 Alignment = UIStackViewAlignment.Fill,
-                Spacing = 0,
+                Spacing = 4,
                 Distribution = UIStackViewDistribution.Fill,
             };
 

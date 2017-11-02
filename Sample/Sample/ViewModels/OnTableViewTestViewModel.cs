@@ -1,4 +1,5 @@
 ﻿using System;
+using Reactive.Bindings;
 namespace Sample.ViewModels
 {
     //試してみたが表示はされるけどほぼアクション系がAdaptorの方で処理しているので動かない。
