@@ -28,6 +28,10 @@ This is a flexible TableView specialized in settings for Android / iOS.
 
 <img src="images/iOS_SS.png" height="1200" /> <img src="images/AndroidSS.png" height="1200" />
 
+### Demo movie
+
+[https://youtu.be/FTMOqNILxBE](https://youtu.be/FTMOqNILxBE)
+
 ## Minimum Device and Version etc
 
 iOS:iPhone5s,iPod touch6,iOS9.3  
@@ -428,6 +432,11 @@ This is a cell inputing some text.
     * Input text horizontal alignment.
 * AccentColor
     * Under line color on focus. (only android)
+
+## Thanks 
+
+* NaturalComparer
+    * https://github.com/tomochan154/toy-box/blob/master/NaturalComparer.cs
 
 ## License
 
