@@ -8,18 +8,34 @@ using Xamarin.Forms;
 [assembly: ExportRenderer(typeof(CommandCell), typeof(CommandCellRenderer))]
 namespace AiForms.Renderers.Droid
 {
+    /// <summary>
+    /// Command cell renderer.
+    /// </summary>
     public class CommandCellRenderer : CellBaseRenderer<CommandCellView> { }
 
+    /// <summary>
+    /// Command cell view.
+    /// </summary>
     public class CommandCellView : LabelCellView
     {
-        public System.Action Execute { get; set; }
+        internal Action Execute { get; set; }
         CommandCell _CommandCell => Cell as CommandCell;
         ICommand _command;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.CommandCellView"/> class.
+        /// </summary>
+        /// <param name="context">Context.</param>
+        /// <param name="cell">Cell.</param>
         public CommandCellView(Context context, Cell cell) : base(context, cell)
         {
         }
 
+        /// <summary>
+        /// Cells the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
@@ -29,12 +45,20 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Updates the cell.
+        /// </summary>
         public override void UpdateCell()
         {
             base.UpdateCell();
             UpdateCommand();
         }
 
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing) {

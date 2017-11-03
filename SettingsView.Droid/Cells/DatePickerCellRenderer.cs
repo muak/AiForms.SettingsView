@@ -8,25 +8,44 @@ using Xamarin.Forms;
 [assembly: ExportRenderer(typeof(DatePickerCell), typeof(DatePickerCellRenderer))]
 namespace AiForms.Renderers.Droid
 {
+    /// <summary>
+    /// Date picker cell renderer.
+    /// </summary>
     public class DatePickerCellRenderer : CellBaseRenderer<DatePickerCellView> { }
 
+    /// <summary>
+    /// Date picker cell view.
+    /// </summary>
     public class DatePickerCellView : LabelCellView, IPickerCell
     {
         DatePickerCell _datePickerCell => Cell as DatePickerCell;
         DatePickerDialog _dialog;
         Context _context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.DatePickerCellView"/> class.
+        /// </summary>
+        /// <param name="context">Context.</param>
+        /// <param name="cell">Cell.</param>
         public DatePickerCellView(Context context, Cell cell) : base(context, cell)
         {
             _context = context;
         }
 
+        /// <summary>
+        /// Updates the cell.
+        /// </summary>
         public override void UpdateCell()
         {
             base.UpdateCell();
             UpdateDate();
         }
 
+        /// <summary>
+        /// Cells the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
@@ -42,6 +61,11 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing) {
@@ -54,6 +78,9 @@ namespace AiForms.Renderers.Droid
             base.Dispose(disposing);
         }
 
+        /// <summary>
+        /// Shows the dialog.
+        /// </summary>
         public void ShowDialog()
         {
             CreateDatePickerDialog(_datePickerCell.Date.Year, _datePickerCell.Date.Month - 1, _datePickerCell.Date.Day);

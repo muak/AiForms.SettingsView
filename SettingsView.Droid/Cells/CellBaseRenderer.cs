@@ -7,6 +7,9 @@ using Xamarin.Forms.Platform.Android;
 
 namespace AiForms.Renderers.Droid
 {
+    /// <summary>
+    /// Cell base renderer.
+    /// </summary>
     public class CellBaseRenderer<TnativeCell> : CellRenderer where TnativeCell : CellBaseView
     {
         internal static class InstanceCreator<T1, T2, TInstance>
@@ -23,6 +26,14 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Gets the cell core.
+        /// </summary>
+        /// <returns>The cell core.</returns>
+        /// <param name="item">Item.</param>
+        /// <param name="convertView">Convert view.</param>
+        /// <param name="parent">Parent.</param>
+        /// <param name="context">Context.</param>
         protected override Android.Views.View GetCellCore(Xamarin.Forms.Cell item, Android.Views.View convertView, Android.Views.ViewGroup parent, Android.Content.Context context)
         {
             TnativeCell nativeCell = convertView as TnativeCell;
@@ -39,6 +50,10 @@ namespace AiForms.Renderers.Droid
             return nativeCell;
         }
 
+        /// <summary>
+        /// Sets up property changed.
+        /// </summary>
+        /// <param name="nativeCell">Native cell.</param>
         protected void SetUpPropertyChanged(CellBaseView nativeCell)
         {
             var formsCell = nativeCell.Cell as CellBase;

@@ -9,6 +9,9 @@ using Xamarin.Forms.Platform.iOS;
 
 namespace AiForms.Renderers.iOS
 {
+    /// <summary>
+    /// Settings table source.
+    /// </summary>
     public class SettingsTableSource : UITableViewSource
     {
         UITableView _tableView;
@@ -17,6 +20,10 @@ namespace AiForms.Renderers.iOS
 
         bool _disposed;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.iOS.SettingsTableSource"/> class.
+        /// </summary>
+        /// <param name="settingsView">Settings view.</param>
         public SettingsTableSource(SettingsView settingsView)
         {
             _settingsView = settingsView;
@@ -28,6 +35,12 @@ namespace AiForms.Renderers.iOS
 
         }
 
+        /// <summary>
+        /// Gets the cell.
+        /// </summary>
+        /// <returns>The cell.</returns>
+        /// <param name="tableView">Table view.</param>
+        /// <param name="indexPath">Index path.</param>
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
 
@@ -62,7 +75,12 @@ namespace AiForms.Renderers.iOS
             return nativeCell;
         }
 
-        //Row height
+        /// <summary>
+        /// Gets the height for row.
+        /// </summary>
+        /// <returns>The height for row.</returns>
+        /// <param name="tableView">Table view.</param>
+        /// <param name="indexPath">Index path.</param>
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
             if (!_settingsView.HasUnevenRows) {
@@ -81,8 +99,12 @@ namespace AiForms.Renderers.iOS
             return (nfloat)h;
         }
 
-
-        //section header height
+        /// <summary>
+        /// section header height
+        /// </summary>
+        /// <returns>The height for header.</returns>
+        /// <param name="tableView">Table view.</param>
+        /// <param name="section">Section.</param>
         public override nfloat GetHeightForHeader(UITableView tableView, nint section)
         {
             if (_settingsView.HeaderHeight == -1d) {
@@ -92,6 +114,12 @@ namespace AiForms.Renderers.iOS
             return (nfloat)_settingsView.HeaderHeight;
         }
 
+        /// <summary>
+        /// Gets the view for header.
+        /// </summary>
+        /// <returns>The view for header.</returns>
+        /// <param name="tableView">Table view.</param>
+        /// <param name="section">Section.</param>
         public override UIView GetViewForHeader(UITableView tableView, nint section)
         {
             var title = TitleForHeader(tableView, section);
@@ -111,7 +139,12 @@ namespace AiForms.Renderers.iOS
             return container;
         }
 
-        //section footer height
+        /// <summary>
+        /// section footer height
+        /// </summary>
+        /// <returns>The height for footer.</returns>
+        /// <param name="tableView">Table view.</param>
+        /// <param name="section">Section.</param>
         public override nfloat GetHeightForFooter(UITableView tableView, nint section)
         {
             var footerText = _settingsView.Model.GetFooterText((int)section);
@@ -124,6 +157,12 @@ namespace AiForms.Renderers.iOS
             return UITableView.AutomaticDimension;
         }
 
+        /// <summary>
+        /// Gets the view for footer.
+        /// </summary>
+        /// <returns>The view for footer.</returns>
+        /// <param name="tableView">Table view.</param>
+        /// <param name="section">Section.</param>
         public override UIView GetViewForFooter(UITableView tableView, nint section)
         {
             var text = TitleForFooter(tableView, section);
@@ -145,37 +184,65 @@ namespace AiForms.Renderers.iOS
             return container;
         }
 
-        //section footer text
+        /// <summary>
+        /// section footer text
+        /// </summary>
+        /// <returns>The for footer.</returns>
+        /// <param name="tableView">Table view.</param>
+        /// <param name="section">Section.</param>
         public override string TitleForFooter(UITableView tableView, nint section)
         {
             return _settingsView.Model.GetFooterText((int)section);
         }
 
-        //section count
+        /// <summary>
+        /// Numbers the of sections.
+        /// </summary>
+        /// <returns>The of sections.</returns>
+        /// <param name="tableView">Table view.</param>
         public override nint NumberOfSections(UITableView tableView)
         {
             _tableView = tableView;
             return _settingsView.Model.GetSectionCount();
         }
 
+        /// <summary>
+        /// Rowses the in section.
+        /// </summary>
+        /// <returns>The in section.</returns>
+        /// <param name="tableview">Tableview.</param>
+        /// <param name="section">Section.</param>
         public override nint RowsInSection(UITableView tableview, nint section)
         {
             return _settingsView.Model.GetRowCount((int)section);
         }
 
-        //Title text string array (unknown what to do ) 
+        /// <summary>
+        /// Title text string array (unknown what to do ) 
+        /// </summary>
+        /// <returns>The index titles.</returns>
+        /// <param name="tableView">Table view.</param>
         public override string[] SectionIndexTitles(UITableView tableView)
         {
             return _settingsView.Model.GetSectionIndexTitles();
         }
 
-        //section header title
+        /// <summary>
+        /// section header title
+        /// </summary>
+        /// <returns>The for header.</returns>
+        /// <param name="tableView">Table view.</param>
+        /// <param name="section">Section.</param>
         public override string TitleForHeader(UITableView tableView, nint section)
         {
             return _settingsView.Model.GetSectionTitle((int)section);
         }
 
-        //processing when row is selected.
+        /// <summary>
+        /// processing when row is selected.
+        /// </summary>
+        /// <param name="tableView">Table view.</param>
+        /// <param name="indexPath">Index path.</param>
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {         
             var cell = tableView.CellAt(indexPath);
@@ -255,7 +322,11 @@ namespace AiForms.Renderers.iOS
             return null;
         }
 
-
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if (!_disposed){

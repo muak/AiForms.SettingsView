@@ -8,13 +8,24 @@ using AiSwitchCell = AiForms.Renderers.SwitchCell;
 [assembly: ExportRenderer(typeof(AiSwitchCell), typeof(AiSwitchCellRenderer))]
 namespace AiForms.Renderers.iOS
 {
+    /// <summary>
+    /// Switch cell renderer.
+    /// </summary>
     public class SwitchCellRenderer : CellBaseRenderer<SwitchCellView> { }
 
+    /// <summary>
+    /// Switch cell view.
+    /// </summary>
     public class SwitchCellView : CellBaseView
     {
-        public AiSwitchCell _SwitchCell => Cell as AiSwitchCell;
+        
+        AiSwitchCell _SwitchCell => Cell as AiSwitchCell;
         UISwitch _switch;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.iOS.SwitchCellView"/> class.
+        /// </summary>
+        /// <param name="formsCell">Forms cell.</param>
         public SwitchCellView(Cell formsCell) : base(formsCell)
         {
 
@@ -24,6 +35,11 @@ namespace AiForms.Renderers.iOS
             this.AccessoryView = _switch;
         }
 
+        /// <summary>
+        /// Cells the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
@@ -35,6 +51,11 @@ namespace AiForms.Renderers.iOS
             }
         }
 
+        /// <summary>
+        /// Parents the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public override void ParentPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.ParentPropertyChanged(sender, e);
@@ -43,6 +64,9 @@ namespace AiForms.Renderers.iOS
             }
         }
 
+        /// <summary>
+        /// Updates the cell.
+        /// </summary>
         public override void UpdateCell()
         {
             base.UpdateCell();
@@ -50,6 +74,11 @@ namespace AiForms.Renderers.iOS
             UpdateOn();
         }
 
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing) {

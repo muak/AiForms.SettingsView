@@ -8,6 +8,9 @@ using System.Linq.Expressions;
 
 namespace AiForms.Renderers.iOS
 {
+    /// <summary>
+    /// Cell base renderer.
+    /// </summary>
     public class CellBaseRenderer<TnativeCell> : CellRenderer where TnativeCell : CellBaseView
     {
         /// <summary>
@@ -28,6 +31,13 @@ namespace AiForms.Renderers.iOS
             }
         }
 
+        /// <summary>
+        /// Gets the cell.
+        /// </summary>
+        /// <returns>The cell.</returns>
+        /// <param name="item">Item.</param>
+        /// <param name="reusableCell">Reusable cell.</param>
+        /// <param name="tv">Tv.</param>
         public override UITableViewCell GetCell(Cell item, UITableViewCell reusableCell, UITableView tv)
         {
             TnativeCell nativeCell = reusableCell as TnativeCell;
@@ -43,6 +53,10 @@ namespace AiForms.Renderers.iOS
             return nativeCell;
         }
 
+        /// <summary>
+        /// Sets up property changed.
+        /// </summary>
+        /// <param name="nativeCell">Native cell.</param>
         protected void SetUpPropertyChanged(CellBaseView nativeCell)
         {
             var formsCell = nativeCell.Cell as CellBase;

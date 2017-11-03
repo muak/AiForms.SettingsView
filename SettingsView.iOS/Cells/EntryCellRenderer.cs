@@ -8,14 +8,24 @@ using AiForms.Renderers.iOS.Extensions;
 [assembly: ExportRenderer(typeof(AiEntryCell), typeof(AiForms.Renderers.iOS.EntryCellRenderer))]
 namespace AiForms.Renderers.iOS
 {
+    /// <summary>
+    /// Entry cell renderer.
+    /// </summary>
     public class EntryCellRenderer : CellBaseRenderer<EntryCellView> { }
 
+    /// <summary>
+    /// Entry cell view.
+    /// </summary>
     public class EntryCellView : CellBaseView
     {
         AiEntryCell _EntryCell => Cell as AiEntryCell;
         internal UITextField ValueField;
         UIView _FieldWrapper;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.iOS.EntryCellView"/> class.
+        /// </summary>
+        /// <param name="formsCell">Forms cell.</param>
         public EntryCellView(Cell formsCell) : base(formsCell)
         {
             ValueField = new UITextField() { BorderStyle = UITextBorderStyle.None };
@@ -34,6 +44,9 @@ namespace AiForms.Renderers.iOS
             ContentStack.AddArrangedSubview(_FieldWrapper);
         }
 
+        /// <summary>
+        /// Updates the cell.
+        /// </summary>
         public override void UpdateCell()
         {
             base.UpdateCell();
@@ -45,6 +58,11 @@ namespace AiForms.Renderers.iOS
             UpdateTextAlignment();
         }
 
+        /// <summary>
+        /// Cells the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
@@ -68,6 +86,11 @@ namespace AiForms.Renderers.iOS
             }
         }
 
+        /// <summary>
+        /// Parents the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public override void ParentPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.ParentPropertyChanged(sender, e);
@@ -80,6 +103,11 @@ namespace AiForms.Renderers.iOS
             }
         }
 
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing) {

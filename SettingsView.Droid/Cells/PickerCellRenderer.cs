@@ -8,8 +8,14 @@ using AListView = Android.Widget.ListView;
 [assembly: ExportRenderer(typeof(PickerCell), typeof(PickerCellRenderer))]
 namespace AiForms.Renderers.Droid
 {
+    /// <summary>
+    /// Picker cell renderer.
+    /// </summary>
     public class PickerCellRenderer : CellBaseRenderer<PickerCellView> { }
 
+    /// <summary>
+    /// Picker cell view.
+    /// </summary>
     public class PickerCellView : LabelCellView, IDialogInterfaceOnShowListener, IDialogInterfaceOnDismissListener
     {
         PickerCell _PickerCell => Cell as PickerCell;
@@ -19,11 +25,21 @@ namespace AiForms.Renderers.Droid
         Context _context;
         string _valueTextCache;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.PickerCellView"/> class.
+        /// </summary>
+        /// <param name="context">Context.</param>
+        /// <param name="cell">Cell.</param>
         public PickerCellView(Context context, Cell cell) : base(context, cell)
         {
             _context = context;
         }
 
+        /// <summary>
+        /// Cells the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
@@ -34,12 +50,19 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Updates the cell.
+        /// </summary>
         public override void UpdateCell()
         {
             base.UpdateCell();
             UpdateSelectedItems();
         }
 
+        /// <summary>
+        /// Updates the selected items.
+        /// </summary>
+        /// <param name="force">If set to <c>true</c> force.</param>
         public void UpdateSelectedItems(bool force = false)
         {
             if (force || string.IsNullOrEmpty(_valueTextCache)) {
@@ -49,6 +72,11 @@ namespace AiForms.Renderers.Droid
             vValueLabel.Text = _valueTextCache;
         }
 
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing) {
@@ -106,11 +134,19 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Ons the show.
+        /// </summary>
+        /// <param name="dialog">Dialog.</param>
         public void OnShow(IDialogInterface dialog)
         {
             _adapter.RestoreSelect();
         }
 
+        /// <summary>
+        /// Ons the dismiss.
+        /// </summary>
+        /// <param name="dialog">Dialog.</param>
         public void OnDismiss(IDialogInterface dialog)
         {
             _dialog.SetOnShowListener(null);

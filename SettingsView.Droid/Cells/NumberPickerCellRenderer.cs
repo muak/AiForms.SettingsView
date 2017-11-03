@@ -12,8 +12,14 @@ using APicker = Android.Widget.NumberPicker;
 [assembly: ExportRenderer(typeof(NumberPickerCell), typeof(NumberPickerCellRenderer))]
 namespace AiForms.Renderers.Droid
 {
+    /// <summary>
+    /// Number picker cell renderer.
+    /// </summary>
     public class NumberPickerCellRenderer : CellBaseRenderer<NumberPickerCellView> { }
 
+    /// <summary>
+    /// Number picker cell view.
+    /// </summary>
     public class NumberPickerCellView : LabelCellView, IPickerCell
     {
         NumberPickerCell _NumberPikcerCell => Cell as NumberPickerCell;
@@ -25,11 +31,21 @@ namespace AiForms.Renderers.Droid
         int _max;
         int _min;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.NumberPickerCellView"/> class.
+        /// </summary>
+        /// <param name="context">Context.</param>
+        /// <param name="cell">Cell.</param>
         public NumberPickerCellView(Context context, Cell cell) : base(context, cell)
         {
             _context = context;
         }
 
+        /// <summary>
+        /// Cells the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
@@ -50,6 +66,9 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Updates the cell.
+        /// </summary>
         public override void UpdateCell()
         {
             base.UpdateCell();
@@ -60,6 +79,11 @@ namespace AiForms.Renderers.Droid
             UpdateCommand();
         }
 
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing) {
@@ -73,6 +97,9 @@ namespace AiForms.Renderers.Droid
             base.Dispose(disposing);
         }
 
+        /// <summary>
+        /// Shows the dialog.
+        /// </summary>
         public void ShowDialog()
         {
             CreateDialog();

@@ -9,6 +9,9 @@ using Xamarin.Forms.Platform.iOS;
 [assembly: ExportRenderer(typeof(SettingsView), typeof(SettingsViewRenderer))]
 namespace AiForms.Renderers.iOS
 {
+    /// <summary>
+    /// Settings view renderer.
+    /// </summary>
     public class SettingsViewRenderer : ViewRenderer<SettingsView, UITableView>
     {
         Page _parentPage;
@@ -18,6 +21,10 @@ namespace AiForms.Renderers.iOS
 
         bool _disposed = false;
 
+        /// <summary>
+        /// Ons the element changed.
+        /// </summary>
+        /// <param name="e">E.</param>
         protected override void OnElementChanged(ElementChangedEventArgs<SettingsView> e)
         {
             base.OnElementChanged(e);
@@ -68,11 +75,20 @@ namespace AiForms.Renderers.iOS
             _tableview.DeselectRow(_tableview.IndexPathForSelectedRow, true);
         }
 
+        /// <summary>
+        /// Gets the size of the desired.
+        /// </summary>
+        /// <returns>The desired size.</returns>
+        /// <param name="widthConstraint">Width constraint.</param>
+        /// <param name="heightConstraint">Height constraint.</param>
         public override SizeRequest GetDesiredSize(double widthConstraint, double heightConstraint)
         {
             return Control.GetSizeRequest(widthConstraint, heightConstraint, MinRowHeight, MinRowHeight);
         }
 
+        /// <summary>
+        /// Updates the native widget.
+        /// </summary>
         protected override void UpdateNativeWidget()
         {
             if (Element.Opacity < 1) {
@@ -86,6 +102,11 @@ namespace AiForms.Renderers.iOS
             base.UpdateNativeWidget();
         }
 
+        /// <summary>
+        /// Ons the element property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
@@ -121,6 +142,11 @@ namespace AiForms.Renderers.iOS
             Control.SeparatorColor = color.ToUIColor();
         }
 
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             _parentPage.Appearing -= ParentPageAppearing;

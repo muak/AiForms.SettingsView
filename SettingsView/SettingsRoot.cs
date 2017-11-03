@@ -5,13 +5,22 @@ using Xamarin.Forms;
 
 namespace AiForms.Renderers
 {
+    /// <summary>
+    /// Settings root.
+    /// </summary>
     public class SettingsRoot : TableSectionBase<Section>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.SettingsRoot"/> class.
+        /// </summary>
         public SettingsRoot()
         {
             SetupEvents();
         }
 
+        /// <summary>
+        /// Occurs when section collection changed.
+        /// </summary>
         public event EventHandler<EventArgs> SectionCollectionChanged;
 
         void ChildCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)

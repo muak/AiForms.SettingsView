@@ -15,8 +15,14 @@ using AiEntryCell = AiForms.Renderers.EntryCell;
 [assembly: ExportRenderer(typeof(AiEntryCell), typeof(AiForms.Renderers.Droid.EntryCellRenderer))]
 namespace AiForms.Renderers.Droid
 {
+    /// <summary>
+    /// Entry cell renderer.
+    /// </summary>
     public class EntryCellRenderer : CellBaseRenderer<EntryCellView> { }
 
+    /// <summary>
+    /// Entry cell view.
+    /// </summary>
     public class EntryCellView : CellBaseView, ITextWatcher,
         TextView.IOnFocusChangeListener, TextView.IOnEditorActionListener
     {
@@ -24,6 +30,11 @@ namespace AiForms.Renderers.Droid
 
         AiEditText _EditText;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.EntryCellView"/> class.
+        /// </summary>
+        /// <param name="context">Context.</param>
+        /// <param name="cell">Cell.</param>
         public EntryCellView(Context context, Cell cell) : base(context, cell)
         {
             _EditText = new AiEditText(context);
@@ -55,6 +66,9 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Updates the cell.
+        /// </summary>
         public override void UpdateCell()
         {
             UpdateValueText();
@@ -67,6 +81,11 @@ namespace AiForms.Renderers.Droid
             base.UpdateCell();
         }
 
+        /// <summary>
+        /// Cells the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
@@ -93,6 +112,11 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Parents the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public override void ParentPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.ParentPropertyChanged(sender, e);
@@ -107,7 +131,11 @@ namespace AiForms.Renderers.Droid
             }
         }
 
-
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing) {

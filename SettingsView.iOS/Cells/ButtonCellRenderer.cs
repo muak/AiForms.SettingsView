@@ -8,14 +8,24 @@ using AiForms.Renderers.iOS.Extensions;
 [assembly: ExportRenderer(typeof(ButtonCell), typeof(ButtonCellRenderer))]
 namespace AiForms.Renderers.iOS
 {
+    /// <summary>
+    /// Button cell renderer.
+    /// </summary>
     public class ButtonCellRenderer : CellBaseRenderer<ButtonCellView> { }
 
+    /// <summary>
+    /// Button cell view.
+    /// </summary>
     public class ButtonCellView : CellBaseView
     {
-        public Action Execute { get; set; }
+        internal Action Execute { get; set; }
         ButtonCell _ButtonCell => Cell as ButtonCell;
         ICommand _command;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.iOS.ButtonCellView"/> class.
+        /// </summary>
+        /// <param name="formsCell">Forms cell.</param>
         public ButtonCellView(Cell formsCell) : base(formsCell)
         {
             DescriptionLabel.Hidden = true;
@@ -23,6 +33,11 @@ namespace AiForms.Renderers.iOS
             TitleLabel.TextAlignment = UIKit.UITextAlignment.Right;
         }
 
+        /// <summary>
+        /// Cells the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
@@ -35,6 +50,9 @@ namespace AiForms.Renderers.iOS
             }
         }
 
+        /// <summary>
+        /// Updates the cell.
+        /// </summary>
         public override void UpdateCell()
         {
             base.UpdateCell();
@@ -42,6 +60,11 @@ namespace AiForms.Renderers.iOS
             UpdateTitleAlignment();
         }
 
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing) {

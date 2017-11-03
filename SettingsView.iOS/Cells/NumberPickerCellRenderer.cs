@@ -9,10 +9,20 @@ using Xamarin.Forms;
 [assembly: ExportRenderer(typeof(NumberPickerCell), typeof(NumberPickerCellRenderer))]
 namespace AiForms.Renderers.iOS
 {
+    /// <summary>
+    /// Number picker cell renderer.
+    /// </summary>
     public class NumberPickerCellRenderer : CellBaseRenderer<NumberPickerCellView> { }
 
+    /// <summary>
+    /// Number picker cell view.
+    /// </summary>
     public class NumberPickerCellView : LabelCellView, IPickerCell
     {
+        /// <summary>
+        /// Gets or sets the dummy field.
+        /// </summary>
+        /// <value>The dummy field.</value>
         public UITextField DummyField { get; set; }
         NumberPickerSource _model;
         UILabel _titleLabel;
@@ -21,6 +31,10 @@ namespace AiForms.Renderers.iOS
 
         NumberPickerCell _NumberPikcerCell => Cell as NumberPickerCell;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.iOS.NumberPickerCellView"/> class.
+        /// </summary>
+        /// <param name="formsCell">Forms cell.</param>
         public NumberPickerCellView(Cell formsCell) : base(formsCell)
         {
 
@@ -35,6 +49,11 @@ namespace AiForms.Renderers.iOS
             SetUpPicker();
         }
 
+        /// <summary>
+        /// Cells the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
@@ -54,6 +73,9 @@ namespace AiForms.Renderers.iOS
             }
         }
 
+        /// <summary>
+        /// Updates the cell.
+        /// </summary>
         public override void UpdateCell()
         {
             base.UpdateCell();
@@ -63,6 +85,11 @@ namespace AiForms.Renderers.iOS
             UpdateCommand();
         }
 
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing) {
@@ -147,6 +174,9 @@ namespace AiForms.Renderers.iOS
             ValueLabel.Text = _model.SelectedItem.ToString();
         }
 
+        /// <summary>
+        /// Layouts the subviews.
+        /// </summary>
         public override void LayoutSubviews()
         {
             base.LayoutSubviews();

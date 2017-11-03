@@ -2,9 +2,17 @@
 using UIKit;
 using Xamarin.Forms;
 namespace AiForms.Renderers.iOS.Extensions
-{
+{   
+    /// <summary>
+    /// Text alignment extensions.
+    /// </summary>
     public static class TextAlignmentExtensions
     {
+        /// <summary>
+        /// To the UITextalignment.
+        /// </summary>
+        /// <returns>The UIT ext alignment.</returns>
+        /// <param name="forms">Forms.</param>
         public static UITextAlignment ToUITextAlignment(this TextAlignment forms)
         {
             switch (forms) {

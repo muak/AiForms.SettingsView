@@ -9,19 +9,35 @@ using AiForms.Renderers.Droid;
 [assembly: ExportRenderer(typeof(ButtonCell), typeof(ButtonCellRenderer))]
 namespace AiForms.Renderers.Droid
 {
+    /// <summary>
+    /// Button cell renderer.
+    /// </summary>
     public class ButtonCellRenderer : CellBaseRenderer<ButtonCellView> { }
 
+    /// <summary>
+    /// Button cell view.
+    /// </summary>
     public class ButtonCellView : CellBaseView
     {
-        public Action Execute { get; set; }
+        internal Action Execute { get; set; }
         ButtonCell _ButtonCell => Cell as ButtonCell;
         ICommand _command;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.ButtonCellView"/> class.
+        /// </summary>
+        /// <param name="context">Context.</param>
+        /// <param name="cell">Cell.</param>
         public ButtonCellView(Context context, Cell cell) : base(context, cell)
         {
             DescriptionLabel.Visibility = Android.Views.ViewStates.Gone;
         }
 
+        /// <summary>
+        /// Cells the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
@@ -34,6 +50,9 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Updates the cell.
+        /// </summary>
         public override void UpdateCell()
         {
             base.UpdateCell();
@@ -41,6 +60,11 @@ namespace AiForms.Renderers.Droid
             UpdateTitleAlignment();
         }
 
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing) {

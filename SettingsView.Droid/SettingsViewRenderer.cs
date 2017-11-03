@@ -9,16 +9,26 @@ using AListView = Android.Widget.ListView;
 [assembly: ExportRenderer(typeof(SettingsView), typeof(SettingsViewRenderer))]
 namespace AiForms.Renderers.Droid
 {
+    /// <summary>
+    /// Settings view renderer.
+    /// </summary>
     public class SettingsViewRenderer : ViewRenderer<SettingsView, AListView>
     {
         Page _parentPage;
         SettingsViewAdapter _adapter;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.SettingsViewRenderer"/> class.
+        /// </summary>
         public SettingsViewRenderer()
         {
             AutoPackage = false;
         }
 
+        /// <summary>
+        /// Ons the element changed.
+        /// </summary>
+        /// <param name="e">E.</param>
         protected override void OnElementChanged(ElementChangedEventArgs<SettingsView> e)
         {
             base.OnElementChanged(e);
@@ -62,6 +72,11 @@ namespace AiForms.Renderers.Droid
             Device.BeginInvokeOnMainThread(() => _adapter.DeselectRow());
         }
 
+        /// <summary>
+        /// Ons the element property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
@@ -115,6 +130,11 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing) {

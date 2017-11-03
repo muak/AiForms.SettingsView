@@ -9,13 +9,27 @@ using Xamarin.Forms.Platform.iOS;
 [assembly: ExportRenderer(typeof(LabelCell), typeof(LabelCellRenderer))]
 namespace AiForms.Renderers.iOS
 {
+    /// <summary>
+    /// Label cell renderer.
+    /// </summary>
     public class LabelCellRenderer : CellBaseRenderer<LabelCellView> { }
 
+    /// <summary>
+    /// Label cell view.
+    /// </summary>
     public class LabelCellView : CellBaseView
     {
+        /// <summary>
+        /// Gets or sets the value label.
+        /// </summary>
+        /// <value>The value label.</value>
         public UILabel ValueLabel { get; set; }
         LabelCell _LabelCell => Cell as LabelCell;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.iOS.LabelCellView"/> class.
+        /// </summary>
+        /// <param name="formsCell">Forms cell.</param>
         public LabelCellView(Cell formsCell) : base(formsCell)
         {
             ValueLabel = new UILabel();
@@ -26,6 +40,11 @@ namespace AiForms.Renderers.iOS
             ValueLabel.SetContentCompressionResistancePriority(100f, UILayoutConstraintAxis.Horizontal);
         }
 
+        /// <summary>
+        /// Cells the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public override void CellPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
@@ -41,6 +60,11 @@ namespace AiForms.Renderers.iOS
             }
         }
 
+        /// <summary>
+        /// Parents the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public override void ParentPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.ParentPropertyChanged(sender, e);
@@ -53,6 +77,9 @@ namespace AiForms.Renderers.iOS
             }
         }
 
+        /// <summary>
+        /// Updates the cell.
+        /// </summary>
         public override void UpdateCell()
         {
             UpdateValueText();
@@ -86,6 +113,11 @@ namespace AiForms.Renderers.iOS
             }
         }
 
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing) {

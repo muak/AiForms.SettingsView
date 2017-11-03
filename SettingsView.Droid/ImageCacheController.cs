@@ -2,8 +2,15 @@
 
 namespace AiForms.Renderers.Droid
 {
+    /// <summary>
+    /// Image cache controller.
+    /// </summary>
     public static class ImageCacheController
     {
+        /// <summary>
+        /// Gets the instance.
+        /// </summary>
+        /// <value>The instance.</value>
         public static MemoryLimitedLruCache Instance
         {
             get {
@@ -15,6 +22,9 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Clear this instance.
+        /// </summary>
         public static void Clear()
         {
             _CacheInstance?.EvictAll();

@@ -10,15 +10,29 @@ using Xamarin.Forms.Platform.iOS;
 [assembly: ExportRenderer(typeof(DatePickerCell), typeof(DatePickerCellRenderer))]
 namespace AiForms.Renderers.iOS
 {
+    /// <summary>
+    /// Date picker cell renderer.
+    /// </summary>
     public class DatePickerCellRenderer : CellBaseRenderer<DatePickerCellView> { }
 
+    /// <summary>
+    /// Date picker cell view.
+    /// </summary>
     public class DatePickerCellView : LabelCellView, IPickerCell
     {
         DatePickerCell _DatePickerCell => Cell as DatePickerCell;
+        /// <summary>
+        /// Gets or sets the dummy field.
+        /// </summary>
+        /// <value>The dummy field.</value>
         public UITextField DummyField { get; set; }
         NSDate _preSelectedDate;
         UIDatePicker _picker;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.iOS.DatePickerCellView"/> class.
+        /// </summary>
+        /// <param name="formsCell">Forms cell.</param>
         public DatePickerCellView(Cell formsCell) : base(formsCell)
         {
             DummyField = new NoCaretField();
@@ -32,6 +46,9 @@ namespace AiForms.Renderers.iOS
             SetUpDatePicker();
         }
 
+        /// <summary>
+        /// Updates the cell.
+        /// </summary>
         public override void UpdateCell()
         {
             base.UpdateCell();
@@ -40,6 +57,11 @@ namespace AiForms.Renderers.iOS
             UpdateDate();
         }
 
+        /// <summary>
+        /// Cells the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
@@ -58,6 +80,11 @@ namespace AiForms.Renderers.iOS
             }
         }
 
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing) {
@@ -70,6 +97,9 @@ namespace AiForms.Renderers.iOS
             base.Dispose(disposing);
         }
 
+        /// <summary>
+        /// Layouts the subviews.
+        /// </summary>
         public override void LayoutSubviews()
         {
             base.LayoutSubviews();

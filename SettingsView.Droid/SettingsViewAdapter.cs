@@ -13,6 +13,9 @@ using System.Linq;
 
 namespace AiForms.Renderers.Droid
 {
+    /// <summary>
+    /// Settings view adapter.
+    /// </summary>
     public class SettingsViewAdapter : BaseAdapter<object>, AdapterView.IOnItemClickListener
     {
         const int ViewTypeHeader = 0;
@@ -36,6 +39,12 @@ namespace AiForms.Renderers.Droid
         }
         List<AView> _recycleViews = new List<AView>();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.SettingsViewAdapter"/> class.
+        /// </summary>
+        /// <param name="context">Context.</param>
+        /// <param name="settingsView">Settings view.</param>
+        /// <param name="listView">List view.</param>
         public SettingsViewAdapter(Context context, SettingsView settingsView, AListView listView)
         {
             _context = context;
@@ -57,6 +66,14 @@ namespace AiForms.Renderers.Droid
         //Item click. correspond to AdapterView.IOnItemClickListener
         int _selectedIndex = -1;
         Android.Views.View _preSelectedCell = null;
+
+        /// <summary>
+        /// Ons the item click.
+        /// </summary>
+        /// <param name="parent">Parent.</param>
+        /// <param name="view">View.</param>
+        /// <param name="position">Position.</param>
+        /// <param name="id">Identifier.</param>
         public void OnItemClick(AdapterView parent, AView view, int position, long id)
         {
             //TODO: It is desirable that the forms side has Selected property and reflects it.
@@ -101,6 +118,11 @@ namespace AiForms.Renderers.Droid
 
         }
 
+        /// <summary>
+        /// Selecteds the row.
+        /// </summary>
+        /// <param name="cell">Cell.</param>
+        /// <param name="position">Position.</param>
         public void SelectedRow(AView cell, int position)
         {
             _preSelectedCell = cell;
@@ -108,6 +130,9 @@ namespace AiForms.Renderers.Droid
             cell.Selected = true;
         }
 
+        /// <summary>
+        /// Deselects the row.
+        /// </summary>
         public void DeselectRow()
         {
             if (_preSelectedCell != null) {
@@ -117,7 +142,10 @@ namespace AiForms.Renderers.Droid
             _selectedIndex = -1;
         }
 
-        //indexer that return data source item.
+        /// <summary>
+        /// indexer that return data source item.
+        /// </summary>
+        /// <param name="position">Position.</param>
         public override object this[int position]
         {
             get {
@@ -125,7 +153,10 @@ namespace AiForms.Renderers.Droid
             }
         }
 
-        //All the row counts of the list
+        /// <summary>
+        /// All the row counts of the list
+        /// </summary>
+        /// <value>The count.</value>
         public override int Count
         {
             get {
@@ -133,12 +164,20 @@ namespace AiForms.Renderers.Droid
             }
         }
 
-        //return ID (As in paticular it doesn't exist, return the position.)
+        /// <summary>
+        /// return ID (As in paticular it doesn't exist, return the position.)
+        /// </summary>
+        /// <returns>The item identifier.</returns>
+        /// <param name="position">Position.</param>
         public override long GetItemId(int position)
         {
             return position;
         }
 
+        /// <summary>
+        /// Gets the view type count.
+        /// </summary>
+        /// <value>The view type count.</value>
         public override int ViewTypeCount
         {
             get {
@@ -147,6 +186,11 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Gets the type of the item view.
+        /// </summary>
+        /// <returns>The item view type.</returns>
+        /// <param name="position">Position.</param>
         public override int GetItemViewType(int position)
         {
             var cellInfo = CellCaches[position];
@@ -161,12 +205,24 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Ises the enabled.
+        /// </summary>
+        /// <returns><c>true</c>, if enabled was ised, <c>false</c> otherwise.</returns>
+        /// <param name="position">Position.</param>
         public override bool IsEnabled(int position)
         {
             var viewT = GetItemViewType(position);
             return viewT >= 2;
         }
 
+        /// <summary>
+        /// Gets the view.
+        /// </summary>
+        /// <returns>The view.</returns>
+        /// <param name="position">Position.</param>
+        /// <param name="convertView">Convert view.</param>
+        /// <param name="parent">Parent.</param>
         public override Android.Views.View GetView(int position, Android.Views.View convertView, ViewGroup parent)
         {
             var cellInfo = CellCaches[position];
@@ -389,6 +445,11 @@ namespace AiForms.Renderers.Droid
             _viewTypes = _cellCaches.Select(x => x.Cell.GetType()).Distinct().Select((x, idx) => new { x, index = idx }).ToDictionary(key => key.x, val => val.index + 2);
         }
 
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing) {

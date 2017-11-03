@@ -6,18 +6,34 @@ using Xamarin.Forms.Internals;
 
 namespace AiForms.Renderers
 {
+    /// <summary>
+    /// Settings view.
+    /// </summary>
     [ContentProperty("Root")]
     public partial class SettingsView : TableView
     {
         internal static Action _clearCache;
+        /// <summary>
+        /// Clears the cache.
+        /// </summary>
         public static void ClearCache()
         {
             _clearCache?.Invoke();
         }
 
+        /// <summary>
+        /// Gets or sets the model.
+        /// </summary>
+        /// <value>The model.</value>
         public new SettingsModel Model { get; set; }
+        /// <summary>
+        /// Occurs when model changed.
+        /// </summary>
         public new event EventHandler ModelChanged;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.SettingsView"/> class.
+        /// </summary>
         public SettingsView()
         {
             VerticalOptions = HorizontalOptions = LayoutOptions.FillAndExpand;
@@ -26,6 +42,10 @@ namespace AiForms.Renderers
         }
 
         SettingsRoot _root;
+        /// <summary>
+        /// Gets or sets the root.
+        /// </summary>
+        /// <value>The root.</value>
         public new SettingsRoot Root
         {
             get { return _root; }
@@ -47,6 +67,9 @@ namespace AiForms.Renderers
             }
         }
 
+        /// <summary>
+        /// Ons the binding context changed.
+        /// </summary>
         protected override void OnBindingContextChanged()
         {
             base.OnBindingContextChanged();
@@ -63,6 +86,10 @@ namespace AiForms.Renderers
             }
         }
 
+        /// <summary>
+        /// Ons the property changed.
+        /// </summary>
+        /// <param name="propertyName">Property name.</param>
         protected override void OnPropertyChanged(string propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
@@ -83,13 +110,21 @@ namespace AiForms.Renderers
             }
         }
 
-        //CollectionChanged by the section
+        /// <summary>
+        /// CollectionChanged by the section
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             OnModelChanged();
         }
 
-        //CollectionChanged by the child in section
+        /// <summary>
+        /// CollectionChanged by the child in section
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="childCollectionChangedEventArgs">The ${ParameterType} instance containing the event data.</param>
         public void OnSectionCollectionChanged(object sender, EventArgs childCollectionChangedEventArgs)
         {
             OnModelChanged();

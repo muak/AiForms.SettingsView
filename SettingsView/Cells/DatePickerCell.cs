@@ -3,12 +3,14 @@ using Xamarin.Forms;
 
 namespace AiForms.Renderers
 {
+    /// <summary>
+    /// Date picker cell.
+    /// </summary>
     public class DatePickerCell:LabelCell
     {
-        public DatePickerCell()
-        {
-        }
-
+        /// <summary>
+        /// The date property.
+        /// </summary>
         public static BindableProperty DateProperty =
             BindableProperty.Create(
                 nameof(Date),
@@ -18,11 +20,18 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.TwoWay
             );
 
+        /// <summary>
+        /// Gets or sets the date.
+        /// </summary>
+        /// <value>The date.</value>
         public DateTime Date {
             get { return (DateTime)GetValue(DateProperty); }
             set { SetValue(DateProperty, value); }
         }
 
+        /// <summary>
+        /// The maximum date property.
+        /// </summary>
         public static BindableProperty MaximumDateProperty =
             BindableProperty.Create(
                 nameof(MaximumDate),
@@ -32,11 +41,18 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
+        /// <summary>
+        /// Gets or sets the maximum date.
+        /// </summary>
+        /// <value>The maximum date.</value>
         public DateTime MaximumDate {
             get { return (DateTime)GetValue(MaximumDateProperty); }
             set { SetValue(MaximumDateProperty, value); }
         }
 
+        /// <summary>
+        /// The minimum date property.
+        /// </summary>
         public static BindableProperty MinimumDateProperty =
             BindableProperty.Create(
                 nameof(MinimumDate),
@@ -46,11 +62,18 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
+        /// <summary>
+        /// Gets or sets the minimum date.
+        /// </summary>
+        /// <value>The minimum date.</value>
         public DateTime MinimumDate {
             get { return (DateTime)GetValue(MinimumDateProperty); }
             set { SetValue(MinimumDateProperty, value); }
         }
 
+        /// <summary>
+        /// The format property.
+        /// </summary>
         public static BindableProperty FormatProperty =
             BindableProperty.Create(
                 nameof(Format),
@@ -60,11 +83,18 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
+        /// <summary>
+        /// Gets or sets the format.
+        /// </summary>
+        /// <value>The format.</value>
         public string Format {
             get { return (string)GetValue(FormatProperty); }
             set { SetValue(FormatProperty, value); }
         }
 
+        /// <summary>
+        /// The today text property.
+        /// </summary>
         public static BindableProperty TodayTextProperty =
             BindableProperty.Create(
                 nameof(TodayText),
@@ -74,6 +104,10 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
+        /// <summary>
+        /// Gets or sets the today text.
+        /// </summary>
+        /// <value>The today text.</value>
         public string TodayText {
             get { return (string)GetValue(TodayTextProperty); }
             set { SetValue(TodayTextProperty, value); }

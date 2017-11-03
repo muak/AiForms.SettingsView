@@ -11,13 +11,24 @@ using Android.Graphics.Drawables;
 [assembly: ExportRenderer(typeof(AiForms.Renderers.CheckboxCell), typeof(AiForms.Renderers.Droid.CheckboxCellRenderer))]
 namespace AiForms.Renderers.Droid
 {
+    /// <summary>
+    /// Checkbox cell renderer.
+    /// </summary>
     public class CheckboxCellRenderer : CellBaseRenderer<CheckboxCellView> { }
 
+    /// <summary>
+    /// Checkbox cell view.
+    /// </summary>
     public class CheckboxCellView : CellBaseView, CompoundButton.IOnCheckedChangeListener, ICheckableCell
     {
         AppCompatCheckBox _checkbox;
         CheckboxCell _CheckboxCell => Cell as CheckboxCell;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.CheckboxCellView"/> class.
+        /// </summary>
+        /// <param name="context">Context.</param>
+        /// <param name="cell">Cell.</param>
         public CheckboxCellView(Context context, Cell cell) : base(context, cell)
         {
             _checkbox = new AppCompatCheckBox(context);
@@ -41,11 +52,17 @@ namespace AiForms.Renderers.Droid
             DescendantFocusability = Android.Views.DescendantFocusability.AfterDescendants;
         }
 
+        /// <summary>
+        /// Checks the change.
+        /// </summary>
         public void CheckChange()
         {
             _checkbox.Checked = !_checkbox.Checked;
         }
 
+        /// <summary>
+        /// Updates the cell.
+        /// </summary>
         public override void UpdateCell()
         {
             UpdateAccentColor();
@@ -53,6 +70,11 @@ namespace AiForms.Renderers.Droid
             base.UpdateCell();
         }
 
+        /// <summary>
+        /// Cells the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
@@ -64,6 +86,11 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Parents the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public override void ParentPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.ParentPropertyChanged(sender, e);
@@ -72,6 +99,11 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing) {
@@ -82,6 +114,11 @@ namespace AiForms.Renderers.Droid
             base.Dispose(disposing);
         }
 
+        /// <summary>
+        /// Ons the checked changed.
+        /// </summary>
+        /// <param name="buttonView">Button view.</param>
+        /// <param name="isChecked">If set to <c>true</c> is checked.</param>
         public void OnCheckedChanged(CompoundButton buttonView, bool isChecked)
         {
             _CheckboxCell.Checked = isChecked;

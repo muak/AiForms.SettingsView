@@ -8,16 +8,47 @@ using Xamarin.Forms.Platform.iOS;
 
 namespace AiForms.Renderers.iOS
 {
+    /// <summary>
+    /// Cell base view.
+    /// </summary>
     public class CellBaseView : CellTableViewCell
     {
+        /// <summary>
+        /// Gets the hint label.
+        /// </summary>
+        /// <value>The hint label.</value>
         public UILabel HintLabel { get; private set; }
+        /// <summary>
+        /// Gets the title label.
+        /// </summary>
+        /// <value>The title label.</value>
         public UILabel TitleLabel { get; private set; }
+        /// <summary>
+        /// Gets the description label.
+        /// </summary>
+        /// <value>The description label.</value>
         public UILabel DescriptionLabel { get; private set; }
+        /// <summary>
+        /// Gets the icon view.
+        /// </summary>
+        /// <value>The icon view.</value>
         public UIImageView IconView { get; private set; }
 
+        /// <summary>
+        /// Gets the cell base.
+        /// </summary>
+        /// <value>The cell base.</value>
         protected CellBase CellBase => Cell as CellBase;
+        /// <summary>
+        /// Gets the cell parent.
+        /// </summary>
+        /// <value>The cell parent.</value>
         public SettingsView CellParent => Cell.Parent as SettingsView;
 
+        /// <summary>
+        /// Gets the content stack.
+        /// </summary>
+        /// <value>The content stack.</value>
         protected UIStackView ContentStack { get; private set; }
 
         UIStackView _stackH;
@@ -28,6 +59,10 @@ namespace AiForms.Renderers.iOS
         NSLayoutConstraint _minheightConstraint;
         CancellationTokenSource _iconTokenSource;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.iOS.CellBaseView"/> class.
+        /// </summary>
+        /// <param name="formsCell">Forms cell.</param>
         public CellBaseView(Cell formsCell) : base(UIKit.UITableViewCellStyle.Default, formsCell.GetType().FullName)
         {
             Cell = formsCell;
@@ -39,6 +74,11 @@ namespace AiForms.Renderers.iOS
             UpdateSelectedColor();
         }
 
+        /// <summary>
+        /// Cells the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public virtual void CellPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == CellBase.TitleProperty.PropertyName) {
@@ -82,6 +122,11 @@ namespace AiForms.Renderers.iOS
             }
         }
 
+        /// <summary>
+        /// Parents the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public virtual void ParentPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == SettingsView.CellTitleColorProperty.PropertyName) {
@@ -119,6 +164,10 @@ namespace AiForms.Renderers.iOS
             }
         }
 
+        /// <summary>
+        /// Updates the with force layout.
+        /// </summary>
+        /// <param name="updateAction">Update action.</param>
         protected void UpdateWithForceLayout(System.Action updateAction)
         {
             updateAction();
@@ -356,6 +405,9 @@ namespace AiForms.Renderers.iOS
             _stackH.UpdateConstraints();
         }
 
+        /// <summary>
+        /// Updates the cell.
+        /// </summary>
         public virtual void UpdateCell()
         {
             UpdateBackgroundColor();
@@ -375,6 +427,11 @@ namespace AiForms.Renderers.iOS
             SetNeedsLayout();
         }
 
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing) {
@@ -441,6 +498,9 @@ namespace AiForms.Renderers.iOS
             BringSubviewToFront(HintLabel);
         }
 
+        /// <summary>
+        /// Sets the right margin zero.
+        /// </summary>
         protected void SetRightMarginZero()
         {
             _stackH.LayoutMargins = new UIEdgeInsets(6, 16, 6, 0);

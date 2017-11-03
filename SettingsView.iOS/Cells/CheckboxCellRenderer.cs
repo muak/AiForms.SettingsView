@@ -9,13 +9,23 @@ using Xamarin.Forms.Platform.iOS;
 [assembly: ExportRenderer(typeof(CheckboxCell), typeof(CheckboxCellRenderer))]
 namespace AiForms.Renderers.iOS
 {
+    /// <summary>
+    /// Checkbox cell renderer.
+    /// </summary>
     public class CheckboxCellRenderer : CellBaseRenderer<CheckboxCellView> { }
 
+    /// <summary>
+    /// Checkbox cell view.
+    /// </summary>
     public class CheckboxCellView : CellBaseView
     {
         CheckBox _checkbox;
         CheckboxCell _CheckboxCell => Cell as CheckboxCell;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.iOS.CheckboxCellView"/> class.
+        /// </summary>
+        /// <param name="formsCell">Forms cell.</param>
         public CheckboxCellView(Cell formsCell) : base(formsCell)
         {
             _checkbox = new CheckBox(new CGRect(0, 0, 20, 20));
@@ -28,6 +38,9 @@ namespace AiForms.Renderers.iOS
             AccessoryView = _checkbox;
         }
 
+        /// <summary>
+        /// Updates the cell.
+        /// </summary>
         public override void UpdateCell()
         {
             UpdateAccentColor();
@@ -35,6 +48,11 @@ namespace AiForms.Renderers.iOS
             base.UpdateCell();
         }
 
+        /// <summary>
+        /// Cells the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
@@ -46,6 +64,11 @@ namespace AiForms.Renderers.iOS
             }
         }
 
+        /// <summary>
+        /// Parents the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public override void ParentPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.ParentPropertyChanged(sender, e);
@@ -54,6 +77,11 @@ namespace AiForms.Renderers.iOS
             }
         }
 
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing) {
@@ -92,12 +120,31 @@ namespace AiForms.Renderers.iOS
         }
     }
 
+    /// <summary>
+    /// Check box.
+    /// </summary>
     public class CheckBox : UIButton
     {
+        /// <summary>
+        /// Gets or sets the inset.
+        /// </summary>
+        /// <value>The inset.</value>
         public UIEdgeInsets Inset { get; set; } = new UIEdgeInsets(20, 20, 20, 20);
+        /// <summary>
+        /// Gets or sets the color of the fill.
+        /// </summary>
+        /// <value>The color of the fill.</value>
         public CGColor FillColor { get; set; }
+        /// <summary>
+        /// Gets or sets the check changed.
+        /// </summary>
+        /// <value>The check changed.</value>
         public Action<UIButton> CheckChanged { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.iOS.CheckBox"/> class.
+        /// </summary>
+        /// <param name="rect">Rect.</param>
         public CheckBox(CGRect rect) : base(rect)
         {
             this.AddGestureRecognizer(new UITapGestureRecognizer((obj) =>
@@ -107,6 +154,11 @@ namespace AiForms.Renderers.iOS
             }));
         }
 
+        /// <summary>
+        /// Draw the specified rect.
+        /// </summary>
+        /// <returns>The draw.</returns>
+        /// <param name="rect">Rect.</param>
         public override void Draw(CGRect rect)
         {
             base.Draw(rect);
@@ -134,6 +186,12 @@ namespace AiForms.Renderers.iOS
             }
         }
 
+        /// <summary>
+        /// Points the inside.
+        /// </summary>
+        /// <returns><c>true</c>, if inside was pointed, <c>false</c> otherwise.</returns>
+        /// <param name="point">Point.</param>
+        /// <param name="uievent">Uievent.</param>
         public override bool PointInside(CGPoint point, UIEvent uievent)
         {
             var rect = this.Bounds;

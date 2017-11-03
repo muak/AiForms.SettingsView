@@ -1,4 +1,4 @@
-# AiForms.Renderes.SettingsView for Xamarin.Forms
+# SettingsView for Xamarin.Forms
 
 This is a flexible TableView specialized in settings for Android / iOS.
 

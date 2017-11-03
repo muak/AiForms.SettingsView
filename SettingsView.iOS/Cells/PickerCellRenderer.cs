@@ -6,13 +6,23 @@ using Xamarin.Forms;
 [assembly: ExportRenderer(typeof(PickerCell), typeof(PickerCellRenderer))]
 namespace AiForms.Renderers.iOS
 {
+    /// <summary>
+    /// Picker cell renderer.
+    /// </summary>
     public class PickerCellRenderer : CellBaseRenderer<PickerCellView> { }
 
+    /// <summary>
+    /// Picker cell view.
+    /// </summary>
     public class PickerCellView : LabelCellView
     {
         PickerCell _PickerCell => Cell as PickerCell;
         string _valueTextCache;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.iOS.PickerCellView"/> class.
+        /// </summary>
+        /// <param name="formsCell">Forms cell.</param>
         public PickerCellView(Cell formsCell) : base(formsCell)
         {
             Accessory = UITableViewCellAccessory.DisclosureIndicator;
@@ -20,6 +30,11 @@ namespace AiForms.Renderers.iOS
             SetRightMarginZero();
         }
 
+        /// <summary>
+        /// Cells the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
@@ -30,12 +45,19 @@ namespace AiForms.Renderers.iOS
             }
         }
 
+        /// <summary>
+        /// Updates the cell.
+        /// </summary>
         public override void UpdateCell()
         {
             base.UpdateCell();
             UpdateSelectedItems();
         }
 
+        /// <summary>
+        /// Updates the selected items.
+        /// </summary>
+        /// <param name="force">If set to <c>true</c> force.</param>
         public void UpdateSelectedItems(bool force = false)
         {
             if (force || string.IsNullOrEmpty(_valueTextCache)) {
@@ -45,6 +67,11 @@ namespace AiForms.Renderers.iOS
             ValueLabel.Text = _valueTextCache;
         }
 
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing) {

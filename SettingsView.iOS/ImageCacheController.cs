@@ -2,8 +2,15 @@
 using Foundation;
 namespace AiForms.Renderers.iOS
 {
+    /// <summary>
+    /// Image cache controller.
+    /// </summary>
     public static class ImageCacheController
     {
+        /// <summary>
+        /// Gets the instance.
+        /// </summary>
+        /// <value>The instance.</value>
         public static NSCache Instance
         {
             get {
@@ -17,6 +24,9 @@ namespace AiForms.Renderers.iOS
             }
         }
 
+        /// <summary>
+        /// Clear this instance.
+        /// </summary>
         public static void Clear()
         {
             _CacheInstance?.RemoveAllObjects();

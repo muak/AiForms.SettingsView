@@ -8,7 +8,7 @@ using Xamarin.Forms.Platform.iOS;
 
 namespace AiForms.Renderers.iOS
 {
-    public class PickerTableViewController : UITableViewController
+    internal class PickerTableViewController : UITableViewController
     {
 
         PickerCell _pickerCell;
@@ -22,7 +22,7 @@ namespace AiForms.Renderers.iOS
         UIColor _background;
         UITableView _tableView;
 
-        public PickerTableViewController(PickerCellView pickerCellView, UITableView tableView)
+        internal PickerTableViewController(PickerCellView pickerCellView, UITableView tableView)
         {
             _pickerCell = pickerCellView.Cell as PickerCell;
             _pickerCellNative = pickerCellView;
@@ -68,6 +68,12 @@ namespace AiForms.Renderers.iOS
             }
         }
 
+        /// <summary>
+        /// Gets the cell.
+        /// </summary>
+        /// <returns>The cell.</returns>
+        /// <param name="tableView">Table view.</param>
+        /// <param name="indexPath">Index path.</param>
         public override UITableViewCell GetCell(UITableView tableView, Foundation.NSIndexPath indexPath)
         {
 
@@ -92,17 +98,32 @@ namespace AiForms.Renderers.iOS
         }
 
 
-
+        /// <summary>
+        /// Numbers the of sections.
+        /// </summary>
+        /// <returns>The of sections.</returns>
+        /// <param name="tableView">Table view.</param>
         public override nint NumberOfSections(UITableView tableView)
         {
             return 1;
         }
 
+        /// <summary>
+        /// Rowses the in section.
+        /// </summary>
+        /// <returns>The in section.</returns>
+        /// <param name="tableView">Table view.</param>
+        /// <param name="section">Section.</param>
         public override nint RowsInSection(UITableView tableView, nint section)
         {
             return _source.Count;
         }
 
+        /// <summary>
+        /// Rows the selected.
+        /// </summary>
+        /// <param name="tableView">Table view.</param>
+        /// <param name="indexPath">Index path.</param>
         public override void RowSelected(UITableView tableView, Foundation.NSIndexPath indexPath)
         {
             var cell = tableView.CellAt(indexPath);
@@ -148,6 +169,10 @@ namespace AiForms.Renderers.iOS
             _selectedCache[index] = _source[index];
         }
 
+        /// <summary>
+        /// Views the will appear.
+        /// </summary>
+        /// <param name="animated">If set to <c>true</c> animated.</param>
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
@@ -181,6 +206,10 @@ namespace AiForms.Renderers.iOS
 
         }
 
+        /// <summary>
+        /// Views the will disappear.
+        /// </summary>
+        /// <param name="animated">If set to <c>true</c> animated.</param>
         public override void ViewWillDisappear(bool animated)
         {
             _pickerCell.SelectedItems.Clear();
@@ -197,6 +226,11 @@ namespace AiForms.Renderers.iOS
             }
         }
 
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing) {

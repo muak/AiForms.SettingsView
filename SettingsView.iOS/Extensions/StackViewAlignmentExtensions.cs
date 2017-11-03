@@ -4,8 +4,16 @@ using Xamarin.Forms;
 
 namespace AiForms.Renderers.iOS.Extensions
 {
+    /// <summary>
+    /// Stack view alignment extensions.
+    /// </summary>
     public static class StackViewAlignmentExtensions
     {
+        /// <summary>
+        /// Tos the native vertical.
+        /// </summary>
+        /// <returns>The native vertical.</returns>
+        /// <param name="forms">Forms.</param>
         public static UIStackViewAlignment ToNativeVertical(this LayoutAlignment forms)
         {
             switch (forms) {
@@ -20,6 +28,11 @@ namespace AiForms.Renderers.iOS.Extensions
             }
         }
 
+        /// <summary>
+        /// Tos the native horizontal.
+        /// </summary>
+        /// <returns>The native horizontal.</returns>
+        /// <param name="forms">Forms.</param>
         public static UIStackViewAlignment ToNativeHorizontal(this LayoutAlignment forms)
         {
             switch (forms) {

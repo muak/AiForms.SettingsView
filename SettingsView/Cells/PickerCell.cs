@@ -9,8 +9,14 @@ using Xamarin.Forms;
 
 namespace AiForms.Renderers
 {
+    /// <summary>
+    /// Picker cell.
+    /// </summary>
     public class PickerCell:LabelCell
     {
+        /// <summary>
+        /// The page title property.
+        /// </summary>
         public static BindableProperty PageTitleProperty =
             BindableProperty.Create(
                 nameof(PageTitle),
@@ -20,11 +26,18 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
+        /// <summary>
+        /// Gets or sets the page title.
+        /// </summary>
+        /// <value>The page title.</value>
         public string PageTitle {
             get { return (string)GetValue(PageTitleProperty); }
             set { SetValue(PageTitleProperty, value); }
         }
 
+        /// <summary>
+        /// The items source property.
+        /// </summary>
         public static BindableProperty ItemsSourceProperty =
             BindableProperty.Create(
                 nameof(ItemsSource),
@@ -35,11 +48,18 @@ namespace AiForms.Renderers
                 propertyChanging:ItemsSourceChanging
             );
 
+        /// <summary>
+        /// Gets or sets the items source.
+        /// </summary>
+        /// <value>The items source.</value>
         public IEnumerable ItemsSource {
             get { return (IEnumerable)GetValue(ItemsSourceProperty); }
             set { SetValue(ItemsSourceProperty, value); }
         }
 
+        /// <summary>
+        /// The display member property.
+        /// </summary>
         public static BindableProperty DisplayMemberProperty =
             BindableProperty.Create(
                 nameof(DisplayMember),
@@ -49,11 +69,18 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
+        /// <summary>
+        /// Gets or sets the display member.
+        /// </summary>
+        /// <value>The display member.</value>
         public string DisplayMember {
             get { return (string)GetValue(DisplayMemberProperty); }
             set { SetValue(DisplayMemberProperty, value); }
         }
 
+        /// <summary>
+        /// The selected items property.
+        /// </summary>
         public static BindableProperty SelectedItemsProperty =
             BindableProperty.Create(
                 nameof(SelectedItems),
@@ -63,11 +90,18 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.TwoWay
             );
 
+        /// <summary>
+        /// Gets or sets the selected items.
+        /// </summary>
+        /// <value>The selected items.</value>
         public IList SelectedItems {
             get { return (IList)GetValue(SelectedItemsProperty); }
             set { SetValue(SelectedItemsProperty, value); }
         }
 
+        /// <summary>
+        /// The max selected number property.
+        /// </summary>
         public static BindableProperty MaxSelectedNumberProperty =
             BindableProperty.Create(
                 nameof(MaxSelectedNumber),
@@ -77,11 +111,18 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
+        /// <summary>
+        /// Gets or sets the max selected number.
+        /// </summary>
+        /// <value>The max selected number.</value>
         public int MaxSelectedNumber {
             get { return (int)GetValue(MaxSelectedNumberProperty); }
             set { SetValue(MaxSelectedNumberProperty, value); }
         }
 
+        /// <summary>
+        /// The keep selected until back property.
+        /// </summary>
         public static BindableProperty KeepSelectedUntilBackProperty =
             BindableProperty.Create(
                 nameof(KeepSelectedUntilBack),
@@ -91,11 +132,19 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="T:AiForms.Renderers.PickerCell"/> keep selected
+        /// until back.
+        /// </summary>
+        /// <value><c>true</c> if keep selected until back; otherwise, <c>false</c>.</value>
         public bool KeepSelectedUntilBack {
             get { return (bool)GetValue(KeepSelectedUntilBackProperty); }
             set { SetValue(KeepSelectedUntilBackProperty, value); }
         }
 
+        /// <summary>
+        /// The accent color property.
+        /// </summary>
         public static BindableProperty AccentColorProperty =
             BindableProperty.Create(
                 nameof(AccentColor),
@@ -105,11 +154,18 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
+        /// <summary>
+        /// Gets or sets the color of the accent.
+        /// </summary>
+        /// <value>The color of the accent.</value>
         public Color AccentColor {
             get { return (Color)GetValue(AccentColorProperty); }
             set { SetValue(AccentColorProperty, value); }
         }
 
+        /// <summary>
+        /// The selected items order key property.
+        /// </summary>
         public static BindableProperty SelectedItemsOrderKeyProperty =
             BindableProperty.Create(
                 nameof(SelectedItemsOrderKey),
@@ -119,6 +175,10 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
+        /// <summary>
+        /// Gets or sets the selected items order key.
+        /// </summary>
+        /// <value>The selected items order key.</value>
         public string SelectedItemsOrderKey
         {
             get { return (string)GetValue(SelectedItemsOrderKeyProperty); }

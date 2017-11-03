@@ -10,13 +10,24 @@ using Xamarin.Forms.Platform.Android;
 [assembly: ExportRenderer(typeof(AiForms.Renderers.SwitchCell), typeof(AiForms.Renderers.Droid.SwitchCellRenderer))]
 namespace AiForms.Renderers.Droid
 {
+    /// <summary>
+    /// Switch cell renderer.
+    /// </summary>
     public class SwitchCellRenderer : CellBaseRenderer<SwitchCellView> { }
 
+    /// <summary>
+    /// Switch cell view.
+    /// </summary>
     public class SwitchCellView : CellBaseView, CompoundButton.IOnCheckedChangeListener, ICheckableCell
     {
         SwitchCompat _switch { get; set; }
         SwitchCell _SwitchCell => Cell as SwitchCell;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.SwitchCellView"/> class.
+        /// </summary>
+        /// <param name="context">Context.</param>
+        /// <param name="cell">Cell.</param>
         public SwitchCellView(Context context, Cell cell) : base(context, cell)
         {
 
@@ -40,11 +51,17 @@ namespace AiForms.Renderers.Droid
             DescendantFocusability = Android.Views.DescendantFocusability.AfterDescendants;
         }
 
+        /// <summary>
+        /// Checks the change.
+        /// </summary>
         public void CheckChange()
         {
             _switch.Checked = !_switch.Checked;
         }
 
+        /// <summary>
+        /// Updates the cell.
+        /// </summary>
         public override void UpdateCell()
         {
             UpdateAccentColor();
@@ -52,6 +69,11 @@ namespace AiForms.Renderers.Droid
             base.UpdateCell();
         }
 
+        /// <summary>
+        /// Cells the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
@@ -63,6 +85,11 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Parents the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public override void ParentPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.ParentPropertyChanged(sender, e);
@@ -71,11 +98,21 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Ons the checked changed.
+        /// </summary>
+        /// <param name="buttonView">Button view.</param>
+        /// <param name="isChecked">If set to <c>true</c> is checked.</param>
         public void OnCheckedChanged(CompoundButton buttonView, bool isChecked)
         {
             _SwitchCell.On = isChecked;
         }
 
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing) {

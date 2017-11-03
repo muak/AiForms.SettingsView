@@ -3,8 +3,16 @@ using Android.Views;
 using Xamarin.Forms;
 namespace AiForms.Renderers.Droid.Extensions
 {
+    /// <summary>
+    /// Layout alignment extensions.
+    /// </summary>
     public static class LayoutAlignmentExtensions
     {
+        /// <summary>
+        /// Tos the native vertical.
+        /// </summary>
+        /// <returns>The native vertical.</returns>
+        /// <param name="forms">Forms.</param>
         public static GravityFlags ToNativeVertical(this LayoutAlignment forms)
         {
             switch (forms) {
@@ -19,6 +27,11 @@ namespace AiForms.Renderers.Droid.Extensions
             }
         }
 
+        /// <summary>
+        /// Tos the native horizontal.
+        /// </summary>
+        /// <returns>The native horizontal.</returns>
+        /// <param name="forms">Forms.</param>
         public static GravityFlags ToNativeHorizontal(this LayoutAlignment forms)
         {
             switch (forms) {

@@ -9,7 +9,7 @@ using AView = Android.Views.View;
 
 namespace AiForms.Renderers.Droid
 {
-    public class PickerAdapter : BaseAdapter<object>, AdapterView.IOnItemClickListener
+    internal class PickerAdapter : BaseAdapter<object>, AdapterView.IOnItemClickListener
     {
         Android.Content.Context _context;
         SettingsView _parent;
@@ -23,7 +23,7 @@ namespace AiForms.Renderers.Droid
         internal Color _background;
         internal double _fontSize;
 
-        public PickerAdapter(Android.Content.Context context, PickerCell pickerCell, ListView listview)
+        internal PickerAdapter(Android.Content.Context context, PickerCell pickerCell, ListView listview)
         {
             _context = context;
             _listview = listview;
@@ -86,7 +86,7 @@ namespace AiForms.Renderers.Droid
             }
         }
 
-        public void DoneSelect()
+        internal void DoneSelect()
         {
             _pickerCell.SelectedItems.Clear();
 
@@ -100,7 +100,7 @@ namespace AiForms.Renderers.Droid
             }
         }
 
-        public void RestoreSelect()
+        internal void RestoreSelect()
         {
             if (_pickerCell.SelectedItems.Count == 0) {
                 return;
@@ -122,15 +122,33 @@ namespace AiForms.Renderers.Droid
             _listview.SetSelection(_listview.CheckedItemPositions.KeyAt(0));
         }
 
+        /// <summary>
+        /// Gets the <see cref="T:AiForms.Renderers.Droid.PickerAdapter"/> with the specified position.
+        /// </summary>
+        /// <param name="position">Position.</param>
         public override object this[int position] => _source[position];
-
+        /// <summary>
+        /// Gets the count.
+        /// </summary>
+        /// <value>The count.</value>
         public override int Count => _source.Count;
-
+        /// <summary>
+        /// Gets the item identifier.
+        /// </summary>
+        /// <returns>The item identifier.</returns>
+        /// <param name="position">Position.</param>
         public override long GetItemId(int position)
         {
             return position;
         }
 
+        /// <summary>
+        /// Gets the view.
+        /// </summary>
+        /// <returns>The view.</returns>
+        /// <param name="position">Position.</param>
+        /// <param name="convertView">Convert view.</param>
+        /// <param name="parent">Parent.</param>
         public override AView GetView(int position, AView convertView, ViewGroup parent)
         {
             if (convertView == null) {
@@ -142,7 +160,11 @@ namespace AiForms.Renderers.Droid
             return convertView;
         }
 
-
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing) {
@@ -156,12 +178,12 @@ namespace AiForms.Renderers.Droid
         }
     }
 
-    public class PickerInnerView : RelativeLayout, Android.Widget.ICheckable
+    internal class PickerInnerView : RelativeLayout, Android.Widget.ICheckable
     {
         TextView _textLabel;
         SimpleCheck _checkBox;
 
-        public PickerInnerView(Android.Content.Context context, PickerAdapter adapter) : base(context)
+        internal PickerInnerView(Android.Content.Context context, PickerAdapter adapter) : base(context)
         {
             this.LayoutParameters = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
 
@@ -198,6 +220,10 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="T:AiForms.Renderers.Droid.PickerInnerView"/> is checked.
+        /// </summary>
+        /// <value><c>true</c> if checked; otherwise, <c>false</c>.</value>
         public bool Checked
         {
             get {
@@ -207,16 +233,28 @@ namespace AiForms.Renderers.Droid
                 _checkBox.Selected = value;
             }
         }
+        /// <summary>
+        /// Toggle this instance.
+        /// </summary>
         public void Toggle()
         {
             _checkBox.Selected = !_checkBox.Selected;
         }
 
+        /// <summary>
+        /// Updates the cell.
+        /// </summary>
+        /// <param name="displayValue">Display value.</param>
         public void UpdateCell(object displayValue)
         {
             _textLabel.Text = $"{displayValue}";
         }
 
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing) {
@@ -229,18 +267,33 @@ namespace AiForms.Renderers.Droid
         }
     }
 
+    /// <summary>
+    /// Simple check.
+    /// </summary>
     public class SimpleCheck : AView
     {
+        /// <summary>
+        /// Gets or sets the color.
+        /// </summary>
+        /// <value>The color.</value>
         public Color Color { get; set; }
         Paint _paint = new Paint();
         Android.Content.Context _context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.SimpleCheck"/> class.
+        /// </summary>
+        /// <param name="context">Context.</param>
         public SimpleCheck(Android.Content.Context context) : base(context)
         {
             _context = context;
             SetWillNotDraw(false);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="T:AiForms.Renderers.Droid.SimpleCheck"/> is selected.
+        /// </summary>
+        /// <value><c>true</c> if selected; otherwise, <c>false</c>.</value>
         public override bool Selected
         {
             get {
@@ -252,6 +305,10 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Ons the draw.
+        /// </summary>
+        /// <param name="canvas">Canvas.</param>
         protected override void OnDraw(Canvas canvas)
         {
             base.OnDraw(canvas);
@@ -281,6 +338,11 @@ namespace AiForms.Renderers.Droid
             canvas.DrawLine(fromX, fromY, toX, toY, _paint);
         }
 
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing) {

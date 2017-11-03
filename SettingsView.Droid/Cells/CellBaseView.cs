@@ -13,19 +13,62 @@ using ARelativeLayout = Android.Widget.RelativeLayout;
 
 namespace AiForms.Renderers.Droid
 {
+    /// <summary>
+    /// Cell base view.
+    /// </summary>
     public class CellBaseView : ARelativeLayout, INativeElementView
     {
+        /// <summary>
+        /// Gets or sets the cell.
+        /// </summary>
+        /// <value>The cell.</value>
         public Cell Cell { get; set; }
+        /// <summary>
+        /// Gets the element.
+        /// </summary>
+        /// <value>The element.</value>
         public Element Element => Cell;
 
+        /// <summary>
+        /// Gets the cell base.
+        /// </summary>
+        /// <value>The cell base.</value>
         protected CellBase CellBase => Cell as CellBase;
+        /// <summary>
+        /// Gets the cell parent.
+        /// </summary>
+        /// <value>The cell parent.</value>
         public SettingsView CellParent => Cell.Parent as SettingsView;
 
+        /// <summary>
+        /// Gets or sets the title label.
+        /// </summary>
+        /// <value>The title label.</value>
         public TextView TitleLabel { get; set; }
+        /// <summary>
+        /// Gets or sets the description label.
+        /// </summary>
+        /// <value>The description label.</value>
         public TextView DescriptionLabel { get; set; }
+        /// <summary>
+        /// Gets or sets the icon view.
+        /// </summary>
+        /// <value>The icon view.</value>
         public ImageView IconView { get; set; }
+        /// <summary>
+        /// Gets or sets the content stack.
+        /// </summary>
+        /// <value>The content stack.</value>
         public LinearLayout ContentStack { get; set; }
+        /// <summary>
+        /// Gets or sets the accessory stack.
+        /// </summary>
+        /// <value>The accessory stack.</value>
         public LinearLayout AccessoryStack { get; set; }
+        /// <summary>
+        /// Gets the hint label.
+        /// </summary>
+        /// <value>The hint label.</value>
         public TextView HintLabel { get; private set; }
 
         Context _context;
@@ -36,6 +79,11 @@ namespace AiForms.Renderers.Droid
         float _defaultFontSize;
         float _iconRadius;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.CellBaseView"/> class.
+        /// </summary>
+        /// <param name="context">Context.</param>
+        /// <param name="cell">Cell.</param>
         public CellBaseView(Context context, Cell cell) : base(context)
         {
             _context = context;
@@ -72,6 +120,11 @@ namespace AiForms.Renderers.Droid
             _defaultFontSize = TitleLabel.TextSize;
         }
 
+        /// <summary>
+        /// Cells the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public virtual void CellPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == CellBase.TitleProperty.PropertyName) {
@@ -116,6 +169,11 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Parents the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public virtual void ParentPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == SettingsView.CellTitleColorProperty.PropertyName) {
@@ -151,12 +209,19 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Updates the with force layout.
+        /// </summary>
+        /// <param name="updateAction">Update action.</param>
         protected void UpdateWithForceLayout(System.Action updateAction)
         {
             updateAction();
             Invalidate();
         }
 
+        /// <summary>
+        /// Updates the cell.
+        /// </summary>
         public virtual void UpdateCell()
         {
             UpdateBackgroundColor();
@@ -420,6 +485,11 @@ namespace AiForms.Renderers.Droid
             return clipArea;
         }
 
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing) {

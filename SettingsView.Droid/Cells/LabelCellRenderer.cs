@@ -12,16 +12,33 @@ using Xamarin.Forms.Platform.Android;
 [assembly: ExportRenderer(typeof(LabelCell), typeof(LabelCellRenderer))]
 namespace AiForms.Renderers.Droid
 {
+    /// <summary>
+    /// Label cell renderer.
+    /// </summary>
     public class LabelCellRenderer : CellBaseRenderer<LabelCellView> { }
 
+    /// <summary>
+    /// Label cell view.
+    /// </summary>
     public class LabelCellView : CellBaseView
     {
         LabelCell _LabelCell => Cell as LabelCell;
+        /// <summary>
+        /// Gets or sets the value label.
+        /// </summary>
+        /// <value>The value label.</value>
         public TextView ValueLabel { get; set; }
-
+        /// <summary>
+        /// The v value label.
+        /// </summary>
         public TextView vValueLabel;
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.LabelCellView"/> class.
+        /// </summary>
+        /// <param name="context">Context.</param>
+        /// <param name="cell">Cell.</param>
         public LabelCellView(Context context, Cell cell) : base(context, cell)
         {
 
@@ -42,6 +59,11 @@ namespace AiForms.Renderers.Droid
 
         }
 
+        /// <summary>
+        /// Cells the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public override void CellPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
@@ -60,6 +82,11 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Parents the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         public override void ParentPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.ParentPropertyChanged(sender, e);
@@ -72,6 +99,9 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Updates the cell.
+        /// </summary>
         public override void UpdateCell()
         {
             base.UpdateCell();
@@ -121,6 +151,11 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if(disposing){
