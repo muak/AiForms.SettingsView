@@ -1,8 +1,8 @@
 # AiForms.Renderes.SettingsView for Xamarin.Forms
 
-This is a flexble TableView specialized in settings for Android / iOS.
+This is a flexible TableView specialized in settings for Android / iOS.
 
-## What SettingsView is capable of
+## What SettingsView can do.
 
 ### General
 
@@ -24,6 +24,9 @@ This is a flexble TableView specialized in settings for Android / iOS.
 * To change corner radius of an icon.
 * To use various defined cells.
 * To use Xamarin.Forms.ViewCell and the others.
+
+
+<img src="images/iOS_SS.png" height="1200" /> <img src="images/AndroidSS.png" height="1200" />
 
 ## Minimum Device and Version etc
 
@@ -54,35 +57,116 @@ public override bool FinishedLaunching(UIApplication app, NSDictionary options) 
 }
 ```
 
-## How to use
+## How to write with xaml
 
-hogehoge...
+```xml
+<ContentPage 
+	xmlns="http://xamarin.com/schemas/2014/forms" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+	xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
+	x:Class="Sample.Views.SettingsViewPage">
+    
+<sv:SettingsView HasUnevenRows="true">
+    
+    <sv:Section Title="Header1" FooterText="Footer1">
+        <sv:CommandCell IconSource="icon.png" IconSize="60,60" IconRadius="30"
+            Title="Xam Xamarin" Description="hoge@fuga.com"
+            Command="{Binding ToProfileCommand}" CommandParameter="{Binding Parameter}"
+            KeepSelectedUntilBack="true"            
+        />
+        <sv:ButtonCell Title="Toggle Section" TitleColor="{StaticResource TitleTextColor}"
+             TitleAlignment="Center" Command="{Binding SectionToggleCommand}" />
+        <sv:LabelCell Title="Label" ValueText="value" />
+        <sv:SwitchCell Title="Switch" On="true" 
+            Description="This is description." />
+        <sv:CheckboxCell Title="Checkbox" Checked="true" />
+    </sv:Section>
+
+    <sv:Section Title="Header2" FooterText="Footer2" IsVisible="{Binding SctionIsVisible}">
+        <sv:PickerCell Title="Favorites" ItemsSource="{Binding ItemsSource}" DisplayMember="Name" MaxSelectedNumber="3" 
+        SelectedItems="{Binding SelectedItems}" KeepSelectedUntilBack="true" PageTitle="select 3 items" />
+        <sv:NumberPickerCell Title="NumberPicker" Min="0" Max="99" Number="15" PickerTitle="Select number" />
+        <sv:TimePickerCell Title="TimePicker" Format="HH:mm" Time="15:30" PickerTitle="Select time" />
+        <sv:DatePickerCell Title="DatePicker" Format="yyyy/MM/dd (ddd)" Date="2017/11/11" MinimumDate="2015/1/1" MaximumDate="2018/12/15" TodayText="Today's date"/>
+        <sv:EntryCell Title="EntryCell" ValueText="{Binding InputText.Value}" Placeholder="Input text" Keyboard="Email" TextAlignment="End" HintText="{Binding InputError.Value}" />
+    </sv:Section>
+    
+</sv:SettingsView>
+</ContentPage>
+```
+
+SettingsView properties settings may as well be witten in App.xaml. 
+For example...
+
+```xml
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
+             x:Class="Sample.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <Color x:Key="AccentColor">#FFBF00</Color>
+            <Color x:Key="DisabledColor">#E6DAB9</Color>
+            <Color x:Key="TitleTextColor">#CC9900</Color>
+            <Color x:Key="PaleBackColorPrimary">#F2EFE6</Color>
+            <Color x:Key="PaleBackColorSecondary">#F2EDDA</Color>
+            <Color x:Key="DeepTextColor">#555555</Color>
+            <Color x:Key="NormalTextColor">#666666</Color>
+            <Color x:Key="PaleTextColor">#999999</Color>
+            <x:Double x:Key="BaseFontSize">12</x:Double>
+            <x:Double x:Key="BaseFontSize+">14</x:Double>
+            <x:Double x:Key="BaseFontSize++">17</x:Double>
+            <x:Double x:Key="BaseFontSize-">11</x:Double>
+
+            <Style TargetType="sv:SettingsView">
+                <Setter Property="SeparatorColor" Value="{StaticResource DisabledColor}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource PaleBackColorPrimary}" />
+                <Setter Property="HeaderBackgroundColor" Value="{StaticResource PaleBackColorPrimary}" />
+                <Setter Property="CellBackgroundColor" Value="{StaticResource AppBackground}" />
+                <Setter Property="CellTitleColor" Value="{StaticResource DeepTextColor}" />
+                <Setter Property="CellValueTextColor" Value="{StaticResource NormalTextColor}" />
+                <Setter Property="CellTitleFontSize" Value="{StaticResource BaseFontSize++}" />
+                <Setter Property="CellValueTextFontSize" Value="{StaticResource BaseFontSize}" />
+                <Setter Property="CellDescriptionColor" Value="{StaticResource NormalTextColor}" />
+                <Setter Property="CellDescriptionFontSize" Value="{StaticResource BaseFontSize-}" />
+                <Setter Property="CellAccentColor" Value="{StaticResource AccentColor}" />
+                <Setter Property="SelectedColor" Value="#50FFBF00" />
+                <Setter Property="HeaderTextColor" Value="{StaticResource TitleTextColor}" />
+                <Setter Property="FooterFontSize" Value="{StaticResource BaseFontSize-}" />
+                <Setter Property="FooterTextColor" Value="{StaticResource PaleTextColor}" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
+
+```
+Whereby any SettingsView in App will become the same property setttings.
 
 ## SettingsView Properties
 
 * BackgroundColor
 	* A color of out of region and entire region. They contains header, footer and cell (in case android).
 * SeparatorColor
-    * row separator color.
+    * Row separator color.
 * SelectedColor
-    * backgraound color when row is selected.
+    * Backgraound color when row is selected.
 * HeaderPadding
 * HeaderTextColor
 * HeaderFontSize
 * HeaderTextVerticalAlign
 * HeaderBackgroundColor
 * HeaderHeight
-    * they are section header options.
+    * They are section header options.
 * FooterTextColor
 * FooterFontSize
 * FooterBackgroundColor
 * FooterPadding
-    * they are section footer options.
+    * They are section footer options.
 * RowHeight
 	* If HasUnevenRows is false, this value apply to each row height;
-	* otherwise this value is used as minimum row height. 
+	* Otherwise this value is used as minimum row height. 
 * HasUnevenRows
-	* Whether row height is fixed.
+	* Whether row height is fixed. Default false.
 * CellTitleColor
 * CellTitleFontSize
 * CellValueTextColor
@@ -95,27 +179,27 @@ hogehoge...
 * CellAccentColor
 * CellHintTextColor
 * CellHintFontSize
-    * they are bulk cell options.
+    * They are bulk cell options.
 * UseDescriptionAsValue (for Android)
 	* Whether description field  is used as value field. (like general android app)
-    * default false
+    * Default false
 * ShowSectionTopBottomBorder (for Android)
 	* Whether a separator is shown at section top and bottom. (like general android app)
-    * default false
+    * Default false
 
 ## SettingsView Methods
 
 * ClearCache (static)
-	* clear all memory cache.
+	* Clear all memory cache.
 
 ## Section Properties
 
 * Title
-	* the same Xamarin.Forms.TableSection.
+	* Section header text. The same as Xamarin.Forms.TableSection.
 * FooterText
 	* Section footer text.
 * IsVisible
-	* whether the section is visibled.
+	* Whether the section is visibled.
 
 ## Cells
 
@@ -136,22 +220,7 @@ hogehoge...
 
 ### Layout of cellbase
 
-<div id="outerbox" style="display:flex;width:360px;height:100px;border:solid 1px silver"> 
-    <div id="iconbox" style="display:flex;align-items:center;justify-content:center;width:100px;height:100px;border-right:solid 1px silver;">Icon</div>
-    <div id="middlebox" style="display:flex;flex-direction:column;flex-grow:100;">
-        <div id="middletopbox" style="display:flex;align-items:center;height:50px;border-bottom:solid 1px silver;">
-            <div id="titlebox" style="display:flex;padding-left:6px;">Title</div>
-            <div id="valuebox" style="display:flex;flex-grow:100;justify-content:flex-end;padding-right:6px;">ValueText</div>            
-        </div>
-        <div id="descriptionbox" style="display:flex;align-items:center;height:50px;padding-left:6px;">
-            Description
-        </div>
-    </div>
-    <div id="accessorybox" style="display:flex;align-items:center;justify-cntent:center;width:30px;height:100;border-left:solid 1px silver;padding:3px;">
-        Accessory
-    </div>
-</div>
-<br/>
+![cell layout](./images/cell_layout.png)
 
 * Icon
     * If not specify a imagesource, icon will be hidden.
@@ -216,7 +285,7 @@ This is a Labelcell invoked an action.
 * KeepSelectedUntilBack
     * When moving next page, whether keep the cell selected until being back to the page.
 
-the others are the same as LabelText.
+The others are the same as LabelText.
 
 ## ButtonCell
 

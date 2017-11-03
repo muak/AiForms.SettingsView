@@ -97,8 +97,8 @@ namespace AiForms.Renderers.Droid
                 Focusable = true;
                 DescendantFocusability = Android.Views.DescendantFocusability.BlockDescendants;
                 // to turn like disabled
-                TitleLabel.Alpha = 0.6f;
-                IconView.Alpha = 0.6f;
+                TitleLabel.Alpha = 0.3f;
+                IconView.Alpha = 0.3f;
             }
         }
     }

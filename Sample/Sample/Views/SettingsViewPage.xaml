@@ -2,7 +2,7 @@
 <ContentPage 
 	xmlns="http://xamarin.com/schemas/2014/forms" 
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-	xmlns:ai="clr-namespace:AiForms.Renderers;assembly=SettingsView"
+	xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
 	x:Class="Sample.Views.SettingsViewPage"
     Title="Settings">
 
@@ -21,7 +21,7 @@
             <!-- 薄い背景色2 -->
             <Color x:Key="PaleBackColorSecondary">#F2EDDA</Color>
             <!-- 濃いめの文字色 -->
-            <Color x:Key="DeepTextColor">#444444</Color>
+            <Color x:Key="DeepTextColor">#555555</Color>
             <!-- 通常文字色 -->
             <Color x:Key="NormalTextColor">#666666</Color>
             <!-- 薄い文字色 -->
@@ -37,7 +37,7 @@
             <!-- ちょい小さいフォントサイズ -->
             <x:Double x:Key="BaseFontSize-">11</x:Double>
 
-            <Style TargetType="ai:SettingsView">
+            <Style TargetType="sv:SettingsView">
                 <Setter Property="SeparatorColor" Value="{StaticResource DisabledColor}" />
                 <Setter Property="BackgroundColor" Value="{StaticResource PaleBackColorPrimary}" />
                 <Setter Property="HeaderBackgroundColor" Value="{StaticResource PaleBackColorPrimary}" />
@@ -57,31 +57,57 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 	
-	<ai:SettingsView HasUnevenRows="true" HeaderHeight="36" HeaderPadding="14,0,0,6" HeaderTextVerticalAlign="End"
-        FooterPadding="14,4,4,6"
+	<sv:SettingsView HasUnevenRows="true" HeaderHeight="36" HeaderPadding="14,0,0,6" HeaderTextVerticalAlign="End" FooterPadding="14,4,4,6"
         >
      
-		<ai:Section FooterText="This is a footer. optionaly you can write here.">
-            <ai:CommandCell IconSource="icon.png" IconSize="60,60" IconRadius="30" Title="Xam Xamarin" Height="80"
+		<sv:Section FooterText="This is a footer. optionaly you can write here.">
+            <sv:CommandCell IconSource="icon.png" IconSize="60,60" IconRadius="30" Title="Xam Xamarin" Height="80"
                 Description="hoge@fuga.com" Command="{Binding ToProfileCommand}" KeepSelectedUntilBack="true"
                 IgnoreUseDescriptionAsValue="true"
             />
-		</ai:Section>
+		</sv:Section>
 
-        <ai:Section Title="LabelCell">
-            <ai:LabelCell Title="Storage" ValueText="3,065MB" />
-        </ai:Section>
+        <sv:Section Title="LabelCell">
+            <sv:LabelCell Title="Storage" ValueText="3,065MB" />
+        </sv:Section>
 
-        <ai:Section Title="CheckableCell">
-            <ai:SwitchCell Title="Switch" On="true" 
+        <sv:Section Title="CheckableCell">
+            <sv:SwitchCell Title="Switch" On="true" 
                 Description="This is description. you can write detail explanation of the item here. long text wrap automatically." />
-            <ai:CheckboxCell Title="Checkbox" Checked="true" />
-        </ai:Section>
+            <sv:CheckboxCell Title="Checkbox" Checked="true" />
+        </sv:Section>
 
-        <ai:Section Title="Picker" FooterText="This is a multi select picker. you are free to select items until MaxSelectedNumber.">
-            <ai:PickerCell Title="Favorites" ItemsSource="{Binding ItemsSource}" DisplayMember="Name" MaxSelectedNumber="3" 
+        <sv:Section Title="MultiPicker" FooterText="This is a multi select picker. you are free to select items until MaxSelectedNumber.">
+            <sv:PickerCell Title="Favorites" ItemsSource="{Binding ItemsSource}" DisplayMember="Name" MaxSelectedNumber="3" 
             SelectedItems="{Binding SelectedItems}" KeepSelectedUntilBack="true" PageTitle="select 3 items" />
-        </ai:Section>
-	</ai:SettingsView>
+        </sv:Section>
+
+        <sv:Section Title="Picker 3 Brothers">
+            <sv:NumberPickerCell Title="NumberPicker" Min="0" Max="99" Number="15" PickerTitle="Select number" />
+            <sv:TimePickerCell Title="TimePicker" Format="HH:mm" Time="15:30" PickerTitle="Select time" />
+            <sv:DatePickerCell Title="DatePicker" Format="yyyy/MM/dd (ddd)" Date="2017/11/11" MinimumDate="2015/1/1" MaximumDate="2018/12/15" TodayText="Today's date"/>
+        </sv:Section>    
+
+        <sv:Section Title="Input" IsVisible="{Binding InputSectionVisible.Value}">
+            <sv:EntryCell Title="EntryCell" ValueText="{Binding InputText.Value}" Placeholder="Input text" Keyboard="Email" TextAlignment="End" HintText="{Binding InputError.Value}" />
+        </sv:Section>
+
+        <sv:Section Title="FormsCell">
+            <ViewCell>
+                <StackLayout Padding="14,8,8,8" BackgroundColor="White">
+                    <Label Text="ViewCell" TextColor="{StaticResource DeepTextColor}" />
+                    <StackLayout Orientation="Horizontal">
+                        <Image Source="icon.png" WidthRequest="36" HeightRequest="36" />
+                        <Slider Minimum="0" Maximum="999" Value="500" HorizontalOptions="FillAndExpand" />
+                    </StackLayout>
+                    <Label Text="You can use Forms build-in Cells." FontSize="11" TextColor="{StaticResource PaleTextColor}" />
+                 </StackLayout>
+            </ViewCell>
+        </sv:Section>
+
+        <sv:Section Title="ButtonCell" FooterText="Change input section visibility.">
+            <sv:ButtonCell Title="Toggle Section" TitleColor="{StaticResource TitleTextColor}" TitleAlignment="Center" Command="{Binding SectionToggleCommand}" />
+        </sv:Section>
+	</sv:SettingsView>
         
 </ContentPage>

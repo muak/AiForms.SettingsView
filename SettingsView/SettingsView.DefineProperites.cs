@@ -423,5 +423,6 @@ namespace AiForms.Renderers
             get { return (bool)GetValue(ShowSectionTopBottomBorderProperty); }
             set { SetValue(ShowSectionTopBottomBorderProperty, value); }
         }
+
     }
 }

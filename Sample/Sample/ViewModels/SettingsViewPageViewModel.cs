@@ -10,45 +10,46 @@ using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.ComponentModel.DataAnnotations;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 namespace Sample.ViewModels
 {
     public class SettingsViewPageViewModel : BindableBase
     {
-        
+        [Required(ErrorMessage = "Required")]
+        [StringLength(15, ErrorMessage = "Input text less than or equal to 15 characters")]
+        public ReactiveProperty<string> InputText { get; }
+        public ReadOnlyReactiveProperty<string> InputError { get; }
 
-
+        public ReactiveProperty<bool> InputSectionVisible { get; } = new ReactiveProperty<bool>(true);
 
         public ReactiveCommand ToProfileCommand { get; set; } = new ReactiveCommand();
-
-        public ReactiveProperty<ImageSource> Image { get; } = new ReactiveProperty<ImageSource>();
-        public ReactiveProperty<string> Description { get; } = new ReactiveProperty<string>();
-
-        public ReactiveCommand<int> CellCommand { get; } = new ReactiveCommand<int>();
-        public ReactiveProperty<int> CellCommandParameter { get; } = new ReactiveProperty<int>(1);
-
-        public List<int> IntList { get; } = new List<int>();
-        public List<int> SelectedInt { get; } = new List<int>();
+        public AsyncReactiveCommand SectionToggleCommand { get; set; }
 
         public ObservableCollection<Person> ItemsSource { get; } = new ObservableCollection<Person>();
         public ObservableCollection<Person> SelectedItems { get; } = new ObservableCollection<Person>();
-
-        public ReactiveProperty<bool> SwitchOn { get; } = new ReactiveProperty<bool>();
-
-        public ReactiveCommand GeneralCommand { get; set; } = new ReactiveCommand();
 
         string[] languages = { "Java", "C#", "JavaScript", "PHP", "Perl", "C++",  "Swift", "Kotlin", "Python", "Ruby", "Scala", "F#" };
 
         public SettingsViewPageViewModel(INavigationService navigationService, IPageDialogService pageDlg)
         {
-            
+            InputText = new ReactiveProperty<string>().SetValidateAttribute(() => this.InputText);
 
+            InputError = InputText.ObserveErrorChanged
+                                  .Select(x => x?.Cast<string>()?.FirstOrDefault())
+                                  .ToReadOnlyReactiveProperty();
 
-            ToProfileCommand.Subscribe(async _ => {
-                await navigationService.NavigateAsync("ContentPage");
+            SectionToggleCommand = InputText.ObserveHasErrors.Select(x => !x).ToAsyncReactiveCommand();
+            SectionToggleCommand.Subscribe(async _=>{
+                InputSectionVisible.Value = !InputSectionVisible.Value;
+                await Task.Delay(250);
             });
 
-
+            ToProfileCommand.Subscribe(async _ => {
+                await navigationService.NavigateAsync("DummyPage");
+            });
 
             foreach(var item in languages){
                 ItemsSource.Add(new Person() {
@@ -63,17 +64,6 @@ namespace Sample.ViewModels
 
 
 
-
-            CellCommand.Subscribe(async p => {
-                //await pageDlg.DisplayAlertAsync("", $"{p}", "OK");
-                await navigationService.NavigateAsync("MainPage");
-                //var afssa = SelectedItems;
-                SwitchOn.Value = false;
-            });
-
-            GeneralCommand.Subscribe(_=>{
-                var fasf = _;
-            });
         }
 
         public class Person{

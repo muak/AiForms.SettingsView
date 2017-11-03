@@ -93,8 +93,8 @@ namespace AiForms.Renderers.iOS
             }
             else {
                 UserInteractionEnabled = false;
-                TitleLabel.Alpha = 0.6f;
-                IconView.Alpha = 0.6f;
+                TitleLabel.Alpha = 0.3f;
+                IconView.Alpha = 0.3f;
             }
         }
     }

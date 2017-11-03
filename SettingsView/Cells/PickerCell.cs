@@ -185,7 +185,7 @@ namespace AiForms.Renderers
                 sortedList = strList.OrderBy(x => x, new NaturalComparer()).ToList();
             }
 
-            return string.Join(",", sortedList.ToArray());
+            return string.Join(", ", sortedList.ToArray());
         }
 
         Dictionary<string, Func<object, object>> _getters;
