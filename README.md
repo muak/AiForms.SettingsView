@@ -2,6 +2,10 @@
 
 This is a flexible TableView specialized in settings for Android / iOS.
 
+<div style="text-align:right">
+[Japanese](./README-ja.md)
+</div>
+
 ## What SettingsView can do.
 
 ### General
@@ -188,7 +192,7 @@ Whereby any SettingsView in App will become the same property setttings.
     * They are bulk cell options.
 * UseDescriptionAsValue (for Android)
 	* Whether description field  is used as value field. (like general android app)
-    * Default false
+    * Default true
 * ShowSectionTopBottomBorder (for Android)
 	* Whether a separator is shown at section top and bottom. (like general android app)
     * Default false
