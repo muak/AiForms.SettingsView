@@ -2,9 +2,8 @@
 
 This is a flexible TableView specialized in settings for Android / iOS.
 
-<div style="text-align:right">
 [Japanese](./README-ja.md)
-</div>
+
 
 ## What SettingsView can do.
 

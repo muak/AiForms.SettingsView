@@ -1,6 +1,6 @@
 # SettingsView for Xamarin.Forms
 
-SettingViewはXamarin.Formsで使用できる設定に特化した柔軟なTableViewです。 
+SettingViewはXamarin.Formsで使用できる設定に特化した柔軟なTableViewです。  
 AndroidとiOSに対応しています。
 
 ## SettingsViewでできること（標準のTableViewとの違い）
