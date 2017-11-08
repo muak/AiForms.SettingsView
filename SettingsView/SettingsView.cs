@@ -132,9 +132,17 @@ namespace AiForms.Renderers
 
         new void OnModelChanged()
         {
-            //ViewCell size is not decided if parent isn't set.
-            foreach (Cell cell in Root.SelectMany(r => r))
+            var cells = Root?.SelectMany(r => r);
+            if (cells == null)
+            {
+                return;
+            }
+
+            foreach (Cell cell in cells)
+            {
+                //ViewCell size is not decided if parent isn't set.
                 cell.Parent = this;
+            }
 
             //notify Native
             if (ModelChanged != null)

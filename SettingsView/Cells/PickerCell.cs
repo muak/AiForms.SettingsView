@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Xamarin.Forms;
+using System.Windows.Input;
 
 namespace AiForms.Renderers
 {
@@ -185,6 +186,28 @@ namespace AiForms.Renderers
             set { SetValue(SelectedItemsOrderKeyProperty, value); }
         }
 
+        /// <summary>
+        /// The selected command property.
+        /// </summary>
+        public static BindableProperty SelectedCommandProperty =
+            BindableProperty.Create(
+                nameof(SelectedCommand),
+                typeof(ICommand),
+                typeof(PickerCell),
+                default(ICommand),
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        /// <summary>
+        /// Gets or sets the selected command.
+        /// </summary>
+        /// <value>The selected command.</value>
+        public ICommand SelectedCommand {
+            get { return (ICommand)GetValue(SelectedCommandProperty); }
+            set { SetValue(SelectedCommandProperty, value); }
+        }
+
+
         //getters cache
         static ConcurrentDictionary<Type, Dictionary<string,Func<object, object>>> DisplayValueCache = new ConcurrentDictionary<Type, Dictionary<string,Func<object, object>>>();
 
@@ -246,6 +269,11 @@ namespace AiForms.Renderers
             }
 
             return string.Join(", ", sortedList.ToArray());
+        }
+
+        internal void InvokeCommand()
+        {
+            SelectedCommand?.Execute(SelectedItems);
         }
 
         Dictionary<string, Func<object, object>> _getters;

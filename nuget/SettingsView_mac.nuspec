@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>AiForms.SettingsView</id>
-        <version>0.0.1-pre</version>
+        <version>0.0.1-pre4</version>
         <title>SettingsView for Xamarin.Forms</title>
         <authors>kamu</authors>
         <owners>kamu</owners>
@@ -10,11 +10,17 @@
         <licenseUrl>https://github.com/muak/AiForms.Renderers/blob/master/LICENSE.txt</licenseUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>This is a flexible TableView specialized in settings for Android / iOS. 
-            There are various cells as (LabelCell,ButtonCell,CommandCell,SwitchCell,CheckboxCell,PickerCell,EntryCell,NumberPickerCell,TimePickerCell,DatePickerCell)
+There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,CheckboxCell,PickerCell,EntryCell,NumberPickerCell,TimePickerCell,DatePickerCell)
         </description>
         <summary></summary>
         <releaseNotes>
-First release (pre)
+pre2
+crash when use style
+pre4
+## PickerCell
+add pickercell selectedcommand
+when constituted TabbedPage/NavigationPage/ContentPage, don't move collectlly
+ios picker tableview style changed grouped
         </releaseNotes>
         <tags>Xamarin.Forms TableView Cell Setting Configuration Option ListView UITableView</tags>
         <language>en-US</language>

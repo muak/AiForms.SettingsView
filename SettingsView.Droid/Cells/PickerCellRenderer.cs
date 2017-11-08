@@ -121,6 +121,7 @@ namespace AiForms.Renderers.Droid
                     {
                         _adapter.DoneSelect();
                         UpdateSelectedItems(true);
+                        _PickerCell.InvokeCommand();
                         ClearFocus();
                     });
 
