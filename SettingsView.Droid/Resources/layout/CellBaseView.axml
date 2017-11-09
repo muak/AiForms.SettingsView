@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:minHeight="44dp"
     android:paddingLeft="10dp"
-    android:paddingRight="8dp"
+    android:paddingRight="10dp"
     android:paddingTop="4dp"
     android:paddingBottom="4dp">
     <ImageView
