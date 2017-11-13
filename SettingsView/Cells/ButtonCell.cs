@@ -21,7 +21,7 @@ namespace AiForms.Renderers
                 nameof(TitleAlignment),
                 typeof(TextAlignment),
                 typeof(ButtonCell),
-                default(TextAlignment),
+                TextAlignment.Center,
                 defaultBindingMode: BindingMode.OneWay
             );
 

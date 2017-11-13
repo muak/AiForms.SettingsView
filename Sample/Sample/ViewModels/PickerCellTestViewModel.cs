@@ -16,12 +16,15 @@ namespace Sample.ViewModels
         public ReactiveProperty<int> MaxSelectedNumber { get; } = new ReactiveProperty<int>();
         public ReactiveProperty<bool> KeepSelected { get; } = new ReactiveProperty<bool>();
         public ReactiveProperty<string> SelectedItemsOrderKey { get; } = new ReactiveProperty<string>();
+        public ReactiveProperty<bool> UseNaturalSort { get; } = new ReactiveProperty<bool>();
 
         public ObservableCollection<Person> ItemsSource { get; } = new ObservableCollection<Person>();
         public ObservableCollection<int> ItemsSource2 { get; } = new ObservableCollection<int>();
 
         public ObservableCollection<Person> SelectedItems { get; set; } = new ObservableCollection<Person>();
         public ObservableCollection<int> SelectedItems2 { get; } = new ObservableCollection<int>();
+
+        public ReactiveCommand SelectedCommand { get; } = new ReactiveCommand();
 
         static string[] PageTitles = { "", "Select value", "LongTitleTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextEnd" };
         static string[] DisplayMembers = { "Name", "Age",""};
@@ -50,6 +53,11 @@ namespace Sample.ViewModels
             KeepSelected.Value = bools[0];
             SelectedItemsOrderKey.Value = DisplayMembers[0];
             ChangeSelectedItems();
+
+            SelectedCommand.Subscribe(obj=>{
+                var list = obj as ObservableCollection<Person>;
+                System.Diagnostics.Debug.WriteLine(list);
+            });
         }
 
         protected override void CellChanged(object obj)
@@ -80,6 +88,9 @@ namespace Sample.ViewModels
                     break;
                 case nameof(SelectedItemsOrderKey):
                     NextVal(SelectedItemsOrderKey, DisplayMembers);
+                    break;
+                case nameof(UseNaturalSort):
+                    NextVal(UseNaturalSort, bools);
                     break;
             }
         }

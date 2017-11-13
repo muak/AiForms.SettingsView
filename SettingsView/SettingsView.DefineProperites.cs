@@ -574,7 +574,7 @@ namespace AiForms.Renderers
                 nameof(UseDescriptionAsValue),
                 typeof(bool),
                 typeof(SettingsView),
-                true,
+                false,
                 defaultBindingMode: BindingMode.OneWay
             );
 
@@ -598,7 +598,7 @@ namespace AiForms.Renderers
                 nameof(ShowSectionTopBottomBorder),
                 typeof(bool),
                 typeof(SettingsView),
-                false,
+                true,
                 defaultBindingMode: BindingMode.OneWay
             );
 

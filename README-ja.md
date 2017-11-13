@@ -173,7 +173,7 @@ SettingsViewのプロパティ設定はApp.xamlに記述した方が良いかも
 	* HasUnevenRowがfalseの時は、全行の高さ
 	* それ以外は最小の行の高さ
 * HasUnevenRows
-	* 行の高さを固定にするかどうか。デフォルトはfalse
+	* 行の高さを固定にするかどうか。デフォルトはfalse。true推奨。
 * CellTitleColor
 * CellTitleFontSize
 * CellValueTextColor
@@ -190,11 +190,11 @@ SettingsViewのプロパティ設定はApp.xamlに記述した方が良いかも
 * UseDescriptionAsValue (Androidのみ有効)
 	* Description項目をValue項目として使用するかどうか。
 	* （一般的なAndroidアプリにありがちな設定値を下に書くレイアウトにするかどうか）
-	* デフォルトはtrue（Androidっぽくする）
+	* デフォルトはfalse（DescriptionとValueは個別に使う）
 * ShowSectionTopBottomBorder (Androidのみ有効)
 	* 行の境界線をセクションの上と下にも表示するかどうか
 	* （一般的なAndroidアプリでありがちな上と下は表示しないようにしないかどうか）
-	* デフォルトはfalse（Androidっぽくする）
+	* デフォルトはtrue（表示する）
 
 ## SettingsViewのメソッド
 
@@ -403,12 +403,15 @@ Androidではタップ時にダイアログでピッカーが表示されます�
     * nullを指定することはできません。
 * DisplayMember
     * Pickerに選択肢として表示させるメンバー名（プロパティ名）。省略時はToStringの値が使用されます。
-* * SelectedItems
+* SelectedItems
     * 選択したItemを保存するためのIList。ItemsSourceと同じ型のものを指定。
+	* 選択済み要素をあらかじめ設定する場合は、ItemsSourceの要素と同一インスタンスの要素にする必要があります。
     * 指定する場合は必ずnullではなくインスタンス設定済みのものを指定する。
 * SelectedItemsOrderKey
 	* 選択済みItemを文字列として表示する時のソートのキーとなるメンバー（プロパティ）名
-	* 指定しない場合はNaturalSortとなります。
+* SelectedCommand
+	* 選択が完了した時に発火するコマンド
+	* iOSの場合はピッカーページから戻る時、Androidの場合はダイアログのOKをタップした時に発火します。
 * MaxSelectedNumber
     * 選択可能な最大数。
 	* 0指定で無制限、1指定で単一選択モード（ラジオボタン的なやつ）、2以上は制限付きの複数選択となります。
@@ -417,6 +420,10 @@ Androidではタップ時にダイアログでピッカーが表示されます�
 	* trueの場合は選択状態をキープして、falseの場合は選択はすぐに解除されます。
 * AccentColor
     * Pickerのチェックマークの色
+* UseNaturalSort
+	* 並べ替え方法にNaturalSortを使うかどうか。デフォルト false。
+	* trueの場合、例えば通常 1,10,2,3,4 と並ぶところが 1,2,3,4,10 という並びになります。
+	* 日本語以外の言語で使用する場合、誤動作する可能性があります。
 
 
 ## EntryCell

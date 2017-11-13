@@ -57,7 +57,7 @@ namespace AiForms.Renderers.iOS
                         break;
                     }
                 }
-
+               
                 _parentPage = elm as Page;
                 _parentPage.Appearing += ParentPageAppearing;
 

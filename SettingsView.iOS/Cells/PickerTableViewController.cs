@@ -22,7 +22,7 @@ namespace AiForms.Renderers.iOS
         UIColor _background;
         UITableView _tableView;
 
-        internal PickerTableViewController(PickerCellView pickerCellView, UITableView tableView)
+        internal PickerTableViewController(PickerCellView pickerCellView, UITableView tableView):base(UITableViewStyle.Grouped)
         {
             _pickerCell = pickerCellView.Cell as PickerCell;
             _pickerCellNative = pickerCellView;
@@ -36,6 +36,7 @@ namespace AiForms.Renderers.iOS
 
             SetUpProperties();
         }
+
 
         void SetUpProperties()
         {
@@ -224,6 +225,8 @@ namespace AiForms.Renderers.iOS
             if (_pickerCell.KeepSelectedUntilBack) {
                 _tableView.DeselectRow(_tableView.IndexPathForSelectedRow, true);
             }
+
+            _pickerCell.InvokeCommand();
         }
 
         /// <summary>

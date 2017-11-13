@@ -524,7 +524,7 @@ namespace AiForms.Renderers.iOS
                 Distribution = UIStackViewDistribution.Fill
             };
             //set margin
-            _stackH.LayoutMargins = new UIEdgeInsets(6, 16, 6, 10);
+            _stackH.LayoutMargins = new UIEdgeInsets(6, 16, 6, 16);
             _stackH.LayoutMarginsRelativeArrangement = true;
 
             IconView = new UIImageView();

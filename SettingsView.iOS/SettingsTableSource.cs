@@ -299,7 +299,12 @@ namespace AiForms.Renderers.iOS
                 {
                     return (controller as UINavigationController);
                 }
-
+                if (controller is UITabBarController)
+                {
+                    //in case Root->Tab->Navi->Page
+                    var tabCtrl = controller as UITabBarController;
+                    return GetUINavigationController(tabCtrl.SelectedViewController);
+                }
                 if (controller.ChildViewControllers.Count() != 0)
                 {
                     var count = controller.ChildViewControllers.Count();
