@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>AiForms.SettingsView</id>
-        <version>0.0.1-pre4</version>
+        <version>0.0.1-pre5</version>
         <title>SettingsView for Xamarin.Forms</title>
         <authors>kamu</authors>
         <owners>kamu</owners>
@@ -14,13 +14,21 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
         </description>
         <summary></summary>
         <releaseNotes>
-pre2
-crash when use style
-pre4
+## Bug fix
+
+* Crashed when used style
+* When constituted TabbedPage/NavigationPage/ContentPage, didn't move collectlly.
+
+## Default Value changed
+
+* UseAsDescriptionAsValue changed from true to false.
+* ShowSectionTopBottomBorder changed from false to true.
+
 ## PickerCell
-add pickercell selectedcommand
-when constituted TabbedPage/NavigationPage/ContentPage, don't move collectlly
-ios picker tableview style changed grouped
+
+* Added SelectedCommand property.
+* Added UseNaturalSort property.
+* iOS picker tableview style changed to grouped.
         </releaseNotes>
         <tags>Xamarin.Forms TableView Cell Setting Configuration Option ListView UITableView</tags>
         <language>en-US</language>

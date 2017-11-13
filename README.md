@@ -175,7 +175,7 @@ Whereby any SettingsView in App will become the same property setttings.
 	* If HasUnevenRows is false, this value apply to each row height;
 	* Otherwise this value is used as minimum row height. 
 * HasUnevenRows
-	* Whether row height is fixed. Default false.
+	* Whether row height is fixed. Default false.(recomend true)
 * CellTitleColor
 * CellTitleFontSize
 * CellValueTextColor
@@ -191,10 +191,10 @@ Whereby any SettingsView in App will become the same property setttings.
     * They are bulk cell options.
 * UseDescriptionAsValue (for Android)
 	* Whether description field  is used as value field. (like general android app)
-    * Default true
+    * Default false
 * ShowSectionTopBottomBorder (for Android)
 	* Whether a separator is shown at section top and bottom. (like general android app)
-    * Default false
+    * Default true
 
 ## SettingsView Methods
 
@@ -403,7 +403,8 @@ When tapped on Android, show the picker on a dialog.
     * This have to assing a instance and must not null.
 * SelectedItemsOrderKey
     * Class member(Property) name that becomes a order key when selected items is displayed  as text.
-    * If this property is null, order type becomes naturalsort.
+* SelectedCommand
+	* A command invoked When finished being selected items. 
 * MaxSelectedNumber
     * Selectable items number.
     * If zero, unlimited multi select mode. Else if One, single select mode. Otherwise limited multi select mode.
@@ -411,7 +412,10 @@ When tapped on Android, show the picker on a dialog.
     * When moving next page or showing a dialog, whether keep the cell selected until being back to the page.
 * AccentColor
     * Picker checkbox color.
-
+* UseNaturalSort
+	* Whether use NaturalSort as sort method. default false.
+	* If true, for example, if  the order is normally  "1,10,2,3,4", is "1,2,3,4,10".
+	* This option may not correctly work if not used Japanese language.
 
 ## EntryCell
 

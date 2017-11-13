@@ -207,6 +207,20 @@ namespace AiForms.Renderers
             set { SetValue(SelectedCommandProperty, value); }
         }
 
+        public static BindableProperty UseNaturalSortProperty =
+            BindableProperty.Create(
+                nameof(UseNaturalSort),
+                typeof(bool),
+                typeof(PickerCell),
+                false,
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        public bool UseNaturalSort {
+            get { return (bool)GetValue(UseNaturalSortProperty); }
+            set { SetValue(UseNaturalSortProperty, value); }
+        }
+
 
         //getters cache
         static ConcurrentDictionary<Type, Dictionary<string,Func<object, object>>> DisplayValueCache = new ConcurrentDictionary<Type, Dictionary<string,Func<object, object>>>();
@@ -249,6 +263,7 @@ namespace AiForms.Renderers
                 return string.Empty;
             }
 
+
             if (KeyValue != null)
             {
                 var dict = new Dictionary<object, string>();
@@ -256,7 +271,12 @@ namespace AiForms.Renderers
                 {
                     dict.Add(KeyValue(item), DisplayValue(item).ToString());
                 }
-                sortedList = dict.OrderBy(x => x.Key).Select(x => x.Value).ToList();
+                if(UseNaturalSort){
+                    sortedList = dict.OrderBy(x => x.Key.ToString(),new NaturalComparer()).Select(x => x.Value).ToList();
+                }
+                else{
+                    sortedList = dict.OrderBy(x => x.Key).Select(x => x.Value).ToList();
+                }
             }
             else
             {
@@ -265,7 +285,8 @@ namespace AiForms.Renderers
                 {
                     strList.Add(DisplayValue(item).ToString());
                 }
-                sortedList = strList.OrderBy(x => x, new NaturalComparer()).ToList();
+                var comparer = UseNaturalSort ? new NaturalComparer() : null;
+                sortedList = strList.OrderBy(x => x, comparer).ToList();
             }
 
             return string.Join(", ", sortedList.ToArray());

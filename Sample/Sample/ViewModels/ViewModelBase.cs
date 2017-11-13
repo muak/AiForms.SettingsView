@@ -263,7 +263,9 @@ namespace Sample.ViewModels
                 case nameof(SettingsView.RowHeight):
                     ChangeRowHeight(RowHeight);
                     break;
-
+                case "CacheClear":
+                    SettingsView.ClearCache();
+                    break;
                 default:
                     break;
             }

@@ -35,5 +35,6 @@
         <Label Text="CellIconSize"            ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
         <Label Text="CellIconRadius"          ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
         <Label Text="CellHintFontSize"        ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+        <Label Text="CacheClear"              ef:AddCommand.On="true" ef:AddCommand.Command="{Binding PropertyChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
     </l:WrapLayout>
 </ContentView>
