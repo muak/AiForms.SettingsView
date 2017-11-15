@@ -125,7 +125,11 @@ namespace AiForms.Renderers.iOS
 
         void UpdateValueText()
         {
-            ValueField.Text = _EntryCell.ValueText;
+            //Without this judging, TextField don't correctly work when inputting Japanese (maybe other 2byte languages either).
+            if (ValueField.Text != _EntryCell.ValueText)
+            {
+                ValueField.Text = _EntryCell.ValueText;
+            }
         }
 
         void UpdateValueTextFontSize()
