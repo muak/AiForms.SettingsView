@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Android.Content;
 using Xamarin.Forms.Platform.Android;
+using Xamarin.Forms;
 
 namespace AiForms.Renderers.Droid
 {
@@ -41,6 +42,8 @@ namespace AiForms.Renderers.Droid
                 nativeCell = InstanceCreator<Context, Xamarin.Forms.Cell, TnativeCell>.Create(context, item);
             }
 
+            ClearPropertyChanged(nativeCell);
+
             nativeCell.Cell = item;
 
             SetUpPropertyChanged(nativeCell);
@@ -59,12 +62,21 @@ namespace AiForms.Renderers.Droid
             var formsCell = nativeCell.Cell as CellBase;
             var parentElement = formsCell.Parent as SettingsView;
 
-            formsCell.PropertyChanged -= nativeCell.CellPropertyChanged;
             formsCell.PropertyChanged += nativeCell.CellPropertyChanged;
 
             if (parentElement != null) {
-                parentElement.PropertyChanged -= nativeCell.ParentPropertyChanged;
                 parentElement.PropertyChanged += nativeCell.ParentPropertyChanged;
+            }
+        }
+
+        void ClearPropertyChanged(CellBaseView nativeCell)
+        {
+            var formsCell = nativeCell.Cell as CellBase;
+            var parentElement = formsCell.Parent as SettingsView;
+
+            formsCell.PropertyChanged -= nativeCell.CellPropertyChanged;
+            if (parentElement != null){
+                parentElement.PropertyChanged -= nativeCell.ParentPropertyChanged;
             }
         }
 
