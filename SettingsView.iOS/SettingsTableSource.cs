@@ -269,7 +269,8 @@ namespace AiForms.Renderers.iOS
                     return;
                 }
 
-                var naviCtrl = GetUINavigationController(UIApplication.SharedApplication.Windows[0].RootViewController); 
+                //var naviCtrl = GetUINavigationController(UIApplication.SharedApplication.Windows[0].RootViewController); 
+                var naviCtrl = GetUINavigationController(UIApplication.SharedApplication.KeyWindow.RootViewController); 
                 _pickerVC?.Dispose();
                 _pickerVC = new PickerTableViewController((PickerCellView)cell,tableView);
                 BeginInvokeOnMainThread(() => naviCtrl.PushViewController(_pickerVC, true));

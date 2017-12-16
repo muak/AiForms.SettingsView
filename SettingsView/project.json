@@ -3,7 +3,7 @@
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
     "NETStandard.Library": "1.6.0",
     "NuGet.Build.Packaging": "0.1.276",
-    "Xamarin.Forms": "2.4.0.38779"
+    "Xamarin.Forms": "2.5.0.121934"
   },
   "frameworks": {
     "netstandard1.2": {}

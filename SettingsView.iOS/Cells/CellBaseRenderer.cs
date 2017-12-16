@@ -44,6 +44,9 @@ namespace AiForms.Renderers.iOS
             if (nativeCell == null) {
                 nativeCell = InstanceCreator<Cell, TnativeCell>.Create(item);
             }
+
+            ClearPropertyChanged(nativeCell);
+
             nativeCell.Cell = item;
 
             SetUpPropertyChanged(nativeCell);
@@ -62,12 +65,22 @@ namespace AiForms.Renderers.iOS
             var formsCell = nativeCell.Cell as CellBase;
             var parentElement = formsCell.Parent as SettingsView;
 
-            formsCell.PropertyChanged -= nativeCell.CellPropertyChanged;
             formsCell.PropertyChanged += nativeCell.CellPropertyChanged;
 
             if (parentElement != null) {
-                parentElement.PropertyChanged -= nativeCell.ParentPropertyChanged;
                 parentElement.PropertyChanged += nativeCell.ParentPropertyChanged;
+            }
+        }
+
+        void ClearPropertyChanged(CellBaseView nativeCell)
+        {
+            var formsCell = nativeCell.Cell as CellBase;
+            var parentElement = formsCell.Parent as SettingsView;
+
+            formsCell.PropertyChanged -= nativeCell.CellPropertyChanged;
+            if (parentElement != null)
+            {
+                parentElement.PropertyChanged -= nativeCell.ParentPropertyChanged;
             }
         }
     }
