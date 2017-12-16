@@ -59,6 +59,9 @@ namespace AiForms.Renderers.Droid
             else if (_parent != null && _parent.CellTitleColor != Xamarin.Forms.Color.Default) {
                 _titleColor = _parent.CellTitleColor.ToAndroid();
             }
+            else{
+                _titleColor = Android.Graphics.Color.Black;
+            }
 
             if (_pickerCell.TitleFontSize > 0) {
                 _fontSize = _pickerCell.TitleFontSize;

@@ -41,6 +41,7 @@ namespace AiForms.Renderers
             Model = new SettingsModel(Root);
         }
 
+
         SettingsRoot _root;
         /// <summary>
         /// Gets or sets the root.

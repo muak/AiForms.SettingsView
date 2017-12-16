@@ -10,7 +10,6 @@
     <AssemblyName>SettingsView</AssemblyName>
     <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
     <NeutralLanguage>en</NeutralLanguage>
-    <ReleaseVersion>1.05</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

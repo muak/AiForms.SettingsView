@@ -243,9 +243,9 @@ namespace AiForms.Renderers.iOS
                 _parent = null;
                 _accentColor.Dispose();
                 _accentColor = null;
-                _titleColor.Dispose();
+                _titleColor?.Dispose();
                 _titleColor = null;
-                _background.Dispose();
+                _background?.Dispose();
                 _background = null;
                 _tableView = null;
             }
