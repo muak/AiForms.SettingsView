@@ -61,11 +61,11 @@ namespace Sample.ViewModels
             TimeFormat.Value = "t";
             Time.Value = new TimeSpan(12, 0, 0);
 
-            Date.Value = Dates[0];
-            MinDate.Value = MinDates[0];
-            MaxDate.Value = MaxDates[0];
             DateFormat.Value = DateFormats[0];
             TodayText.Value = TodayTexts[0];
+            Date.Value = Dates[0];
+            MaxDate.Value = MaxDates[0];
+            MinDate.Value = MinDates[0];
 
             CanExecute.Value = CanExecutes[0];
 

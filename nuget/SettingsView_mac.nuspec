@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>AiForms.SettingsView</id>
-        <version>0.0.1-pre8</version>
+        <version>0.0.1-pre9</version>
         <title>SettingsView for Xamarin.Forms</title>
         <authors>kamu</authors>
         <owners>kamu</owners>
@@ -14,8 +14,10 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
         </description>
         <summary></summary>
         <releaseNotes>
-## Bug fix
+## Bug fixes
 
+* CancelButton text of TimePickerCell isn't completely displayed on iOS in Japanese. (pre9)
+* Current date of DatePickerCell isn't sometimes set correctly. (pre9)
 * When create a SettingsView instance programatically, crashed.(pre8)
 * EntryCell didn't correctly work when inputting Japanese. (pre6)
 * Crashed when used style.
