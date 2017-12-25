@@ -159,7 +159,7 @@ namespace AiForms.Renderers.iOS
 
         void UpdateDate()
         {
-            _picker.SetDate(_DatePickerCell.Date.ToNSDate(), true);
+            _picker.SetDate(_DatePickerCell.Date.ToNSDate(),false);
             ValueLabel.Text = _DatePickerCell.Date.ToString(_DatePickerCell.Format);
             _preSelectedDate = _DatePickerCell.Date.ToNSDate();
         }
@@ -167,11 +167,13 @@ namespace AiForms.Renderers.iOS
         void UpdateMaximumDate()
         {
             _picker.MaximumDate = _DatePickerCell.MaximumDate.ToNSDate();
+            UpdateDate();   //without this code, selected date isn't sometimes correct when it is shown first.
         }
 
         void UpdateMinimumDate()
         {
             _picker.MinimumDate = _DatePickerCell.MinimumDate.ToNSDate();
+            UpdateDate();
         }
 
         void UpdateTodayText()

@@ -131,6 +131,7 @@ namespace AiForms.Renderers.iOS
             DummyField.InputView = _picker;
             DummyField.InputAccessoryView = toolbar;
 
+
         }
 
         void Canceled()
@@ -156,7 +157,7 @@ namespace AiForms.Renderers.iOS
         {
             _titleLabel.Text = _TimePickerCell.PickerTitle;
             _titleLabel.SizeToFit();
-            _titleLabel.Frame = new CGRect(0, 0, 200, 44);
+            _titleLabel.Frame = new CGRect(0, 0, 160, 44);
         }
     }
 }
