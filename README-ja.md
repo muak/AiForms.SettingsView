@@ -43,7 +43,7 @@ Android:version 5.1.1 (only FormsAppcompatActivity) / API22
 [https://www.nuget.org/packages/AiForms.SettingsView/](https://www.nuget.org/packages/AiForms.SettingsView/)
 
 ```bash
-Install-Package AiForms.SettingsView -pre
+Install-Package AiForms.SettingsView
 ```
 
 PCLプロジェクトと各プラットフォームにインストールが必要です。
