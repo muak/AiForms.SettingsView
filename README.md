@@ -270,7 +270,7 @@ Whereby any SettingsView in App will become the same property setttings.
 
 You can use SVG image if SvgImageSource is installed.
 
-https://github.com/muak/SvgImageSource
+https://github.com/muak/SvgImageSource  
 https://www.nuget.org/packages/Xamarin.Forms.Svg/
 
 ```bash

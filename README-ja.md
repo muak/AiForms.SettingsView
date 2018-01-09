@@ -271,7 +271,7 @@ SettingsViewのプロパティ設定はApp.xamlに記述した方が良いかも
 
 SvgImageSourceのnugetパッケージをインストールすればSVG画像を使用できるようになります。
 
-https://github.com/muak/SvgImageSource
+https://github.com/muak/SvgImageSource  
 https://www.nuget.org/packages/Xamarin.Forms.Svg/
 
 ```bash
