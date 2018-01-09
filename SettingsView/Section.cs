@@ -70,6 +70,9 @@ namespace AiForms.Renderers
             set { SetValue(FooterTextProperty, value); }
         }
 
+        /// <summary>
+        /// The item template property.
+        /// </summary>
         public static BindableProperty ItemTemplateProperty =
             BindableProperty.Create(
                 nameof(ItemTemplate),
@@ -79,12 +82,19 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
+        /// <summary>
+        /// Gets or sets the item template.
+        /// </summary>
+        /// <value>The item template.</value>
         public DataTemplate ItemTemplate
         {
             get { return (DataTemplate)GetValue(ItemTemplateProperty); }
             set { SetValue(ItemTemplateProperty, value); }
         }
 
+        /// <summary>
+        /// The items source property.
+        /// </summary>
         public static BindableProperty ItemsSourceProperty =
             BindableProperty.Create(
                 nameof(ItemsSource),
@@ -95,6 +105,10 @@ namespace AiForms.Renderers
                 propertyChanged: ItemsChanged
             );
 
+        /// <summary>
+        /// Gets or sets the items source.
+        /// </summary>
+        /// <value>The items source.</value>
         public IEnumerable ItemsSource
         {
             get { return (IEnumerable)GetValue(ItemsSourceProperty); }

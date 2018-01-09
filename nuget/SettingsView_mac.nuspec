@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>AiForms.SettingsView</id>
-        <version>0.0.1-pre9</version>
+        <version>0.1.1-pre1</version>
         <title>SettingsView for Xamarin.Forms</title>
         <authors>kamu</authors>
         <owners>kamu</owners>
@@ -14,25 +14,9 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
         </description>
         <summary></summary>
         <releaseNotes>
-## Bug fixes
+## New features
 
-* CancelButton text of TimePickerCell isn't completely displayed on iOS in Japanese. (pre9)
-* Current date of DatePickerCell isn't sometimes set correctly. (pre9)
-* When create a SettingsView instance programatically, crashed.(pre8)
-* EntryCell didn't correctly work when inputting Japanese. (pre6)
-* Crashed when used style.
-* When constituted TabbedPage/NavigationPage/ContentPage, didn't move correctly.
-
-## Default Value changed
-
-* UseAsDescriptionAsValue changed from true to false.
-* ShowSectionTopBottomBorder changed from false to true.
-
-## PickerCell
-
-* Added SelectedCommand property.
-* Added UseNaturalSort property.
-* iOS picker tableview style changed to grouped.
+[Section] Corresponded to DataTemplate and DataTemplateSelector.
         </releaseNotes>
         <tags>Xamarin.Forms TableView Cell Setting Configuration Option ListView UITableView</tags>
         <language>en-US</language>
