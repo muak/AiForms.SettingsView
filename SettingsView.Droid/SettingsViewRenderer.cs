@@ -1,6 +1,7 @@
 ﻿using System;
 using AiForms.Renderers;
 using AiForms.Renderers.Droid;
+using Android.Content;
 using Android.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
@@ -20,7 +21,7 @@ namespace AiForms.Renderers.Droid
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.SettingsViewRenderer"/> class.
         /// </summary>
-        public SettingsViewRenderer()
+        public SettingsViewRenderer(Context context):base(context)
         {
             AutoPackage = false;
         }

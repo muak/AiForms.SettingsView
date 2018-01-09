@@ -160,7 +160,7 @@ namespace AiForms.Renderers.iOS
         {
             _titleLabel.Text = _NumberPikcerCell.PickerTitle;
             _titleLabel.SizeToFit();
-            _titleLabel.Frame = new CGRect(0, 0, 200, 44);
+            _titleLabel.Frame = new CGRect(0, 0, 160, 44);
         }
 
         void UpdateCommand()

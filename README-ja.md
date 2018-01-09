@@ -267,6 +267,17 @@ SettingsViewのプロパティ設定はApp.xamlに記述した方が良いかも
 * IconRadius
     * アイコンの角丸半径。
 
+### SVGイメージを使用するには
+
+SvgImageSourceのnugetパッケージをインストールすればSVG画像を使用できるようになります。
+
+https://github.com/muak/SvgImageSource
+https://www.nuget.org/packages/Xamarin.Forms.Svg/
+
+```bash
+Install-Package Xamain.Forms.Svg -pre
+```
+
 ## LabelCell
 
 テキスト表示専用のセルです。
