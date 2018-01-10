@@ -30,13 +30,15 @@
             <Button Text="Del"   Command="{Binding DelCommand}" />
             <Button Text="Rep"   Command="{Binding RepCommand}" />
             <Button Text="Clr"   Command="{Binding ClrCommand}" />
+            <Button Text="Btm"   Command="{Binding BtmCommand}" />
+            <Button Text="Top"   Command="{Binding TopCommand}" />
         </l:WrapLayout>
         </ScrollView>
         <ScrollView VerticalOptions="Start" HeightRequest="60">
             <me:ParentController />
         </ScrollView>
         
-        <ai:SettingsView x:Name="settings"
+        <ai:SettingsView x:Name="settings" ScrollToBottom="{Binding ScrollToBottom.Value}" ScrollToTop="{Binding ScrollToTop.Value}"
             BackgroundColor="{Binding BackgroundColor.Value}"
             SeparatorColor="{Binding SeparatorColor.Value}"
             SelectedColor="{Binding SelectedColor.Value}"

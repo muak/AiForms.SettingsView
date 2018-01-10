@@ -5,6 +5,7 @@ using CoreGraphics;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
+using Foundation;
 
 [assembly: ExportRenderer(typeof(SettingsView), typeof(SettingsViewRenderer))]
 namespace AiForms.Renderers.iOS
@@ -119,6 +120,12 @@ namespace AiForms.Renderers.iOS
             else if (e.PropertyName == TableView.RowHeightProperty.PropertyName) {
                 UpdateRowHeight();
             }
+            else if (e.PropertyName == SettingsView.ScrollToTopProperty.PropertyName){
+                UpdateScrollToTop();
+            }
+            else if(e.PropertyName == SettingsView.ScrollToBottomProperty.PropertyName){
+               UpdateScrollToBottom();
+            }
         }
 
 
@@ -140,6 +147,37 @@ namespace AiForms.Renderers.iOS
         {
             var color = Element.SeparatorColor;
             Control.SeparatorColor = color.ToUIColor();
+        }
+
+        void UpdateScrollToTop()
+        {
+            if (Element.ScrollToTop)
+            {
+                var sectionIdx = 0;
+                var rows = _tableview.NumberOfRowsInSection(sectionIdx);
+
+                if (_tableview.NumberOfSections() > 0 && rows > 0)
+                {
+                    _tableview.ScrollToRow(NSIndexPath.Create(0, 0), UITableViewScrollPosition.Top, false);
+                }
+
+                Element.ScrollToTop = false;
+            }
+        }
+
+        void UpdateScrollToBottom()
+        {
+            if (Element.ScrollToBottom)
+            {   
+                var sectionIdx = _tableview.NumberOfSections() - 1;
+                var rowIdx = _tableview.NumberOfRowsInSection(sectionIdx) -1;
+
+                if(sectionIdx >= 0 && rowIdx >= 0){
+                    _tableview.ScrollToRow(NSIndexPath.Create(sectionIdx,rowIdx),UITableViewScrollPosition.Top,false);
+                }
+
+                Element.ScrollToBottom = false;
+            }
         }
 
         /// <summary>

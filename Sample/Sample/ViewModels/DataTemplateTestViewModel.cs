@@ -13,6 +13,11 @@ namespace Sample.ViewModels
         public ReactiveCommand DelCommand { get; set; } = new ReactiveCommand();
         public ReactiveCommand RepCommand { get; set; } = new ReactiveCommand();
         public ReactiveCommand ClrCommand { get; set; } = new ReactiveCommand();
+        public ReactiveCommand BtmCommand { get; set; } = new ReactiveCommand();
+        public ReactiveCommand TopCommand { get; set; } = new ReactiveCommand();
+
+        public ReactiveProperty<bool> ScrollToBottom { get; } = new ReactiveProperty<bool>();
+        public ReactiveProperty<bool> ScrollToTop { get; } = new ReactiveProperty<bool>();
 
         public ReactiveCommand DoCommand { get; } = new ReactiveCommand();
         public ObservableCollection<Person> ItemsSource { get; set; }
@@ -45,6 +50,14 @@ namespace Sample.ViewModels
 
             ClrCommand.Subscribe(_=>{
                 ItemsSource.Clear();
+            });
+
+            BtmCommand.Subscribe(_=>{
+                ScrollToBottom.Value = true;
+            });
+
+            TopCommand.Subscribe(_=>{
+                ScrollToTop.Value = true;
             });
         }
 
