@@ -248,7 +248,7 @@ namespace AiForms.Renderers.Droid
 
         void HideKeyboard(Android.Views.View inputView)
         {
-            using (var inputMethodManager = (InputMethodManager)Forms.Context.GetSystemService(Context.InputMethodService)) {
+            using (var inputMethodManager = (InputMethodManager)_Context.GetSystemService(Context.InputMethodService)) {
                 IBinder windowToken = inputView.WindowToken;
                 if (windowToken != null)
                     inputMethodManager.HideSoftInputFromWindow(windowToken, HideSoftInputFlags.None);
@@ -256,7 +256,7 @@ namespace AiForms.Renderers.Droid
         }
         void ShowKeyboard(Android.Views.View inputView)
         {
-            using (var inputMethodManager = (InputMethodManager)Forms.Context.GetSystemService(Context.InputMethodService)) {
+            using (var inputMethodManager = (InputMethodManager)_Context.GetSystemService(Context.InputMethodService)) {
 
                 inputMethodManager.ShowSoftInput(inputView, ShowFlags.Forced);
                 inputMethodManager.ToggleSoftInput(ShowFlags.Forced, HideSoftInputFlags.ImplicitOnly);

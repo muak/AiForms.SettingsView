@@ -207,6 +207,9 @@ namespace AiForms.Renderers
             set { SetValue(SelectedCommandProperty, value); }
         }
 
+        /// <summary>
+        /// The use natural sort property.
+        /// </summary>
         public static BindableProperty UseNaturalSortProperty =
             BindableProperty.Create(
                 nameof(UseNaturalSort),
@@ -216,6 +219,10 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="T:AiForms.Renderers.PickerCell"/> use natural sort.
+        /// </summary>
+        /// <value><c>true</c> if use natural sort; otherwise, <c>false</c>.</value>
         public bool UseNaturalSort {
             get { return (bool)GetValue(UseNaturalSortProperty); }
             set { SetValue(UseNaturalSortProperty, value); }

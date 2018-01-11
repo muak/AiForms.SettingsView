@@ -115,6 +115,28 @@ namespace AiForms.Renderers
             set { SetValue(ItemsSourceProperty, value); }
         }
 
+        /// <summary>
+        /// The header height property.
+        /// </summary>
+        public static BindableProperty HeaderHeightProperty =
+            BindableProperty.Create(
+                nameof(HeaderHeight),
+                typeof(double),
+                typeof(Section),
+                -1d,
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        /// <summary>
+        /// Gets or sets the height of the header.
+        /// </summary>
+        /// <value>The height of the header.</value>
+        public double HeaderHeight
+        {
+            get { return (double)GetValue(HeaderHeightProperty); }
+            set { SetValue(HeaderHeightProperty, value); }
+        }
+
         static void ItemsChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var section = (Section)bindable;
