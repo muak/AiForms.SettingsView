@@ -6,7 +6,7 @@ using Android.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using AListView = Android.Widget.ListView;
-using Android.Content;
+using Android.Support.V7.Widget;
 
 [assembly: ExportRenderer(typeof(SettingsView), typeof(SettingsViewRenderer))]
 namespace AiForms.Renderers.Droid
@@ -14,10 +14,10 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Settings view renderer.
     /// </summary>
-    public class SettingsViewRenderer : ViewRenderer<SettingsView, AListView>
+    public class SettingsViewRenderer : ViewRenderer<SettingsView, RecyclerView>
     {
         Page _parentPage;
-        SettingsViewAdapter _adapter;
+        SettingsViewRecyclerAdapter _adapter;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.SettingsViewRenderer"/> class.
@@ -36,25 +36,21 @@ namespace AiForms.Renderers.Droid
             base.OnElementChanged(e);
 
             if (e.NewElement != null) {
-                var listview = new AListView(Context);
-                SetNativeControl(listview);
+
+                var recyclerView = new RecyclerView(Context);
+
+                recyclerView.SetLayoutManager(new LinearLayoutManager(Context));
+
+                SetNativeControl(recyclerView);
 
                 Control.Focusable = false;
                 Control.DescendantFocusability = DescendantFocusability.AfterDescendants;
-                Control.SetDrawSelectorOnTop(true);
 
-                UpdateSelectedColor();
                 UpdateBackgroundColor();
                 UpdateRowHeight();
 
-                _adapter = new SettingsViewAdapter(Context, e.NewElement, Control);
-                Control.Adapter = _adapter;
-
-                //hide Divider
-                Control.DividerHeight = 0;
-                Control.Divider = null;
-                Control.SetFooterDividersEnabled(false);
-                Control.SetHeaderDividersEnabled(false);
+                _adapter = new SettingsViewRecyclerAdapter(Context,e.NewElement,recyclerView);
+                Control.SetAdapter(_adapter);
 
                 Element elm = Element;
                 while (elm != null) {
@@ -95,7 +91,7 @@ namespace AiForms.Renderers.Droid
                 _adapter.NotifyDataSetChanged();
             }
             else if (e.PropertyName == SettingsView.SelectedColorProperty.PropertyName) {
-                UpdateSelectedColor();
+                //_adapter.NotifyDataSetChanged();
             }
             else if (e.PropertyName == SettingsView.ShowSectionTopBottomBorderProperty.PropertyName) {
                 _adapter.NotifyDataSetChanged();
@@ -121,21 +117,11 @@ namespace AiForms.Renderers.Droid
             }
         }
 
-        void UpdateSelectedColor()
-        {
-            var color = Android.Graphics.Color.Rgb(180, 180, 180);
-            if (Element.SelectedColor != Xamarin.Forms.Color.Default) {
-                color = Element.SelectedColor.ToAndroid();
-            }
-
-            Control.Selector = DrawableUtility.CreateRipple(color);
-        }
-
         void UpdateScrollToTop()
         {
             if (Element.ScrollToTop)
             {
-                Control.SetSelection(0);
+                //Control.SetSelection(0);
                 Element.ScrollToTop = false;
             }
         }
@@ -145,7 +131,7 @@ namespace AiForms.Renderers.Droid
             if (Element.ScrollToBottom)
             {
                 var y = Control.GetChildAt(Control.ChildCount - 1).Top;
-                Control.SetSelection(y);
+                //Control.SetSelection(y);
                 Element.ScrollToBottom = false;
             }
         }
@@ -166,7 +152,6 @@ namespace AiForms.Renderers.Droid
         {
             if (disposing) {
                 _parentPage.Appearing -= ParentPageAppearing;
-                Control?.Selector?.Dispose();
                 _adapter?.Dispose();
                 _adapter = null;
             }

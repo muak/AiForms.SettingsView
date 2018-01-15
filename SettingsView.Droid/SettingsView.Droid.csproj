@@ -131,6 +131,7 @@
     <Compile Include="Extensions\TextAlignmentExtensions.cs" />
     <Compile Include="Cells\ButtonCellRenderer.cs" />
     <Compile Include="Cells\ICheckableCell.cs" />
+    <Compile Include="SettingsViewRecyclerAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

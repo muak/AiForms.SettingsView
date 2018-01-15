@@ -79,6 +79,7 @@ namespace AiForms.Renderers.Droid
         Android.Graphics.Color _defaultTextColor;
         ColorDrawable _backgroundColor;
         ColorDrawable _selectedColor;
+        RippleDrawable _ripple;
         float _defaultFontSize;
         float _iconRadius;
 
@@ -117,7 +118,16 @@ namespace AiForms.Renderers.Droid
             sel.AddState(new int[] { -global::Android.Resource.Attribute.StateSelected }, _backgroundColor);
             sel.SetExitFadeDuration(250);
             sel.SetEnterFadeDuration(250);
-            Background = sel;
+
+            var rippleColor = Android.Graphics.Color.Rgb(180, 180, 180);
+            if (CellParent.SelectedColor != Xamarin.Forms.Color.Default)
+            {
+                rippleColor = CellParent.SelectedColor.ToAndroid();
+            }
+
+            _ripple = DrawableUtility.CreateRipple(rippleColor,sel);
+
+            Background = _ripple;
 
             _defaultTextColor = new Android.Graphics.Color(TitleLabel.CurrentTextColor);
             _defaultFontSize = TitleLabel.TextSize;
@@ -264,9 +274,11 @@ namespace AiForms.Renderers.Droid
         {
             if (CellParent != null && CellParent.SelectedColor != Xamarin.Forms.Color.Default) {
                 _selectedColor.Color = CellParent.SelectedColor.MultiplyAlpha(0.5).ToAndroid();
+                _ripple.SetColor(DrawableUtility.GetPressedColorSelector(CellParent.SelectedColor.ToAndroid()));
             }
             else {
                 _selectedColor.Color = Android.Graphics.Color.Argb(125, 180, 180, 180);
+                _ripple.SetColor(DrawableUtility.GetPressedColorSelector(Android.Graphics.Color.Rgb(180, 180, 180)));
             }
         }
 
@@ -523,6 +535,8 @@ namespace AiForms.Renderers.Droid
                 _backgroundColor = null;
                 _selectedColor?.Dispose();
                 _selectedColor = null;
+                _ripple?.Dispose();
+                _ripple = null;
 
                 Background?.Dispose();
                 Background = null;
