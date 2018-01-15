@@ -100,6 +100,17 @@ namespace AiForms.Renderers
             (item as CellBase)?.OnTapped();
         }
 
+        /// <summary>
+        /// Gets the height of the header.
+        /// </summary>
+        /// <returns>The header height.</returns>
+        /// <param name="section">Section.</param>
+        public virtual double GetHeaderHeight(int section)
+        {
+            return _visibleSections.ElementAt(section).HeaderHeight;
+        }
+
+
         internal static Tuple<int, int> GetPath(Cell item)
         {
             if (item == null)

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:ai="clr-namespace:AiForms.Renderers;assembly=SettingsView"
+    xmlns:l="clr-namespace:AiForms.Layouts;assembly=AiForms.Layouts"
+    xmlns:ef="clr-namespace:AiForms.Effects;assembly=AiForms.Effects"
+    xmlns:me="clr-namespace:Sample.Views;assembly=Sample"
+    x:Class="Sample.Views.DataTemplateTest" x:Name="self">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="FontSize" Value="11" />
+            </Style>
+            <DataTemplate x:Key="templateA">
+                <ai:CommandCell Title="{Binding Name}" ValueText="{Binding Days}" Command="{Binding BindingContext.DoCommand,Source={x:Reference self}}"
+                     TitleColor="Red"/>
+            </DataTemplate>
+            <DataTemplate x:Key="templateB">
+                <ai:CommandCell Title="{Binding Name}" ValueText="{Binding Days}" Command="{Binding BindingContext.DoCommand,Source={x:Reference self}}"
+                    TitleColor="Blue"/>
+            </DataTemplate>
+            <me:TestSelector x:Key="selector" TemplateA="{StaticResource templateA}" TemplateB="{StaticResource templateB}" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <StackLayout>
+        <ScrollView VerticalOptions="Start" HeightRequest="60">
+        <l:WrapLayout VerticalOptions="StartAndExpand" Spacing="4">
+            <Button Text="Add"   Command="{Binding AddCommand}" />
+            <Button Text="Del"   Command="{Binding DelCommand}" />
+            <Button Text="Rep"   Command="{Binding RepCommand}" />
+            <Button Text="Clr"   Command="{Binding ClrCommand}" />
+            <Button Text="Btm"   Command="{Binding BtmCommand}" />
+            <Button Text="Top"   Command="{Binding TopCommand}" />
+        </l:WrapLayout>
+        </ScrollView>
+        <ScrollView VerticalOptions="Start" HeightRequest="60">
+            <me:ParentController />
+        </ScrollView>
+        
+        <ai:SettingsView x:Name="settings" ScrollToBottom="{Binding ScrollToBottom.Value}" ScrollToTop="{Binding ScrollToTop.Value}"
+            BackgroundColor="{Binding BackgroundColor.Value}"
+            SeparatorColor="{Binding SeparatorColor.Value}"
+            SelectedColor="{Binding SelectedColor.Value}"
+            HeaderPadding="{Binding HeaderPadding.Value}"
+            HeaderTextColor="{Binding HeaderTextColor.Value}"
+            HeaderFontSize="{Binding HeaderFontSize.Value}"
+            HeaderTextVerticalAlign="{Binding HeaderTextVerticalAlign.Value}"
+            HeaderBackgroundColor="{Binding HeaderBackgroundColor.Value}"
+            HeaderHeight="{Binding HeaderHeight.Value}"
+            FooterTextColor="{Binding FooterTextColor.Value}"
+            FooterFontSize="{Binding FooterFontSize.Value}"
+            FooterBackgroundColor="{Binding FooterBackgroundColor.Value}"
+            FooterPadding="{Binding FooterPadding.Value}"
+            RowHeight="{Binding RowHeight.Value}"
+            HasUnevenRows="{Binding HasUnevenRows.Value}"
+            CellTitleColor="{Binding CellTitleColor.Value}"
+            CellTitleFontSize="{Binding CellTitleFontSize.Value}"
+            CellValueTextColor="{Binding CellValueTextColor.Value}"
+            CellValueTextFontSize="{Binding CellValueTextFontSize.Value}"
+            CellDescriptionColor="{Binding CellDescriptionColor.Value}"
+            CellDescriptionFontSize="{Binding CellDescriptionFontSize.Value}"
+            CellBackgroundColor="{Binding CellBackgroundColor.Value}"
+            CellIconSize="{Binding CellIconSize.Value}"
+            CellIconRadius="{Binding CellIconRadius.Value}"
+            CellAccentColor="{Binding CellAccentColor.Value}"
+            CellHintTextColor="{Binding CellHintTextColor.Value}"
+            CellHintFontSize="{Binding CellHintFontSize.Value}"
+            UseDescriptionAsValue="{Binding UseDescriptionAsValue.Value}"
+            ShowSectionTopBottomBorder="{Binding ShowSectionTopBottomBorder.Value}"
+            
+        >
+            <ai:Section Title="UseDataTemplate" ItemsSource="{Binding ItemsSource}" HeaderHeight="50">
+                <ai:Section.ItemTemplate>
+                    <DataTemplate>
+                        <ai:CommandCell Title="{Binding Name}" ValueText="{Binding Days}" Command="{Binding BindingContext.DoCommand,Source={x:Reference self}}" />
+                    </DataTemplate>
+                </ai:Section.ItemTemplate>
+            </ai:Section>
+            <ai:Section Title="UseSelector" ItemsSource="{Binding ItemsSource}" ItemTemplate="{StaticResource selector}">
+                
+            </ai:Section>
+
+        </ai:SettingsView>
+    </StackLayout>
+</ContentPage>

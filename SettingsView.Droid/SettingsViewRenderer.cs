@@ -6,6 +6,7 @@ using Android.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using AListView = Android.Widget.ListView;
+using Android.Content;
 
 [assembly: ExportRenderer(typeof(SettingsView), typeof(SettingsViewRenderer))]
 namespace AiForms.Renderers.Droid
@@ -102,6 +103,12 @@ namespace AiForms.Renderers.Droid
             else if (e.PropertyName == TableView.HasUnevenRowsProperty.PropertyName) {
                 _adapter.NotifyDataSetChanged();
             }
+            else if (e.PropertyName == SettingsView.ScrollToTopProperty.PropertyName){
+                UpdateScrollToTop();
+            }
+            else if (e.PropertyName == SettingsView.ScrollToBottomProperty.PropertyName){
+                UpdateScrollToBottom();
+            }
         }
 
         void UpdateRowHeight()
@@ -122,6 +129,25 @@ namespace AiForms.Renderers.Droid
             }
 
             Control.Selector = DrawableUtility.CreateRipple(color);
+        }
+
+        void UpdateScrollToTop()
+        {
+            if (Element.ScrollToTop)
+            {
+                Control.SetSelection(0);
+                Element.ScrollToTop = false;
+            }
+        }
+
+        void UpdateScrollToBottom()
+        {
+            if (Element.ScrollToBottom)
+            {
+                var y = Control.GetChildAt(Control.ChildCount - 1).Top;
+                Control.SetSelection(y);
+                Element.ScrollToBottom = false;
+            }
         }
 
         new void UpdateBackgroundColor()

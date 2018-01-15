@@ -107,6 +107,11 @@ namespace AiForms.Renderers.iOS
         /// <param name="section">Section.</param>
         public override nfloat GetHeightForHeader(UITableView tableView, nint section)
         {
+            var individualHeight = _settingsView.Model.GetHeaderHeight((int)section);
+
+            if(individualHeight > 0d){
+                return (nfloat)individualHeight;
+            }
             if (_settingsView.HeaderHeight == -1d) {
                 return _tableView.EstimatedSectionHeaderHeight;
             }

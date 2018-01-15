@@ -258,9 +258,15 @@ namespace AiForms.Renderers.Droid
 
             //judging cell height
             int cellHeight = (int)_context.ToPixels(44);
-            if (_settingsView.HeaderHeight > -1) {
+            var individualHeight = formsCell.Height;
+
+            if(individualHeight > 0d){
+                cellHeight = (int)_context.ToPixels(individualHeight);
+            }
+            else if (_settingsView.HeaderHeight > -1) {
                 cellHeight = (int)_context.ToPixels(_settingsView.HeaderHeight);
             }
+
             convertView.SetMinimumHeight(cellHeight);
             convertView.LayoutParameters.Height = cellHeight;
 
@@ -413,7 +419,7 @@ namespace AiForms.Renderers.Droid
                 var sectionTitle = model.GetSectionTitle(sectionIndex);
                 var sectionRowCount = model.GetRowCount(sectionIndex);
 
-                Cell headerCell = new TextCell { Text = sectionTitle };
+                Cell headerCell = new TextCell { Text = sectionTitle,Height=model.GetHeaderHeight(sectionIndex) };
                 headerCell.Parent = _settingsView;
 
                 newCellCaches.Add(new CellCache

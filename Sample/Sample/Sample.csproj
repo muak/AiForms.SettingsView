@@ -89,6 +89,11 @@
     <Compile Include="Views\DummyPage.xaml.cs">
       <DependentUpon>DummyPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\DataTemplateTest.xaml.cs">
+      <DependentUpon>DataTemplateTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\DataTemplateTestViewModel.cs" />
+    <Compile Include="Views\TestSelector.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App.xaml">
@@ -244,6 +249,10 @@
     <EmbeddedResource Include="Views\DummyPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\DataTemplateTest.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

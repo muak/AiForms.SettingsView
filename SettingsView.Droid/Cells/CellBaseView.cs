@@ -71,7 +71,10 @@ namespace AiForms.Renderers.Droid
         /// <value>The hint label.</value>
         public TextView HintLabel { get; private set; }
 
-        Context _context;
+        /// <summary>
+        /// The context.
+        /// </summary>
+        protected Context _Context;
         CancellationTokenSource _iconTokenSource;
         Android.Graphics.Color _defaultTextColor;
         ColorDrawable _backgroundColor;
@@ -86,7 +89,7 @@ namespace AiForms.Renderers.Droid
         /// <param name="cell">Cell.</param>
         public CellBaseView(Context context, Cell cell) : base(context)
         {
-            _context = context;
+            _Context = context;
             Cell = cell;
 
             CreateContentView();
@@ -94,7 +97,7 @@ namespace AiForms.Renderers.Droid
 
         void CreateContentView()
         {
-            var contentView = (_context as FormsAppCompatActivity).LayoutInflater.Inflate(Resource.Layout.CellBaseView, this, true);
+            var contentView = (_Context as FormsAppCompatActivity).LayoutInflater.Inflate(Resource.Layout.CellBaseView, this, true);
 
             contentView.LayoutParameters = new ViewGroup.LayoutParams(-1, -1);
 
@@ -374,10 +377,10 @@ namespace AiForms.Renderers.Droid
         void UpdateIconRadius()
         {
             if (CellBase.IconRadius >= 0) {
-                _iconRadius = _context.ToPixels(CellBase.IconRadius);
+                _iconRadius = _Context.ToPixels(CellBase.IconRadius);
             }
             else if (CellParent != null) {
-                _iconRadius = _context.ToPixels(CellParent.CellIconRadius);
+                _iconRadius = _Context.ToPixels(CellParent.CellIconRadius);
             }
         }
 
@@ -394,8 +397,8 @@ namespace AiForms.Renderers.Droid
                 size = new Xamarin.Forms.Size(36, 36);
             }
 
-            IconView.LayoutParameters.Width = (int)_context.ToPixels(size.Width);
-            IconView.LayoutParameters.Height = (int)_context.ToPixels(size.Height);
+            IconView.LayoutParameters.Width = (int)_Context.ToPixels(size.Width);
+            IconView.LayoutParameters.Height = (int)_Context.ToPixels(size.Height);
         }
 
         void UpdateIcon(bool forceLoad = false)
@@ -436,10 +439,10 @@ namespace AiForms.Renderers.Droid
             var token = _iconTokenSource.Token;
             Bitmap image = null;
 
-            var scale = (float)_context.Resources.DisplayMetrics.Density;
+            var scale = (float)_Context.Resources.DisplayMetrics.Density;
             Task.Run(async () =>
             {
-                image = await handler.LoadImageAsync(source, _context, token);
+                image = await handler.LoadImageAsync(source, _Context, token);
                 token.ThrowIfCancellationRequested();
                 image = CreateRoundImage(image);
             }, token).ContinueWith(t =>
@@ -514,7 +517,7 @@ namespace AiForms.Renderers.Droid
 
                 _iconTokenSource?.Dispose();
                 _iconTokenSource = null;
-                _context = null;
+                _Context = null;
 
                 _backgroundColor?.Dispose();
                 _backgroundColor = null;

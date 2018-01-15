@@ -613,5 +613,48 @@ namespace AiForms.Renderers
             set { SetValue(ShowSectionTopBottomBorderProperty, value); }
         }
 
+        /// <summary>
+        /// The scroll to bottom property.
+        /// </summary>
+        public static BindableProperty ScrollToBottomProperty =
+            BindableProperty.Create(
+                nameof(ScrollToBottom),
+                typeof(bool),
+                typeof(SettingsView),
+                default(bool),
+                defaultBindingMode: BindingMode.TwoWay
+            );
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="T:AiForms.Renderers.SettingsView"/> scroll to bottom.
+        /// </summary>
+        /// <value><c>true</c> if scroll to bottom; otherwise, <c>false</c>.</value>
+        public bool ScrollToBottom
+        {
+            get { return (bool)GetValue(ScrollToBottomProperty); }
+            set { SetValue(ScrollToBottomProperty, value); }
+        }
+
+        /// <summary>
+        /// The scroll to top property.
+        /// </summary>
+        public static BindableProperty ScrollToTopProperty =
+            BindableProperty.Create(
+                nameof(ScrollToTop),
+                typeof(bool),
+                typeof(SettingsView),
+                default(bool),
+                defaultBindingMode: BindingMode.TwoWay
+            );
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="T:AiForms.Renderers.SettingsView"/> scroll to top.
+        /// </summary>
+        /// <value><c>true</c> if scroll to top; otherwise, <c>false</c>.</value>
+        public bool ScrollToTop
+        {
+            get { return (bool)GetValue(ScrollToTopProperty); }
+            set { SetValue(ScrollToTopProperty, value); }
+        }
     }
 }
