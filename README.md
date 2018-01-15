@@ -4,7 +4,6 @@ This is a flexible TableView specialized in settings for Android / iOS.
 
 [Japanese](./README-ja.md)
 
-
 ## What SettingsView can do.
 
 ### General
@@ -266,6 +265,18 @@ Whereby any SettingsView in App will become the same property setttings.
     * Icon size. (width,height)
 * IconRadius
     * Icon corners radius.
+
+### To use SVG image
+
+You can use SVG image if SvgImageSource is installed.
+
+https://github.com/muak/SvgImageSource  
+https://www.nuget.org/packages/Xamarin.Forms.Svg/
+
+```bash
+Install-Package Xamain.Forms.Svg -pre
+```
+
 
 ## LabelCell
 

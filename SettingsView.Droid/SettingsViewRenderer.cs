@@ -1,6 +1,7 @@
 ﻿using System;
 using AiForms.Renderers;
 using AiForms.Renderers.Droid;
+using Android.Content;
 using Android.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
