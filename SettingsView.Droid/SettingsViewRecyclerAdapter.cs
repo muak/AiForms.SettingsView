@@ -327,6 +327,8 @@ namespace AiForms.Renderers.Droid
             AView nativeCell = null;
             AView layout = holder.ItemView;
 
+            holder.SectionIndex = CellCaches[position].SectionIndex;
+            holder.RowIndex = CellCaches[position].RowIndex;
 
             nativeCell = holder.Body.GetChildAt(0);
             if (nativeCell != null)
@@ -399,6 +401,7 @@ namespace AiForms.Renderers.Droid
                 {
                     Cell = headerCell,
                     IsHeader = true,
+                    SectionIndex = sectionIndex,
                 });
 
                 for (int i = 0; i < sectionRowCount; i++)
@@ -406,7 +409,9 @@ namespace AiForms.Renderers.Droid
                     newCellCaches.Add(new CellCache
                     {
                         Cell = (Cell)model.GetItem(sectionIndex, i),
-                        IsLastCell = i == sectionRowCount - 1
+                        IsLastCell = i == sectionRowCount - 1,
+                        SectionIndex = sectionIndex,
+                        RowIndex = i
                     });
                 }
 
@@ -417,6 +422,7 @@ namespace AiForms.Renderers.Droid
                 {
                     Cell = footerCell,
                     IsFooter = true,
+                    SectionIndex = sectionIndex,
                 });
             }
 
@@ -425,90 +431,7 @@ namespace AiForms.Renderers.Droid
             _viewTypes = _cellCaches.Select(x => x.Cell.GetType()).Distinct().Select((x, idx) => new { x, index = idx }).ToDictionary(key => key.x, val => val.index + 2);
         }
 
-        class ViewHolder : RecyclerView.ViewHolder
-        {
-            public ViewHolder(AView view) : base(view) { }
-
-            protected override void Dispose(bool disposing)
-            {
-                if(disposing)
-                {
-                    ItemView?.Dispose();
-                    ItemView = null;
-                }
-                base.Dispose(disposing);
-            }
-        }
-
-        class HeaderViewHolder:ViewHolder
-        {
-            public TextView TextView { get; private set; }
-            public LinearLayout Border { get;private set;  }
-
-            public HeaderViewHolder(AView view,SettingsView settingsView):base(view)
-            {
-                TextView = view.FindViewById<TextView>(Resource.Id.HeaderCellText);
-                Border = view.FindViewById<LinearLayout>(Resource.Id.HeaderCellBorder);
-            }
-
-            protected override void Dispose(bool disposing)
-            {
-                if(disposing)
-                {
-                    TextView?.Dispose();
-                    TextView = null;
-                    Border?.Dispose();
-                    Border = null;
-                }
-                base.Dispose(disposing);
-            }
-        }
-
-        class FooterViewHolder:ViewHolder
-        {
-            public TextView TextView { get; private set; }
-
-            public FooterViewHolder(AView view,SettingsView settingsView):base(view)
-            {
-                TextView = view.FindViewById<TextView>(Resource.Id.FooterCellText);
-            }
-
-            protected override void Dispose(bool disposing)
-            {
-                if (disposing)
-                {
-                    TextView?.Dispose();
-                    TextView = null;
-                }
-                base.Dispose(disposing);
-            }
-        }
-
-        class ContentViewHolder:ViewHolder
-        {
-            public LinearLayout Body { get; private set; }
-            public AView Border { get; private set; }
-
-            public ContentViewHolder(AView view):base(view)
-            {
-                Body = view.FindViewById<LinearLayout>(Resource.Id.ContentCellBody);
-                Border = view.FindViewById(Resource.Id.ContentCellBorder);
-            }
-
-            protected override void Dispose(bool disposing)
-            {
-                if(disposing){
-                    var nativeCell = Body.GetChildAt(0);
-                    nativeCell?.Dispose();
-                    Border?.Dispose();
-                    Border = null;
-                    Body?.Dispose();
-                    Body = null;
-                    ItemView.SetOnClickListener(null);
-                }
-                base.Dispose(disposing);
-            }
-        }
+ 
 
 
         class CellCache
@@ -517,6 +440,96 @@ namespace AiForms.Renderers.Droid
             public bool IsHeader { get; set; } = false;
             public bool IsFooter { get; set; } = false;
             public bool IsLastCell { get; set; } = false;
+            public int SectionIndex { get; set; }
+            public int RowIndex { get; set; }
+        }
+    }
+
+    internal class ViewHolder : RecyclerView.ViewHolder
+    {
+        public ViewHolder(AView view) : base(view) { }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                ItemView?.Dispose();
+                ItemView = null;
+            }
+            base.Dispose(disposing);
+        }
+    }
+
+    internal class HeaderViewHolder : ViewHolder
+    {
+        public TextView TextView { get; private set; }
+        public LinearLayout Border { get; private set; }
+
+        public HeaderViewHolder(AView view, SettingsView settingsView) : base(view)
+        {
+            TextView = view.FindViewById<TextView>(Resource.Id.HeaderCellText);
+            Border = view.FindViewById<LinearLayout>(Resource.Id.HeaderCellBorder);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                TextView?.Dispose();
+                TextView = null;
+                Border?.Dispose();
+                Border = null;
+            }
+            base.Dispose(disposing);
+        }
+    }
+
+    internal class FooterViewHolder : ViewHolder
+    {
+        public TextView TextView { get; private set; }
+
+        public FooterViewHolder(AView view, SettingsView settingsView) : base(view)
+        {
+            TextView = view.FindViewById<TextView>(Resource.Id.FooterCellText);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                TextView?.Dispose();
+                TextView = null;
+            }
+            base.Dispose(disposing);
+        }
+    }
+
+    internal class ContentViewHolder : ViewHolder
+    {
+        public LinearLayout Body { get; private set; }
+        public AView Border { get; private set; }
+        public int SectionIndex { get; set; }
+        public int RowIndex { get; set; }
+
+        public ContentViewHolder(AView view) : base(view)
+        {
+            Body = view.FindViewById<LinearLayout>(Resource.Id.ContentCellBody);
+            Border = view.FindViewById(Resource.Id.ContentCellBorder);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                var nativeCell = Body.GetChildAt(0);
+                nativeCell?.Dispose();
+                Border?.Dispose();
+                Border = null;
+                Body?.Dispose();
+                Body = null;
+                ItemView.SetOnClickListener(null);
+            }
+            base.Dispose(disposing);
         }
     }
 }

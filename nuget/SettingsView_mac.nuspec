@@ -16,9 +16,15 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
         <releaseNotes>
 ## New features
 
+
 * Added properties of ScrollToTop And ScrollToBottom.
 * [Section] Add HeaderHeight property.
 * [Section] Corresponded to DataTemplate and DataTemplateSelector.
+
+## Changing
+
+* [Android] Replace ListView with RecyclerView.
+
         </releaseNotes>
         <tags>Xamarin.Forms TableView Cell Setting Configuration Option ListView UITableView</tags>
         <language>en-US</language>

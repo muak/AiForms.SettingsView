@@ -98,9 +98,9 @@ namespace AiForms.Renderers
         public static BindableProperty ItemsSourceProperty =
             BindableProperty.Create(
                 nameof(ItemsSource),
-                typeof(IEnumerable),
+                typeof(IList),
                 typeof(Section),
-                default(IEnumerable),
+                default(IList),
                 defaultBindingMode: BindingMode.OneWay,
                 propertyChanged: ItemsChanged
             );
@@ -109,9 +109,9 @@ namespace AiForms.Renderers
         /// Gets or sets the items source.
         /// </summary>
         /// <value>The items source.</value>
-        public IEnumerable ItemsSource
+        public IList ItemsSource
         {
-            get { return (IEnumerable)GetValue(ItemsSourceProperty); }
+            get { return (IList)GetValue(ItemsSourceProperty); }
             set { SetValue(ItemsSourceProperty, value); }
         }
 
@@ -137,6 +137,28 @@ namespace AiForms.Renderers
             set { SetValue(HeaderHeightProperty, value); }
         }
 
+        /// <summary>
+        /// The use drag sort property.
+        /// </summary>
+        public static BindableProperty UseDragSortProperty =
+            BindableProperty.Create(
+                nameof(UseDragSort),
+                typeof(bool),
+                typeof(Section),
+                default(bool),
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="T:AiForms.Renderers.Section"/> use drag sort.
+        /// </summary>
+        /// <value><c>true</c> if use drag sort; otherwise, <c>false</c>.</value>
+        public bool UseDragSort
+        {
+            get { return (bool)GetValue(UseDragSortProperty); }
+            set { SetValue(UseDragSortProperty, value); }
+        }
+
         static void ItemsChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var section = (Section)bindable;
@@ -146,10 +168,10 @@ namespace AiForms.Renderers
                 return;
             }
 
-            IEnumerable newValueAsEnumerable;
+            IList newValueAsEnumerable;
             try
             {
-                newValueAsEnumerable = newValue as IEnumerable;
+                newValueAsEnumerable = newValue as IList;
             }
             catch (Exception e)
             {
