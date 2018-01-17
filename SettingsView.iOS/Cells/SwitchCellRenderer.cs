@@ -33,6 +33,7 @@ namespace AiForms.Renderers.iOS
             _switch.ValueChanged += _switch_ValueChanged;
 
             this.AccessoryView = _switch;
+            EditingAccessoryView = _switch;
         }
 
         /// <summary>

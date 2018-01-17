@@ -36,6 +36,7 @@ namespace AiForms.Renderers.iOS
             _checkbox.CheckChanged = CheckChanged;
 
             AccessoryView = _checkbox;
+            EditingAccessoryView = _checkbox;
         }
 
         /// <summary>

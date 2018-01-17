@@ -6,6 +6,8 @@ using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 using Foundation;
+using ObjCRuntime;
+using System.Linq;
 
 [assembly: ExportRenderer(typeof(SettingsView), typeof(SettingsViewRenderer))]
 namespace AiForms.Renderers.iOS
@@ -13,7 +15,7 @@ namespace AiForms.Renderers.iOS
     /// <summary>
     /// Settings view renderer.
     /// </summary>
-    public class SettingsViewRenderer : ViewRenderer<SettingsView, UITableView>
+    public class SettingsViewRenderer : ViewRenderer<SettingsView, UITableView>,IUITableViewDragDelegate,IUITableViewDropDelegate
     {
         Page _parentPage;
         KeyboardInsetTracker _insetTracker;
@@ -21,6 +23,16 @@ namespace AiForms.Renderers.iOS
         UITableView _tableview;
 
         bool _disposed = false;
+
+        public IUIDragSession LocalDragSession => throw new NotImplementedException();
+
+        public UIDropSessionProgressIndicatorStyle ProgressIndicatorStyle { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public UIDragItem[] Items => throw new NotImplementedException();
+
+        public bool AllowsMoveOperation => throw new NotImplementedException();
+
+        public bool RestrictedToDraggingApplication => throw new NotImplementedException();
 
         /// <summary>
         /// Ons the element changed.
@@ -33,6 +45,14 @@ namespace AiForms.Renderers.iOS
             if (e.NewElement != null) {
 
                 _tableview = new UITableView(CGRect.Empty, UITableViewStyle.Grouped);
+                //_tableview.Editing = true;
+                //_tableview.AllowsSelectionDuringEditing = true;
+
+                _tableview.DragDelegate = this;
+                _tableview.DropDelegate = this;
+                _tableview.DragInteractionEnabled = true;
+
+
                 SetNativeControl(_tableview);
                 _tableview.ScrollEnabled = true;
                 _tableview.RowHeight = UITableView.AutomaticDimension;
@@ -218,6 +238,62 @@ namespace AiForms.Renderers.iOS
             view.Dispose();
         }
 
+        public UIDragItem[] GetItemsForBeginningDragSession(UITableView tableView, IUIDragSession session, NSIndexPath indexPath)
+        {
+            
+            var section = Element.Model.GetSection(indexPath.Section);
+            if(!section.UseDragSort){
+                return new UIDragItem[]{};
+            }
+
+            //var item = Element.Model.GetItem(indexPath.Section, indexPath.Row);
+
+
+            var itemProvider = new NSItemProvider();
+            var dragItem = new UIDragItem(itemProvider);
+            return new UIDragItem[] { dragItem };
+        }
+
+        public void PerformDrop(UITableView tableView, IUITableViewDropCoordinator coordinator)
+        {
+            
+        }
+
+        /// <summary>
+        /// Ensure that the drop session contains a drag item with a data representation that the view can consume.
+        /// </summary>
+        [Export("tableView:canHandleDropSession:")]
+        public bool CanHandleDropSession(UITableView tableView, IUIDropSession session)
+        {
+            return session.Items.Count() > 0;
+        }
+
+        /// <summary>
+        /// A drop proposal from a table view includes two items: a drop operation,
+        /// typically .move or .copy; and an intent, which declares the action the
+        /// table view will take upon receiving the items. (A drop proposal from a
+        /// custom view does includes only a drop operation, not an intent.)
+        /// </summary>
+        [Export("tableView:dropSessionDidUpdate:withDestinationIndexPath:")]
+        public UITableViewDropProposal DropSessionDidUpdate(UITableView tableView, IUIDropSession session, NSIndexPath destinationIndexPath)
+        {
+            // The .move operation is available only for dragging within a single app.
+            if (tableView.HasActiveDrag)
+            {
+                if (session.Items.Length > 1)
+                {
+                    return new UITableViewDropProposal(UIDropOperation.Cancel);
+                }
+                else
+                {
+                    return new UITableViewDropProposal(UIDropOperation.Move, UITableViewDropIntent.InsertAtDestinationIndexPath);
+                }
+            }
+            else
+            {
+                return new UITableViewDropProposal(UIDropOperation.Copy, UITableViewDropIntent.InsertAtDestinationIndexPath);
+            }
+        }
     }
 
 }

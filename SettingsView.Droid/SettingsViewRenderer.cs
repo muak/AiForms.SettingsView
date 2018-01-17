@@ -59,7 +59,7 @@ namespace AiForms.Renderers.Droid
                 Control.SetAdapter(_adapter);
 
                 _simpleCallback = new SettingsViewSimpleCallback(e.NewElement, ItemTouchHelper.Up | ItemTouchHelper.Down, 0);
-                var _itemTouchhelper = new ItemTouchHelper(_simpleCallback);
+                _itemTouchhelper = new ItemTouchHelper(_simpleCallback);
                 _itemTouchhelper.AttachToRecyclerView(Control);
 
                 Element elm = Element;

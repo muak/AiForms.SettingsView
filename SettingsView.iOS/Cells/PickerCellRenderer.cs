@@ -26,6 +26,7 @@ namespace AiForms.Renderers.iOS
         public PickerCellView(Cell formsCell) : base(formsCell)
         {
             Accessory = UITableViewCellAccessory.DisclosureIndicator;
+            EditingAccessory = UITableViewCellAccessory.DisclosureIndicator;
             SelectionStyle = UITableViewCellSelectionStyle.Default;
             SetRightMarginZero();
         }
