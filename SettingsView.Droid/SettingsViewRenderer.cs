@@ -215,7 +215,10 @@ namespace AiForms.Renderers.Droid
 
             _offset += toPos - fromPos;
 
-            recyclerView.GetAdapter().NotifyItemMoved(fromPos, toPos);
+            var settingsAdapter = recyclerView.GetAdapter() as SettingsViewRecyclerAdapter;
+
+            settingsAdapter.NotifyItemMoved(fromPos, toPos); //rows update
+            settingsAdapter.CellMoved(fromPos, toPos); //caches update
 
             //Console.WriteLine($"From:{fromPos} To:{toPos} Offset:{_offset}");
 
@@ -236,12 +239,13 @@ namespace AiForms.Renderers.Droid
 
             if (section?.ItemsSource != null)
             {
-                //update DataSource at this timing.
+                // must update DataSource at this timing.
                 var pos = contentHolder.RowIndex;
                 var tmp = section.ItemsSource[pos];
                 section.ItemsSource.RemoveAt(pos);
                 section.ItemsSource.Insert(pos + _offset, tmp);
             }
+
             _offset = 0;
         }
 

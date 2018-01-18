@@ -21,8 +21,8 @@ namespace AiForms.Renderers.Droid
         float MinRowHeight => _context.ToPixels(44);
 
         Dictionary<Type, int> _viewTypes;
-        CellCache[] _cellCaches;
-        CellCache[] CellCaches
+        List<CellCache> _cellCaches;
+        List<CellCache> CellCaches
         {
             get
             {
@@ -60,7 +60,7 @@ namespace AiForms.Renderers.Droid
             }
         }
 
-        public override int ItemCount => CellCaches.Length;
+        public override int ItemCount => CellCaches.Count;
 
         /// <summary>
         /// return ID (As in paticular it doesn't exist, return the position.)
@@ -214,6 +214,7 @@ namespace AiForms.Renderers.Droid
         {
             if(disposing){
                 _settingsView.ModelChanged -= _settingsView_ModelChanged;
+                _cellCaches.Clear();
                 _cellCaches = null;
                 _settingsView = null;
                 _viewTypes = null;
@@ -426,11 +427,17 @@ namespace AiForms.Renderers.Droid
                 });
             }
 
-            _cellCaches = newCellCaches.ToArray();
+            _cellCaches = newCellCaches;
 
             _viewTypes = _cellCaches.Select(x => x.Cell.GetType()).Distinct().Select((x, idx) => new { x, index = idx }).ToDictionary(key => key.x, val => val.index + 2);
         }
 
+        public void CellMoved(int fromPos,int toPos)
+        {
+            var tmp = CellCaches[fromPos];
+            CellCaches.RemoveAt(fromPos);
+            CellCaches.Insert(toPos,tmp);
+        }
  
 
 

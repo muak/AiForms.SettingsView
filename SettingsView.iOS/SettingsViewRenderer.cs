@@ -8,6 +8,7 @@ using Xamarin.Forms.Platform.iOS;
 using Foundation;
 using ObjCRuntime;
 using System.Linq;
+using MobileCoreServices;
 
 [assembly: ExportRenderer(typeof(SettingsView), typeof(SettingsViewRenderer))]
 namespace AiForms.Renderers.iOS
@@ -23,16 +24,8 @@ namespace AiForms.Renderers.iOS
         UITableView _tableview;
 
         bool _disposed = false;
+        float _topInset = 0f;
 
-        public IUIDragSession LocalDragSession => throw new NotImplementedException();
-
-        public UIDropSessionProgressIndicatorStyle ProgressIndicatorStyle { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        public UIDragItem[] Items => throw new NotImplementedException();
-
-        public bool AllowsMoveOperation => throw new NotImplementedException();
-
-        public bool RestrictedToDraggingApplication => throw new NotImplementedException();
 
         /// <summary>
         /// Ons the element changed.
@@ -45,18 +38,31 @@ namespace AiForms.Renderers.iOS
             if (e.NewElement != null) {
 
                 _tableview = new UITableView(CGRect.Empty, UITableViewStyle.Grouped);
-                //_tableview.Editing = true;
-                //_tableview.AllowsSelectionDuringEditing = true;
 
-                _tableview.DragDelegate = this;
-                _tableview.DropDelegate = this;
-                _tableview.DragInteractionEnabled = true;
+                if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0))
+                {
+                    _tableview.DragDelegate = this;
+                    _tableview.DropDelegate = this;
 
+                    _tableview.DragInteractionEnabled = true;
+                    _tableview.Source = new SettingsTableSource(Element);
+                }
+                else{
+                    _tableview.Editing = true;
+                    _tableview.AllowsSelectionDuringEditing = true;
+                    // When Editing is true, for some reason, UITableView top margin is displayed.
+                    // force removing the margin by the following code.
+                    _topInset = 36;
+                    _tableview.ContentInset = new UIEdgeInsets(-_topInset, 0, 0, 0);
+
+                    _tableview.Source = new SettingsLagacyTableSource(Element);
+                }
+                
 
                 SetNativeControl(_tableview);
                 _tableview.ScrollEnabled = true;
                 _tableview.RowHeight = UITableView.AutomaticDimension;
-                _tableview.Source = new SettingsTableSource(Element);
+
 
                 _tableview.CellLayoutMarginsFollowReadableWidth = false;
 
@@ -178,7 +184,8 @@ namespace AiForms.Renderers.iOS
 
                 if (_tableview.NumberOfSections() > 0 && rows > 0)
                 {
-                    _tableview.ScrollToRow(NSIndexPath.Create(0, 0), UITableViewScrollPosition.Top, false);
+                    _tableview.SetContentOffset(new CGPoint(0,_topInset), false);
+                    //_tableview.ScrollToRow(NSIndexPath.Create(0, 0), UITableViewScrollPosition.Top, false);
                 }
 
                 Element.ScrollToTop = false;
@@ -238,25 +245,57 @@ namespace AiForms.Renderers.iOS
             view.Dispose();
         }
 
+
         public UIDragItem[] GetItemsForBeginningDragSession(UITableView tableView, IUIDragSession session, NSIndexPath indexPath)
         {
-            
             var section = Element.Model.GetSection(indexPath.Section);
             if(!section.UseDragSort){
                 return new UIDragItem[]{};
             }
 
-            //var item = Element.Model.GetItem(indexPath.Section, indexPath.Row);
-
+            // set "sectionIndex,rowIndex" as string
+            var data = NSData.FromString($"{indexPath.Section},{indexPath.Row}");
 
             var itemProvider = new NSItemProvider();
-            var dragItem = new UIDragItem(itemProvider);
-            return new UIDragItem[] { dragItem };
+            itemProvider.RegisterDataRepresentation(UTType.PlainText, NSItemProviderRepresentationVisibility.All, (completionHandler) =>
+            {
+                completionHandler(data, null);
+                return null;
+            });
+
+            return new UIDragItem[] { new UIDragItem(itemProvider) };
         }
+
 
         public void PerformDrop(UITableView tableView, IUITableViewDropCoordinator coordinator)
         {
-            
+            var destinationIndexPath = coordinator.DestinationIndexPath;
+            if(destinationIndexPath == null){
+                return;
+            }
+
+            coordinator.Session.LoadObjects<NSString>(items=>{
+                var path = items[0].ToString().Split(new char[]{','}, StringSplitOptions.None).Select(x => int.Parse(x)).ToList();
+                var secIdx = path[0];
+                var rowIdx = path[1];
+
+                if(secIdx != destinationIndexPath.Section){
+                    return;
+                }
+
+                var section = Element.Model.GetSection(secIdx);
+                if(section.ItemsSource == null){
+                    var tmp = section[rowIdx];
+                    section.RemoveAt(rowIdx);
+                    section.Insert(destinationIndexPath.Row, tmp);
+                }
+                else{
+                    var tmp = section.ItemsSource[rowIdx];
+                    section.ItemsSource.RemoveAt(rowIdx);
+                    section.ItemsSource.Insert(destinationIndexPath.Row, tmp);
+                }
+            });
+
         }
 
         /// <summary>
@@ -265,7 +304,7 @@ namespace AiForms.Renderers.iOS
         [Export("tableView:canHandleDropSession:")]
         public bool CanHandleDropSession(UITableView tableView, IUIDropSession session)
         {
-            return session.Items.Count() > 0;
+            return session.CanLoadObjects(typeof(NSString));
         }
 
         /// <summary>
@@ -277,7 +316,11 @@ namespace AiForms.Renderers.iOS
         [Export("tableView:dropSessionDidUpdate:withDestinationIndexPath:")]
         public UITableViewDropProposal DropSessionDidUpdate(UITableView tableView, IUIDropSession session, NSIndexPath destinationIndexPath)
         {
-            // The .move operation is available only for dragging within a single app.
+            if(destinationIndexPath == null){
+                return new UITableViewDropProposal(UIDropOperation.Cancel);
+            }
+
+            // this dragging is from UITableView.
             if (tableView.HasActiveDrag)
             {
                 if (session.Items.Length > 1)
@@ -289,10 +332,8 @@ namespace AiForms.Renderers.iOS
                     return new UITableViewDropProposal(UIDropOperation.Move, UITableViewDropIntent.InsertAtDestinationIndexPath);
                 }
             }
-            else
-            {
-                return new UITableViewDropProposal(UIDropOperation.Copy, UITableViewDropIntent.InsertAtDestinationIndexPath);
-            }
+
+            return new UITableViewDropProposal(UIDropOperation.Cancel);
         }
     }
 

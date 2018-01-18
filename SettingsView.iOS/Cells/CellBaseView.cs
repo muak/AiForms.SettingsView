@@ -503,7 +503,10 @@ namespace AiForms.Renderers.iOS
         /// </summary>
         protected void SetRightMarginZero()
         {
-            _stackH.LayoutMargins = new UIEdgeInsets(6, 16, 6, 0);
+            if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0))
+            {
+                _stackH.LayoutMargins = new UIEdgeInsets(6, 16, 6, 0);
+            }
         }
 
         void SetUpContentView()

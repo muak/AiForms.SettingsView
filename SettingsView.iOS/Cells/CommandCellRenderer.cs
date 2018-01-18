@@ -33,7 +33,6 @@ namespace AiForms.Renderers.iOS
 
             SelectionStyle = UITableViewCellSelectionStyle.Default;
             SetRightMarginZero();
-
         }
 
         /// <summary>
