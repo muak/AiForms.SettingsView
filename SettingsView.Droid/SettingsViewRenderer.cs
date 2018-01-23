@@ -236,11 +236,15 @@ namespace AiForms.Renderers.Droid
             }
 
             var section = _settingsView.Model.GetSection(contentHolder.SectionIndex);
-
-            if (section?.ItemsSource != null)
+            var pos = contentHolder.RowIndex;
+            if(section.ItemsSource == null){
+                var tmp = section[pos];
+                section.RemoveAt(pos);
+                section.Insert(pos +_offset, tmp);
+            }
+            else if(section.ItemsSource != null)
             {
                 // must update DataSource at this timing.
-                var pos = contentHolder.RowIndex;
                 var tmp = section.ItemsSource[pos];
                 section.ItemsSource.RemoveAt(pos);
                 section.ItemsSource.Insert(pos + _offset, tmp);
