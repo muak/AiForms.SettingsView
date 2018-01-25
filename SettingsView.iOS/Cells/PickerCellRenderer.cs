@@ -45,6 +45,14 @@ namespace AiForms.Renderers.iOS
                 e.PropertyName == PickerCell.SelectedItemsOrderKeyProperty.PropertyName) {
                 UpdateSelectedItems(true);
             }
+            if(e.PropertyName == PickerCell.UseAutoValueTextProperty.PropertyName){
+                if(_PickerCell.UseAutoValueText){
+                    UpdateSelectedItems(true);
+                }
+                else{
+                    base.UpdateValueText();
+                }
+            }
         }
 
         /// <summary>
@@ -62,6 +70,10 @@ namespace AiForms.Renderers.iOS
         /// <param name="force">If set to <c>true</c> force.</param>
         public void UpdateSelectedItems(bool force = false)
         {
+            if(!_PickerCell.UseAutoValueText){
+                return;
+            }
+
             if (force || string.IsNullOrEmpty(_valueTextCache)) {
                 _valueTextCache = _PickerCell.GetSelectedItemsText();
             }

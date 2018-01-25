@@ -13,6 +13,9 @@ using AView = Android.Views.View;
 
 namespace AiForms.Renderers.Droid
 {
+    /// <summary>
+    /// Settings view recycler adapter.
+    /// </summary>
     public class SettingsViewRecyclerAdapter:RecyclerView.Adapter,AView.IOnClickListener
     {
         const int ViewTypeHeader = 0;

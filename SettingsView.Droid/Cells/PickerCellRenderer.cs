@@ -49,6 +49,14 @@ namespace AiForms.Renderers.Droid
                 e.PropertyName == PickerCell.SelectedItemsOrderKeyProperty.PropertyName) {
                 UpdateSelectedItems(true);
             }
+            if (e.PropertyName == PickerCell.UseAutoValueTextProperty.PropertyName){
+                if (_PickerCell.UseAutoValueText){
+                    UpdateSelectedItems(true);
+                }
+                else{
+                    base.UpdateValueText();
+                }
+            }
         }
 
         /// <summary>
@@ -66,6 +74,11 @@ namespace AiForms.Renderers.Droid
         /// <param name="force">If set to <c>true</c> force.</param>
         public void UpdateSelectedItems(bool force = false)
         {
+            if (!_PickerCell.UseAutoValueText){
+                return;
+            }
+
+
             if (force || string.IsNullOrEmpty(_valueTextCache)) {
                 _valueTextCache = _PickerCell.GetSelectedItemsText();
             }
@@ -108,6 +121,10 @@ namespace AiForms.Renderers.Droid
             _listView.OnItemClickListener = _adapter;
             _listView.Adapter = _adapter;
 
+            _adapter.CloseAction = () =>
+            {
+                _dialog.GetButton((int)DialogButtonType.Positive).PerformClick();
+            };
 
             if (_dialog == null) {
                 using (var builder = new AlertDialog.Builder(_context)) {
@@ -126,8 +143,11 @@ namespace AiForms.Renderers.Droid
                         ClearFocus();
                     });
 
+
                     _dialog = builder.Create();
                 }
+
+
 
                 _dialog.SetCanceledOnTouchOutside(true);
                 _dialog.SetOnDismissListener(this);

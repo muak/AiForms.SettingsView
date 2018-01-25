@@ -125,7 +125,7 @@ namespace AiForms.Renderers.Droid
             }
         }
 
-        void UpdateValueText()
+        protected void UpdateValueText()
         {
             vValueLabel.Text = _LabelCell.ValueText;
         }

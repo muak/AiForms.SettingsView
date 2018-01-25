@@ -80,6 +80,28 @@ namespace AiForms.Renderers
         }
 
         /// <summary>
+        /// The sub display member property.
+        /// </summary>
+        public static BindableProperty SubDisplayMemberProperty =
+            BindableProperty.Create(
+                nameof(SubDisplayMember),
+                typeof(string),
+                typeof(PickerCell),
+                default(string),
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        /// <summary>
+        /// Gets or sets the sub display member.
+        /// </summary>
+        /// <value>The sub display member.</value>
+        public string SubDisplayMember
+        {
+            get { return (string)GetValue(SubDisplayMemberProperty); }
+            set { SetValue(SubDisplayMemberProperty, value); }
+        }
+
+        /// <summary>
         /// The selected items property.
         /// </summary>
         public static BindableProperty SelectedItemsProperty =
@@ -228,6 +250,50 @@ namespace AiForms.Renderers
             set { SetValue(UseNaturalSortProperty, value); }
         }
 
+        /// <summary>
+        /// The use auto value text property.
+        /// </summary>
+        public static BindableProperty UseAutoValueTextProperty =
+            BindableProperty.Create(
+                nameof(UseAutoValueText),
+                typeof(bool),
+                typeof(PickerCell),
+                true,
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="T:AiForms.Renderers.PickerCell"/> use auto value text.
+        /// </summary>
+        /// <value><c>true</c> if use auto value text; otherwise, <c>false</c>.</value>
+        public bool UseAutoValueText
+        {
+            get { return (bool)GetValue(UseAutoValueTextProperty); }
+            set { SetValue(UseAutoValueTextProperty, value); }
+        }
+
+        /// <summary>
+        /// The use pick to close property.
+        /// </summary>
+        public static BindableProperty UsePickToCloseProperty =
+            BindableProperty.Create(
+                nameof(UsePickToClose),
+                typeof(bool),
+                typeof(PickerCell),
+                default(bool),
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="T:AiForms.Renderers.PickerCell"/> use pick to close.
+        /// </summary>
+        /// <value><c>true</c> if use pick to close; otherwise, <c>false</c>.</value>
+        public bool UsePickToClose
+        {
+            get { return (bool)GetValue(UsePickToCloseProperty); }
+            set { SetValue(UsePickToCloseProperty, value); }
+        }
+
 
         //getters cache
         static ConcurrentDictionary<Type, Dictionary<string,Func<object, object>>> DisplayValueCache = new ConcurrentDictionary<Type, Dictionary<string,Func<object, object>>>();
@@ -243,6 +309,20 @@ namespace AiForms.Renderers
                 }
                 else{
                     return (obj) => obj;
+                } 
+            }
+        }
+
+        internal Func<object,object> SubDisplayValue{
+            get{
+                if(_getters == null || SubDisplayMember == null){
+                    return (obj) => null;
+                }
+                if(_getters.ContainsKey(SubDisplayMember)){
+                    return _getters[SubDisplayMember];
+                }
+                else{
+                    return (obj) => null;
                 } 
             }
         }

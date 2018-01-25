@@ -6,11 +6,14 @@ using Android.Views;
 using Android.Widget;
 using Xamarin.Forms.Platform.Android;
 using AView = Android.Views.View;
+using System;
 
 namespace AiForms.Renderers.Droid
 {
     internal class PickerAdapter : BaseAdapter<object>, AdapterView.IOnItemClickListener
     {
+        public Action CloseAction { get; set; }
+
         Android.Content.Context _context;
         SettingsView _parent;
         PickerCell _pickerCell;
@@ -21,7 +24,9 @@ namespace AiForms.Renderers.Droid
         internal Color _accentColor;
         internal Color _titleColor;
         internal Color _background;
+        internal Color _detailColor;
         internal double _fontSize;
+        internal double _detailFontSize;
 
         internal PickerAdapter(Android.Content.Context context, PickerCell pickerCell, ListView listview)
         {
@@ -70,6 +75,24 @@ namespace AiForms.Renderers.Droid
                 _fontSize = _parent.CellTitleFontSize;
             }
 
+            if (_pickerCell.DescriptionColor != Xamarin.Forms.Color.Default)
+            {
+                _detailColor = _pickerCell.DescriptionColor.ToAndroid();
+            }
+            else if (_parent != null && _parent.CellDescriptionColor != Xamarin.Forms.Color.Default)
+            {
+                _detailColor = _parent.CellDescriptionColor.ToAndroid();
+            }
+
+            if (_pickerCell.DescriptionFontSize > 0)
+            {
+                _detailFontSize = _pickerCell.DescriptionFontSize;
+            }
+            else if (_parent != null)
+            {
+                _detailFontSize = _parent.CellDescriptionFontSize;
+            }
+
             if (_pickerCell.BackgroundColor != Xamarin.Forms.Color.Default) {
                 _background = _pickerCell.BackgroundColor.ToAndroid();
             }
@@ -81,11 +104,22 @@ namespace AiForms.Renderers.Droid
         public void OnItemClick(AdapterView parent, AView view, int position, long id)
         {
             if (_listview.ChoiceMode == ChoiceMode.Single || _unLimited) {
+                DoPickToClose();
                 return;
             }
 
             if (_listview.CheckedItemCount > _pickerCell.MaxSelectedNumber) {
                 _listview.SetItemChecked(position, false);
+                return;
+            }
+
+            DoPickToClose();
+        }
+
+        void DoPickToClose()
+        {
+            if(_pickerCell.UsePickToClose && _listview.CheckedItemCount == _pickerCell.MaxSelectedNumber){
+                CloseAction?.Invoke();
             }
         }
 
@@ -158,7 +192,7 @@ namespace AiForms.Renderers.Droid
                 convertView = new PickerInnerView(_context, this);
             }
 
-            (convertView as PickerInnerView).UpdateCell(_pickerCell.DisplayValue(_source[position]));
+            (convertView as PickerInnerView).UpdateCell(_pickerCell.DisplayValue(_source[position]),_pickerCell.SubDisplayValue(_source[position]));
 
             return convertView;
         }
@@ -176,6 +210,7 @@ namespace AiForms.Renderers.Droid
                 _source = null;
                 _listview = null;
                 _context = null;
+                CloseAction = null;
             }
             base.Dispose(disposing);
         }
@@ -184,7 +219,9 @@ namespace AiForms.Renderers.Droid
     internal class PickerInnerView : RelativeLayout, Android.Widget.ICheckable
     {
         TextView _textLabel;
+        TextView _detailLabel;
         SimpleCheck _checkBox;
+        LinearLayout _textContainr;
 
         internal PickerInnerView(Android.Content.Context context, PickerAdapter adapter) : base(context)
         {
@@ -198,28 +235,41 @@ namespace AiForms.Renderers.Droid
             _textLabel = new TextView(context);
             _textLabel.Id = AView.GenerateViewId();
 
+            _detailLabel = new TextView(context);
+            _detailLabel.Id = AView.GenerateViewId();
+
+            _textContainr = new LinearLayout(context);
+            _textContainr.Orientation = Orientation.Vertical;
+
+            using (var param = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent,ViewGroup.LayoutParams.WrapContent)){
+                _textContainr.AddView(_textLabel,param);
+                _textContainr.AddView(_detailLabel,param);
+            }
+
             _checkBox = new SimpleCheck(context);
             _checkBox.Focusable = false;
 
             _textLabel.SetTextColor(adapter._titleColor);
             _textLabel.SetTextSize(Android.Util.ComplexUnitType.Sp, (float)adapter._fontSize);
+            _detailLabel.SetTextColor(adapter._detailColor);
+            _detailLabel.SetTextSize(Android.Util.ComplexUnitType.Sp, (float)adapter._detailFontSize);
             _checkBox.Color = adapter._accentColor;
             SetBackgroundColor(adapter._background);
 
-            using (var param1 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.WrapContent)) {
-                param1.AddRule(LayoutRules.AlignParentStart);
-                param1.AddRule(LayoutRules.CenterVertical);
-                AddView(_textLabel, param1);
+            using (var param = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.WrapContent)) {
+                param.AddRule(LayoutRules.AlignParentStart);
+                param.AddRule(LayoutRules.CenterVertical);
+                AddView(_textContainr, param);
             }
 
-            using (var param2 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.MatchParent)
+            using (var param = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.MatchParent)
             {
                 Width = (int)context.ToPixels(30),
                 Height = (int)context.ToPixels(30)
             }) {
-                param2.AddRule(LayoutRules.AlignParentEnd);
-                param2.AddRule(LayoutRules.CenterVertical);
-                AddView(_checkBox, param2);
+                param.AddRule(LayoutRules.AlignParentEnd);
+                param.AddRule(LayoutRules.CenterVertical);
+                AddView(_checkBox, param);
             }
         }
 
@@ -248,9 +298,13 @@ namespace AiForms.Renderers.Droid
         /// Updates the cell.
         /// </summary>
         /// <param name="displayValue">Display value.</param>
-        public void UpdateCell(object displayValue)
+        /// <param name="subDisplayValue">Sub display value.</param>
+        public void UpdateCell(object displayValue,object subDisplayValue)
         {
             _textLabel.Text = $"{displayValue}";
+            _detailLabel.Text = $"{subDisplayValue}";
+
+            _detailLabel.Visibility = string.IsNullOrEmpty(_detailLabel.Text) ? ViewStates.Gone : ViewStates.Visible;
         }
 
         /// <summary>
@@ -263,8 +317,12 @@ namespace AiForms.Renderers.Droid
             if (disposing) {
                 _textLabel?.Dispose();
                 _textLabel = null;
+                _detailLabel?.Dispose();
+                _detailLabel = null;
                 _checkBox?.Dispose();
                 _checkBox = null;
+                _textContainr?.Dispose();
+                _textContainr = null;
             }
             base.Dispose(disposing);
         }

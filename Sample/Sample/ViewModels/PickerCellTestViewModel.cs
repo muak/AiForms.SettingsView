@@ -12,11 +12,14 @@ namespace Sample.ViewModels
         public ReactiveProperty<Color> OwnAccentColor { get; } = new ReactiveProperty<Color>();
         public ReactiveProperty<string> PageTitle { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<string> DisplayMember { get; } = new ReactiveProperty<string>();
+        public ReactiveProperty<string> SubDisplayMember { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<string> DisplayMember2 { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<int> MaxSelectedNumber { get; } = new ReactiveProperty<int>();
         public ReactiveProperty<bool> KeepSelected { get; } = new ReactiveProperty<bool>();
         public ReactiveProperty<string> SelectedItemsOrderKey { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<bool> UseNaturalSort { get; } = new ReactiveProperty<bool>();
+        public ReactiveProperty<bool> UseAutoValueText { get; } = new ReactiveProperty<bool>();
+        public ReactiveProperty<bool> UsePickToClose { get; } = new ReactiveProperty<bool>();
 
         public ObservableCollection<Person> ItemsSource { get; } = new ObservableCollection<Person>();
         public ObservableCollection<int> ItemsSource2 { get; } = new ObservableCollection<int>();
@@ -46,6 +49,9 @@ namespace Sample.ViewModels
 
             DisplayMember.Value = "Name";
             DisplayMember2.Value = "";
+            SubDisplayMember.Value = DisplayMembers[1];
+            UseAutoValueText.Value = true;
+            UsePickToClose.Value = false;
 
             OwnAccentColor.Value = AccentColor;
             PageTitle.Value = PageTitles[0];
@@ -76,6 +82,7 @@ namespace Sample.ViewModels
                     break;
                 case nameof(DisplayMember):
                     NextVal(DisplayMember, DisplayMembers);
+                    NextVal(SubDisplayMember,DisplayMembers);
                     break;
                 case nameof(MaxSelectedNumber):
                     NextVal(MaxSelectedNumber, MaxSelectedNumbers);
@@ -91,6 +98,12 @@ namespace Sample.ViewModels
                     break;
                 case nameof(UseNaturalSort):
                     NextVal(UseNaturalSort, bools);
+                    break;
+                case nameof(UseAutoValueText):
+                    NextVal(UseAutoValueText, bools);
+                    break;
+                case nameof(UsePickToClose):
+                    NextVal(UsePickToClose, bools);
                     break;
             }
         }

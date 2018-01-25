@@ -88,7 +88,7 @@ namespace AiForms.Renderers.iOS
             base.UpdateCell();
         }
 
-        void UpdateValueText()
+        protected void UpdateValueText()
         {
             ValueLabel.Text = _LabelCell.ValueText;
         }

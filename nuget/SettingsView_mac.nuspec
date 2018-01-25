@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>AiForms.SettingsView</id>
-        <version>0.2.0-pre1</version>
+        <version>0.2.0-pre2</version>
         <title>SettingsView for Xamarin.Forms</title>
         <authors>kamu</authors>
         <owners>kamu</owners>
@@ -17,6 +17,9 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
 ## New features
 
 * Added properties of ScrollToTop And ScrollToBottom.
+* [PickerCell] Add UsePickToClose property. (issue#10)
+* [PickerCell] Add UseAutoValueText property.
+* [PickerCell] Add SubDisplayMember property. 
 * [Section] Add UseDragSort property.
 * [Section] Add HeaderHeight property.
 * [Section] Corresponded to DataTemplate and DataTemplateSelector.
