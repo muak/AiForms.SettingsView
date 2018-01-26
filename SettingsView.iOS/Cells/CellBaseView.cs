@@ -120,6 +120,9 @@ namespace AiForms.Renderers.iOS
             else if (e.PropertyName == CellBase.IconRadiusProperty.PropertyName) {
                 UpdateWithForceLayout(UpdateIconRadius);
             }
+            else if(e.PropertyName == Cell.IsEnabledProperty.PropertyName){
+                UpdateIsEnabled();
+            }
         }
 
         /// <summary>
@@ -283,6 +286,29 @@ namespace AiForms.Renderers.iOS
             }
         }
 
+        protected virtual void UpdateIsEnabled()
+        {
+            SetEnabledAppearance(CellBase.IsEnabled);
+        }
+
+        protected virtual void SetEnabledAppearance(bool isEnabled)
+        {
+            if (isEnabled)
+            {
+                UserInteractionEnabled = true;
+                TitleLabel.Alpha = 1f;
+                DescriptionLabel.Alpha = 1f;
+                IconView.Alpha = 1f;
+            }
+            else
+            {
+                UserInteractionEnabled = false;
+                TitleLabel.Alpha = 0.3f;
+                DescriptionLabel.Alpha = 0.3f;
+                IconView.Alpha = 0.3f;
+            }
+        }
+
         void UpdateIconSize()
         {
             Size size;
@@ -423,6 +449,8 @@ namespace AiForms.Renderers.iOS
 
             UpdateIcon();
             UpdateIconRadius();
+
+            UpdateIsEnabled();
 
             SetNeedsLayout();
         }

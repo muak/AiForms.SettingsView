@@ -108,10 +108,14 @@ namespace AiForms.Renderers.Droid
 
             var cell = view.FindViewById<LinearLayout>(Resource.Id.ContentCellBody).GetChildAt(0);
 
+            if(!CellCaches[position].Cell.IsEnabled){
+                //if FormsCell IsEnable is false, does nothing. 
+                return;
+            }
+
             _settingsView.Model.RowSelected(CellCaches[position].Cell);
 
-            if (cell is CommandCellView)
-            {
+            if (cell is CommandCellView){
                 var cmdCell = cell as CommandCellView;
                 cmdCell?.Execute?.Invoke();
                 if ((cmdCell.Cell as CommandCell).KeepSelectedUntilBack)
@@ -137,14 +141,17 @@ namespace AiForms.Renderers.Droid
             else if (cell is PickerCellView)
             {
                 var pCell = cell as PickerCellView;
+                var formPickerCell = pCell.Cell as PickerCell;
 
-                if ((pCell.Cell as PickerCell).ItemsSource == null)
-                {
+                if (formPickerCell.ItemsSource == null){
                     return;
                 }
 
-                if ((pCell.Cell as PickerCell).KeepSelectedUntilBack)
-                {
+                if(formPickerCell.ItemsSource.Count == 0){
+                    return;
+                }
+
+                if (formPickerCell.KeepSelectedUntilBack){
                     SelectedRow(cell, position);
                 }
                 pCell.ShowDialog();

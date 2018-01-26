@@ -2,6 +2,8 @@
 using AiForms.Renderers.iOS;
 using UIKit;
 using Xamarin.Forms;
+using System.Collections.Specialized;
+using System;
 
 [assembly: ExportRenderer(typeof(PickerCell), typeof(PickerCellRenderer))]
 namespace AiForms.Renderers.iOS
@@ -18,6 +20,7 @@ namespace AiForms.Renderers.iOS
     {
         PickerCell _PickerCell => Cell as PickerCell;
         string _valueTextCache;
+        INotifyCollectionChanged _notifyCollection;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AiForms.Renderers.iOS.PickerCellView"/> class.
@@ -53,6 +56,9 @@ namespace AiForms.Renderers.iOS
                     base.UpdateValueText();
                 }
             }
+            if(e.PropertyName == PickerCell.ItemsSourceProperty.PropertyName){
+                UpdateCollectionChanged();
+            }
         }
 
         /// <summary>
@@ -62,6 +68,7 @@ namespace AiForms.Renderers.iOS
         {
             base.UpdateCell();
             UpdateSelectedItems();
+            UpdateCollectionChanged();
         }
 
         /// <summary>
@@ -81,6 +88,38 @@ namespace AiForms.Renderers.iOS
             ValueLabel.Text = _valueTextCache;
         }
 
+        void UpdateCollectionChanged()
+        {
+            if(_notifyCollection != null){
+                _notifyCollection.CollectionChanged -= ItemsSourceCollectionChanged;
+            }
+
+            _notifyCollection = _PickerCell.ItemsSource as INotifyCollectionChanged;
+
+            if (_notifyCollection != null)
+            {
+                _notifyCollection.CollectionChanged += ItemsSourceCollectionChanged;
+                ItemsSourceCollectionChanged(this, EventArgs.Empty);
+            }
+        }
+
+        protected override void UpdateIsEnabled()
+        {
+            if (_PickerCell.ItemsSource != null && _PickerCell.ItemsSource.Count == 0) {
+                return;
+            }
+            base.UpdateIsEnabled();
+        }
+
+        void ItemsSourceCollectionChanged(object sender, EventArgs e)
+        {
+            if (!CellBase.IsEnabled){
+                return;
+            }
+
+            SetEnabledAppearance(_PickerCell.ItemsSource.Count > 0);
+        }
+
         /// <summary>
         /// Dispose the specified disposing.
         /// </summary>
@@ -89,7 +128,12 @@ namespace AiForms.Renderers.iOS
         protected override void Dispose(bool disposing)
         {
             if (disposing) {
-
+                
+                if (_notifyCollection != null)
+                {
+                    _notifyCollection.CollectionChanged -= ItemsSourceCollectionChanged;
+                    _notifyCollection = null;
+                }
             }
             base.Dispose(disposing);
         }

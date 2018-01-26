@@ -151,6 +151,19 @@ namespace AiForms.Renderers.Droid
             base.Dispose(disposing);
         }
 
+        protected override void SetEnabledAppearance(bool isEnabled)
+        {
+            if (isEnabled) {
+                _EditText.Enabled = true;
+                _EditText.Alpha = 1.0f;
+            }
+            else {
+                _EditText.Enabled = false;
+                _EditText.Alpha = 0.3f;
+            }
+            base.SetEnabledAppearance(isEnabled);
+        }
+
         void EntryCellView_Click(object sender, EventArgs e)
         {
             _EditText.RequestFocus();

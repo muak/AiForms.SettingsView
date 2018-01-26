@@ -108,22 +108,21 @@ namespace AiForms.Renderers.Droid
 
         }
 
+        protected override void UpdateIsEnabled()
+        {
+            if (_command != null && !_command.CanExecute(_ButtonCell.CommandParameter)) {
+                return;
+            }
+            base.UpdateIsEnabled();
+        }
+
         void Command_CanExecuteChanged(object sender, EventArgs e)
         {
-            if (_command.CanExecute(_ButtonCell.CommandParameter)) {
-                Focusable = false;
-                DescendantFocusability = Android.Views.DescendantFocusability.AfterDescendants;
-                TitleLabel.Alpha = 1f;
-                IconView.Alpha = 1f;
+            if (!CellBase.IsEnabled) {
+                return;
             }
-            else {
-                // not to invoke a ripple effect and not to selected
-                Focusable = true;
-                DescendantFocusability = Android.Views.DescendantFocusability.BlockDescendants;
-                // to turn like disabled
-                TitleLabel.Alpha = 0.3f;
-                IconView.Alpha = 0.3f;
-            }
+
+            SetEnabledAppearance(_command.CanExecute(_ButtonCell.CommandParameter));
         }
     }
 

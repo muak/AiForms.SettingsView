@@ -180,6 +180,9 @@ namespace AiForms.Renderers.Droid
                 UpdateIconRadius();
                 UpdateIcon(true);
             }
+            else if (e.PropertyName == Cell.IsEnabledProperty.PropertyName) {
+                UpdateIsEnabled();
+            }
         }
 
         /// <summary>
@@ -220,6 +223,7 @@ namespace AiForms.Renderers.Droid
             else if (e.PropertyName == SettingsView.SelectedColorProperty.PropertyName) {
                 UpdateSelectedColor();
             }
+
         }
 
         /// <summary>
@@ -251,6 +255,8 @@ namespace AiForms.Renderers.Droid
 
             UpdateIcon();
             UpdateIconRadius();
+
+            UpdateIsEnabled();
 
             Invalidate();
         }
@@ -383,6 +389,31 @@ namespace AiForms.Renderers.Droid
             }
             else {
                 HintLabel.SetTextSize(ComplexUnitType.Sp, _defaultFontSize);
+            }
+        }
+
+        protected virtual void UpdateIsEnabled()
+        {
+            SetEnabledAppearance(CellBase.IsEnabled);
+        }
+
+        protected virtual void SetEnabledAppearance(bool isEnabled)
+        {
+            if (isEnabled) {
+                Focusable = false;
+                DescendantFocusability = Android.Views.DescendantFocusability.AfterDescendants;
+                TitleLabel.Alpha = 1f;
+                DescriptionLabel.Alpha = 1f;
+                IconView.Alpha = 1f;
+            }
+            else {
+                // not to invoke a ripple effect and not to selected
+                Focusable = true;
+                DescendantFocusability = Android.Views.DescendantFocusability.BlockDescendants;
+                // to turn like disabled
+                TitleLabel.Alpha = 0.3f;
+                DescriptionLabel.Alpha = 0.3f;
+                IconView.Alpha = 0.3f;
             }
         }
 

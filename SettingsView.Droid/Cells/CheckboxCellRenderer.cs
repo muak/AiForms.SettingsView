@@ -114,6 +114,19 @@ namespace AiForms.Renderers.Droid
             base.Dispose(disposing);
         }
 
+        protected override void SetEnabledAppearance(bool isEnabled)
+        {
+            if (isEnabled) {
+                _checkbox.Enabled = true;
+                _checkbox.Alpha = 1.0f;
+            }
+            else {
+                _checkbox.Enabled = false;
+                _checkbox.Alpha = 0.3f;
+            }
+            base.SetEnabledAppearance(isEnabled);
+        }
+
         /// <summary>
         /// Ons the checked changed.
         /// </summary>

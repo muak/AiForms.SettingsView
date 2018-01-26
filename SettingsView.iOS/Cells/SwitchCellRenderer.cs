@@ -91,6 +91,17 @@ namespace AiForms.Renderers.iOS
             base.Dispose(disposing);
         }
 
+        protected override void SetEnabledAppearance(bool isEnabled)
+        {
+            if(isEnabled){
+                _switch.Alpha = 1.0f;
+            }
+            else{
+                _switch.Alpha = 0.3f;
+            }
+            base.SetEnabledAppearance(isEnabled);
+        }
+
         void _switch_ValueChanged(object sender, EventArgs e)
         {
             _SwitchCell.On = _switch.On;

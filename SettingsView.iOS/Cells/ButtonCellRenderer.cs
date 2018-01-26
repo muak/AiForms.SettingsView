@@ -60,6 +60,7 @@ namespace AiForms.Renderers.iOS
             UpdateTitleAlignment();
         }
 
+
         /// <summary>
         /// Dispose the specified disposing.
         /// </summary>
@@ -107,18 +108,21 @@ namespace AiForms.Renderers.iOS
 
         }
 
+        protected override void UpdateIsEnabled()
+        {
+            if(_command != null && !_command.CanExecute(_ButtonCell.CommandParameter)){
+                return;
+            }
+            base.UpdateIsEnabled();
+        }
+
         void Command_CanExecuteChanged(object sender, EventArgs e)
         {
-            if (_command.CanExecute(_ButtonCell.CommandParameter)) {
-                UserInteractionEnabled = true;
-                TitleLabel.Alpha = 1f;
-                IconView.Alpha = 1f;
+            if(!CellBase.IsEnabled){
+                return;
             }
-            else {
-                UserInteractionEnabled = false;
-                TitleLabel.Alpha = 0.3f;
-                IconView.Alpha = 0.3f;
-            }
+
+            SetEnabledAppearance(_command.CanExecute(_ButtonCell.CommandParameter));
         }
     }
 

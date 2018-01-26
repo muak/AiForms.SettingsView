@@ -62,7 +62,7 @@
             ShowSectionTopBottomBorder="{Binding ShowSectionTopBottomBorder.Value}"
         >
             <ai:Section Title="Section1" FooterText="Footer1" >
-                <ai:ButtonCell IconSource="{Binding IconSource.Value}" Title="{Binding Title.Value}"  HintText="{Binding HintText.Value}" BackgroundColor="{Binding BgColor.Value}" TitleColor="{Binding TitleColor.Value}" TitleFontSize="{Binding TitleFontSize.Value}" HintTextColor="{Binding HintTextColor.Value}" HintFontSize="{Binding HintFontSize.Value}" IconSize="{Binding IconSize.Value}" IconRadius="{Binding IconRadius.Value}" Tapped="Handle_Tapped"  Command="{Binding Command.Value}" CommandParameter="{Binding CommandParameter.Value}" TitleAlignment="{Binding TitleAlignment.Value}" />
+                <ai:ButtonCell IsEnabled="{Binding IsEnabled.Value}" IconSource="{Binding IconSource.Value}" Title="{Binding Title.Value}"  HintText="{Binding HintText.Value}" BackgroundColor="{Binding BgColor.Value}" TitleColor="{Binding TitleColor.Value}" TitleFontSize="{Binding TitleFontSize.Value}" HintTextColor="{Binding HintTextColor.Value}" HintFontSize="{Binding HintFontSize.Value}" IconSize="{Binding IconSize.Value}" IconRadius="{Binding IconRadius.Value}" Tapped="Handle_Tapped"  Command="{Binding Command.Value}" CommandParameter="{Binding CommandParameter.Value}" TitleAlignment="{Binding TitleAlignment.Value}" />
 
            </ai:Section>
         </ai:SettingsView>

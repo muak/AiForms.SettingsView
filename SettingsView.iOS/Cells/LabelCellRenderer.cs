@@ -88,6 +88,17 @@ namespace AiForms.Renderers.iOS
             base.UpdateCell();
         }
 
+        protected override void SetEnabledAppearance(bool isEnabled)
+        {
+            if(isEnabled){
+                ValueLabel.Alpha = 1f;
+            }
+            else{
+                ValueLabel.Alpha = 0.3f;
+            }
+            base.SetEnabledAppearance(isEnabled);
+        }
+
         protected void UpdateValueText()
         {
             ValueLabel.Text = _LabelCell.ValueText;

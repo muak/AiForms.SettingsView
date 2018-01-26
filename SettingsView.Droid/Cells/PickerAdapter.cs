@@ -156,6 +156,10 @@ namespace AiForms.Renderers.Droid
                 _listview.SetItemChecked(pos, true);
             }
 
+            if(_listview.CheckedItemPositions.IndexOfKey(0) < 0){
+                return;
+            }
+
             _listview.SetSelection(_listview.CheckedItemPositions.KeyAt(0));
         }
 

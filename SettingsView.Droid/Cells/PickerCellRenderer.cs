@@ -1,4 +1,6 @@
-﻿using AiForms.Renderers;
+﻿using System;
+using System.Collections.Specialized;
+using AiForms.Renderers;
 using AiForms.Renderers.Droid;
 using Android.App;
 using Android.Content;
@@ -24,6 +26,7 @@ namespace AiForms.Renderers.Droid
         PickerAdapter _adapter;
         Context _context;
         string _valueTextCache;
+        INotifyCollectionChanged _notifyCollection;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.PickerCellView"/> class.
@@ -49,13 +52,16 @@ namespace AiForms.Renderers.Droid
                 e.PropertyName == PickerCell.SelectedItemsOrderKeyProperty.PropertyName) {
                 UpdateSelectedItems(true);
             }
-            if (e.PropertyName == PickerCell.UseAutoValueTextProperty.PropertyName){
+            else if (e.PropertyName == PickerCell.UseAutoValueTextProperty.PropertyName){
                 if (_PickerCell.UseAutoValueText){
                     UpdateSelectedItems(true);
                 }
                 else{
                     base.UpdateValueText();
                 }
+            }
+            else if (e.PropertyName == PickerCell.ItemsSourceProperty.PropertyName) {
+                UpdateCollectionChanged();
             }
         }
 
@@ -66,6 +72,7 @@ namespace AiForms.Renderers.Droid
         {
             base.UpdateCell();
             UpdateSelectedItems();
+            UpdateCollectionChanged();
         }
 
         /// <summary>
@@ -101,8 +108,43 @@ namespace AiForms.Renderers.Droid
                 _adapter?.Dispose();
                 _adapter = null;
                 _context = null;
+                if (_notifyCollection != null) {
+                    _notifyCollection.CollectionChanged -= ItemsSourceCollectionChanged;
+                    _notifyCollection = null;
+                }
             }
             base.Dispose(disposing);
+        }
+
+        void UpdateCollectionChanged()
+        {
+            if (_notifyCollection != null) {
+                _notifyCollection.CollectionChanged -= ItemsSourceCollectionChanged;
+            }
+
+            _notifyCollection = _PickerCell.ItemsSource as INotifyCollectionChanged;
+
+            if (_notifyCollection != null) {
+                _notifyCollection.CollectionChanged += ItemsSourceCollectionChanged;
+                ItemsSourceCollectionChanged(this, EventArgs.Empty);
+            }
+        }
+
+        protected override void UpdateIsEnabled()
+        {
+            if (_PickerCell.ItemsSource != null && _PickerCell.ItemsSource.Count == 0) {
+                return;
+            }
+            base.UpdateIsEnabled();
+        }
+
+        void ItemsSourceCollectionChanged(object sender, EventArgs e)
+        {
+            if (!CellBase.IsEnabled) {
+                return;
+            }
+
+            SetEnabledAppearance(_PickerCell.ItemsSource.Count > 0);
         }
 
         internal void ShowDialog()

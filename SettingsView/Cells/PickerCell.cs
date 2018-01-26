@@ -42,9 +42,9 @@ namespace AiForms.Renderers
         public static BindableProperty ItemsSourceProperty =
             BindableProperty.Create(
                 nameof(ItemsSource),
-                typeof(IEnumerable),
+                typeof(IList),
                 typeof(PickerCell),
-                default(IEnumerable),
+                default(IList),
                 defaultBindingMode: BindingMode.OneWay,
                 propertyChanging:ItemsSourceChanging
             );
@@ -53,8 +53,8 @@ namespace AiForms.Renderers
         /// Gets or sets the items source.
         /// </summary>
         /// <value>The items source.</value>
-        public IEnumerable ItemsSource {
-            get { return (IEnumerable)GetValue(ItemsSourceProperty); }
+        public IList ItemsSource {
+            get { return (IList)GetValue(ItemsSourceProperty); }
             set { SetValue(ItemsSourceProperty, value); }
         }
 
@@ -422,11 +422,13 @@ namespace AiForms.Renderers
 
         void SetUpPropertyCache(IList itemsSource)
         {
-            if(itemsSource.Count == 0){
-                throw new ArgumentException("ItemsSource must have items more than or equal 1.");
+            var typeArg = itemsSource.GetType().GenericTypeArguments;
+
+            if(typeArg.Count() == 0){
+                throw new ArgumentException("ItemsSource must be GenericType.");
             }
 
-            _getters = DisplayValueCache.GetOrAdd(itemsSource[0].GetType(), CreateGetProperty);
+            _getters = DisplayValueCache.GetOrAdd(typeArg[0], CreateGetProperty);
         }
 
 

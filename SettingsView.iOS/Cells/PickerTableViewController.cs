@@ -235,6 +235,10 @@ namespace AiForms.Renderers.iOS
 
             if (_pickerCell.SelectedItems.Count > 0) {
                 var idx = _source.IndexOf(_pickerCell.SelectedItems[0]);
+                if(idx < 0){
+                    return;
+                }
+
                 BeginInvokeOnMainThread(() =>
                 {
                     TableView.ScrollToRow(NSIndexPath.Create(new nint[] { 0, idx }), UITableViewScrollPosition.Middle, false);

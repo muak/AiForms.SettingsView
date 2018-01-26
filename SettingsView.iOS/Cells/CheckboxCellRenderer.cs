@@ -93,6 +93,17 @@ namespace AiForms.Renderers.iOS
             base.Dispose(disposing);
         }
 
+        protected override void SetEnabledAppearance(bool isEnabled)
+        {
+            if(isEnabled){
+                _checkbox.Alpha = 1.0f;
+            }
+            else{
+                _checkbox.Alpha = 0.3f;
+            }
+            base.SetEnabledAppearance(isEnabled);
+        }
+
         void CheckChanged(UIButton button)
         {
             _CheckboxCell.Checked = button.Selected;

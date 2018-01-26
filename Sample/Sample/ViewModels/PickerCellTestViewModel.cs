@@ -44,7 +44,7 @@ namespace Sample.ViewModels
                     Name = $"Name{i}",
                     Age = 30-i
                 });
-                ItemsSource2.Add(i);
+                //ItemsSource2.Add(i);
             }
 
             DisplayMember.Value = "Name";
@@ -104,6 +104,14 @@ namespace Sample.ViewModels
                     break;
                 case nameof(UsePickToClose):
                     NextVal(UsePickToClose, bools);
+                    break;
+                case "AddItem":
+                    ItemsSource2.Add(new Random().Next(1,30));
+                    break;
+                case "RemoveItem":
+                    if(ItemsSource2.Count > 0){
+                        ItemsSource2.RemoveAt(0);
+                    }
                     break;
             }
         }

@@ -60,7 +60,7 @@ namespace Sample.ViewModels
         public ReactiveProperty<double> DescriptionFontSize { get; } = new ReactiveProperty<double>();
         public ReactiveProperty<Color> HintTextColor { get; } = new ReactiveProperty<Color>();
         public ReactiveProperty<double> HintFontSize { get; } = new ReactiveProperty<double>();
-
+        public ReactiveProperty<bool> IsEnabled { get; } = new ReactiveProperty<bool>(true);
 
         public ReactiveCommand CellChangeCommand { get; } = new ReactiveCommand();
 
@@ -323,6 +323,9 @@ namespace Sample.ViewModels
                     break;
                 case nameof(CellBase.HintFontSize):
                     ChangeFontSize(HintFontSize);
+                    break;
+                case nameof(CellBase.IsEnabled):
+                    ToggleBool(IsEnabled);
                     break;
             }
         }

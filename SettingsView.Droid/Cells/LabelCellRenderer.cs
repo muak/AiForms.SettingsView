@@ -112,6 +112,17 @@ namespace AiForms.Renderers.Droid
 
         }
 
+        protected override void SetEnabledAppearance(bool isEnabled)
+        {
+            if (isEnabled) {
+                ValueLabel.Alpha = 1f;
+            }
+            else {
+                ValueLabel.Alpha = 0.3f;
+            }
+            base.SetEnabledAppearance(isEnabled);
+        }
+
         void UpdateUseDescriptionAsValue()
         {
             if (!_LabelCell.IgnoreUseDescriptionAsValue && CellParent != null && CellParent.UseDescriptionAsValue) {

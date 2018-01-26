@@ -100,21 +100,25 @@ namespace AiForms.Renderers.iOS
 
         }
 
+        protected override void UpdateIsEnabled()
+        {
+            if(_command != null && !_command.CanExecute(_CommandCell.CommandParameter)){
+                return;
+            }
+            base.UpdateIsEnabled();
+        }
+
         void Command_CanExecuteChanged(object sender, EventArgs e)
         {
-            if (_command.CanExecute(_CommandCell.CommandParameter)) {
-                UserInteractionEnabled = true;
-                TitleLabel.Alpha = 1f;
-                DescriptionLabel.Alpha = 1f;
-                ValueLabel.Alpha = 1f;
+            if(!CellBase.IsEnabled){
+                return;
             }
-            else {
-                UserInteractionEnabled = false;
-                TitleLabel.Alpha = 0.6f;
-                DescriptionLabel.Alpha = 0.6f;
-                ValueLabel.Alpha = 0.6f;
-            }
+
+            SetEnabledAppearance(_command.CanExecute(_CommandCell.CommandParameter));
         }
+
+
+
     }
 
 }

@@ -127,6 +127,19 @@ namespace AiForms.Renderers.Droid
             base.Dispose(disposing);
         }
 
+        protected override void SetEnabledAppearance(bool isEnabled)
+        {
+            if (isEnabled) {
+                _switch.Enabled = true;
+                _switch.Alpha = 1.0f;
+            }
+            else {
+                _switch.Enabled = false;
+                _switch.Alpha = 0.3f;
+            }
+            base.SetEnabledAppearance(isEnabled);
+        }
+
         void UpdateOn()
         {
             _switch.Checked = _SwitchCell.On;
