@@ -20,6 +20,7 @@ namespace Sample.ViewModels
         public ReactiveProperty<bool> UseNaturalSort { get; } = new ReactiveProperty<bool>();
         public ReactiveProperty<bool> UseAutoValueText { get; } = new ReactiveProperty<bool>();
         public ReactiveProperty<bool> UsePickToClose { get; } = new ReactiveProperty<bool>();
+        public ReactiveProperty<bool> IsVisible { get; } = new ReactiveProperty<bool>(true);
 
         public ObservableCollection<Person> ItemsSource { get; } = new ObservableCollection<Person>();
         public ObservableCollection<int> ItemsSource2 { get; } = new ObservableCollection<int>();
@@ -112,6 +113,9 @@ namespace Sample.ViewModels
                     if(ItemsSource2.Count > 0){
                         ItemsSource2.RemoveAt(0);
                     }
+                    break;
+                case nameof(IsVisible):
+                    NextVal(IsVisible, bools);
                     break;
             }
         }

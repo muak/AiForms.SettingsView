@@ -9,6 +9,7 @@ namespace Sample.ViewModels
         public ReactiveProperty<Color> OwnAccentColor { get; } = new ReactiveProperty<Color>();
         public ReactiveProperty<bool> On { get; } = new ReactiveProperty<bool>();
         public ReactiveProperty<bool> Checked { get; } = new ReactiveProperty<bool>();
+        public ReactiveProperty<bool> IsVisible { get; } = new ReactiveProperty<bool>(true);
 
         static bool[] bools = { false, true };
         public SwitchCellTestViewModel()
@@ -17,6 +18,7 @@ namespace Sample.ViewModels
             OwnAccentColor.Value = AccentColor;
             On.Value = false;
             Checked.Value = false;
+
         }
 
         protected override void CellChanged(object obj)
@@ -35,6 +37,9 @@ namespace Sample.ViewModels
                     break;
                 case nameof(Checked):
                     NextVal(Checked, bools);
+                    break;
+                case nameof(IsVisible):
+                    NextVal(IsVisible, bools);
                     break;
             }
         }

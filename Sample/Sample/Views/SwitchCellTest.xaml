@@ -21,6 +21,7 @@
                 <Label Text="OwnAccentColor"  ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
                 <Label Text="On"              ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
                 <Label Text="Checked"         ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+                <Label Text="IsVisible"       ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
             </l:WrapLayout>
         </ScrollView>
         <ScrollView VerticalOptions="Start" HeightRequest="100" BackgroundColor="#efefef">
@@ -61,9 +62,12 @@
             UseDescriptionAsValue="{Binding UseDescriptionAsValue.Value}"
             ShowSectionTopBottomBorder="{Binding ShowSectionTopBottomBorder.Value}"
         >
-            <ai:Section Title="Section1" FooterText="Footer1" >
+            <ai:Section Title="Section1" FooterText="Footer1" IsVisible="{Binding IsVisible.Value}" >
                 <ai:SwitchCell    IsEnabled="{Binding IsEnabled.Value}"  IconSource="{Binding IconSource.Value}" Title="{Binding Title.Value}" Description="{Binding Description.Value}" HintText="{Binding HintText.Value}" BackgroundColor="{Binding BgColor.Value}" TitleColor="{Binding TitleColor.Value}" TitleFontSize="{Binding TitleFontSize.Value}" DescriptionColor="{Binding DescriptionColor.Value}" DescriptionFontSize="{Binding DescriptionFontSize.Value}" HintTextColor="{Binding HintTextColor.Value}" HintFontSize="{Binding HintFontSize.Value}" IconSize="{Binding IconSize.Value}" IconRadius="{Binding IconRadius.Value}" Tapped="Handle_Tapped" AccentColor="{Binding OwnAccentColor.Value}" On="{Binding On.Value}" />
                 <ai:CheckboxCell  IsEnabled="{Binding IsEnabled.Value}"  IconSource="{Binding IconSource.Value}" Title="{Binding Title.Value}" Description="{Binding Description.Value}" HintText="{Binding HintText.Value}" BackgroundColor="{Binding BgColor.Value}" TitleColor="{Binding TitleColor.Value}" TitleFontSize="{Binding TitleFontSize.Value}" DescriptionColor="{Binding DescriptionColor.Value}" DescriptionFontSize="{Binding DescriptionFontSize.Value}" HintTextColor="{Binding HintTextColor.Value}" HintFontSize="{Binding HintFontSize.Value}" IconSize="{Binding IconSize.Value}" IconRadius="{Binding IconRadius.Value}" Tapped="Handle_Tapped" AccentColor="{Binding OwnAccentColor.Value}" Checked="{Binding Checked.Value}" />
+           </ai:Section>
+            <ai:Section Title="Section2" FooterText="Footer2" >
+                <ai:CheckboxCell  IsEnabled="{Binding IsEnabled.Value}"  IconSource="{Binding IconSource.Value}" Title="{Binding Title.Value}" Description="{Binding Description.Value}" HintText="{Binding HintText.Value}" BackgroundColor="{Binding BgColor.Value}" TitleColor="{Binding TitleColor.Value}" TitleFontSize="{Binding TitleFontSize.Value}" DescriptionColor="{Binding DescriptionColor.Value}" DescriptionFontSize="{Binding DescriptionFontSize.Value}" HintTextColor="{Binding HintTextColor.Value}" HintFontSize="{Binding HintFontSize.Value}" IconSize="{Binding IconSize.Value}" IconRadius="{Binding IconRadius.Value}" Tapped="Handle_Tapped" AccentColor="{Binding OwnAccentColor.Value}" Checked="{Binding IsVisible.Value}"  />
            </ai:Section>
         </ai:SettingsView>
     </StackLayout>
