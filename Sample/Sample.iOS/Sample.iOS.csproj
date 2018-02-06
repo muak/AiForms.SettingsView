@@ -152,6 +152,9 @@
     <Reference Include="SettingsView.iOS">
       <HintPath>..\packages\AiForms.SettingsView.0.2.0-pre3\lib\Xamarin.iOS10\SettingsView.iOS.dll</HintPath>
     </Reference>
+    <Reference Include="AiForms.Layouts">
+      <HintPath>..\packages\AiForms.Layouts.1.0.3\lib\netstandard1.1\AiForms.Layouts.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sample\Sample.csproj">

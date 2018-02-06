@@ -167,6 +167,9 @@
     <Reference Include="SettingsView.Droid">
       <HintPath>..\packages\AiForms.SettingsView.0.2.0-pre3\lib\MonoAndroid\SettingsView.Droid.dll</HintPath>
     </Reference>
+    <Reference Include="AiForms.Layouts">
+      <HintPath>..\packages\AiForms.Layouts.1.0.3\lib\netstandard1.1\AiForms.Layouts.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sample\Sample.csproj">
