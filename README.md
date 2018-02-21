@@ -215,6 +215,9 @@ Whereby any SettingsView in App will become the same property setttings.
 	* Section footer text.
 * IsVisible
 	* Whether the section is visibled.
+* HeaderHeight
+	* Individual section header height.
+	* Superior to SettingsView HeaderHight.  
 * ItemsSource
 	* Specify the source of a DataTemplate.
 * ItemTemplate
