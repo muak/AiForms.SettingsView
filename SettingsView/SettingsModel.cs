@@ -70,6 +70,16 @@ namespace AiForms.Renderers
         }
 
         /// <summary>
+        /// Gets the section.
+        /// </summary>
+        /// <returns>The section.</returns>
+        /// <param name="section">Section.</param>
+        public virtual Section GetSection(int section)
+        {
+            return _visibleSections.ElementAtOrDefault(section);
+        }
+
+        /// <summary>
         /// Gets the section title.
         /// </summary>
         /// <returns>The section title.</returns>

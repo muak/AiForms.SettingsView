@@ -5,6 +5,7 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Image cache controller.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public static class ImageCacheController
     {
         /// <summary>

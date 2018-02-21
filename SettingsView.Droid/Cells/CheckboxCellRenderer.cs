@@ -14,11 +14,13 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Checkbox cell renderer.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class CheckboxCellRenderer : CellBaseRenderer<CheckboxCellView> { }
 
     /// <summary>
     /// Checkbox cell view.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class CheckboxCellView : CellBaseView, CompoundButton.IOnCheckedChangeListener, ICheckableCell
     {
         AppCompatCheckBox _checkbox;
@@ -112,6 +114,23 @@ namespace AiForms.Renderers.Droid
                 _checkbox = null;
             }
             base.Dispose(disposing);
+        }
+
+        /// <summary>
+        /// Sets the enabled appearance.
+        /// </summary>
+        /// <param name="isEnabled">If set to <c>true</c> is enabled.</param>
+        protected override void SetEnabledAppearance(bool isEnabled)
+        {
+            if (isEnabled) {
+                _checkbox.Enabled = true;
+                _checkbox.Alpha = 1.0f;
+            }
+            else {
+                _checkbox.Enabled = false;
+                _checkbox.Alpha = 0.3f;
+            }
+            base.SetEnabledAppearance(isEnabled);
         }
 
         /// <summary>

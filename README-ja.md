@@ -9,12 +9,15 @@ AndroidとiOSに対応しています。
 
 * Separatorの色の設定
 * 選択された時の色の指定
+* リストの先頭・最後へのスクロール
 
 ### セクション
 
 * セクションごとの表示・非表示の設定
 * セクションのフッターの設定
 * ヘッダーとフッターの様々な設定
+* セクション内にDataTemplateおよびDataTemplateSelectorを適用
+* セクション内でドラッグドラッグによる並べ替え
 
 ### Cells
 
@@ -195,6 +198,10 @@ SettingsViewのプロパティ設定はApp.xamlに記述した方が良いかも
 	* 行の境界線をセクションの上と下にも表示するかどうか
 	* （一般的なAndroidアプリでありがちな上と下は表示しないようにしないかどうか）
 	* デフォルトはtrue（表示する）
+* ScrollToTop
+* ScrollToBottom
+	* このプロパティにtrueをセットすると先頭または末尾までスクロールします。
+	* スクロール完了後は自動でfalseがセットされます。
 
 ## SettingsViewのメソッド
 
@@ -209,6 +216,17 @@ SettingsViewのプロパティ設定はApp.xamlに記述した方が良いかも
 	* セクションのフッター文字列。
 * IsVisible
 	* セクションを表示するかどうか。
+* HeaderHeight
+	* セクションのヘッダーの個別の高さを指定します。
+	* SettingsViewのHeaderHeightよりも優先されます。
+* ItemsSource
+	* DataTemplateのソースを指定します。
+* ItemTemplate
+	* DataTemplateを指定します。
+* UseDragSort
+	* セクション内のセルをDragDropで並べ替え可能にします。
+	* iOS11以降とそれ以外で外観が異なります。
+	* iOS10以下は三本線のアイコンを掴むと移動でき、iOS11はセル全体を長押しすると移動できるようになります。
 
 ## Cells
 
@@ -266,6 +284,8 @@ SettingsViewのプロパティ設定はApp.xamlに記述した方が良いかも
     * アイコンサイズ（幅,高さ指定）
 * IconRadius
     * アイコンの角丸半径。
+* IsEnabled
+	* セルを有効にするかどうか。無効にした場合はセル全体の色が薄くなり操作を受け付けなくなります。
 
 ### SVGイメージを使用するには
 
@@ -414,6 +434,8 @@ Androidではタップ時にダイアログでピッカーが表示されます�
     * nullを指定することはできません。
 * DisplayMember
     * Pickerに選択肢として表示させるメンバー名（プロパティ名）。省略時はToStringの値が使用されます。
+* SubDisplayMember
+	* Pickerに表示させる二番目のメンバー名（プロパティ名）。指定するとセルは2行表示となり、1行目にDisplayMemberが、2行目にSubDisplayMemberが表示されるようになります。
 * SelectedItems
     * 選択したItemを保存するためのIList。ItemsSourceと同じ型のものを指定。
 	* 選択済み要素をあらかじめ設定する場合は、ItemsSourceの要素と同一インスタンスの要素にする必要があります。
@@ -435,6 +457,10 @@ Androidではタップ時にダイアログでピッカーが表示されます�
 	* 並べ替え方法にNaturalSortを使うかどうか。デフォルト false。
 	* trueの場合、例えば通常 1,10,2,3,4 と並ぶところが 1,2,3,4,10 という並びになります。
 	* 日本語以外の言語で使用する場合、誤動作する可能性があります。
+* UsePickToClose
+	* 選択がMaxSelectedNumberに達したら自動的にPickerを閉じるかどうかを指定します。
+* UseAutoValueText
+	* 通常は選択アイテムが自動でValueTextに表示されますが、このプロパティにfalseを指定すると自動表示が解除され、ValueTextを普通に使うことができるようになります。
 
 
 ## EntryCell

@@ -38,6 +38,7 @@
     <WarningLevel>4</WarningLevel>
     <AndroidManagedSymbols>true</AndroidManagedSymbols>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <AndroidSupportedAbis>armeabi-v7a;arm64-v8a;x86_64;x86;armeabi</AndroidSupportedAbis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -160,19 +161,20 @@
     <Reference Include="Xamarin.Forms.Xaml">
       <HintPath>..\packages\Xamarin.Forms.2.5.0.121934\lib\MonoAndroid10\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
+    <Reference Include="SettingsView">
+      <HintPath>..\packages\AiForms.SettingsView.0.2.0-pre3\lib\MonoAndroid\SettingsView.dll</HintPath>
+    </Reference>
+    <Reference Include="SettingsView.Droid">
+      <HintPath>..\packages\AiForms.SettingsView.0.2.0-pre3\lib\MonoAndroid\SettingsView.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="AiForms.Layouts">
+      <HintPath>..\packages\AiForms.Layouts.1.0.3\lib\netstandard1.1\AiForms.Layouts.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sample\Sample.csproj">
       <Project>{2DB58246-77D5-4190-B0A0-F125B538309B}</Project>
       <Name>Sample</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SettingsView\SettingsView.csproj">
-      <Project>{8FFB1EF3-FAF3-478C-B9F1-4D02E599C3C6}</Project>
-      <Name>SettingsView</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SettingsView.Droid\SettingsView.Droid.csproj">
-      <Project>{2CC418E1-CE33-48E2-8E89-A87669BD9E28}</Project>
-      <Name>SettingsView.Droid</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

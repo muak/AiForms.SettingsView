@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>AiForms.SettingsView</id>
-        <version>0.1.1-pre4</version>
+        <version>0.2.1</version>
         <title>SettingsView for Xamarin.Forms</title>
         <authors>kamu</authors>
         <owners>kamu</owners>
@@ -16,11 +16,22 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
         <releaseNotes>
 ## New features
 
-* Added properties of ScrollToTop And ScrollToBottom.
+* Add properties of ScrollToTop And ScrollToBottom.
+* [PickerCell] Add SubDisplayMember property. (issue #3)
+* [Section] Add UseDragSort property.
 * [Section] Add HeaderHeight property.
 * [Section] Corresponded to DataTemplate and DataTemplateSelector.
+* [PickerCell] Add UsePickToClose property. (issue #10)
+* [PickerCell] Add UseAutoValueText property.
+
+## Changing
+
+* [CellBase] Support IsEnabled property on all Cells. (issue #11)
+* [PickerCell] Become not to throw an exception when ItemsSource count is 0.
+* [Android] Replace ListView with RecyclerView.
+
         </releaseNotes>
-        <tags>Xamarin.Forms TableView Cell Setting Configuration Option ListView UITableView</tags>
+        <tags>Xamarin.Forms TableView Cell Setting Configuration Option ListView UITableView RecyclerView ReOrder DragDrop</tags>
         <language>en-US</language>
         <dependencies>
             <group targetFramework="netstandard1.2">

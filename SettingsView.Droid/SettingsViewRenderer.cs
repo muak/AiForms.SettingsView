@@ -6,7 +6,10 @@ using Android.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using AListView = Android.Widget.ListView;
-using Android.Content;
+using Android.Support.V7.Widget;
+using Android.Support.V7.Widget.Helper;
+using System.Collections.Generic;
+using System.Collections;
 
 [assembly: ExportRenderer(typeof(SettingsView), typeof(SettingsViewRenderer))]
 namespace AiForms.Renderers.Droid
@@ -14,10 +17,15 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Settings view renderer.
     /// </summary>
-    public class SettingsViewRenderer : ViewRenderer<SettingsView, AListView>
+    /// 
+    [Android.Runtime.Preserve(AllMembers = true)]
+    public class SettingsViewRenderer : ViewRenderer<SettingsView, RecyclerView>
     {
         Page _parentPage;
-        SettingsViewAdapter _adapter;
+        SettingsViewRecyclerAdapter _adapter;
+        LinearLayoutManager _layoutManager;
+        ItemTouchHelper _itemTouchhelper;
+        SettingsViewSimpleCallback _simpleCallback;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.SettingsViewRenderer"/> class.
@@ -36,25 +44,25 @@ namespace AiForms.Renderers.Droid
             base.OnElementChanged(e);
 
             if (e.NewElement != null) {
-                var listview = new AListView(Context);
-                SetNativeControl(listview);
+
+                var recyclerView = new RecyclerView(Context);
+                _layoutManager = new LinearLayoutManager(Context);
+                recyclerView.SetLayoutManager(_layoutManager);
+
+                SetNativeControl(recyclerView);
 
                 Control.Focusable = false;
                 Control.DescendantFocusability = DescendantFocusability.AfterDescendants;
-                Control.SetDrawSelectorOnTop(true);
 
-                UpdateSelectedColor();
                 UpdateBackgroundColor();
                 UpdateRowHeight();
 
-                _adapter = new SettingsViewAdapter(Context, e.NewElement, Control);
-                Control.Adapter = _adapter;
+                _adapter = new SettingsViewRecyclerAdapter(Context,e.NewElement,recyclerView);
+                Control.SetAdapter(_adapter);
 
-                //hide Divider
-                Control.DividerHeight = 0;
-                Control.Divider = null;
-                Control.SetFooterDividersEnabled(false);
-                Control.SetHeaderDividersEnabled(false);
+                _simpleCallback = new SettingsViewSimpleCallback(e.NewElement, ItemTouchHelper.Up | ItemTouchHelper.Down, 0);
+                _itemTouchhelper = new ItemTouchHelper(_simpleCallback);
+                _itemTouchhelper.AttachToRecyclerView(Control);
 
                 Element elm = Element;
                 while (elm != null) {
@@ -95,7 +103,7 @@ namespace AiForms.Renderers.Droid
                 _adapter.NotifyDataSetChanged();
             }
             else if (e.PropertyName == SettingsView.SelectedColorProperty.PropertyName) {
-                UpdateSelectedColor();
+                //_adapter.NotifyDataSetChanged();
             }
             else if (e.PropertyName == SettingsView.ShowSectionTopBottomBorderProperty.PropertyName) {
                 _adapter.NotifyDataSetChanged();
@@ -121,21 +129,11 @@ namespace AiForms.Renderers.Droid
             }
         }
 
-        void UpdateSelectedColor()
-        {
-            var color = Android.Graphics.Color.Rgb(180, 180, 180);
-            if (Element.SelectedColor != Xamarin.Forms.Color.Default) {
-                color = Element.SelectedColor.ToAndroid();
-            }
-
-            Control.Selector = DrawableUtility.CreateRipple(color);
-        }
-
         void UpdateScrollToTop()
         {
             if (Element.ScrollToTop)
             {
-                Control.SetSelection(0);
+                _layoutManager.ScrollToPosition(0);
                 Element.ScrollToTop = false;
             }
         }
@@ -143,9 +141,10 @@ namespace AiForms.Renderers.Droid
         void UpdateScrollToBottom()
         {
             if (Element.ScrollToBottom)
-            {
-                var y = Control.GetChildAt(Control.ChildCount - 1).Top;
-                Control.SetSelection(y);
+            {              
+                if(_adapter != null ){
+                    _layoutManager.ScrollToPosition(_adapter.ItemCount - 1);
+                }
                 Element.ScrollToBottom = false;
             }
         }
@@ -166,9 +165,14 @@ namespace AiForms.Renderers.Droid
         {
             if (disposing) {
                 _parentPage.Appearing -= ParentPageAppearing;
-                Control?.Selector?.Dispose();
                 _adapter?.Dispose();
                 _adapter = null;
+                _layoutManager?.Dispose();
+                _layoutManager = null;
+                _simpleCallback?.Dispose();
+                _simpleCallback = null;
+                _itemTouchhelper?.Dispose();
+                _itemTouchhelper = null;
             }
             base.Dispose(disposing);
         }
@@ -176,5 +180,111 @@ namespace AiForms.Renderers.Droid
 
     }
 
+    [Android.Runtime.Preserve(AllMembers = true)]
+    class SettingsViewSimpleCallback : ItemTouchHelper.SimpleCallback
+    {
+        SettingsView _settingsView;
+        int _offset = 0;
+
+        public SettingsViewSimpleCallback(SettingsView settingsView,int dragDirs,int swipeDirs):base(dragDirs,swipeDirs)
+        {
+            _settingsView = settingsView;
+        }
+
+        public override bool OnMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target)
+        {
+            var fromContentHolder = viewHolder as ContentViewHolder;
+            if (fromContentHolder == null)
+            {
+                return false;
+            }
+
+            var toContentHolder = target as ContentViewHolder;
+            if(toContentHolder == null){
+                return false;
+            }
+
+            if(fromContentHolder.SectionIndex != toContentHolder.SectionIndex){
+                return false;
+            }
+
+            var section = _settingsView.Model.GetSection(fromContentHolder.SectionIndex);
+            if(section == null || !section.UseDragSort){
+                return false;
+            }
+
+            var fromPos = viewHolder.AdapterPosition;
+            var toPos = target.AdapterPosition;
+
+            _offset += toPos - fromPos;
+
+            var settingsAdapter = recyclerView.GetAdapter() as SettingsViewRecyclerAdapter;
+
+            settingsAdapter.NotifyItemMoved(fromPos, toPos); //rows update
+            settingsAdapter.CellMoved(fromPos, toPos); //caches update
+
+            //Console.WriteLine($"From:{fromPos} To:{toPos} Offset:{_offset}");
+
+            return true;
+        }
+
+        public override void ClearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder)
+        {
+            base.ClearView(recyclerView, viewHolder);
+
+            var contentHolder = viewHolder as ContentViewHolder;
+            if (contentHolder == null)
+            {
+                return;
+            }
+
+            var section = _settingsView.Model.GetSection(contentHolder.SectionIndex);
+            var pos = contentHolder.RowIndex;
+            if(section.ItemsSource == null){
+                var tmp = section[pos];
+                section.RemoveAt(pos);
+                section.Insert(pos +_offset, tmp);
+            }
+            else if(section.ItemsSource != null)
+            {
+                // must update DataSource at this timing.
+                var tmp = section.ItemsSource[pos];
+                section.ItemsSource.RemoveAt(pos);
+                section.ItemsSource.Insert(pos + _offset, tmp);
+            }
+
+            _offset = 0;
+        }
+
+        public override int GetDragDirs(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder)
+        {
+            var contentHolder = viewHolder as ContentViewHolder;
+            if (contentHolder == null)
+            {
+                return 0;
+            }
+
+            var section = _settingsView.Model.GetSection(contentHolder.SectionIndex);
+            if (section == null || !section.UseDragSort)
+            {
+                return 0;
+            }
+            return base.GetDragDirs(recyclerView, viewHolder);
+        }
+
+
+        public override void OnSwiped(RecyclerView.ViewHolder viewHolder, int direction)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if(disposing){
+                _settingsView = null;
+            }
+            base.Dispose(disposing);
+        }
+    }
 
 }

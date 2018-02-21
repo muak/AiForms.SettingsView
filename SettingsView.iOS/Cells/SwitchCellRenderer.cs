@@ -33,6 +33,7 @@ namespace AiForms.Renderers.iOS
             _switch.ValueChanged += _switch_ValueChanged;
 
             this.AccessoryView = _switch;
+            EditingAccessoryView = _switch;
         }
 
         /// <summary>
@@ -88,6 +89,21 @@ namespace AiForms.Renderers.iOS
                 _switch = null;
             }
             base.Dispose(disposing);
+        }
+
+        /// <summary>
+        /// Sets the enabled appearance.
+        /// </summary>
+        /// <param name="isEnabled">If set to <c>true</c> is enabled.</param>
+        protected override void SetEnabledAppearance(bool isEnabled)
+        {
+            if(isEnabled){
+                _switch.Alpha = 1.0f;
+            }
+            else{
+                _switch.Alpha = 0.3f;
+            }
+            base.SetEnabledAppearance(isEnabled);
         }
 
         void _switch_ValueChanged(object sender, EventArgs e)

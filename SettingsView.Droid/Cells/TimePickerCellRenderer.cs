@@ -13,11 +13,13 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Time picker cell renderer.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class TimePickerCellRenderer : CellBaseRenderer<TimePickerCellView> { }
 
     /// <summary>
     /// Time picker cell view.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class TimePickerCellView : LabelCellView, IPickerCell
     {
         TimePickerCell _TimePickerCell => Cell as TimePickerCell;

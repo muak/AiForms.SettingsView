@@ -11,11 +11,13 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Command cell renderer.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class CommandCellRenderer : CellBaseRenderer<CommandCellView> { }
 
     /// <summary>
     /// Command cell view.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class CommandCellView : LabelCellView
     {
         internal Action Execute { get; set; }
@@ -97,24 +99,24 @@ namespace AiForms.Renderers.Droid
 
         }
 
+        /// <summary>
+        /// Updates the is enabled.
+        /// </summary>
+        protected override void UpdateIsEnabled()
+        {
+            if (_command != null && !_command.CanExecute(_CommandCell.CommandParameter)) {
+                return;
+            }
+            base.UpdateIsEnabled();
+        }
+
         void Command_CanExecuteChanged(object sender, EventArgs e)
         {
-            if (_command.CanExecute(_CommandCell.CommandParameter)) {
-                Focusable = false;
-                DescendantFocusability = Android.Views.DescendantFocusability.AfterDescendants;
-                TitleLabel.Alpha = 1f;
-                DescriptionLabel.Alpha = 1f;
-                ValueLabel.Alpha = 1f;
+            if (!CellBase.IsEnabled) {
+                return;
             }
-            else {
-                // not to invoke a ripple effect and not to selected
-                Focusable = true;
-                DescendantFocusability = Android.Views.DescendantFocusability.BlockDescendants;
-                // to turn like disabled
-                TitleLabel.Alpha = 0.6f;
-                DescriptionLabel.Alpha = 0.6f;
-                ValueLabel.Alpha = 0.6f;
-            }
+
+            SetEnabledAppearance(_command.CanExecute(_CommandCell.CommandParameter));
         }
     }
 }

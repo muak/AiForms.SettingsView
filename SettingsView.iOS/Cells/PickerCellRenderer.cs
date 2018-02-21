@@ -2,6 +2,8 @@
 using AiForms.Renderers.iOS;
 using UIKit;
 using Xamarin.Forms;
+using System.Collections.Specialized;
+using System;
 
 [assembly: ExportRenderer(typeof(PickerCell), typeof(PickerCellRenderer))]
 namespace AiForms.Renderers.iOS
@@ -18,6 +20,7 @@ namespace AiForms.Renderers.iOS
     {
         PickerCell _PickerCell => Cell as PickerCell;
         string _valueTextCache;
+        INotifyCollectionChanged _notifyCollection;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AiForms.Renderers.iOS.PickerCellView"/> class.
@@ -26,6 +29,7 @@ namespace AiForms.Renderers.iOS
         public PickerCellView(Cell formsCell) : base(formsCell)
         {
             Accessory = UITableViewCellAccessory.DisclosureIndicator;
+            EditingAccessory = UITableViewCellAccessory.DisclosureIndicator;
             SelectionStyle = UITableViewCellSelectionStyle.Default;
             SetRightMarginZero();
         }
@@ -44,6 +48,17 @@ namespace AiForms.Renderers.iOS
                 e.PropertyName == PickerCell.SelectedItemsOrderKeyProperty.PropertyName) {
                 UpdateSelectedItems(true);
             }
+            if(e.PropertyName == PickerCell.UseAutoValueTextProperty.PropertyName){
+                if(_PickerCell.UseAutoValueText){
+                    UpdateSelectedItems(true);
+                }
+                else{
+                    base.UpdateValueText();
+                }
+            }
+            if(e.PropertyName == PickerCell.ItemsSourceProperty.PropertyName){
+                UpdateCollectionChanged();
+            }
         }
 
         /// <summary>
@@ -53,6 +68,7 @@ namespace AiForms.Renderers.iOS
         {
             base.UpdateCell();
             UpdateSelectedItems();
+            UpdateCollectionChanged();
         }
 
         /// <summary>
@@ -61,11 +77,50 @@ namespace AiForms.Renderers.iOS
         /// <param name="force">If set to <c>true</c> force.</param>
         public void UpdateSelectedItems(bool force = false)
         {
+            if(!_PickerCell.UseAutoValueText){
+                return;
+            }
+
             if (force || string.IsNullOrEmpty(_valueTextCache)) {
                 _valueTextCache = _PickerCell.GetSelectedItemsText();
             }
 
             ValueLabel.Text = _valueTextCache;
+        }
+
+        void UpdateCollectionChanged()
+        {
+            if(_notifyCollection != null){
+                _notifyCollection.CollectionChanged -= ItemsSourceCollectionChanged;
+            }
+
+            _notifyCollection = _PickerCell.ItemsSource as INotifyCollectionChanged;
+
+            if (_notifyCollection != null)
+            {
+                _notifyCollection.CollectionChanged += ItemsSourceCollectionChanged;
+                ItemsSourceCollectionChanged(this, EventArgs.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Updates the is enabled.
+        /// </summary>
+        protected override void UpdateIsEnabled()
+        {
+            if (_PickerCell.ItemsSource != null && _PickerCell.ItemsSource.Count == 0) {
+                return;
+            }
+            base.UpdateIsEnabled();
+        }
+
+        void ItemsSourceCollectionChanged(object sender, EventArgs e)
+        {
+            if (!CellBase.IsEnabled){
+                return;
+            }
+
+            SetEnabledAppearance(_PickerCell.ItemsSource.Count > 0);
         }
 
         /// <summary>
@@ -76,7 +131,12 @@ namespace AiForms.Renderers.iOS
         protected override void Dispose(bool disposing)
         {
             if (disposing) {
-
+                
+                if (_notifyCollection != null)
+                {
+                    _notifyCollection.CollectionChanged -= ItemsSourceCollectionChanged;
+                    _notifyCollection = null;
+                }
             }
             base.Dispose(disposing);
         }

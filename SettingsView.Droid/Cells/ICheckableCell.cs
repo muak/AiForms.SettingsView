@@ -4,6 +4,7 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Checkable cell.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public interface ICheckableCell
     {
         /// <summary>

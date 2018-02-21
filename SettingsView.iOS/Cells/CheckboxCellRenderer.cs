@@ -36,6 +36,7 @@ namespace AiForms.Renderers.iOS
             _checkbox.CheckChanged = CheckChanged;
 
             AccessoryView = _checkbox;
+            EditingAccessoryView = _checkbox;
         }
 
         /// <summary>
@@ -90,6 +91,21 @@ namespace AiForms.Renderers.iOS
                 _checkbox = null;
             }
             base.Dispose(disposing);
+        }
+
+        /// <summary>
+        /// Sets the enabled appearance.
+        /// </summary>
+        /// <param name="isEnabled">If set to <c>true</c> is enabled.</param>
+        protected override void SetEnabledAppearance(bool isEnabled)
+        {
+            if(isEnabled){
+                _checkbox.Alpha = 1.0f;
+            }
+            else{
+                _checkbox.Alpha = 0.3f;
+            }
+            base.SetEnabledAppearance(isEnabled);
         }
 
         void CheckChanged(UIButton button)

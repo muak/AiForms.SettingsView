@@ -3,6 +3,7 @@ using Android.Content.PM;
 using Android.OS;
 using Microsoft.Practices.Unity;
 using Prism.Unity;
+using AiForms.Renderers;
 
 namespace Sample.Droid
 {
@@ -19,6 +20,8 @@ namespace Sample.Droid
             global::Xamarin.Forms.Forms.SetFlags("FastRenderers_Experimental");
 			global::Xamarin.Forms.Forms.Init(this, bundle);
             Xamarin.Forms.Svg.Droid.SvgImage.Init();
+
+            var a = new AiForms.Renderers.Droid.PickerCellRenderer();
 
 			LoadApplication(new App(new AndroidInitializer()));
 		}

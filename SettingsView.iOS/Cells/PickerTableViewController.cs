@@ -18,7 +18,9 @@ namespace AiForms.Renderers.iOS
         Dictionary<int, object> _selectedCache = new Dictionary<int, object>();
         UIColor _accentColor;
         UIColor _titleColor;
+        UIColor _detailColor;
         nfloat _fontSize;
+        nfloat _detailFontSize;
         UIColor _background;
         UITableView _tableView;
 
@@ -61,6 +63,24 @@ namespace AiForms.Renderers.iOS
                 _fontSize = (nfloat)_parent.CellTitleFontSize;
             }
 
+            if (_pickerCell.DescriptionColor != Xamarin.Forms.Color.Default)
+            {
+                _detailColor = _pickerCell.DescriptionColor.ToUIColor();
+            }
+            else if (_parent != null && _parent.CellDescriptionColor != Xamarin.Forms.Color.Default)
+            {
+                _detailColor = _parent.CellDescriptionColor.ToUIColor();
+            }
+
+            if (_pickerCell.DescriptionFontSize > 0)
+            {
+                _detailFontSize = (nfloat)_pickerCell.DescriptionFontSize;
+            }
+            else if (_parent != null)
+            {
+                _detailFontSize = (nfloat)_parent.CellDescriptionFontSize;
+            }
+
             if (_pickerCell.BackgroundColor != Xamarin.Forms.Color.Default) {
                 _background = _pickerCell.BackgroundColor.ToUIColor();
             }
@@ -80,16 +100,20 @@ namespace AiForms.Renderers.iOS
 
             var reusableCell = tableView.DequeueReusableCell("pikcercell");
             if (reusableCell == null) {
-                reusableCell = new UITableViewCell(UITableViewCellStyle.Default, "pickercell");
+                reusableCell = new UITableViewCell(UITableViewCellStyle.Subtitle, "pickercell");
 
                 reusableCell.TextLabel.TextColor = _titleColor;
                 reusableCell.TextLabel.Font = reusableCell.TextLabel.Font.WithSize(_fontSize);
+                reusableCell.DetailTextLabel.TextColor = _detailColor;
+                reusableCell.DetailTextLabel.Font = reusableCell.DetailTextLabel.Font.WithSize(_detailFontSize);
                 reusableCell.BackgroundColor = _background;
                 reusableCell.TintColor = _accentColor;
             }
 
             var text = _pickerCell.DisplayValue(_source[indexPath.Row]);
             reusableCell.TextLabel.Text = $"{text}";
+            var detail = _pickerCell.SubDisplayValue(_source[indexPath.Row]);
+            reusableCell.DetailTextLabel.Text = $"{detail}";
 
             reusableCell.Accessory = _selectedCache.ContainsKey(indexPath.Row) ?
                 UITableViewCellAccessory.Checkmark : UITableViewCellAccessory.None;
@@ -131,12 +155,14 @@ namespace AiForms.Renderers.iOS
 
             if (_pickerCell.MaxSelectedNumber == 1) {
                 RowSelectedSingle(cell, indexPath.Row);
+                DoPickToClose();
             }
             else {
                 RowSelectedMulti(cell, indexPath.Row);
             }
 
             tableView.DeselectRow(indexPath, true);
+
         }
 
         void RowSelectedSingle(UITableViewCell cell, int index)
@@ -168,6 +194,16 @@ namespace AiForms.Renderers.iOS
 
             cell.Accessory = UITableViewCellAccessory.Checkmark;
             _selectedCache[index] = _source[index];
+
+            DoPickToClose();
+        }
+
+        void DoPickToClose()
+        {
+            if (_pickerCell.UsePickToClose && _selectedCache.Count == _pickerCell.MaxSelectedNumber)
+            {
+                this.NavigationController.PopViewController(true);
+            }
         }
 
         /// <summary>
@@ -199,6 +235,10 @@ namespace AiForms.Renderers.iOS
 
             if (_pickerCell.SelectedItems.Count > 0) {
                 var idx = _source.IndexOf(_pickerCell.SelectedItems[0]);
+                if(idx < 0){
+                    return;
+                }
+
                 BeginInvokeOnMainThread(() =>
                 {
                     TableView.ScrollToRow(NSIndexPath.Create(new nint[] { 0, idx }), UITableViewScrollPosition.Middle, false);

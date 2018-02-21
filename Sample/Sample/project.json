@@ -1,0 +1,28 @@
+﻿{
+  "dependencies": {
+    "AiForms.Effects": "1.1.0-pre1",
+    "AiForms.Layouts": "1.0.0",
+    "AiForms.SettingsView": "0.2.0-pre3",
+    "CommonServiceLocator": "1.3",
+    "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
+    "NETStandard.Library": "1.6.0",
+    "NGraphics": "0.4.0",
+    "Prism.Core": "6.3.0",
+    "Prism.Forms": "6.3.0",
+    "Prism.Unity.Forms": "6.3.0",
+    "ReactiveProperty": "3.2.0",
+    "System.Reactive": "3.0.0",
+    "System.Reactive.Core": "3.0.0",
+    "System.Reactive.Interfaces": "3.0.0",
+    "System.Reactive.Linq": "3.0.0",
+    "System.Reactive.PlatformServices": "3.0.0",
+    "Unity": "4.0.1",
+    "Xamarin.Forms": "2.5.0.121934",
+    "Xamarin.Forms.Svg": "0.0.1-pre"
+  },
+  "frameworks": {
+    "netstandard1.4": {
+      "imports": "portable-net45+win8+wpa81+wp8"
+    }
+  }
+}

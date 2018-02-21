@@ -14,8 +14,15 @@ namespace AiForms.Renderers.iOS
     /// </summary>
     public class SettingsTableSource : UITableViewSource
     {
-        UITableView _tableView;
-        SettingsView _settingsView;
+        /// <summary>
+        /// The table view.
+        /// </summary>
+        protected UITableView _tableView;
+        /// <summary>
+        /// The settings view.
+        /// </summary>
+        protected SettingsView _settingsView;
+
         PickerTableViewController _pickerVC;
 
         bool _disposed;
@@ -243,6 +250,7 @@ namespace AiForms.Renderers.iOS
             return _settingsView.Model.GetSectionTitle((int)section);
         }
 
+      
         /// <summary>
         /// processing when row is selected.
         /// </summary>

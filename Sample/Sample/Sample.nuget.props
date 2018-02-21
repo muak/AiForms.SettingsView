@@ -3,7 +3,7 @@
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <RestoreSuccess Condition=" '$(RestoreSuccess)' == '' ">True</RestoreSuccess>
     <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
-    <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">/Users/kamu/Projects/AiForms.Renderers/SettingsView/project.lock.json</ProjectAssetsFile>
+    <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">/Users/kamu/Projects/AiForms.Renderers/Sample/Sample/project.lock.json</ProjectAssetsFile>
     <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">/Users/kamu/.nuget/packages/</NuGetPackageRoot>
     <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">/Users/kamu/.nuget/packages/</NuGetPackageFolders>
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">ProjectJson</NuGetProjectStyle>
@@ -14,6 +14,5 @@
   </PropertyGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <Import Project="$(NuGetPackageRoot)xamarin.forms/2.5.0.121934/build/netstandard1.0/Xamarin.Forms.props" Condition="Exists('$(NuGetPackageRoot)xamarin.forms/2.5.0.121934/build/netstandard1.0/Xamarin.Forms.props')" />
-    <Import Project="$(NuGetPackageRoot)nuget.build.packaging/0.1.276/build/NuGet.Build.Packaging.props" Condition="Exists('$(NuGetPackageRoot)nuget.build.packaging/0.1.276/build/NuGet.Build.Packaging.props')" />
   </ImportGroup>
 </Project>

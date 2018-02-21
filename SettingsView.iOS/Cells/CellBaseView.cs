@@ -120,6 +120,9 @@ namespace AiForms.Renderers.iOS
             else if (e.PropertyName == CellBase.IconRadiusProperty.PropertyName) {
                 UpdateWithForceLayout(UpdateIconRadius);
             }
+            else if(e.PropertyName == Cell.IsEnabledProperty.PropertyName){
+                UpdateIsEnabled();
+            }
         }
 
         /// <summary>
@@ -283,6 +286,36 @@ namespace AiForms.Renderers.iOS
             }
         }
 
+        /// <summary>
+        /// Updates the is enabled.
+        /// </summary>
+        protected virtual void UpdateIsEnabled()
+        {
+            SetEnabledAppearance(CellBase.IsEnabled);
+        }
+
+        /// <summary>
+        /// Sets the enabled appearance.
+        /// </summary>
+        /// <param name="isEnabled">If set to <c>true</c> is enabled.</param>
+        protected virtual void SetEnabledAppearance(bool isEnabled)
+        {
+            if (isEnabled)
+            {
+                UserInteractionEnabled = true;
+                TitleLabel.Alpha = 1f;
+                DescriptionLabel.Alpha = 1f;
+                IconView.Alpha = 1f;
+            }
+            else
+            {
+                UserInteractionEnabled = false;
+                TitleLabel.Alpha = 0.3f;
+                DescriptionLabel.Alpha = 0.3f;
+                IconView.Alpha = 0.3f;
+            }
+        }
+
         void UpdateIconSize()
         {
             Size size;
@@ -424,6 +457,8 @@ namespace AiForms.Renderers.iOS
             UpdateIcon();
             UpdateIconRadius();
 
+            UpdateIsEnabled();
+
             SetNeedsLayout();
         }
 
@@ -503,7 +538,10 @@ namespace AiForms.Renderers.iOS
         /// </summary>
         protected void SetRightMarginZero()
         {
-            _stackH.LayoutMargins = new UIEdgeInsets(6, 16, 6, 0);
+            if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0))
+            {
+                _stackH.LayoutMargins = new UIEdgeInsets(6, 16, 6, 0);
+            }
         }
 
         void SetUpContentView()

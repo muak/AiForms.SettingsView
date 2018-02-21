@@ -146,19 +146,20 @@
     <Reference Include="Xamarin.Forms.Xaml">
       <HintPath>..\packages\Xamarin.Forms.2.5.0.121934\lib\Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
+    <Reference Include="SettingsView">
+      <HintPath>..\packages\AiForms.SettingsView.0.2.0-pre3\lib\Xamarin.iOS10\SettingsView.dll</HintPath>
+    </Reference>
+    <Reference Include="SettingsView.iOS">
+      <HintPath>..\packages\AiForms.SettingsView.0.2.0-pre3\lib\Xamarin.iOS10\SettingsView.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="AiForms.Layouts">
+      <HintPath>..\packages\AiForms.Layouts.1.0.3\lib\netstandard1.1\AiForms.Layouts.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sample\Sample.csproj">
       <Project>{2DB58246-77D5-4190-B0A0-F125B538309B}</Project>
       <Name>Sample</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SettingsView\SettingsView.csproj">
-      <Project>{8FFB1EF3-FAF3-478C-B9F1-4D02E599C3C6}</Project>
-      <Name>SettingsView</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SettingsView.iOS\SettingsView.iOS.csproj">
-      <Project>{4601EE49-52E1-448E-98A1-EFDCBA7A64AC}</Project>
-      <Name>SettingsView.iOS</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

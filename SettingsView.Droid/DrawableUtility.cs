@@ -7,6 +7,7 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Drawable utility.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public static class DrawableUtility
     {
         /// <summary>
@@ -19,10 +20,10 @@ namespace AiForms.Renderers.Droid
         {
             if (background == null) {
                 var mask = new ColorDrawable(Android.Graphics.Color.White);
-                return new RippleDrawable(getPressedColorSelector(color), null, mask);
+                return new RippleDrawable(GetPressedColorSelector(color), null, mask);
             }
 
-            return new RippleDrawable(getPressedColorSelector(color), background, null);
+            return new RippleDrawable(GetPressedColorSelector(color), background, null);
         }
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace AiForms.Renderers.Droid
         /// </summary>
         /// <returns>The pressed color selector.</returns>
         /// <param name="pressedColor">Pressed color.</param>
-        public static ColorStateList getPressedColorSelector(int pressedColor)
+        public static ColorStateList GetPressedColorSelector(int pressedColor)
         {
             return new ColorStateList(
                 new int[][]

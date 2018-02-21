@@ -123,6 +123,21 @@ namespace AiForms.Renderers.iOS
             base.Dispose(disposing);
         }
 
+        /// <summary>
+        /// Sets the enabled appearance.
+        /// </summary>
+        /// <param name="isEnabled">If set to <c>true</c> is enabled.</param>
+        protected override void SetEnabledAppearance(bool isEnabled)
+        {
+            if(isEnabled){
+                ValueField.Alpha = 1.0f;
+            }
+            else{
+                ValueField.Alpha = 0.3f;
+            }
+            base.SetEnabledAppearance(isEnabled);
+        }
+
         void UpdateValueText()
         {
             //Without this judging, TextField don't correctly work when inputting Japanese (maybe other 2byte languages either).

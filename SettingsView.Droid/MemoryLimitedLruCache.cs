@@ -8,6 +8,7 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Memory limited lru cache.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class MemoryLimitedLruCache : LruCache
     {
         /// <summary>

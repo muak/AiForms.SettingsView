@@ -1,4 +1,6 @@
-﻿using AiForms.Renderers;
+﻿using System;
+using System.Collections.Specialized;
+using AiForms.Renderers;
 using AiForms.Renderers.Droid;
 using Android.App;
 using Android.Content;
@@ -11,11 +13,13 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Picker cell renderer.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class PickerCellRenderer : CellBaseRenderer<PickerCellView> { }
 
     /// <summary>
     /// Picker cell view.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class PickerCellView : LabelCellView, IDialogInterfaceOnShowListener, IDialogInterfaceOnDismissListener
     {
         PickerCell _PickerCell => Cell as PickerCell;
@@ -24,6 +28,7 @@ namespace AiForms.Renderers.Droid
         PickerAdapter _adapter;
         Context _context;
         string _valueTextCache;
+        INotifyCollectionChanged _notifyCollection;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.PickerCellView"/> class.
@@ -49,6 +54,17 @@ namespace AiForms.Renderers.Droid
                 e.PropertyName == PickerCell.SelectedItemsOrderKeyProperty.PropertyName) {
                 UpdateSelectedItems(true);
             }
+            else if (e.PropertyName == PickerCell.UseAutoValueTextProperty.PropertyName){
+                if (_PickerCell.UseAutoValueText){
+                    UpdateSelectedItems(true);
+                }
+                else{
+                    base.UpdateValueText();
+                }
+            }
+            else if (e.PropertyName == PickerCell.ItemsSourceProperty.PropertyName) {
+                UpdateCollectionChanged();
+            }
         }
 
         /// <summary>
@@ -58,6 +74,7 @@ namespace AiForms.Renderers.Droid
         {
             base.UpdateCell();
             UpdateSelectedItems();
+            UpdateCollectionChanged();
         }
 
         /// <summary>
@@ -66,6 +83,11 @@ namespace AiForms.Renderers.Droid
         /// <param name="force">If set to <c>true</c> force.</param>
         public void UpdateSelectedItems(bool force = false)
         {
+            if (!_PickerCell.UseAutoValueText){
+                return;
+            }
+
+
             if (force || string.IsNullOrEmpty(_valueTextCache)) {
                 _valueTextCache = _PickerCell.GetSelectedItemsText();
             }
@@ -88,8 +110,46 @@ namespace AiForms.Renderers.Droid
                 _adapter?.Dispose();
                 _adapter = null;
                 _context = null;
+                if (_notifyCollection != null) {
+                    _notifyCollection.CollectionChanged -= ItemsSourceCollectionChanged;
+                    _notifyCollection = null;
+                }
             }
             base.Dispose(disposing);
+        }
+
+        void UpdateCollectionChanged()
+        {
+            if (_notifyCollection != null) {
+                _notifyCollection.CollectionChanged -= ItemsSourceCollectionChanged;
+            }
+
+            _notifyCollection = _PickerCell.ItemsSource as INotifyCollectionChanged;
+
+            if (_notifyCollection != null) {
+                _notifyCollection.CollectionChanged += ItemsSourceCollectionChanged;
+                ItemsSourceCollectionChanged(this, EventArgs.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Updates the is enabled.
+        /// </summary>
+        protected override void UpdateIsEnabled()
+        {
+            if (_PickerCell.ItemsSource != null && _PickerCell.ItemsSource.Count == 0) {
+                return;
+            }
+            base.UpdateIsEnabled();
+        }
+
+        void ItemsSourceCollectionChanged(object sender, EventArgs e)
+        {
+            if (!CellBase.IsEnabled) {
+                return;
+            }
+
+            SetEnabledAppearance(_PickerCell.ItemsSource.Count > 0);
         }
 
         internal void ShowDialog()
@@ -108,6 +168,10 @@ namespace AiForms.Renderers.Droid
             _listView.OnItemClickListener = _adapter;
             _listView.Adapter = _adapter;
 
+            _adapter.CloseAction = () =>
+            {
+                _dialog.GetButton((int)DialogButtonType.Positive).PerformClick();
+            };
 
             if (_dialog == null) {
                 using (var builder = new AlertDialog.Builder(_context)) {
@@ -126,8 +190,11 @@ namespace AiForms.Renderers.Droid
                         ClearFocus();
                     });
 
+
                     _dialog = builder.Create();
                 }
+
+
 
                 _dialog.SetCanceledOnTouchOutside(true);
                 _dialog.SetOnDismissListener(this);

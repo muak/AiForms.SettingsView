@@ -70,7 +70,7 @@
             ShowSectionTopBottomBorder="{Binding ShowSectionTopBottomBorder.Value}"
             
         >
-            <ai:Section Title="UseDataTemplate" ItemsSource="{Binding ItemsSource}" HeaderHeight="50">
+            <ai:Section Title="UseDataTemplate" ItemsSource="{Binding ItemsSource}" HeaderHeight="50" UseDragSort="true">
                 <ai:Section.ItemTemplate>
                     <DataTemplate>
                         <ai:CommandCell Title="{Binding Name}" ValueText="{Binding Days}" Command="{Binding BindingContext.DoCommand,Source={x:Reference self}}" />

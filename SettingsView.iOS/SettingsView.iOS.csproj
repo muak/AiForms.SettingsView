@@ -91,6 +91,7 @@
     <Compile Include="ImageCacheController.cs" />
     <Compile Include="Extensions\TextAlignmentExtensions.cs" />
     <Compile Include="Cells\ButtonCellRenderer.cs" />
+    <Compile Include="SettingsLagacyTableSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SettingsView\SettingsView.csproj">

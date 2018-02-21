@@ -18,11 +18,13 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Entry cell renderer.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class EntryCellRenderer : CellBaseRenderer<EntryCellView> { }
 
     /// <summary>
     /// Entry cell view.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class EntryCellView : CellBaseView, ITextWatcher,
         TextView.IOnFocusChangeListener, TextView.IOnEditorActionListener
     {
@@ -149,6 +151,23 @@ namespace AiForms.Renderers.Droid
                 _EditText = null;
             }
             base.Dispose(disposing);
+        }
+
+        /// <summary>
+        /// Sets the enabled appearance.
+        /// </summary>
+        /// <param name="isEnabled">If set to <c>true</c> is enabled.</param>
+        protected override void SetEnabledAppearance(bool isEnabled)
+        {
+            if (isEnabled) {
+                _EditText.Enabled = true;
+                _EditText.Alpha = 1.0f;
+            }
+            else {
+                _EditText.Enabled = false;
+                _EditText.Alpha = 0.3f;
+            }
+            base.SetEnabledAppearance(isEnabled);
         }
 
         void EntryCellView_Click(object sender, EventArgs e)
@@ -290,6 +309,7 @@ namespace AiForms.Renderers.Droid
         }
     }
 
+    [Android.Runtime.Preserve(AllMembers = true)]
     internal class AiEditText : EditText
     {
         public Action ClearFocusAction { get; set; }

@@ -16,6 +16,7 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Cell base view.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class CellBaseView : ARelativeLayout, INativeElementView
     {
         /// <summary>
@@ -79,6 +80,7 @@ namespace AiForms.Renderers.Droid
         Android.Graphics.Color _defaultTextColor;
         ColorDrawable _backgroundColor;
         ColorDrawable _selectedColor;
+        RippleDrawable _ripple;
         float _defaultFontSize;
         float _iconRadius;
 
@@ -117,7 +119,16 @@ namespace AiForms.Renderers.Droid
             sel.AddState(new int[] { -global::Android.Resource.Attribute.StateSelected }, _backgroundColor);
             sel.SetExitFadeDuration(250);
             sel.SetEnterFadeDuration(250);
-            Background = sel;
+
+            var rippleColor = Android.Graphics.Color.Rgb(180, 180, 180);
+            if (CellParent.SelectedColor != Xamarin.Forms.Color.Default)
+            {
+                rippleColor = CellParent.SelectedColor.ToAndroid();
+            }
+
+            _ripple = DrawableUtility.CreateRipple(rippleColor,sel);
+
+            Background = _ripple;
 
             _defaultTextColor = new Android.Graphics.Color(TitleLabel.CurrentTextColor);
             _defaultFontSize = TitleLabel.TextSize;
@@ -170,6 +181,9 @@ namespace AiForms.Renderers.Droid
                 UpdateIconRadius();
                 UpdateIcon(true);
             }
+            else if (e.PropertyName == Cell.IsEnabledProperty.PropertyName) {
+                UpdateIsEnabled();
+            }
         }
 
         /// <summary>
@@ -210,6 +224,7 @@ namespace AiForms.Renderers.Droid
             else if (e.PropertyName == SettingsView.SelectedColorProperty.PropertyName) {
                 UpdateSelectedColor();
             }
+
         }
 
         /// <summary>
@@ -242,6 +257,8 @@ namespace AiForms.Renderers.Droid
             UpdateIcon();
             UpdateIconRadius();
 
+            UpdateIsEnabled();
+
             Invalidate();
         }
 
@@ -264,9 +281,11 @@ namespace AiForms.Renderers.Droid
         {
             if (CellParent != null && CellParent.SelectedColor != Xamarin.Forms.Color.Default) {
                 _selectedColor.Color = CellParent.SelectedColor.MultiplyAlpha(0.5).ToAndroid();
+                _ripple.SetColor(DrawableUtility.GetPressedColorSelector(CellParent.SelectedColor.ToAndroid()));
             }
             else {
                 _selectedColor.Color = Android.Graphics.Color.Argb(125, 180, 180, 180);
+                _ripple.SetColor(DrawableUtility.GetPressedColorSelector(Android.Graphics.Color.Rgb(180, 180, 180)));
             }
         }
 
@@ -371,6 +390,38 @@ namespace AiForms.Renderers.Droid
             }
             else {
                 HintLabel.SetTextSize(ComplexUnitType.Sp, _defaultFontSize);
+            }
+        }
+
+        /// <summary>
+        /// Updates the is enabled.
+        /// </summary>
+        protected virtual void UpdateIsEnabled()
+        {
+            SetEnabledAppearance(CellBase.IsEnabled);
+        }
+
+        /// <summary>
+        /// Sets the enabled appearance.
+        /// </summary>
+        /// <param name="isEnabled">If set to <c>true</c> is enabled.</param>
+        protected virtual void SetEnabledAppearance(bool isEnabled)
+        {
+            if (isEnabled) {
+                Focusable = false;
+                DescendantFocusability = Android.Views.DescendantFocusability.AfterDescendants;
+                TitleLabel.Alpha = 1f;
+                DescriptionLabel.Alpha = 1f;
+                IconView.Alpha = 1f;
+            }
+            else {
+                // not to invoke a ripple effect and not to selected
+                Focusable = true;
+                DescendantFocusability = Android.Views.DescendantFocusability.BlockDescendants;
+                // to turn like disabled
+                TitleLabel.Alpha = 0.3f;
+                DescriptionLabel.Alpha = 0.3f;
+                IconView.Alpha = 0.3f;
             }
         }
 
@@ -523,6 +574,8 @@ namespace AiForms.Renderers.Droid
                 _backgroundColor = null;
                 _selectedColor?.Dispose();
                 _selectedColor = null;
+                _ripple?.Dispose();
+                _ripple = null;
 
                 Background?.Dispose();
                 Background = null;
