@@ -13,11 +13,13 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Switch cell renderer.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class SwitchCellRenderer : CellBaseRenderer<SwitchCellView> { }
 
     /// <summary>
     /// Switch cell view.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class SwitchCellView : CellBaseView, CompoundButton.IOnCheckedChangeListener, ICheckableCell
     {
         SwitchCompat _switch { get; set; }
@@ -127,6 +129,10 @@ namespace AiForms.Renderers.Droid
             base.Dispose(disposing);
         }
 
+        /// <summary>
+        /// Sets the enabled appearance.
+        /// </summary>
+        /// <param name="isEnabled">If set to <c>true</c> is enabled.</param>
         protected override void SetEnabledAppearance(bool isEnabled)
         {
             if (isEnabled) {

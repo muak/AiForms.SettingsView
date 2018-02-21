@@ -10,6 +10,7 @@ using System;
 
 namespace AiForms.Renderers.Droid
 {
+    [Android.Runtime.Preserve(AllMembers = true)]
     internal class PickerAdapter : BaseAdapter<object>, AdapterView.IOnItemClickListener
     {
         public Action CloseAction { get; set; }
@@ -220,6 +221,7 @@ namespace AiForms.Renderers.Droid
         }
     }
 
+    [Android.Runtime.Preserve(AllMembers = true)]
     internal class PickerInnerView : RelativeLayout, Android.Widget.ICheckable
     {
         TextView _textLabel;
@@ -335,6 +337,7 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Simple check.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class SimpleCheck : AView
     {
         /// <summary>

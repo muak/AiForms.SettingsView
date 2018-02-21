@@ -103,6 +103,9 @@ namespace AiForms.Renderers.iOS
             }
         }
 
+        /// <summary>
+        /// Updates the is enabled.
+        /// </summary>
         protected override void UpdateIsEnabled()
         {
             if (_PickerCell.ItemsSource != null && _PickerCell.ItemsSource.Count == 0) {

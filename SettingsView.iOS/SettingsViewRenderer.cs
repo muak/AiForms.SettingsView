@@ -245,7 +245,13 @@ namespace AiForms.Renderers.iOS
             view.Dispose();
         }
 
-
+        /// <summary>
+        /// Gets the items for beginning drag session.
+        /// </summary>
+        /// <returns>The items for beginning drag session.</returns>
+        /// <param name="tableView">Table view.</param>
+        /// <param name="session">Session.</param>
+        /// <param name="indexPath">Index path.</param>
         public UIDragItem[] GetItemsForBeginningDragSession(UITableView tableView, IUIDragSession session, NSIndexPath indexPath)
         {
             var section = Element.Model.GetSection(indexPath.Section);
@@ -266,7 +272,11 @@ namespace AiForms.Renderers.iOS
             return new UIDragItem[] { new UIDragItem(itemProvider) };
         }
 
-
+        /// <summary>
+        /// Performs the drop.
+        /// </summary>
+        /// <param name="tableView">Table view.</param>
+        /// <param name="coordinator">Coordinator.</param>
         public void PerformDrop(UITableView tableView, IUITableViewDropCoordinator coordinator)
         {
             var destinationIndexPath = coordinator.DestinationIndexPath;

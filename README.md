@@ -10,12 +10,15 @@ This is a flexible TableView specialized in settings for Android / iOS.
 
 * To set separator color.
 * To set selected cell color.
+* To scroll to screen top and bottom.
 
 ### Sections
 
 * To set IsVisible each section.
 * To set section a footer.
 * To set various options of a header and  a footer.
+* To use DataTemplate and DataTemplateSelector in a section.
+* To reorder items by drag and drop in a section.
 
 ### Cells
 
@@ -194,6 +197,10 @@ Whereby any SettingsView in App will become the same property setttings.
 * ShowSectionTopBottomBorder (for Android)
 	* Whether a separator is shown at section top and bottom. (like general android app)
     * Default true
+* ScrollToTop
+* ScrollToBottom
+	* When this property is set to true, the screen will be scrolled to first item position or last item position.
+	* If scrolling has complete, it will be set to false automatically.
 
 ## SettingsView Methods
 
@@ -208,6 +215,13 @@ Whereby any SettingsView in App will become the same property setttings.
 	* Section footer text.
 * IsVisible
 	* Whether the section is visibled.
+* ItemsSource
+	* Specify the source of a DataTemplate.
+* ItemTemplate
+	 * Specify a DataTemplate.
+* UseDragSort
+	* Enable you to reorder cells in a section with drag and drop.
+	* If iOS version is less than or equal to iOS10, the cells can be moved when grabbing the icon drawn three lines; Otherwise can be moved when doing long tap.
 
 ## Cells
 
@@ -265,6 +279,8 @@ Whereby any SettingsView in App will become the same property setttings.
     * Icon size. (width,height)
 * IconRadius
     * Icon corners radius.
+* IsEnabled
+	* Whether a cell is enabled. If set to false, the entire cell color will turn translucent and the cell won't accept any operations.
 
 ### To use SVG image
 
@@ -409,6 +425,8 @@ When tapped on Android, show the picker on a dialog.
     * This have to assing a instance and must not null.
 * DisplayMember
     * Class member(property) name Displayed on the picker.
+* SubDisplayMember
+	 * Class member(property) name secondary displayed on the Picker. If this property is set, the cell will be two line and the first line will display DisplayMember and the second line will display SubDisplayMember.
 * SelectedItems
     * IList where selected items is stored.
     * This have to assing a instance and must not null.
@@ -427,6 +445,10 @@ When tapped on Android, show the picker on a dialog.
 	* Whether use NaturalSort as sort method. default false.
 	* If true, for example, if  the order is normally  "1,10,2,3,4", is "1,2,3,4,10".
 	* This option may not correctly work if not used Japanese language.
+* UsePickToClose
+	* Whether closing the Picker automatically if the number of selected items come to MaxSelectedNumber. 
+* UseAutoValueText
+	* Normally, selected items string is automatically displayed in the ValueText. If the value of this property is specified false, the auto display will be cleared and ValueText will be available as usual.
 
 ## EntryCell
 

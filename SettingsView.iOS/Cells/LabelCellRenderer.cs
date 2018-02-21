@@ -88,6 +88,10 @@ namespace AiForms.Renderers.iOS
             base.UpdateCell();
         }
 
+        /// <summary>
+        /// Sets the enabled appearance.
+        /// </summary>
+        /// <param name="isEnabled">If set to <c>true</c> is enabled.</param>
         protected override void SetEnabledAppearance(bool isEnabled)
         {
             if(isEnabled){
@@ -99,6 +103,9 @@ namespace AiForms.Renderers.iOS
             base.SetEnabledAppearance(isEnabled);
         }
 
+        /// <summary>
+        /// Updates the value text.
+        /// </summary>
         protected void UpdateValueText()
         {
             ValueLabel.Text = _LabelCell.ValueText;

@@ -16,6 +16,7 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Settings view recycler adapter.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class SettingsViewRecyclerAdapter:RecyclerView.Adapter,AView.IOnClickListener
     {
         const int ViewTypeHeader = 0;
@@ -45,6 +46,12 @@ namespace AiForms.Renderers.Droid
 
         List<ViewHolder> _viewHolders = new List<ViewHolder>();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.SettingsViewRecyclerAdapter"/> class.
+        /// </summary>
+        /// <param name="context">Context.</param>
+        /// <param name="settingsView">Settings view.</param>
+        /// <param name="recyclerView">Recycler view.</param>
         public SettingsViewRecyclerAdapter(Context context, SettingsView settingsView,RecyclerView recyclerView)
         {
             _context = context;
@@ -63,6 +70,10 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Gets the item count.
+        /// </summary>
+        /// <value>The item count.</value>
         public override int ItemCount => CellCaches.Count;
 
         /// <summary>
@@ -75,6 +86,12 @@ namespace AiForms.Renderers.Droid
             return position;
         }
 
+        /// <summary>
+        /// Ons the create view holder.
+        /// </summary>
+        /// <returns>The create view holder.</returns>
+        /// <param name="parent">Parent.</param>
+        /// <param name="viewType">View type.</param>
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             ViewHolder viewHolder;
@@ -98,6 +115,10 @@ namespace AiForms.Renderers.Droid
             return viewHolder;
         }
 
+        /// <summary>
+        /// Ons the click.
+        /// </summary>
+        /// <param name="view">View.</param>
         public void OnClick(AView view)
         {
             var position = _recyclerView.GetChildAdapterPosition(view);
@@ -159,6 +180,11 @@ namespace AiForms.Renderers.Droid
 
         }
 
+        /// <summary>
+        /// Ons the bind view holder.
+        /// </summary>
+        /// <param name="holder">Holder.</param>
+        /// <param name="position">Position.</param>
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             var cellInfo = CellCaches[position];
@@ -177,6 +203,11 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Gets the type of the item view.
+        /// </summary>
+        /// <returns>The item view type.</returns>
+        /// <param name="position">Position.</param>
         public override int GetItemViewType(int position)
         {
             var cellInfo = CellCaches[position];
@@ -219,7 +250,11 @@ namespace AiForms.Renderers.Droid
             cell.Selected = true;
         }
 
-
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <returns>The dispose.</returns>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if(disposing){
@@ -442,6 +477,11 @@ namespace AiForms.Renderers.Droid
             _viewTypes = _cellCaches.Select(x => x.Cell.GetType()).Distinct().Select((x, idx) => new { x, index = idx }).ToDictionary(key => key.x, val => val.index + 2);
         }
 
+        /// <summary>
+        /// Cells the moved.
+        /// </summary>
+        /// <param name="fromPos">From position.</param>
+        /// <param name="toPos">To position.</param>
         public void CellMoved(int fromPos,int toPos)
         {
             var tmp = CellCaches[fromPos];
@@ -450,7 +490,7 @@ namespace AiForms.Renderers.Droid
         }
  
 
-
+        [Android.Runtime.Preserve(AllMembers = true)]
         class CellCache
         {
             public Cell Cell { get; set; }
@@ -462,6 +502,7 @@ namespace AiForms.Renderers.Droid
         }
     }
 
+    [Android.Runtime.Preserve(AllMembers = true)]
     internal class ViewHolder : RecyclerView.ViewHolder
     {
         public ViewHolder(AView view) : base(view) { }
@@ -477,6 +518,7 @@ namespace AiForms.Renderers.Droid
         }
     }
 
+    [Android.Runtime.Preserve(AllMembers = true)]
     internal class HeaderViewHolder : ViewHolder
     {
         public TextView TextView { get; private set; }
@@ -501,6 +543,7 @@ namespace AiForms.Renderers.Droid
         }
     }
 
+    [Android.Runtime.Preserve(AllMembers = true)]
     internal class FooterViewHolder : ViewHolder
     {
         public TextView TextView { get; private set; }
@@ -521,6 +564,7 @@ namespace AiForms.Renderers.Droid
         }
     }
 
+    [Android.Runtime.Preserve(AllMembers = true)]
     internal class ContentViewHolder : ViewHolder
     {
         public LinearLayout Body { get; private set; }

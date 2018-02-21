@@ -11,6 +11,7 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Cell base renderer.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class CellBaseRenderer<TnativeCell> : CellRenderer where TnativeCell : CellBaseView
     {
         internal static class InstanceCreator<T1, T2, TInstance>

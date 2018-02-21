@@ -15,11 +15,13 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Label cell renderer.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class LabelCellRenderer : CellBaseRenderer<LabelCellView> { }
 
     /// <summary>
     /// Label cell view.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class LabelCellView : CellBaseView
     {
         LabelCell _LabelCell => Cell as LabelCell;
@@ -112,6 +114,10 @@ namespace AiForms.Renderers.Droid
 
         }
 
+        /// <summary>
+        /// Sets the enabled appearance.
+        /// </summary>
+        /// <param name="isEnabled">If set to <c>true</c> is enabled.</param>
         protected override void SetEnabledAppearance(bool isEnabled)
         {
             if (isEnabled) {
@@ -136,6 +142,9 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Updates the value text.
+        /// </summary>
         protected void UpdateValueText()
         {
             vValueLabel.Text = _LabelCell.ValueText;

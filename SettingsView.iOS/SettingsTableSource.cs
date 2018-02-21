@@ -14,7 +14,13 @@ namespace AiForms.Renderers.iOS
     /// </summary>
     public class SettingsTableSource : UITableViewSource
     {
+        /// <summary>
+        /// The table view.
+        /// </summary>
         protected UITableView _tableView;
+        /// <summary>
+        /// The settings view.
+        /// </summary>
         protected SettingsView _settingsView;
 
         PickerTableViewController _pickerVC;

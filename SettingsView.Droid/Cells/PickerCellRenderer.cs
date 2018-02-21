@@ -13,11 +13,13 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Picker cell renderer.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class PickerCellRenderer : CellBaseRenderer<PickerCellView> { }
 
     /// <summary>
     /// Picker cell view.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class PickerCellView : LabelCellView, IDialogInterfaceOnShowListener, IDialogInterfaceOnDismissListener
     {
         PickerCell _PickerCell => Cell as PickerCell;
@@ -130,6 +132,9 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Updates the is enabled.
+        /// </summary>
         protected override void UpdateIsEnabled()
         {
             if (_PickerCell.ItemsSource != null && _PickerCell.ItemsSource.Count == 0) {

@@ -11,11 +11,13 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Command cell renderer.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class CommandCellRenderer : CellBaseRenderer<CommandCellView> { }
 
     /// <summary>
     /// Command cell view.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class CommandCellView : LabelCellView
     {
         internal Action Execute { get; set; }
@@ -97,6 +99,9 @@ namespace AiForms.Renderers.Droid
 
         }
 
+        /// <summary>
+        /// Updates the is enabled.
+        /// </summary>
         protected override void UpdateIsEnabled()
         {
             if (_command != null && !_command.CanExecute(_CommandCell.CommandParameter)) {

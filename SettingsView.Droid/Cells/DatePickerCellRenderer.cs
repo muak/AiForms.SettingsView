@@ -11,11 +11,13 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Date picker cell renderer.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class DatePickerCellRenderer : CellBaseRenderer<DatePickerCellView> { }
 
     /// <summary>
     /// Date picker cell view.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class DatePickerCellView : LabelCellView, IPickerCell
     {
         DatePickerCell _datePickerCell => Cell as DatePickerCell;

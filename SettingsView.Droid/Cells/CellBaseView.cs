@@ -16,6 +16,7 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Cell base view.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class CellBaseView : ARelativeLayout, INativeElementView
     {
         /// <summary>
@@ -392,11 +393,18 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Updates the is enabled.
+        /// </summary>
         protected virtual void UpdateIsEnabled()
         {
             SetEnabledAppearance(CellBase.IsEnabled);
         }
 
+        /// <summary>
+        /// Sets the enabled appearance.
+        /// </summary>
+        /// <param name="isEnabled">If set to <c>true</c> is enabled.</param>
         protected virtual void SetEnabledAppearance(bool isEnabled)
         {
             if (isEnabled) {

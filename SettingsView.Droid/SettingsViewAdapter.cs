@@ -16,6 +16,7 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Settings view adapter.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class SettingsViewAdapter : BaseAdapter<object>, AdapterView.IOnItemClickListener
     {
         const int ViewTypeHeader = 0;
@@ -504,7 +505,7 @@ namespace AiForms.Renderers.Droid
             }
         }
 
-
+        [Android.Runtime.Preserve(AllMembers = true)]
         class CellCache
         {
             public Cell Cell { get; set; }

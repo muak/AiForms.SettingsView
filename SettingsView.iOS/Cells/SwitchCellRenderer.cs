@@ -91,6 +91,10 @@ namespace AiForms.Renderers.iOS
             base.Dispose(disposing);
         }
 
+        /// <summary>
+        /// Sets the enabled appearance.
+        /// </summary>
+        /// <param name="isEnabled">If set to <c>true</c> is enabled.</param>
         protected override void SetEnabledAppearance(bool isEnabled)
         {
             if(isEnabled){

@@ -15,11 +15,13 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Number picker cell renderer.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class NumberPickerCellRenderer : CellBaseRenderer<NumberPickerCellView> { }
 
     /// <summary>
     /// Number picker cell view.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class NumberPickerCellView : LabelCellView, IPickerCell
     {
         NumberPickerCell _NumberPikcerCell => Cell as NumberPickerCell;

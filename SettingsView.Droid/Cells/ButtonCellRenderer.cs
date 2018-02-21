@@ -12,11 +12,13 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Button cell renderer.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class ButtonCellRenderer : CellBaseRenderer<ButtonCellView> { }
 
     /// <summary>
     /// Button cell view.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class ButtonCellView : CellBaseView
     {
         internal Action Execute { get; set; }
@@ -108,6 +110,9 @@ namespace AiForms.Renderers.Droid
 
         }
 
+        /// <summary>
+        /// Updates the is enabled.
+        /// </summary>
         protected override void UpdateIsEnabled()
         {
             if (_command != null && !_command.CanExecute(_ButtonCell.CommandParameter)) {

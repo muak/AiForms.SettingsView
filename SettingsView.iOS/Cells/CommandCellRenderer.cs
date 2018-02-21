@@ -100,6 +100,9 @@ namespace AiForms.Renderers.iOS
 
         }
 
+        /// <summary>
+        /// Updates the is enabled.
+        /// </summary>
         protected override void UpdateIsEnabled()
         {
             if(_command != null && !_command.CanExecute(_CommandCell.CommandParameter)){

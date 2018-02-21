@@ -17,6 +17,8 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Settings view renderer.
     /// </summary>
+    /// 
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class SettingsViewRenderer : ViewRenderer<SettingsView, RecyclerView>
     {
         Page _parentPage;
@@ -178,6 +180,7 @@ namespace AiForms.Renderers.Droid
 
     }
 
+    [Android.Runtime.Preserve(AllMembers = true)]
     class SettingsViewSimpleCallback : ItemTouchHelper.SimpleCallback
     {
         SettingsView _settingsView;
