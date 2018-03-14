@@ -49,6 +49,7 @@
     <Compile Include="Cells\CheckboxCell.cs" />
     <Compile Include="NaturalComparer.cs" />
     <Compile Include="Cells\ButtonCell.cs" />
+    <Compile Include="Cells\TextPickerCell.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Cells\" />

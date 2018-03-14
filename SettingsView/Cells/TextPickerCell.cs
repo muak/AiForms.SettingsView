@@ -1,75 +1,78 @@
 ﻿using System;
 using Xamarin.Forms;
 using System.Windows.Input;
+using System.Collections.Generic;
 
 namespace AiForms.Renderers
 {
     /// <summary>
-    /// Number picker cell.
+    /// Text picker cell.
     /// </summary>
-    public class NumberPickerCell:LabelCell
+    public class TextPickerCell:LabelCell
     {
+        public IList<string> Items { get; set; } = new List<string>();
+
         /// <summary>
-        /// The number property.
+        /// The page title property.
         /// </summary>
-        public static BindableProperty NumberProperty =
+        public static BindableProperty PageTitleProperty =
             BindableProperty.Create(
-                nameof(Number),
-                typeof(int),
-                typeof(NumberPickerCell),
-                default(int),
+                nameof(PageTitle),
+                typeof(string),
+                typeof(PickerCell),
+                default(string),
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        /// <summary>
+        /// Gets or sets the page title.
+        /// </summary>
+        /// <value>The page title.</value>
+        public string PageTitle {
+            get { return (string)GetValue(PageTitleProperty); }
+            set { SetValue(PageTitleProperty, value); }
+        }
+
+        /// <summary>
+        /// The accent color property.
+        /// </summary>
+        public static BindableProperty AccentColorProperty =
+            BindableProperty.Create(
+                nameof(AccentColor),
+                typeof(Color),
+                typeof(PickerCell),
+                default(Color),
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        /// <summary>
+        /// Gets or sets the color of the accent.
+        /// </summary>
+        /// <value>The color of the accent.</value>
+        public Color AccentColor {
+            get { return (Color)GetValue(AccentColorProperty); }
+            set { SetValue(AccentColorProperty, value); }
+        }
+
+        /// <summary>
+        /// The selected item property.
+        /// </summary>
+        public static BindableProperty SelectedItemProperty =
+            BindableProperty.Create(
+                nameof(SelectedItem),
+                typeof(string),
+                typeof(TextPickerCell),
+                default(string),
                 defaultBindingMode: BindingMode.TwoWay
             );
 
         /// <summary>
-        /// Gets or sets the number.
+        /// Gets or sets the selected number.
         /// </summary>
-        /// <value>The number.</value>
-        public int Number {
-            get { return (int)GetValue(NumberProperty); }
-            set { SetValue(NumberProperty, value); }
-        }
-
-        /// <summary>
-        /// The minimum property.
-        /// </summary>
-        public static BindableProperty MinProperty =
-            BindableProperty.Create(
-                nameof(Min),
-                typeof(int),
-                typeof(NumberPickerCell),
-                0,
-                defaultBindingMode: BindingMode.OneWay
-            );
-
-        /// <summary>
-        /// Gets or sets the minimum.
-        /// </summary>
-        /// <value>The minimum.</value>
-        public int Min {
-            get { return (int)GetValue(MinProperty); }
-            set { SetValue(MinProperty, value); }
-        }
-
-        /// <summary>
-        /// The max property.
-        /// </summary>
-        public static BindableProperty MaxProperty =
-            BindableProperty.Create(
-                nameof(Max),
-                typeof(int),
-                typeof(NumberPickerCell),
-                9999,
-                defaultBindingMode: BindingMode.OneWay
-            );
-
-        /// <summary>
-        /// Gets or sets the max.
-        /// </summary>
-        /// <value>The max.</value>
-        public int Max {
-            get { return (int)GetValue(MaxProperty); }
-            set { SetValue(MaxProperty, value); }
+        /// <value>The text value.</value>
+        public string SelectedItem {
+            get { return (string)GetValue(SelectedItemProperty); }
+            set { SetValue(SelectedItemProperty, value); }
         }
 
         /// <summary>
@@ -79,7 +82,7 @@ namespace AiForms.Renderers
             BindableProperty.Create(
                 nameof(PickerTitle),
                 typeof(string),
-                typeof(NumberPickerCell),
+                typeof(TextPickerCell),
                 default(string),
                 defaultBindingMode: BindingMode.OneWay
             );
@@ -100,7 +103,7 @@ namespace AiForms.Renderers
             BindableProperty.Create(
                 nameof(SelectedCommand),
                 typeof(ICommand),
-                typeof(NumberPickerCell),
+                typeof(TextPickerCell),
                 default(ICommand),
                 defaultBindingMode: BindingMode.OneWay
             );
@@ -115,5 +118,23 @@ namespace AiForms.Renderers
         }
 
         private new string ValueText { get; set; }
+
+        ////DisplayMember getter
+        //internal Func<object, object> DisplayValue {
+        //    get {
+        //            return (obj) => obj;
+        //    }
+        //}
+
+        //internal Func<object, object> SubDisplayValue {
+        //    get {
+        //            return (obj) => null;
+        //    }
+        //}
+
+        //internal void InvokeCommand()
+        //{
+        //    SelectedCommand?.Execute(SelectedItem);
+        //}
     }
 }

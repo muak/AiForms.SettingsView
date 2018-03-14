@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>AiForms.Renderers.Droid</RootNamespace>
     <AssemblyName>SettingsView.Droid</AssemblyName>
-    <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
@@ -132,6 +132,7 @@
     <Compile Include="Cells\ButtonCellRenderer.cs" />
     <Compile Include="Cells\ICheckableCell.cs" />
     <Compile Include="SettingsViewRecyclerAdapter.cs" />
+    <Compile Include="Cells\TextPickerCellRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

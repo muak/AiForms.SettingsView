@@ -5,18 +5,18 @@ using UIKit;
 
 namespace AiForms.Renderers.iOS
 {
-    internal class NumberPickerSource : UIPickerViewModel
+    internal class TextPickerSource : UIPickerViewModel
     {
 
-        internal IList<int> Items { get; private set; }
+        internal IList<string> Items { get; private set; }
 
         internal event EventHandler UpdatePickerFromModel;
 
         internal int SelectedIndex { get; set; }
 
-        internal int SelectedItem { get; set; }
+        internal string SelectedItem { get; set; }
 
-        internal int PreSelectedItem { get; set; }
+        internal string PreSelectedItem { get; set; }
 
         /// <summary>
         /// Gets the component count.
@@ -62,7 +62,7 @@ namespace AiForms.Renderers.iOS
         {
 
             if (Items.Count == 0) {
-                SelectedItem = 0;
+                SelectedItem = String.Empty;
                 SelectedIndex = -1;
             }
             else {
@@ -77,17 +77,9 @@ namespace AiForms.Renderers.iOS
         /// </summary>
         /// <param name="min">Minimum.</param>
         /// <param name="max">Max.</param>
-        public void SetNumbers(int min, int max)
+        public void SetItems(IList<string> items)
         {
-            if (min < 0) min = 0;
-            if (max < 0) max = 0;
-            if (min > max) {
-                throw new ArgumentOutOfRangeException(
-                    nameof(NumberPickerCell.Max),
-                    "Max value must be greater than or equal to Min value."
-                );
-            }
-            Items = Enumerable.Range(min, max - min + 1).ToList();
+            Items = items;
         }
 
         /// <summary>
