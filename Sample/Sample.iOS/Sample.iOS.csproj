@@ -159,6 +159,10 @@
       <Project>{4601EE49-52E1-448E-98A1-EFDCBA7A64AC}</Project>
       <Name>SettingsView.iOS</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\SettingsView\SettingsView.csproj">
+      <Project>{8FFB1EF3-FAF3-478C-B9F1-4D02E599C3C6}</Project>
+      <Name>SettingsView</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />

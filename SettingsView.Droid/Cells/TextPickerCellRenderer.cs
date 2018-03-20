@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using AiForms.Renderers;
@@ -31,9 +32,6 @@ namespace AiForms.Renderers.Droid
         Context _context;
         string _title;
         ICommand _command;
-        int _max;
-        int _min;
-        string[] _displayValues;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.TextPickerCellView"/> class.
@@ -71,7 +69,6 @@ namespace AiForms.Renderers.Droid
         {
             base.UpdateCell();
             UpdatePickerTitle();
-            UpdatePickerItems();
             UpdateSelectedItem();
             UpdateCommand();
         }
@@ -104,19 +101,12 @@ namespace AiForms.Renderers.Droid
 
         void UpdateSelectedItem()
         {
-            vValueLabel.Text = _TextPickerCell.SelectedItem.ToString();
+            vValueLabel.Text = _TextPickerCell.SelectedItem?.ToString();
         }
 
         void UpdatePickerTitle()
         {
             _title = _TextPickerCell.PickerTitle;
-        }
-
-        void UpdatePickerItems()
-        {
-            _min = 0;
-            _max = _TextPickerCell.Items.Count() - 1;
-            _displayValues = _TextPickerCell.Items.ToArray();
         }
 
         void UpdateCommand()
@@ -126,10 +116,16 @@ namespace AiForms.Renderers.Droid
 
         void CreateDialog()
         {
+            if(_TextPickerCell.Items == null || _TextPickerCell.Items.Count == 0){
+                return;
+            }
+
+            var displayValues = _TextPickerCell.Items.Cast<object>().Select(x => x.ToString()).ToArray();
+
             _picker = new APicker(_context);
-            _picker.MinValue = _min;
-            _picker.MaxValue = _max;
-            _picker.SetDisplayedValues(_displayValues);
+            _picker.MinValue = 0;
+            _picker.MaxValue = _TextPickerCell.Items.Count - 1;
+            _picker.SetDisplayedValues(displayValues);
             _picker.Value = _TextPickerCell.Items.IndexOf(_TextPickerCell.SelectedItem);
 
             if (_dialog == null) {
@@ -149,8 +145,8 @@ namespace AiForms.Renderers.Droid
                         ClearFocus();
                     });
                     builder.SetPositiveButton(global::Android.Resource.String.Ok, (o, args) => {
-                        _TextPickerCell.SelectedItem = _displayValues[_picker.Value];
-                        _command?.Execute(_picker.Value);
+                        _TextPickerCell.SelectedItem = _TextPickerCell.Items[_picker.Value];
+                        _command?.Execute(_TextPickerCell.Items[_picker.Value]);
                         ClearFocus();
                     });
 

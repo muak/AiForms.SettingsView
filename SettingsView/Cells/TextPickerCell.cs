@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using System.Windows.Input;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace AiForms.Renderers
 {
@@ -10,7 +11,28 @@ namespace AiForms.Renderers
     /// </summary>
     public class TextPickerCell:LabelCell
     {
-        public IList<string> Items { get; set; } = new List<string>();
+        //public IList<string> Items { get; set; } = new List<string>();
+
+        /// <summary>
+        /// The items property.
+        /// </summary>
+        public static BindableProperty ItemsProperty =
+            BindableProperty.Create(
+                nameof(Items),
+                typeof(IList),
+                typeof(TextPickerCell),
+                new List<object>(),
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        /// <summary>
+        /// Gets or sets the items.
+        /// </summary>
+        /// <value>The items.</value>
+        public IList Items {
+            get { return (IList)GetValue(ItemsProperty); }
+            set { SetValue(ItemsProperty, value); }
+        }
 
         /// <summary>
         /// The page title property.
@@ -60,9 +82,9 @@ namespace AiForms.Renderers
         public static BindableProperty SelectedItemProperty =
             BindableProperty.Create(
                 nameof(SelectedItem),
-                typeof(string),
+                typeof(object),
                 typeof(TextPickerCell),
-                default(string),
+                default(object),
                 defaultBindingMode: BindingMode.TwoWay
             );
 
@@ -70,8 +92,8 @@ namespace AiForms.Renderers
         /// Gets or sets the selected number.
         /// </summary>
         /// <value>The text value.</value>
-        public string SelectedItem {
-            get { return (string)GetValue(SelectedItemProperty); }
+        public object SelectedItem {
+            get { return (object)GetValue(SelectedItemProperty); }
             set { SetValue(SelectedItemProperty, value); }
         }
 

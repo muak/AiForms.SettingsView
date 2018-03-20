@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UIKit;
@@ -8,15 +9,15 @@ namespace AiForms.Renderers.iOS
     internal class TextPickerSource : UIPickerViewModel
     {
 
-        internal IList<string> Items { get; private set; }
+        internal IList Items { get; private set; }
 
         internal event EventHandler UpdatePickerFromModel;
 
         internal int SelectedIndex { get; set; }
 
-        internal string SelectedItem { get; set; }
+        internal object SelectedItem { get; set; }
 
-        internal string PreSelectedItem { get; set; }
+        internal object PreSelectedItem { get; set; }
 
         /// <summary>
         /// Gets the component count.
@@ -62,7 +63,7 @@ namespace AiForms.Renderers.iOS
         {
 
             if (Items.Count == 0) {
-                SelectedItem = String.Empty;
+                SelectedItem = null;
                 SelectedIndex = -1;
             }
             else {
@@ -77,7 +78,7 @@ namespace AiForms.Renderers.iOS
         /// </summary>
         /// <param name="min">Minimum.</param>
         /// <param name="max">Max.</param>
-        public void SetItems(IList<string> items)
+        public void SetItems(IList items)
         {
             Items = items;
         }

@@ -93,6 +93,7 @@ namespace AiForms.Renderers.iOS
         protected override void Dispose(bool disposing)
         {
             if (disposing) {
+                _model.UpdatePickerFromModel -= Model_UpdatePickerFromModel;
                 DummyField.RemoveFromSuperview();
                 DummyField?.Dispose();
                 DummyField = null;

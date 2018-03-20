@@ -86,13 +86,7 @@
             <sv:NumberPickerCell Title="NumberPicker" Min="0" Max="99" Number="15" PickerTitle="Select number" />
             <sv:TimePickerCell Title="TimePicker" Format="HH:mm" Time="15:30" PickerTitle="Select time" />
             <sv:DatePickerCell Title="DatePicker" Format="yyyy/MM/dd (ddd)" Date="2017/11/11" MinimumDate="2015/1/1" MaximumDate="2018/12/15" TodayText="Today's date"/>
-            <sv:TextPickerCell Title="TextPicker" SelectedItem="Green">
-                <sv:TextPickerCell.Items>
-                    <x:String>Red</x:String>
-                    <x:String>Green</x:String>
-                    <x:String>Blue</x:String>
-                </sv:TextPickerCell.Items>                 
-            </sv:TextPickerCell>
+            <sv:TextPickerCell Title="TextPicker" Items="{Binding TextItems}" SelectedItem="{Binding SelectedText.Value}" />
         </sv:Section>    
 
         <sv:Section Title="Input" IsVisible="{Binding InputSectionVisible.Value}">

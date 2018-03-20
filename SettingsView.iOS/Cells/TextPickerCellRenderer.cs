@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 using AiForms.Renderers;
 using AiForms.Renderers.iOS;
@@ -67,6 +68,9 @@ namespace AiForms.Renderers.iOS
             else if (e.PropertyName == TextPickerCell.SelectedCommandProperty.PropertyName) {
                 UpdateCommand();
             }
+            else if (e.PropertyName == TextPickerCell.ItemsProperty.PropertyName){
+                UpdateItems();
+            }
         }
 
         /// <summary>
@@ -75,7 +79,7 @@ namespace AiForms.Renderers.iOS
         public override void UpdateCell()
         {
             base.UpdateCell();
-            UpdateItemsList();
+            UpdateItems();
             UpdateSelectedItem();
             UpdateTitle();
             UpdateCommand();
@@ -89,6 +93,7 @@ namespace AiForms.Renderers.iOS
         protected override void Dispose(bool disposing)
         {
             if (disposing) {
+                _model.UpdatePickerFromModel -= Model_UpdatePickerFromModel;
                 DummyField.RemoveFromSuperview();
                 DummyField?.Dispose();
                 DummyField = null;
@@ -143,12 +148,13 @@ namespace AiForms.Renderers.iOS
         void UpdateSelectedItem()
         {
             Select(_TextPickerCell.SelectedItem);
-            ValueLabel.Text = _TextPickerCell.SelectedItem.ToString();
+            ValueLabel.Text = _TextPickerCell.SelectedItem?.ToString();
         }
 
-        void UpdateItemsList()
+        void UpdateItems()
         {
-            _model.SetItems(_TextPickerCell.Items);
+            var items = _TextPickerCell.Items ?? new List<object>();
+            _model.SetItems(items);
             Select(_TextPickerCell.SelectedItem);
         }
 
@@ -167,7 +173,7 @@ namespace AiForms.Renderers.iOS
         void Model_UpdatePickerFromModel(object sender, EventArgs e)
         {
             _TextPickerCell.SelectedItem = _model.SelectedItem;
-            ValueLabel.Text = _model.SelectedItem.ToString();
+            ValueLabel.Text = _model.SelectedItem?.ToString();
         }
 
         /// <summary>
@@ -180,11 +186,11 @@ namespace AiForms.Renderers.iOS
             DummyField.Frame = new CGRect(0, 0, Frame.Width, Frame.Height);
         }
 
-        void Select(string item)
+        void Select(object item)
         {
             var idx = _model.Items.IndexOf(item);
             if (idx == -1) {
-                item = _model.Items[0];
+                item = _model.Items.Count == 0 ? null : _model.Items[0];
                 idx = 0;
             }
             _picker.Select(idx, 0, false);
