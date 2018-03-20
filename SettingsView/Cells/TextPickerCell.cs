@@ -11,8 +11,6 @@ namespace AiForms.Renderers
     /// </summary>
     public class TextPickerCell:LabelCell
     {
-        //public IList<string> Items { get; set; } = new List<string>();
-
         /// <summary>
         /// The items property.
         /// </summary>
@@ -140,23 +138,5 @@ namespace AiForms.Renderers
         }
 
         private new string ValueText { get; set; }
-
-        ////DisplayMember getter
-        //internal Func<object, object> DisplayValue {
-        //    get {
-        //            return (obj) => obj;
-        //    }
-        //}
-
-        //internal Func<object, object> SubDisplayValue {
-        //    get {
-        //            return (obj) => null;
-        //    }
-        //}
-
-        //internal void InvokeCommand()
-        //{
-        //    SelectedCommand?.Execute(SelectedItem);
-        //}
     }
 }

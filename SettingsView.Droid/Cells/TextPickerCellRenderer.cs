@@ -15,13 +15,13 @@ using APicker = Android.Widget.NumberPicker;
 namespace AiForms.Renderers.Droid
 {
     /// <summary>
-    /// Number picker cell renderer.
+    /// Text picker cell renderer.
     /// </summary>
     [Android.Runtime.Preserve(AllMembers = true)]
     public class TextPickerCellRenderer : CellBaseRenderer<TextPickerCellView> { }
 
     /// <summary>
-    /// Number picker cell view.
+    /// Text picker cell view.
     /// </summary>
     [Android.Runtime.Preserve(AllMembers = true)]
     public class TextPickerCellView : LabelCellView, IPickerCell

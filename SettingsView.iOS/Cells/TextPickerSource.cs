@@ -74,10 +74,9 @@ namespace AiForms.Renderers.iOS
         }
 
         /// <summary>
-        /// Sets the numbers.
+        /// Sets the items.
         /// </summary>
-        /// <param name="min">Minimum.</param>
-        /// <param name="max">Max.</param>
+        /// <param name="items">Items.</param>
         public void SetItems(IList items)
         {
             Items = items;

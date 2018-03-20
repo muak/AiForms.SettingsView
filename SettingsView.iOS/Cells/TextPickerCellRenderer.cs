@@ -11,12 +11,12 @@ using Xamarin.Forms;
 namespace AiForms.Renderers.iOS
 {
     /// <summary>
-    /// Number picker cell renderer.
+    /// Text picker cell renderer.
     /// </summary>
     public class TextPickerCellRenderer : CellBaseRenderer<TextPickerCellView> { }
 
     /// <summary>
-    /// Number picker cell view.
+    /// Text picker cell view.
     /// </summary>
     public class TextPickerCellView : LabelCellView, IPickerCell
     {
