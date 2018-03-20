@@ -237,9 +237,9 @@ Whereby any SettingsView in App will become the same property setttings.
 * [NumberPickerCell](#numberpickercell)
 * [TimePickerCell](#timepickercell)
 * [DatePickerCell](#datepickercell)
+* [TextPickerCell](#textpickercell)
 * [PickerCell](#pickercell)
 * [EntryCell](#entrycell)
-
 
 ## CellBase
 
@@ -378,7 +378,7 @@ This is a LabelCell calling a number picker.
 * SelectedCommand
     * A command invoked when a number is selected.
 
-This cell can't use ValueText propertiy.
+This cell can't use ValueText property.
 
 ## TimePickerCell
 
@@ -393,7 +393,7 @@ This is a LabelCell calling a time picker.
 * PickerTitle
     * Picker title text.
 
-This cell can't use ValueText propertiy.
+This cell can't use ValueText property.
 
 ## DatePickerCell
 
@@ -411,7 +411,24 @@ This is a LabelCell calling a date picker.
     * Text of the button selecting  today's date. (only iOS)
     * If this text is empty, the button will be hidden.
 
-This cell can't use ValueText propertiy.
+This cell can't use ValueText property.
+
+## TextPickerCell
+
+This is a LabelCell calling a text picker.
+
+### Properties
+
+* Items
+	* Picker data source implementing IList.
+	* This property can be set a list of built-in type. (e.g. List\<string>, List\<int>, List\<double>)
+	* The result of ToString method is used as appearance text.
+* SelectedItem
+	* Selected item is set. (two-way binding)
+* SelectedCommand
+    * A command invoked when an item is selected.
+
+This cell can't use ValueText property.
 
 ## PickerCell
 
@@ -475,6 +492,10 @@ This is a cell inputing some text.
     * Input text horizontal alignment.
 * AccentColor
     * Under line color on focus. (only android)
+
+## Contributors
+
+* [codegrue](https://github.com/codegrue)
 
 ## Thanks 
 
