@@ -6,6 +6,8 @@ using Xamarin.Forms.Internals;
 using Prism.Services;
 using System.Reactive.Linq;
 using Prism.Navigation;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Sample.ViewModels
 {
@@ -33,10 +35,17 @@ namespace Sample.ViewModels
         public ReactiveProperty<object> CommandParameter { get; } = new ReactiveProperty<object>();
         public ReactiveProperty<bool> CanExecute { get; } = new ReactiveProperty<bool>();
         public ReactiveProperty<bool> KeepSelected { get; } = new ReactiveProperty<bool>();
+        public ReactiveProperty<IList> TextItems { get; } = new ReactiveProperty<IList>();
+        public ReactiveProperty<object> TextSelectedItem { get; } = new ReactiveProperty<object>();
 
         public ReactiveCommand<int> NumberSelectedCommand { get; set; } = new ReactiveCommand<int>();
+        public ReactiveCommand TextSelectedCommand { get; set; } = new ReactiveCommand();
         public ReactiveProperty<ReactiveCommand> Command { get; set; } = new ReactiveProperty<ReactiveCommand>();
 
+        enum Fruit
+        {
+            Apple, Grape, Orange
+        }
 
         static int[] Numbers = { 0, 5, 10, 15 };
         static int[] MaxNumbers = { 0, 10, 15, 1 };
@@ -52,6 +61,8 @@ namespace Sample.ViewModels
         static ReactiveCommand[] Commands = { null, null };
         static object[] Parameters = { null, "Def", "Xzy" };
         static bool[] CanExecutes = { true, false };
+        static IList[] TextLists = { new List<string> { "A", "B", "C" }, new List<int> { 1, 2, 3 }, new List<Fruit> { Fruit.Apple, Fruit.Grape, Fruit.Orange } };
+        static object[] TextSelectedItems = { "B", 2, Fruit.Orange };
 
         public LabelCellTestViewModel(INavigationService navigationService,IPageDialogService pageDialog)
         {
@@ -88,6 +99,9 @@ namespace Sample.ViewModels
             NumberSelectedCommand.Subscribe(async p =>
             {
                 await pageDialog.DisplayAlertAsync("", p.ToString(), "OK");
+            });
+            TextSelectedCommand.Subscribe(async p => {
+                await pageDialog.DisplayAlertAsync("", p?.ToString(), "OK");
             });
         }
 
@@ -140,6 +154,20 @@ namespace Sample.ViewModels
                     break;
                 case nameof(KeepSelected):
                     NextVal(KeepSelected, CanExecutes);
+                    break;
+                case nameof(TextItems):
+                    NextVal(TextItems, TextLists);
+                    break;
+                case nameof(TextSelectedItem):
+                    if(TextItems.Value is List<string>){
+                        TextSelectedItem.Value = TextSelectedItems[0];
+                    }
+                    else if(TextItems.Value is List<int>){
+                        TextSelectedItem.Value = TextSelectedItems[1];
+                    }
+                    else{
+                        TextSelectedItem.Value = TextSelectedItems[2];
+                    }
                     break;
             }
 

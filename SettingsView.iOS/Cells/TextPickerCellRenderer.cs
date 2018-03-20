@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 using AiForms.Renderers;
 using AiForms.Renderers.iOS;
@@ -6,36 +7,36 @@ using CoreGraphics;
 using UIKit;
 using Xamarin.Forms;
 
-[assembly: ExportRenderer(typeof(NumberPickerCell), typeof(NumberPickerCellRenderer))]
+[assembly: ExportRenderer(typeof(TextPickerCell), typeof(TextPickerCellRenderer))]
 namespace AiForms.Renderers.iOS
 {
     /// <summary>
     /// Number picker cell renderer.
     /// </summary>
-    public class NumberPickerCellRenderer : CellBaseRenderer<NumberPickerCellView> { }
+    public class TextPickerCellRenderer : CellBaseRenderer<TextPickerCellView> { }
 
     /// <summary>
     /// Number picker cell view.
     /// </summary>
-    public class NumberPickerCellView : LabelCellView, IPickerCell
+    public class TextPickerCellView : LabelCellView, IPickerCell
     {
         /// <summary>
         /// Gets or sets the dummy field.
         /// </summary>
         /// <value>The dummy field.</value>
         public UITextField DummyField { get; set; }
-        NumberPickerSource _model;
+        TextPickerSource _model;
         UILabel _titleLabel;
         UIPickerView _picker;
         ICommand _command;
 
-        NumberPickerCell _NumberPikcerCell => Cell as NumberPickerCell;
+        TextPickerCell _TextPickerCell => Cell as TextPickerCell;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.iOS.NumberPickerCellView"/> class.
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.iOS.TextPickerCellView"/> class.
         /// </summary>
         /// <param name="formsCell">Forms cell.</param>
-        public NumberPickerCellView(Cell formsCell) : base(formsCell)
+        public TextPickerCellView(Cell formsCell) : base(formsCell)
         {
 
             DummyField = new NoCaretField();
@@ -57,19 +58,18 @@ namespace AiForms.Renderers.iOS
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
-            if (e.PropertyName == NumberPickerCell.MinProperty.PropertyName ||
-                e.PropertyName == NumberPickerCell.MaxProperty.PropertyName) {
-                UpdateNumberList();
-            }
-            else if (e.PropertyName == NumberPickerCell.NumberProperty.PropertyName) {
-                UpdateNumber();
-            }
-            else if (e.PropertyName == NumberPickerCell.PickerTitleProperty.PropertyName) {
-                UpdateTitle();
 
+            if (e.PropertyName == TextPickerCell.SelectedItemProperty.PropertyName) {
+                UpdateSelectedItem();
             }
-            else if (e.PropertyName == NumberPickerCell.SelectedCommandProperty.PropertyName) {
+            else if (e.PropertyName == TextPickerCell.PickerTitleProperty.PropertyName) {
+                UpdateTitle();
+            }
+            else if (e.PropertyName == TextPickerCell.SelectedCommandProperty.PropertyName) {
                 UpdateCommand();
+            }
+            else if (e.PropertyName == TextPickerCell.ItemsProperty.PropertyName){
+                UpdateItems();
             }
         }
 
@@ -79,8 +79,8 @@ namespace AiForms.Renderers.iOS
         public override void UpdateCell()
         {
             base.UpdateCell();
-            UpdateNumberList();
-            UpdateNumber();
+            UpdateItems();
+            UpdateSelectedItem();
             UpdateTitle();
             UpdateCommand();
         }
@@ -139,40 +139,41 @@ namespace AiForms.Renderers.iOS
             DummyField.InputView = _picker;
             DummyField.InputAccessoryView = toolbar;
 
-            _model = new NumberPickerSource();
+            _model = new TextPickerSource();
             _picker.Model = _model;
 
             _model.UpdatePickerFromModel += Model_UpdatePickerFromModel;
         }
 
-        void UpdateNumber()
+        void UpdateSelectedItem()
         {
-            Select(_NumberPikcerCell.Number);
-            ValueLabel.Text = _NumberPikcerCell.Number.ToString();
+            Select(_TextPickerCell.SelectedItem);
+            ValueLabel.Text = _TextPickerCell.SelectedItem?.ToString();
         }
 
-        void UpdateNumberList()
+        void UpdateItems()
         {
-            _model.SetNumbers(_NumberPikcerCell.Min, _NumberPikcerCell.Max);
-            Select(_NumberPikcerCell.Number);
+            var items = _TextPickerCell.Items ?? new List<object>();
+            _model.SetItems(items);
+            Select(_TextPickerCell.SelectedItem);
         }
 
         void UpdateTitle()
         {
-            _titleLabel.Text = _NumberPikcerCell.PickerTitle;
+            _titleLabel.Text = _TextPickerCell.PickerTitle;
             _titleLabel.SizeToFit();
             _titleLabel.Frame = new CGRect(0, 0, 160, 44);
         }
 
         void UpdateCommand()
         {
-            _command = _NumberPikcerCell.SelectedCommand;
+            _command = _TextPickerCell.SelectedCommand;
         }
 
         void Model_UpdatePickerFromModel(object sender, EventArgs e)
         {
-            _NumberPikcerCell.Number = _model.SelectedItem;
-            ValueLabel.Text = _model.SelectedItem.ToString();
+            _TextPickerCell.SelectedItem = _model.SelectedItem;
+            ValueLabel.Text = _model.SelectedItem?.ToString();
         }
 
         /// <summary>
@@ -185,17 +186,17 @@ namespace AiForms.Renderers.iOS
             DummyField.Frame = new CGRect(0, 0, Frame.Width, Frame.Height);
         }
 
-        void Select(int number)
+        void Select(object item)
         {
-            var idx = _model.Items.IndexOf(number);
+            var idx = _model.Items.IndexOf(item);
             if (idx == -1) {
-                number = _model.Items[0];
+                item = _model.Items.Count == 0 ? null : _model.Items[0];
                 idx = 0;
             }
             _picker.Select(idx, 0, false);
-            _model.SelectedItem = number;
+            _model.SelectedItem = item;
             _model.SelectedIndex = idx;
-            _model.PreSelectedItem = number;
+            _model.PreSelectedItem = item;
         }
     }
 }

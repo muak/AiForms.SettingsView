@@ -83,9 +83,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
-    <Reference Include="Microsoft.Practices.ServiceLocation">
-      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.Unity">
       <HintPath>..\packages\Unity.4.0.1\lib\portable-net45+wp80+win8+wpa81+MonoAndroid10+MonoTouch10\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
@@ -146,20 +143,25 @@
     <Reference Include="Xamarin.Forms.Xaml">
       <HintPath>..\packages\Xamarin.Forms.2.5.0.121934\lib\Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
-    <Reference Include="SettingsView">
-      <HintPath>..\packages\AiForms.SettingsView.0.2.0-pre3\lib\Xamarin.iOS10\SettingsView.dll</HintPath>
-    </Reference>
-    <Reference Include="SettingsView.iOS">
-      <HintPath>..\packages\AiForms.SettingsView.0.2.0-pre3\lib\Xamarin.iOS10\SettingsView.iOS.dll</HintPath>
-    </Reference>
     <Reference Include="AiForms.Layouts">
       <HintPath>..\packages\AiForms.Layouts.1.0.3\lib\netstandard1.1\AiForms.Layouts.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sample\Sample.csproj">
       <Project>{2DB58246-77D5-4190-B0A0-F125B538309B}</Project>
       <Name>Sample</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SettingsView.iOS\SettingsView.iOS.csproj">
+      <Project>{4601EE49-52E1-448E-98A1-EFDCBA7A64AC}</Project>
+      <Name>SettingsView.iOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SettingsView\SettingsView.csproj">
+      <Project>{8FFB1EF3-FAF3-478C-B9F1-4D02E599C3C6}</Project>
+      <Name>SettingsView</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

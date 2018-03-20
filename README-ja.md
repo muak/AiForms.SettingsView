@@ -239,9 +239,9 @@ SettingsViewのプロパティ設定はApp.xamlに記述した方が良いかも
 * [NumberPickerCell](#numberpickercell)
 * [TimePickerCell](#timepickercell)
 * [DatePickerCell](#datepickercell)
+* [TextPickerCell](#textpickercell)
 * [PickerCell](#pickercell)
 * [EntryCell](#entrycell)
-
 
 ## CellBase
 
@@ -419,6 +419,24 @@ ValueTextは使用できません。
 
 ValueTextは使用できません。
 
+## TextPickerCell
+
+セルタップ時にテキストを選択できるピッカーを呼び出すことができるLabelCellです。
+NumberPickerCellをNumber以外に対応させたもので、データソースにListを設定できます。
+
+### Properties
+
+* Items
+	* IListを実装したデータソース。
+	* このプロパティには組み込みの型のList\<T>等が設定できます。（List\<string>, List\<int>,List\<double> など）
+	* ピッカーの表示テキストにはToString()の結果が使用されます。
+* SelectedItem
+	* 選択したアイテム。 (two-way binding)
+* SelectedCommand
+    * アイテム選択時に発火するコマンド。
+
+ValueTextは使用できません。
+
 ## PickerCell
 
 セルタップ時に複数選択可能なピッカーを呼び出すことができるLabelCellです。
@@ -486,6 +504,10 @@ Xamarin.Forms.EntryCellとは別物です。
     * 入力文字列の水平位置属性
 * AccentColor
     * 入力欄の下線の色（Androidのみ）
+
+## Contributors
+
+* [codegrue](https://github.com/codegrue)
 
 ## 謝辞
 
