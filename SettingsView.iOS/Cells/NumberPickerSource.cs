@@ -82,10 +82,8 @@ namespace AiForms.Renderers.iOS
             if (min < 0) min = 0;
             if (max < 0) max = 0;
             if (min > max) {
-                throw new ArgumentOutOfRangeException(
-                    nameof(NumberPickerCell.Max),
-                    "Max value must be greater than or equal to Min value."
-                );
+                //Set min value to zero temporally, because it is sometimes min greater than max depending on the order which min and max value is bound.
+                min = 0;
             }
             Items = Enumerable.Range(min, max - min + 1).ToList();
         }
