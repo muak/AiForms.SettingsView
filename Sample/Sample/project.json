@@ -16,7 +16,7 @@
     "System.Reactive.Linq": "3.0.0",
     "System.Reactive.PlatformServices": "3.0.0",
     "Unity": "4.0.1",
-    "Xamarin.Forms": "2.5.0.280555",
+    "Xamarin.Forms": "2.5.1.444934",
     "Xamarin.Forms.Svg": "0.0.1-pre"
   },
   "frameworks": {

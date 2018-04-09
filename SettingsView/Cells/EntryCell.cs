@@ -27,9 +27,9 @@ namespace AiForms.Renderers
             var maxlength = (int)bindable.GetValue(MaxLengthProperty);
             if (maxlength < 0) return;
 
-            var newString = newValue.ToString();
+            var newString = newValue?.ToString() ?? string.Empty;
             if (newString.Length > maxlength) {
-                var oldString = oldValue.ToString();
+                var oldString = oldValue?.ToString() ?? string.Empty;
                 if(oldString.Length > maxlength){
                     var trimStr = oldString.Substring(0, maxlength);
                     bindable.SetValue(ValueTextProperty, trimStr);

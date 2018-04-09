@@ -1,10 +1,11 @@
 ﻿using System;
 using Reactive.Bindings;
 using Xamarin.Forms;
+using Prism.Navigation;
 
 namespace Sample.ViewModels
 {
-    public class EntryCellTestViewModel:ViewModelBase
+    public class EntryCellTestViewModel:ViewModelBase,IDestructible
     {
         public ReactiveProperty<Color> OwnAccentColor { get; } = new ReactiveProperty<Color>();
         public ReactiveProperty<int> MaxLength { get; } = new ReactiveProperty<int>();
@@ -57,6 +58,11 @@ namespace Sample.ViewModels
                     NextVal(TextAlignment, TextAlignments);
                     break;
             }
+        }
+
+        public void Destroy()
+        {
+            InputText.Dispose();
         }
     }
 }
