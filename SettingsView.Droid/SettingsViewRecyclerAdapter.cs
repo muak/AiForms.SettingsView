@@ -259,7 +259,7 @@ namespace AiForms.Renderers.Droid
         {
             if(disposing){
                 _settingsView.ModelChanged -= _settingsView_ModelChanged;
-                _cellCaches.Clear();
+                _cellCaches?.Clear();
                 _cellCaches = null;
                 _settingsView = null;
                 _viewTypes = null;

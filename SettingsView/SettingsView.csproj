@@ -1,62 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8FFB1EF3-FAF3-478C-B9F1-4D02E599C3C6}</ProjectGuid>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <OutputType>Library</OutputType>
-    <RootNamespace>AiForms.Renderers</RootNamespace>
-    <AssemblyName>SettingsView</AssemblyName>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
-    <NeutralLanguage>en</NeutralLanguage>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\SettingsView.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netstandard2.0\SettingsView.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Cells\CellBase.cs" />
-    <Compile Include="Cells\CommandCell.cs" />
-    <Compile Include="Cells\DatePickerCell.cs" />
-    <Compile Include="Cells\EntryCell.cs" />
-    <Compile Include="Cells\LabelCell.cs" />
-    <Compile Include="Cells\NumberPickerCell.cs" />
-    <Compile Include="Cells\PickerCell.cs" />
-    <Compile Include="Cells\SwitchCell.cs" />
-    <Compile Include="Cells\TimePickerCell.cs" />
-    <Compile Include="Section.cs" />
-    <Compile Include="SettingsModel.cs" />
-    <Compile Include="SettingsRoot.cs" />
-    <Compile Include="SettingsView.cs" />
-    <Compile Include="SettingsView.DefineProperites.cs" />
-    <Compile Include="SizeTypeConverter.cs" />
-    <Compile Include="Cells\CheckboxCell.cs" />
-    <Compile Include="NaturalComparer.cs" />
-    <Compile Include="Cells\ButtonCell.cs" />
-    <Compile Include="Cells\TextPickerCell.cs" />
+    <PackageReference Include="Xamarin.Forms" Version="3.0.0.482510" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Cells\" />
+    <None Remove="project.json" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="project.json" />
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <Import Project="..\packages\Xamarin.Forms.2.4.0.38779\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.4.0.38779\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets')" />
 </Project>

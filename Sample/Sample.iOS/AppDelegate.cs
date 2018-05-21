@@ -1,14 +1,14 @@
 ﻿using Foundation;
-using Microsoft.Practices.Unity;
-using Prism.Unity;
+using Prism;
+using Prism.Ioc;
 using UIKit;
 
 namespace Sample.iOS
 {
-	// The UIApplicationDelegate for the application. This class is responsible for launching the 
-	// User Interface of the application, as well as listening (and optionally responding) to 
-	// application events from iOS.
-	[Register("AppDelegate")]
+    // The UIApplicationDelegate for the application. This class is responsible for launching the 
+    // User Interface of the application, as well as listening (and optionally responding) to 
+    // application events from iOS.
+    [Register("AppDelegate")]
 	public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
 	{
 		//
@@ -32,11 +32,10 @@ namespace Sample.iOS
 		}
 	}
 
-	public class iOSInitializer : IPlatformInitializer
-	{
-		public void RegisterTypes(IUnityContainer container)
-		{
-
-		}
-	}
+    public class iOSInitializer : IPlatformInitializer
+    {
+        public void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+        }
+    }
 }

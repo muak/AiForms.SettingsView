@@ -1,14 +1,15 @@
 ﻿using System.Linq;
 using System.Reflection;
-using Microsoft.Practices.ObjectBuilder2;
+using Prism;
+using Prism.Ioc;
 using Prism.Unity;
-using Sample.Views;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 
 [assembly: Xamarin.Forms.Xaml.XamlCompilation(Xamarin.Forms.Xaml.XamlCompilationOptions.Compile)]
 namespace Sample
 {
-	public partial class App : PrismApplication
+    public partial class App : PrismApplication
 	{
 		public App(IPlatformInitializer initializer = null) : base(initializer) { }
 
@@ -21,24 +22,18 @@ namespace Sample
 			NavigationService.NavigateAsync("MyNavigationPage/MainPage");
 		}
 
-		protected override void RegisterTypes()
-		{
-            Container.RegisterTypeForNavigation<NavigationPage>();
-            Container.RegisterTypeForNavigation<ContentPage>();
-			//Container.RegisterTypeForNavigation<MainPage>();
-			//Container.RegisterTypeForNavigation<SettingsViewPage>();
-            //Container.RegisterTypeForNavigation<ParentPropTest>();
-            //Container.RegisterTypeForNavigation<DefaultPropTest>();
-            //Container.RegisterTypeForNavigation<CollectionChangedTest>();
-            //Container.RegisterTypeForNavigation<LabelCellTest>();
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            containerRegistry.RegisterForNavigation<NavigationPage>();
+            containerRegistry.RegisterForNavigation<ContentPage>();
 
             this.GetType().GetTypeInfo().Assembly
             .DefinedTypes
             .Where(t => t.Namespace?.EndsWith(".Views", System.StringComparison.Ordinal) ?? false)
             .ForEach(t => {
-                Container.RegisterTypeForNavigation(t.AsType(), t.Name);
+                containerRegistry.RegisterForNavigation(t.AsType(), t.Name);
             });
-		}
+        }
 	}
 }
 
