@@ -193,6 +193,11 @@ namespace AiForms.Renderers.Droid
         /// <param name="e">E.</param>
         public virtual void ParentPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            // avoid running the vain process when popping a page.
+            if((sender as BindableObject)?.BindingContext == null){
+                return;
+            }
+
             if (e.PropertyName == SettingsView.CellTitleColorProperty.PropertyName) {
                 UpdateTitleColor();
             }

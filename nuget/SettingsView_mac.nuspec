@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>AiForms.SettingsView</id>
-        <version>0.2.5</version>
+        <version>0.2.6</version>
         <title>SettingsView for Xamarin.Forms</title>
         <authors>kamu</authors>
         <owners>kamu</owners>
@@ -16,12 +16,7 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
         <releaseNotes>
 ## Bug fixes
 
-* Null exception on Dispose in SettingsViewRecyclerAdapter (Android).
-
-## Others
-
-* Support .NETStandard2.0
-* Minimum Xamarin.Forms version >= 3.0.0.482510
+* When doing with toggling section visibility and changing cell properties simultaneously, null exception occurs. (Android)
         </releaseNotes>
         <tags>Xamarin.Forms TableView Cell Setting Configuration Option ListView UITableView RecyclerView ReOrder DragDrop</tags>
         <language>en-US</language>

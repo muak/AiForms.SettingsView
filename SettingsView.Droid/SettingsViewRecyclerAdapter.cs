@@ -474,7 +474,18 @@ namespace AiForms.Renderers.Droid
 
             _cellCaches = newCellCaches;
 
-            _viewTypes = _cellCaches.Select(x => x.Cell.GetType()).Distinct().Select((x, idx) => new { x, index = idx }).ToDictionary(key => key.x, val => val.index + 2);
+            if(_viewTypes == null)
+            {
+                _viewTypes = _cellCaches.Select(x => x.Cell.GetType()).Distinct().Select((x, idx) => new { x, index = idx }).ToDictionary(key => key.x, val => val.index + 2);
+            }
+            else
+            {
+                var idx = _viewTypes.Values.Max() + 1;
+                foreach(var t in _cellCaches.Select(x=>x.Cell.GetType()).Distinct().Except(_viewTypes.Keys).ToList())
+                {
+                    _viewTypes.Add(t, idx++);
+                }
+            }
         }
 
         /// <summary>

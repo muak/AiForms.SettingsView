@@ -1,5 +1,6 @@
 ﻿using System;
 using Reactive.Bindings;
+using System.Diagnostics;
 namespace Sample.ViewModels
 {
     public class CollectionChangedTestViewModel:ViewModelBase
@@ -31,6 +32,10 @@ namespace Sample.ViewModels
                         idxF = 0;
                     }
                 }
+            });
+
+            CellIconSize.Subscribe(x => {
+                Debug.WriteLine($"CellIconSizeChange {x.Width} {x.Height}");
             });
         }
     }
