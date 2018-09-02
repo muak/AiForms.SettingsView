@@ -21,6 +21,7 @@ namespace AiForms.Renderers.iOS
         PickerCell _PickerCell => Cell as PickerCell;
         string _valueTextCache;
         INotifyCollectionChanged _notifyCollection;
+        INotifyCollectionChanged _selectedCollection;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AiForms.Renderers.iOS.PickerCellView"/> class.
@@ -82,6 +83,13 @@ namespace AiForms.Renderers.iOS
             }
 
             if (force || string.IsNullOrEmpty(_valueTextCache)) {
+                if (_selectedCollection != null) {
+                    _selectedCollection.CollectionChanged -= SelectedItems_CollectionChanged;
+                }
+                _selectedCollection = _PickerCell.SelectedItems as INotifyCollectionChanged;
+                if (_selectedCollection != null) {
+                    _selectedCollection.CollectionChanged += SelectedItems_CollectionChanged;
+                }
                 _valueTextCache = _PickerCell.GetSelectedItemsText();
             }
 
@@ -99,7 +107,7 @@ namespace AiForms.Renderers.iOS
             if (_notifyCollection != null)
             {
                 _notifyCollection.CollectionChanged += ItemsSourceCollectionChanged;
-                ItemsSourceCollectionChanged(this, EventArgs.Empty);
+                ItemsSourceCollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             }
         }
 
@@ -114,13 +122,18 @@ namespace AiForms.Renderers.iOS
             base.UpdateIsEnabled();
         }
 
-        void ItemsSourceCollectionChanged(object sender, EventArgs e)
+        void ItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (!CellBase.IsEnabled){
                 return;
             }
 
             SetEnabledAppearance(_PickerCell.ItemsSource.Count > 0);
+        }
+
+        void SelectedItems_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            UpdateSelectedItems(true);
         }
 
         /// <summary>

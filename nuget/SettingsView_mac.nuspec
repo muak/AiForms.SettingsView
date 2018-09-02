@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>AiForms.SettingsView</id>
-        <version>0.2.6</version>
+        <version>0.2.9</version>
         <title>SettingsView for Xamarin.Forms</title>
         <authors>kamu</authors>
         <owners>kamu</owners>
@@ -16,7 +16,7 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
         <releaseNotes>
 ## Bug fixes
 
-* When doing with toggling section visibility and changing cell properties simultaneously, null exception occurs. (Android)
+* [PickerCell] When the SelectedItems is changed programmatically, the new value text is not shown. (#16)
         </releaseNotes>
         <tags>Xamarin.Forms TableView Cell Setting Configuration Option ListView UITableView RecyclerView ReOrder DragDrop</tags>
         <language>en-US</language>

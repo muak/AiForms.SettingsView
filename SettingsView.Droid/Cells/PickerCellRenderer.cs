@@ -29,6 +29,7 @@ namespace AiForms.Renderers.Droid
         Context _context;
         string _valueTextCache;
         INotifyCollectionChanged _notifyCollection;
+        INotifyCollectionChanged _selectedCollection;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.PickerCellView"/> class.
@@ -48,6 +49,7 @@ namespace AiForms.Renderers.Droid
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
+
             if (e.PropertyName == PickerCell.SelectedItemsProperty.PropertyName ||
                 e.PropertyName == PickerCell.DisplayMemberProperty.PropertyName ||
                 e.PropertyName == PickerCell.UseNaturalSortProperty.PropertyName ||
@@ -89,6 +91,13 @@ namespace AiForms.Renderers.Droid
 
 
             if (force || string.IsNullOrEmpty(_valueTextCache)) {
+                if(_selectedCollection != null) {
+                    _selectedCollection.CollectionChanged -= SelectedItems_CollectionChanged;
+                }
+                _selectedCollection = _PickerCell.SelectedItems as INotifyCollectionChanged;
+                if(_selectedCollection != null) {
+                    _selectedCollection.CollectionChanged += SelectedItems_CollectionChanged;
+                }
                 _valueTextCache = _PickerCell.GetSelectedItemsText();
             }
 
@@ -114,6 +123,10 @@ namespace AiForms.Renderers.Droid
                     _notifyCollection.CollectionChanged -= ItemsSourceCollectionChanged;
                     _notifyCollection = null;
                 }
+                if(_selectedCollection != null) {
+                    _selectedCollection.CollectionChanged -= SelectedItems_CollectionChanged;
+                    _selectedCollection = null;
+                }
             }
             base.Dispose(disposing);
         }
@@ -128,7 +141,7 @@ namespace AiForms.Renderers.Droid
 
             if (_notifyCollection != null) {
                 _notifyCollection.CollectionChanged += ItemsSourceCollectionChanged;
-                ItemsSourceCollectionChanged(this, EventArgs.Empty);
+                ItemsSourceCollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             }
         }
 
@@ -143,7 +156,7 @@ namespace AiForms.Renderers.Droid
             base.UpdateIsEnabled();
         }
 
-        void ItemsSourceCollectionChanged(object sender, EventArgs e)
+        void ItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (!CellBase.IsEnabled) {
                 return;
@@ -151,6 +164,12 @@ namespace AiForms.Renderers.Droid
 
             SetEnabledAppearance(_PickerCell.ItemsSource.Count > 0);
         }
+
+        void SelectedItems_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            UpdateSelectedItems(true);
+        }
+
 
         internal void ShowDialog()
         {
