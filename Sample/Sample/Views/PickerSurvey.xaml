@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:TestAiForms"
+             xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
+             x:Class="Sample.Views.PickerSurvey">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!-- アプリ全体の背景色 -->
+            <Color x:Key="AppBackground">#ffffff</Color>
+            <!-- アクセントカラー -->
+            <Color x:Key="AccentColor">#FFBF00</Color>
+            <!-- 非アクティブカラー -->
+            <Color x:Key="DisabledColor">#E6DAB9</Color>
+            <!-- タイトルテキストカラー -->
+            <Color x:Key="TitleTextColor">#CC9900</Color>
+            <!-- 薄い背景色1 -->
+            <Color x:Key="PaleBackColorPrimary">#F2EFE6</Color>
+            <!-- 薄い背景色2 -->
+            <Color x:Key="PaleBackColorSecondary">#F2EDDA</Color>
+            <!-- 濃いめの文字色 -->
+            <Color x:Key="DeepTextColor">#555555</Color>
+            <!-- 通常文字色 -->
+            <Color x:Key="NormalTextColor">#666666</Color>
+            <!-- 薄い文字色 -->
+            <Color x:Key="PaleTextColor">#999999</Color>
+            <!-- 強調文字色 -->
+            <Color x:Key="EmphasisTextColor">#FF0000</Color>
+            <!-- 通常フォントサイズ -->
+            <x:Double x:Key="BaseFontSize">12</x:Double>
+            <!-- ちょい大きいフォントサイズ -->
+            <x:Double x:Key="BaseFontSize+">14</x:Double>
+            <!-- 大きいフォントサイズ -->
+            <x:Double x:Key="BaseFontSize++">17</x:Double>
+            <!-- ちょい小さいフォントサイズ -->
+            <x:Double x:Key="BaseFontSize-">11</x:Double>
+
+            <Style TargetType="sv:SettingsView">
+                <Setter Property="SeparatorColor" Value="{StaticResource DisabledColor}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource PaleBackColorPrimary}" />
+                <Setter Property="HeaderBackgroundColor" Value="{StaticResource PaleBackColorPrimary}" />
+                <Setter Property="CellBackgroundColor" Value="{StaticResource AppBackground}" />
+                <Setter Property="CellTitleColor" Value="{StaticResource DeepTextColor}" />
+                <Setter Property="CellValueTextColor" Value="{StaticResource NormalTextColor}" />
+                <Setter Property="CellTitleFontSize" Value="{StaticResource BaseFontSize++}" />
+                <Setter Property="CellValueTextFontSize" Value="{StaticResource BaseFontSize}" />
+                <Setter Property="CellDescriptionColor" Value="{StaticResource NormalTextColor}" />
+                <Setter Property="CellDescriptionFontSize" Value="{StaticResource BaseFontSize-}" />
+                <Setter Property="CellAccentColor" Value="{StaticResource AccentColor}" />
+                <Setter Property="SelectedColor" Value="#50FFBF00" />
+                <Setter Property="HeaderTextColor" Value="{StaticResource TitleTextColor}" />
+                <Setter Property="FooterFontSize" Value="{StaticResource BaseFontSize-}" />
+                <Setter Property="FooterTextColor" Value="{StaticResource PaleTextColor}" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <sv:SettingsView   HasUnevenRows="true" HeaderHeight="36" HeaderPadding="14,0,0,6" HeaderTextVerticalAlign="End" FooterPadding="14,4,4,6">
+
+        <sv:Section x:Name="svv" Title="Select a letter and then select a number..." FooterText="...the old letter value is still visible, even if you clear the selecteditems in viewmode">
+                
+            <sv:PickerCell Title="number o letter?" ItemsSource="{Binding MasterItemsSource}" DisplayMember="Name" MaxSelectedNumber="1" 
+            SelectedItems="{Binding MasterItemsSourceSelectedItems}" SelectedCommand="{Binding SelectMasterCommand}"  ValueText=""
+                           KeepSelectedUntilBack="true" PageTitle="Select" />
+        </sv:Section>
+
+        <sv:Section  Title="Select detail">
+            <sv:PickerCell Title="Detail" ItemsSource="{Binding SlaveItemsSource}" DisplayMember="Name" MaxSelectedNumber="1" 
+            SelectedItems="{Binding SlaveItemsSourceSelectedItems}" KeepSelectedUntilBack="true" PageTitle="Select" ValueText="" />
+        </sv:Section>
+        
+    </sv:SettingsView>
+
+</ContentPage>

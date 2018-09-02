@@ -19,7 +19,7 @@
         <Button Text="ButtonCellTest" Command="{Binding GoToTest}"  CommandParameter="ButtonCellTest" />
         <Button Text="FormsCellTest" Command="{Binding GoToTest}"  CommandParameter="FormsCellTest" />
         <Button Text="OnTableViewTest" Command="{Binding GoToTest}"  CommandParameter="OnTableViewTest" />
-        <Button Text="Fix" Command="{Binding GoToTest}"  CommandParameter="FixProp" />
+        <Button Text="PickerSurvey" Command="{Binding GoToTest}"  CommandParameter="PickerSurvey" />
 	</StackLayout>
      </ScrollView>
 </ContentPage>
