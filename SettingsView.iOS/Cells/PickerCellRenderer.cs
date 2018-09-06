@@ -150,6 +150,11 @@ namespace AiForms.Renderers.iOS
                     _notifyCollection.CollectionChanged -= ItemsSourceCollectionChanged;
                     _notifyCollection = null;
                 }
+                if (_selectedCollection != null)
+                {
+                    _selectedCollection.CollectionChanged -= SelectedItems_CollectionChanged;
+                    _selectedCollection = null;
+                }
             }
             base.Dispose(disposing);
         }
