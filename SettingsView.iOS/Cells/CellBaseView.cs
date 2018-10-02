@@ -345,6 +345,7 @@ namespace AiForms.Renderers.iOS
             _iconConstraintHeight = IconView.HeightAnchor.ConstraintEqualTo((nfloat)size.Height);
             _iconConstraintWidth = IconView.WidthAnchor.ConstraintEqualTo((nfloat)size.Width);
 
+            _iconConstraintHeight.Priority = 250f; // fix warning-log:Unable to simultaneously satisfy constraints.
             _iconConstraintHeight.Active = true;
             _iconConstraintWidth.Active = true;
 
@@ -431,6 +432,7 @@ namespace AiForms.Renderers.iOS
 
             if (CellParent.HasUnevenRows) {
                 _minheightConstraint = _stackH.HeightAnchor.ConstraintGreaterThanOrEqualTo(CellParent.RowHeight);
+                _minheightConstraint.Priority = 250f;
                 _minheightConstraint.Active = true;
 
             }
@@ -637,6 +639,8 @@ namespace AiForms.Renderers.iOS
 
             var minHeight = Math.Max(CellParent?.RowHeight ?? 44, SettingsViewRenderer.MinRowHeight);
             _minheightConstraint = _stackH.HeightAnchor.ConstraintGreaterThanOrEqualTo(minHeight);
+            // fix warning-log:Unable to simultaneously satisfy constraints.
+            _minheightConstraint.Priority = 250f;
             _minheightConstraint.Active = true;
         }
 

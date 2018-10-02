@@ -50,7 +50,7 @@ Android:version 5.1.1 (only FormsAppcompatActivity) / API22
 Install-Package AiForms.SettingsView
 ```
 
-You need to install this nuget package to PCL project and each platform project.
+You need to install this nuget package to .NETStandard project and each platform project.
 
 ### for iOS project
 
