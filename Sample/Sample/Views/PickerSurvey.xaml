@@ -58,16 +58,11 @@
     
     <sv:SettingsView   HasUnevenRows="true" HeaderHeight="36" HeaderPadding="14,0,0,6" HeaderTextVerticalAlign="End" FooterPadding="14,4,4,6">
 
-        <sv:Section x:Name="svv" Title="Select a letter and then select a number..." FooterText="...the old letter value is still visible, even if you clear the selecteditems in viewmode">
+        <sv:Section x:Name="svv">
                 
-            <sv:PickerCell Title="number o letter?" ItemsSource="{Binding MasterItemsSource}" DisplayMember="Name" MaxSelectedNumber="1" 
-            SelectedItems="{Binding MasterItemsSourceSelectedItems}" SelectedCommand="{Binding SelectMasterCommand}"  ValueText=""
+            <sv:PickerCell Title="Select" ItemsSource="{Binding MasterItemsSource}" DisplayMember="Name" MaxSelectedNumber="1" 
+            SelectedItems="{Binding MasterItemsSourceSelectedItems}" SelectedCommand="{Binding SelectMasterCommand}"
                            KeepSelectedUntilBack="true" PageTitle="Select" />
-        </sv:Section>
-
-        <sv:Section  Title="Select detail">
-            <sv:PickerCell Title="Detail" ItemsSource="{Binding SlaveItemsSource}" DisplayMember="Name" MaxSelectedNumber="1" 
-            SelectedItems="{Binding SlaveItemsSourceSelectedItems}" KeepSelectedUntilBack="true" PageTitle="Select" ValueText="" />
         </sv:Section>
         
     </sv:SettingsView>

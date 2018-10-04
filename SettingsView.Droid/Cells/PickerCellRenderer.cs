@@ -66,6 +66,7 @@ namespace AiForms.Renderers.Droid
             }
             else if (e.PropertyName == PickerCell.ItemsSourceProperty.PropertyName) {
                 UpdateCollectionChanged();
+                UpdateSelectedItems(true);
             }
         }
 
