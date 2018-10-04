@@ -59,6 +59,7 @@ namespace AiForms.Renderers.iOS
             }
             if(e.PropertyName == PickerCell.ItemsSourceProperty.PropertyName){
                 UpdateCollectionChanged();
+                UpdateSelectedItems(true);
             }
         }
 
