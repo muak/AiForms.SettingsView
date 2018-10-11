@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
+using Foundation;
 
 namespace AiForms.Renderers.iOS
 {
@@ -165,6 +166,24 @@ namespace AiForms.Renderers.iOS
             else if (e.PropertyName == TableView.RowHeightProperty.PropertyName) {
                 UpdateMinRowHeight();
             }
+        }
+
+        /// <summary>
+        /// Sections the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
+        public virtual void SectionPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// Rows the selected.
+        /// </summary>
+        /// <param name="tableView">Table view.</param>
+        /// <param name="indexPath">Index path.</param>
+        public virtual void RowSelected(UITableView tableView,NSIndexPath indexPath)
+        {
         }
 
         /// <summary>
@@ -474,6 +493,13 @@ namespace AiForms.Renderers.iOS
             if (disposing) {
                 CellBase.PropertyChanged -= CellPropertyChanged;
                 CellParent.PropertyChanged -= ParentPropertyChanged;
+
+                if(CellBase.Section != null)
+                {
+                    CellBase.Section.PropertyChanged -= SectionPropertyChanged;
+                    CellBase.Section = null;
+                }
+
 
                 SelectedBackgroundView?.Dispose();
                 SelectedBackgroundView = null;

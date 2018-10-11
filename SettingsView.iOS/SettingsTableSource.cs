@@ -258,9 +258,15 @@ namespace AiForms.Renderers.iOS
         /// <param name="indexPath">Index path.</param>
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {         
-            var cell = tableView.CellAt(indexPath);
-
             _settingsView.Model.RowSelected(indexPath.Section,indexPath.Row);
+
+            var cell = tableView.CellAt(indexPath) as CellBaseView;
+            if(cell == null)
+            {
+                return;
+            }
+
+            cell.RowSelected(tableView, indexPath);
 
             if (cell is CommandCellView) {
                 var cmdCell = cell as CommandCellView;
@@ -273,7 +279,7 @@ namespace AiForms.Renderers.iOS
                 var buttonCell = cell as ButtonCellView;
                 buttonCell?.Execute?.Invoke();
                 tableView.DeselectRow(indexPath,true);
-            }
+            }           
             else if(cell is PickerCellView){
                 var pickerCell = (cell as PickerCellView).Cell as PickerCell;
 

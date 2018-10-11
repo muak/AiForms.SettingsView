@@ -94,6 +94,7 @@
     <Compile Include="SettingsLagacyTableSource.cs" />
     <Compile Include="Cells\TextPickerCellRenderer.cs" />
     <Compile Include="Cells\TextPickerSource.cs" />
+    <Compile Include="Cells\RadioCellRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SettingsView\SettingsView.csproj">

@@ -67,8 +67,15 @@ namespace AiForms.Renderers.iOS
 
             formsCell.PropertyChanged += nativeCell.CellPropertyChanged;
 
-            if (parentElement != null) {
+            if (parentElement != null) 
+            {
                 parentElement.PropertyChanged += nativeCell.ParentPropertyChanged;
+                var section = parentElement.Model.GetSection(SettingsModel.GetPath(formsCell).Item1);
+                if(section != null)
+                {
+                    formsCell.Section = section;
+                    formsCell.Section.PropertyChanged += nativeCell.SectionPropertyChanged;
+                }
             }
         }
 
@@ -81,7 +88,16 @@ namespace AiForms.Renderers.iOS
             if (parentElement != null)
             {
                 parentElement.PropertyChanged -= nativeCell.ParentPropertyChanged;
+                if(formsCell.Section != null)
+                {
+                    formsCell.Section.PropertyChanged -= nativeCell.SectionPropertyChanged;
+                }
             }
+        }
+
+        void SetUpSectionPropertyChanged(CellBase formsCell)
+        {
+
         }
     }
 }
