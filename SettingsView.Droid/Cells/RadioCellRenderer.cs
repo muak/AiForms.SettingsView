@@ -14,13 +14,37 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Radio cell renderer.
     /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class RadioCellRenderer : CellBaseRenderer<RadioCellView> { }
 
+    /// <summary>
+    /// Radio cell view.
+    /// </summary>
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class RadioCellView:CellBaseView
     {
         SimpleCheck _simpleCheck;
         RadioCell _radioCell => Cell as RadioCell;
 
+        private object SelectedValue {
+            get {
+                return RadioCell.GetSelectedValue(_radioCell.Section) ?? RadioCell.GetSelectedValue(CellParent);
+            }
+            set {
+                if (RadioCell.GetSelectedValue(_radioCell.Section) != null) {
+                    RadioCell.SetSelectedValue(_radioCell.Section, value);
+                }
+                else {
+                    RadioCell.SetSelectedValue(CellParent, value);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.RadioCellView"/> class.
+        /// </summary>
+        /// <param name="context">Context.</param>
+        /// <param name="cell">Cell.</param>
         public RadioCellView(Context context, XF.Cell cell):base(context,cell)
         {
             _simpleCheck = new SimpleCheck(context);
@@ -38,6 +62,10 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        /// <summary>
+        /// Dispose the specified disposing.
+        /// </summary>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if(disposing)
@@ -69,6 +97,7 @@ namespace AiForms.Renderers.Droid
             base.CellPropertyChanged(sender, e);
             if (e.PropertyName == CheckboxCell.AccentColorProperty.PropertyName) {
                 UpdateAccentColor();
+                _simpleCheck.Invalidate();
             }
         }
 
@@ -82,6 +111,7 @@ namespace AiForms.Renderers.Droid
             base.ParentPropertyChanged(sender, e);
             if (e.PropertyName == SettingsView.CellAccentColorProperty.PropertyName) {
                 UpdateAccentColor();
+                _simpleCheck.Invalidate();
             }
             else if (e.PropertyName == RadioCell.SelectedValueProperty.PropertyName) {
                 UpdateSelectedValue();
@@ -110,13 +140,13 @@ namespace AiForms.Renderers.Droid
         {
             if(!_simpleCheck.Selected)
             {
-                RadioCell.SetSelectedValue(_radioCell.Section, _radioCell.Value);
+                SelectedValue = _radioCell.Value;
             }
         }
 
         void UpdateSelectedValue()
         {
-            if (_radioCell.Value == RadioCell.GetSelectedValue(_radioCell.Section)) {
+            if (_radioCell.Value == SelectedValue) {
                 _simpleCheck.Selected = true;
             }
             else {

@@ -12,11 +12,13 @@ namespace AiForms.Renderers.iOS
     /// <summary>
     /// Checkbox cell renderer.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public class CheckboxCellRenderer : CellBaseRenderer<CheckboxCellView> { }
 
     /// <summary>
     /// Checkbox cell view.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public class CheckboxCellView : CellBaseView
     {
         CheckBox _checkbox;

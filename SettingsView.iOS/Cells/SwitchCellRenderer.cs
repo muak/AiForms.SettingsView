@@ -11,11 +11,13 @@ namespace AiForms.Renderers.iOS
     /// <summary>
     /// Switch cell renderer.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public class SwitchCellRenderer : CellBaseRenderer<SwitchCellView> { }
 
     /// <summary>
     /// Switch cell view.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public class SwitchCellView : CellBaseView
     {
         

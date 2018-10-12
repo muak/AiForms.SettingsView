@@ -20,7 +20,7 @@ namespace AiForms.Renderers.Droid
     /// Time picker cell view.
     /// </summary>
     [Android.Runtime.Preserve(AllMembers = true)]
-    public class TimePickerCellView : LabelCellView, IPickerCell
+    public class TimePickerCellView : LabelCellView
     {
         TimePickerCell _TimePickerCell => Cell as TimePickerCell;
         TimePickerDialog _dialog;
@@ -65,6 +65,17 @@ namespace AiForms.Renderers.Droid
         }
 
         /// <summary>
+        /// Rows the selected.
+        /// </summary>
+        /// <param name="adapter">Adapter.</param>
+        /// <param name="position">Position.</param>
+        public override void RowSelected(SettingsViewRecyclerAdapter adapter, int position)
+        {
+            CreateDialog();
+        }
+
+
+        /// <summary>
         /// Dispose the specified disposing.
         /// </summary>
         /// <returns>The dispose.</returns>
@@ -76,14 +87,6 @@ namespace AiForms.Renderers.Droid
                 _dialog = null;
             }
             base.Dispose(disposing);
-        }
-
-        /// <summary>
-        /// Shows the dialog.
-        /// </summary>
-        public void ShowDialog()
-        {
-            CreateDialog();
         }
 
         void CreateDialog()

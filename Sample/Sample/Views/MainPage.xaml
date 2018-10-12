@@ -17,6 +17,7 @@
         <Button Text="PickerCellTest" Command="{Binding GoToTest}"  CommandParameter="PickerCellTest" />
         <Button Text="EntryCellTest" Command="{Binding GoToTest}"  CommandParameter="EntryCellTest" />
         <Button Text="ButtonCellTest" Command="{Binding GoToTest}"  CommandParameter="ButtonCellTest" />
+        <Button Text="RadioCellTest" Command="{Binding GoToTest}"  CommandParameter="RadioCellTest" />
         <Button Text="FormsCellTest" Command="{Binding GoToTest}"  CommandParameter="FormsCellTest" />
         <Button Text="OnTableViewTest" Command="{Binding GoToTest}"  CommandParameter="OnTableViewTest" />
         <Button Text="PickerSurvey" Command="{Binding GoToTest}"  CommandParameter="PickerSurvey" />

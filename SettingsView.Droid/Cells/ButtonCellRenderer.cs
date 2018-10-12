@@ -53,6 +53,16 @@ namespace AiForms.Renderers.Droid
         }
 
         /// <summary>
+        /// Rows the selected.
+        /// </summary>
+        /// <param name="adapter">Adapter.</param>
+        /// <param name="position">Position.</param>
+        public override void RowSelected(SettingsViewRecyclerAdapter adapter, int position)
+        {
+            Execute?.Invoke();
+        }
+
+        /// <summary>
         /// Updates the cell.
         /// </summary>
         public override void UpdateCell()

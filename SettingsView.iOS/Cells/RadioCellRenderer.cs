@@ -13,20 +13,36 @@ namespace AiForms.Renderers.iOS
     /// <summary>
     /// Radio cell renderer.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public class RadioCellRenderer: CellBaseRenderer<RadioCellView> {}
 
     /// <summary>
     /// Radio cell view.
     /// </summary>
-    public class RadioCellView:CellBaseView
+    [Foundation.Preserve(AllMembers = true)]
+    public class RadioCellView : CellBaseView
     {
         RadioCell _radioCell => Cell as RadioCell;
+
+        private object SelectedValue {
+            get {
+                return RadioCell.GetSelectedValue(_radioCell.Section) ?? RadioCell.GetSelectedValue(CellParent);
+            }
+            set {
+                if (RadioCell.GetSelectedValue(_radioCell.Section) != null) {
+                    RadioCell.SetSelectedValue(_radioCell.Section, value);
+                }
+                else {
+                    RadioCell.SetSelectedValue(CellParent, value);
+                }
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AiForms.Renderers.iOS.RadioCellView"/> class.
         /// </summary>
         /// <param name="formsCell">Forms cell.</param>
-        public RadioCellView(Cell formsCell): base(formsCell)
+        public RadioCellView(Cell formsCell) : base(formsCell)
         {
             SelectionStyle = UITableViewCellSelectionStyle.Default;
         }
@@ -74,7 +90,7 @@ namespace AiForms.Renderers.iOS
             if (e.PropertyName == SettingsView.CellAccentColorProperty.PropertyName) {
                 UpdateAccentColor();
             }
-            else if(e.PropertyName == RadioCell.SelectedValueProperty.PropertyName) {
+            else if (e.PropertyName == RadioCell.SelectedValueProperty.PropertyName) {
                 UpdateSelectedValue();
             }
         }
@@ -99,33 +115,28 @@ namespace AiForms.Renderers.iOS
         /// <param name="indexPath">Index path.</param>
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            if(Accessory == UITableViewCellAccessory.None)
-            {
-                RadioCell.SetSelectedValue(_radioCell.Section, _radioCell.Value);
+            if (Accessory == UITableViewCellAccessory.None) {
+                SelectedValue = _radioCell.Value;
             }
             tableView.DeselectRow(indexPath, true);
         }
 
         void UpdateSelectedValue()
         {
-            if(_radioCell.Value == RadioCell.GetSelectedValue(_radioCell.Section))
-            {
+            if (_radioCell.Value == SelectedValue) {
                 Accessory = UITableViewCellAccessory.Checkmark;
             }
-            else
-            {
+            else {
                 Accessory = UITableViewCellAccessory.None;
             }
         }
 
         void UpdateAccentColor()
         {
-            if (!_radioCell.AccentColor.IsDefault)
-            {
+            if (!_radioCell.AccentColor.IsDefault) {
                 TintColor = _radioCell.AccentColor.ToUIColor();
             }
-            else if (CellParent != null && !CellParent.CellAccentColor.IsDefault) 
-            {
+            else if (CellParent != null && !CellParent.CellAccentColor.IsDefault) {
                 TintColor = CellParent.CellAccentColor.ToUIColor();
             }
         }

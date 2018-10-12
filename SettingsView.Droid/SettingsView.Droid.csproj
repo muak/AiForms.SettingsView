@@ -112,7 +112,6 @@
     <Compile Include="DrawableUtility.cs" />
     <Compile Include="ImageCacheController.cs" />
     <Compile Include="MemoryLimitedLruCache.cs" />
-    <Compile Include="SettingsViewAdapter.cs" />
     <Compile Include="SettingsViewRenderer.cs" />
     <Compile Include="Cells\CellBaseRenderer.cs" />
     <Compile Include="Cells\CellBaseView.cs" />
@@ -125,12 +124,10 @@
     <Compile Include="Cells\SwitchCellRenderer.cs" />
     <Compile Include="Cells\CheckboxCellRenderer.cs" />
     <Compile Include="Cells\TimePickerCellRenderer.cs" />
-    <Compile Include="Cells\IPickerCell.cs" />
     <Compile Include="Cells\DatePickerCellRenderer.cs" />
     <Compile Include="Cells\EntryCellRenderer.cs" />
     <Compile Include="Extensions\TextAlignmentExtensions.cs" />
     <Compile Include="Cells\ButtonCellRenderer.cs" />
-    <Compile Include="Cells\ICheckableCell.cs" />
     <Compile Include="SettingsViewRecyclerAdapter.cs" />
     <Compile Include="Cells\TextPickerCellRenderer.cs" />
     <Compile Include="Cells\RadioCellRenderer.cs" />

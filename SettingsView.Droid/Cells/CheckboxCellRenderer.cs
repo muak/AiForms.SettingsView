@@ -21,7 +21,7 @@ namespace AiForms.Renderers.Droid
     /// Checkbox cell view.
     /// </summary>
     [Android.Runtime.Preserve(AllMembers = true)]
-    public class CheckboxCellView : CellBaseView, CompoundButton.IOnCheckedChangeListener, ICheckableCell
+    public class CheckboxCellView : CellBaseView, CompoundButton.IOnCheckedChangeListener
     {
         AppCompatCheckBox _checkbox;
         CheckboxCell _CheckboxCell => Cell as CheckboxCell;
@@ -54,13 +54,6 @@ namespace AiForms.Renderers.Droid
             DescendantFocusability = Android.Views.DescendantFocusability.AfterDescendants;
         }
 
-        /// <summary>
-        /// Checks the change.
-        /// </summary>
-        public void CheckChange()
-        {
-            _checkbox.Checked = !_checkbox.Checked;
-        }
 
         /// <summary>
         /// Updates the cell.
@@ -99,6 +92,16 @@ namespace AiForms.Renderers.Droid
             if (e.PropertyName == SettingsView.CellAccentColorProperty.PropertyName) {
                 UpdateAccentColor();
             }
+        }
+
+        /// <summary>
+        /// Rows the selected.
+        /// </summary>
+        /// <param name="adapter">Adapter.</param>
+        /// <param name="position">Position.</param>
+        public override void RowSelected(SettingsViewRecyclerAdapter adapter, int position)
+        {
+            _checkbox.Checked = !_checkbox.Checked;
         }
 
         /// <summary>

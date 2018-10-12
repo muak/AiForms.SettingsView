@@ -160,6 +160,7 @@ SettingsViewのプロパティ設定はApp.xamlに記述した方が良いかも
     * セパレータの線の色
 * SelectedColor
     * 行（セル）を選択した時の背景色（AndroidはRipple色も含む）
+    > AndroidのRipple効果はセルの背景色が設定されていない(透明の)場合は発動しません。
 * HeaderPadding
 * HeaderTextColor
 * HeaderFontSize
@@ -236,6 +237,7 @@ SettingsViewのプロパティ設定はApp.xamlに記述した方が良いかも
 * [ButtonCell](#buttoncell)
 * [SwitchCell](#switchcell)
 * [CheckboxCell](#checkboxcell)
+* [RadioCell](#radiocell)
 * [NumberPickerCell](#numberpickercell)
 * [TimePickerCell](#timepickercell)
 * [DatePickerCell](#datepickercell)
@@ -366,6 +368,52 @@ Checkboxを備えたLabelCellです。
     * Checkのオンオフ。OnがtrueでOffがfalse。
 * AccentColor
     * Checkboxのアクセントカラー。（枠や背景色） 
+
+## RadioCell
+
+セクション単位またはSettingsView全体で1つのアイテムを選択するCellです。PickerCellと違い選択項目を1階層目に配置する場合などに使用します。
+
+### Properties
+
+* Value
+    * セルに対応する選択候補値。
+* AccentColor
+    * チェックマークの色。
+
+### 添付プロパティ
+
+* SelectedValue
+    * 現在の選択値。
+    * このプロパティをSectionに設定した場合は、そのSectionから1つだけ選択できるようになり、SettingsView自体に設定した場合は、View全体から1つだけ選択できるようになります。
+    > SectionとSettingsViewの両方に設定して動作させることはできません。両方に設定した場合はSection側が使用されます。
+
+### XAML サンプル
+
+#### セクション単位
+
+```xml
+<sv:SettingsView>
+    <sv:Section Title="Sound" sv:RadioCell.SelectedValue="{Binding SelectedItem}">
+        <sv:RadioCell Title="Sound1" Value="{Binding Items[0]}">
+        <sv:RadioCell Title="Sound2" Value="{Binding Items[1]}">
+    </sv:Section>
+</sv:SettingsView>
+```
+
+#### コントロール全体
+
+```xml
+<sv:SettingsView sv:RadioCell.SelectedValue="{Binding GlobalSelectedItem}">
+    <sv:Section Title="Effect">
+        <sv:RadioCell Title="Sound1" Value="{Binding Items[0]}">
+        <sv:RadioCell Title="Sound2" Value="{Binding Items[1]}">
+    </sv:Section>
+    <sv:Section Title="Melody">
+        <sv:RadioCell Title="Melody1" Value="{Binding Items[2]}">
+        <sv:RadioCell Title="Melody2" Value="{Binding Items[3]}">
+    </sv:Section>
+</sv:SettingsView>
+```
 
 ## NumberPickerCell
 
@@ -504,6 +552,8 @@ Xamarin.Forms.EntryCellとは別物です。
     * 入力文字列の水平位置属性
 * AccentColor
     * 入力欄の下線の色（Androidのみ）
+* IsPassword
+    * パスワードなどのために入力文字を隠すかどうか。
 
 ## Contributors
 

@@ -7,6 +7,7 @@ namespace AiForms.Renderers.iOS.Extensions
     /// <summary>
     /// Stack view alignment extensions.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public static class StackViewAlignmentExtensions
     {
         /// <summary>

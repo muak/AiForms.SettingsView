@@ -36,7 +36,7 @@
             <!-- ちょい小さいフォントサイズ -->
             <x:Double x:Key="BaseFontSize-">11</x:Double>
 
-            <Style TargetType="sv:SettingsView">
+           <!-- <Style TargetType="sv:SettingsView">
                 <Setter Property="SeparatorColor" Value="{StaticResource DisabledColor}" />
                 <Setter Property="BackgroundColor" Value="{StaticResource PaleBackColorPrimary}" />
                 <Setter Property="HeaderBackgroundColor" Value="{StaticResource PaleBackColorPrimary}" />
@@ -52,14 +52,14 @@
                 <Setter Property="HeaderTextColor" Value="{StaticResource TitleTextColor}" />
                 <Setter Property="FooterFontSize" Value="{StaticResource BaseFontSize-}" />
                 <Setter Property="FooterTextColor" Value="{StaticResource PaleTextColor}" />
-            </Style>
+            </Style>-->
         </ResourceDictionary>
     </ContentPage.Resources>
     
-    <sv:SettingsView   HasUnevenRows="true" HeaderHeight="36" HeaderPadding="14,0,0,6" HeaderTextVerticalAlign="End" FooterPadding="14,4,4,6">
+    <sv:SettingsView BackgroundColor="Olive" HasUnevenRows="true" HeaderHeight="36" HeaderPadding="14,0,0,6" HeaderTextVerticalAlign="End" FooterPadding="14,4,4,6">
 
         <sv:Section x:Name="svv">
-                
+            <sv:ButtonCell Title="Button" BackgroundColor="White" />                
             <sv:PickerCell Title="Select" ItemsSource="{Binding MasterItemsSource}" DisplayMember="Name" MaxSelectedNumber="1" 
             SelectedItems="{Binding MasterItemsSourceSelectedItems}" SelectedCommand="{Binding SelectMasterCommand}"
                            KeepSelectedUntilBack="true" PageTitle="Select" />

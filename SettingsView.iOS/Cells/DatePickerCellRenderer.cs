@@ -13,12 +13,14 @@ namespace AiForms.Renderers.iOS
     /// <summary>
     /// Date picker cell renderer.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public class DatePickerCellRenderer : CellBaseRenderer<DatePickerCellView> { }
 
     /// <summary>
     /// Date picker cell view.
     /// </summary>
-    public class DatePickerCellView : LabelCellView, IPickerCell
+    [Foundation.Preserve(AllMembers = true)]
+    public class DatePickerCellView : LabelCellView
     {
         DatePickerCell _DatePickerCell => Cell as DatePickerCell;
         /// <summary>
@@ -78,6 +80,17 @@ namespace AiForms.Renderers.iOS
             else if (e.PropertyName == DatePickerCell.MinimumDateProperty.PropertyName) {
                 UpdateMinimumDate();
             }
+        }
+
+        /// <summary>
+        /// Rows the selected.
+        /// </summary>
+        /// <param name="tableView">Table view.</param>
+        /// <param name="indexPath">Index path.</param>
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            tableView.DeselectRow(indexPath, true);
+            DummyField.BecomeFirstResponder();
         }
 
         /// <summary>

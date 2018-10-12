@@ -156,7 +156,7 @@ namespace Sample.ViewModels
             Description.Value = "Description";
             HintText.Value = "hint";
             ValueText.Value = "value";
-            BgColor.Value = Color.Transparent;
+            BgColor.Value = Color.White;
             TitleColor.Value = DeepTextColor;
             TitleFontSize.Value = 12;
             ValueTextColor.Value = PaleTextColor;

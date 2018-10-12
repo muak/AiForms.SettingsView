@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     xmlns:ai="clr-namespace:AiForms.Renderers;assembly=SettingsView"
     xmlns:l="clr-namespace:AiForms.Layouts;assembly=AiForms.Layouts"
     xmlns:ef="clr-namespace:AiForms.Effects;assembly=AiForms.Effects"
     xmlns:me="clr-namespace:Sample.Views;assembly=Sample"
-    x:Class="Sample.Views.EntryCellTest">
+    x:Class="Sample.Views.RadioCellTest">
     
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -18,13 +19,9 @@
     <StackLayout>
         <ScrollView VerticalOptions="Start" HeightRequest="100" BackgroundColor="#FFFFFF">
             <l:WrapLayout Spacing="4">
-                <Label Text="OwnAccentColor"  ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
-                <Label Text="MaxLength"       ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
-                <Label Text="KeyboardType"    ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
-                <Label Text="Placeholder"     ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
-                <Label Text="InputText"       ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
-                <Label Text="TextAlignment"   ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
-                <Label Text="IsPassword"      ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+                <Label Text="OwnAccentColor"      ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+                <Label Text="ToggleGlobal"        ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
+                <Label Text="ChangeValue"         ef:AddCommand.On="true" ef:AddCommand.Command="{Binding CellChangeCommand}" ef:AddCommand.EffectColor="#80FFFF00" />
             </l:WrapLayout>
         </ScrollView>
         <ScrollView VerticalOptions="Start" HeightRequest="100" BackgroundColor="#efefef">
@@ -64,35 +61,41 @@
             CellHintFontSize="{Binding CellHintFontSize.Value}"
             UseDescriptionAsValue="{Binding UseDescriptionAsValue.Value}"
             ShowSectionTopBottomBorder="{Binding ShowSectionTopBottomBorder.Value}"
+            ai:RadioCell.SelectedValue="{Binding GlobalSelected.Value}"
         >
-            <ai:Section Title="Section1" FooterText="Footer1" >
-                <ai:EntryCell IsEnabled="{Binding IsEnabled.Value}"
-                              IconSource="{Binding IconSource.Value}" Title="{Binding Title.Value}" 
-                              Description="{Binding Description.Value}" 
+            <ai:Section Title="Section1" FooterText="Footer1" ai:RadioCell.SelectedValue="{Binding Selected.Value}" >
+                <ai:RadioCell IsEnabled="{Binding IsEnabled.Value}" 
+                              IconSource="{Binding IconSource.Value}" 
+                              Title="{Binding RadioItems[0].Name}"  
                               HintText="{Binding HintText.Value}" 
                               BackgroundColor="{Binding BgColor.Value}" 
                               TitleColor="{Binding TitleColor.Value}" 
                               TitleFontSize="{Binding TitleFontSize.Value}" 
-                              ValueTextColor="{Binding ValueTextColor.Value}" 
-                              ValueTextFontSize="{Binding ValueTextFontSize.Value}" 
-                              DescriptionColor="{Binding DescriptionColor.Value}" 
-                              DescriptionFontSize="{Binding DescriptionFontSize.Value}" 
-                              HintTextColor="{Binding HintTextColor.Value}"
-                              HintFontSize="{Binding HintFontSize.Value}"
+                              HintTextColor="{Binding HintTextColor.Value}" 
+                              HintFontSize="{Binding HintFontSize.Value}" 
                               IconSize="{Binding IconSize.Value}" 
                               IconRadius="{Binding IconRadius.Value}" 
-                              Tapped="Handle_Tapped" 
-                              AccentColor="{Binding OwnAccentColor.Value}" 
-                              ValueText="{Binding InputText.Value}"
-                              MaxLength="{Binding MaxLength.Value}" 
-                              Keyboard="{Binding KeyboardType.Value}" 
-                              Completed="Handle_Completed" 
-                              Placeholder="{Binding Placeholder.Value}" 
-                              TextAlignment="{Binding TextAlignment.Value}"
-                              IsPassword="{Binding IsPassword.Value}"/>
-                <EntryCell Text="{Binding InputText.Value}" Label="DefaultEntry" />
-              
+                              AccentColor="{Binding OwnAccentColor.Value}"
+                              Value="{Binding RadioItems[0]}" />
+                <ai:RadioCell Title="{Binding RadioItems[1].Name}"  
+                              AccentColor="{Binding OwnAccentColor.Value}"
+                              Value="{Binding RadioItems[1]}" />
+                 <ai:RadioCell Title="{Binding RadioItems[2].Name}"  
+                              AccentColor="{Binding OwnAccentColor.Value}"
+                              Value="{Binding RadioItems[2]}" />
+
+           </ai:Section>
+            <ai:Section Title="Section1" FooterText="Footer1" >
+                <ai:RadioCell Title="{Binding RadioItems[3].Name}"  
+                              AccentColor="{Binding OwnAccentColor.Value}"
+                              Value="{Binding RadioItems[3]}" />
+                <ai:RadioCell Title="{Binding RadioItems[4].Name}"  
+                              AccentColor="{Binding OwnAccentColor.Value}"
+                              Value="{Binding RadioItems[4]}" />
+                <ai:RadioCell Title="{Binding RadioItems[5].Name}"  
+                              AccentColor="{Binding OwnAccentColor.Value}"
+                              Value="{Binding RadioItems[5]}" />
             </ai:Section>
         </ai:SettingsView>
-    </StackLayout>  
+    </StackLayout>
 </ContentPage>

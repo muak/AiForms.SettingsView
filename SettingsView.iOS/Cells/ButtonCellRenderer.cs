@@ -4,6 +4,8 @@ using AiForms.Renderers;
 using AiForms.Renderers.iOS;
 using Xamarin.Forms;
 using AiForms.Renderers.iOS.Extensions;
+using Foundation;
+using UIKit;
 
 [assembly: ExportRenderer(typeof(ButtonCell), typeof(ButtonCellRenderer))]
 namespace AiForms.Renderers.iOS
@@ -11,14 +13,16 @@ namespace AiForms.Renderers.iOS
     /// <summary>
     /// Button cell renderer.
     /// </summary>
+    [Foundation.Preserve(AllMembers =true)]
     public class ButtonCellRenderer : CellBaseRenderer<ButtonCellView> { }
 
     /// <summary>
     /// Button cell view.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public class ButtonCellView : CellBaseView
     {
-        internal Action Execute { get; set; }
+        Action Execute { get; set; }
         ButtonCell _ButtonCell => Cell as ButtonCell;
         ICommand _command;
 
@@ -48,6 +52,17 @@ namespace AiForms.Renderers.iOS
             else if (e.PropertyName == ButtonCell.TitleAlignmentProperty.PropertyName) {
                 UpdateTitleAlignment();
             }
+        }
+
+        /// <summary>
+        /// Rows the selected.
+        /// </summary>
+        /// <param name="tableView">Table view.</param>
+        /// <param name="indexPath">Index path.</param>
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            Execute?.Invoke();
+            tableView.DeselectRow(indexPath, true);
         }
 
         /// <summary>

@@ -22,7 +22,7 @@ namespace AiForms.Renderers.Droid
     /// Number picker cell view.
     /// </summary>
     [Android.Runtime.Preserve(AllMembers = true)]
-    public class NumberPickerCellView : LabelCellView, IPickerCell
+    public class NumberPickerCellView : LabelCellView
     {
         NumberPickerCell _NumberPikcerCell => Cell as NumberPickerCell;
         APicker _picker;
@@ -69,6 +69,16 @@ namespace AiForms.Renderers.Droid
         }
 
         /// <summary>
+        /// Rows the selected.
+        /// </summary>
+        /// <param name="adapter">Adapter.</param>
+        /// <param name="position">Position.</param>
+        public override void RowSelected(SettingsViewRecyclerAdapter adapter, int position)
+        {
+            CreateDialog();
+        }
+
+        /// <summary>
         /// Updates the cell.
         /// </summary>
         public override void UpdateCell()
@@ -97,14 +107,6 @@ namespace AiForms.Renderers.Droid
                 _command = null;
             }
             base.Dispose(disposing);
-        }
-
-        /// <summary>
-        /// Shows the dialog.
-        /// </summary>
-        public void ShowDialog()
-        {
-            CreateDialog();
         }
 
         void UpdateMin()

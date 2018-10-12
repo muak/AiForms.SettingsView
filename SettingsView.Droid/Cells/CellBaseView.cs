@@ -227,7 +227,7 @@ namespace AiForms.Renderers.Droid
                 UpdateIcon(true);
             }
             else if (e.PropertyName == SettingsView.SelectedColorProperty.PropertyName) {
-                UpdateSelectedColor();
+                UpdateWithForceLayout(UpdateSelectedColor);
             }
 
         }

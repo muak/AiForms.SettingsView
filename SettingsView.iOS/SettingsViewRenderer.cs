@@ -16,6 +16,7 @@ namespace AiForms.Renderers.iOS
     /// <summary>
     /// Settings view renderer.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public class SettingsViewRenderer : ViewRenderer<SettingsView, UITableView>,IUITableViewDragDelegate,IUITableViewDropDelegate
     {
         Page _parentPage;

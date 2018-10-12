@@ -11,6 +11,7 @@ namespace AiForms.Renderers.iOS
     /// <summary>
     /// Cell base renderer.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public class CellBaseRenderer<TnativeCell> : CellRenderer where TnativeCell : CellBaseView
     {
         /// <summary>

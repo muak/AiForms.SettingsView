@@ -24,7 +24,7 @@ namespace AiForms.Renderers.Droid
     /// Text picker cell view.
     /// </summary>
     [Android.Runtime.Preserve(AllMembers = true)]
-    public class TextPickerCellView : LabelCellView, IPickerCell
+    public class TextPickerCellView : LabelCellView
     {
         TextPickerCell _TextPickerCell => Cell as TextPickerCell;
         APicker _picker;
@@ -63,6 +63,17 @@ namespace AiForms.Renderers.Droid
         }
 
         /// <summary>
+        /// Rows the selected.
+        /// </summary>
+        /// <param name="adapter">Adapter.</param>
+        /// <param name="position">Position.</param>
+        public override void RowSelected(SettingsViewRecyclerAdapter adapter, int position)
+        {
+            CreateDialog();
+        }
+
+
+        /// <summary>
         /// Updates the cell.
         /// </summary>
         public override void UpdateCell()
@@ -89,14 +100,6 @@ namespace AiForms.Renderers.Droid
                 _command = null;
             }
             base.Dispose(disposing);
-        }
-
-        /// <summary>
-        /// Shows the dialog.
-        /// </summary>
-        public void ShowDialog()
-        {
-            CreateDialog();
         }
 
         void UpdateSelectedItem()

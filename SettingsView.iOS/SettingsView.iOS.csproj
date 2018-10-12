@@ -86,7 +86,6 @@
     <Compile Include="Cells\CheckboxCellRenderer.cs" />
     <Compile Include="Cells\TimePickerCellRenderer.cs" />
     <Compile Include="Cells\DatePickerCellRenderer.cs" />
-    <Compile Include="Cells\IPickerCell.cs" />
     <Compile Include="Cells\EntryCellRenderer.cs" />
     <Compile Include="ImageCacheController.cs" />
     <Compile Include="Extensions\TextAlignmentExtensions.cs" />

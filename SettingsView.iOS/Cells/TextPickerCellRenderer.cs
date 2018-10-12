@@ -4,6 +4,7 @@ using System.Windows.Input;
 using AiForms.Renderers;
 using AiForms.Renderers.iOS;
 using CoreGraphics;
+using Foundation;
 using UIKit;
 using Xamarin.Forms;
 
@@ -13,12 +14,14 @@ namespace AiForms.Renderers.iOS
     /// <summary>
     /// Text picker cell renderer.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public class TextPickerCellRenderer : CellBaseRenderer<TextPickerCellView> { }
 
     /// <summary>
     /// Text picker cell view.
     /// </summary>
-    public class TextPickerCellView : LabelCellView, IPickerCell
+    [Foundation.Preserve(AllMembers = true)]
+    public class TextPickerCellView : LabelCellView
     {
         /// <summary>
         /// Gets or sets the dummy field.
@@ -71,6 +74,17 @@ namespace AiForms.Renderers.iOS
             else if (e.PropertyName == TextPickerCell.ItemsProperty.PropertyName){
                 UpdateItems();
             }
+        }
+
+        /// <summary>
+        /// Rows the selected.
+        /// </summary>
+        /// <param name="tableView">Table view.</param>
+        /// <param name="indexPath">Index path.</param>
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            tableView.DeselectRow(indexPath, true);
+            DummyField.BecomeFirstResponder();
         }
 
         /// <summary>

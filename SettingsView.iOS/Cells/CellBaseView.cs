@@ -12,6 +12,7 @@ namespace AiForms.Renderers.iOS
     /// <summary>
     /// Cell base view.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public class CellBaseView : CellTableViewCell
     {
         /// <summary>

@@ -5,6 +5,7 @@ using UIKit;
 
 namespace AiForms.Renderers.iOS
 {
+    [Foundation.Preserve(AllMembers = true)]
     internal class NumberPickerSource : UIPickerViewModel
     {
 

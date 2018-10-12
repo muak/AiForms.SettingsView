@@ -4,6 +4,8 @@ using UIKit;
 using Xamarin.Forms;
 using System.Collections.Specialized;
 using System;
+using Foundation;
+using System.Linq;
 
 [assembly: ExportRenderer(typeof(PickerCell), typeof(PickerCellRenderer))]
 namespace AiForms.Renderers.iOS
@@ -11,14 +13,17 @@ namespace AiForms.Renderers.iOS
     /// <summary>
     /// Picker cell renderer.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public class PickerCellRenderer : CellBaseRenderer<PickerCellView> { }
 
     /// <summary>
     /// Picker cell view.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public class PickerCellView : LabelCellView
     {
         PickerCell _PickerCell => Cell as PickerCell;
+        PickerTableViewController _pickerVC;
         string _valueTextCache;
         INotifyCollectionChanged _notifyCollection;
         INotifyCollectionChanged _selectedCollection;
@@ -60,6 +65,30 @@ namespace AiForms.Renderers.iOS
             if(e.PropertyName == PickerCell.ItemsSourceProperty.PropertyName){
                 UpdateCollectionChanged();
                 UpdateSelectedItems(true);
+            }
+        }
+
+        /// <summary>
+        /// Rows the selected.
+        /// </summary>
+        /// <param name="tableView">Table view.</param>
+        /// <param name="indexPath">Index path.</param>
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            if(_PickerCell.ItemsSource == null)
+            {
+                tableView.DeselectRow(indexPath, true);
+                return;
+            }
+
+            var naviCtrl = GetUINavigationController(UIApplication.SharedApplication.KeyWindow.RootViewController);
+            _pickerVC?.Dispose();
+            _pickerVC = new PickerTableViewController(this, tableView);
+            BeginInvokeOnMainThread(() => naviCtrl.PushViewController(_pickerVC, true));
+
+            if (!_PickerCell.KeepSelectedUntilBack) 
+            {
+                tableView.DeselectRow(indexPath, true);
             }
         }
 
@@ -145,7 +174,9 @@ namespace AiForms.Renderers.iOS
         protected override void Dispose(bool disposing)
         {
             if (disposing) {
-                
+                _pickerVC?.Dispose();
+                _pickerVC = null;
+
                 if (_notifyCollection != null)
                 {
                     _notifyCollection.CollectionChanged -= ItemsSourceCollectionChanged;
@@ -158,6 +189,36 @@ namespace AiForms.Renderers.iOS
                 }
             }
             base.Dispose(disposing);
+        }
+
+        // Refer to https://forums.xamarin.com/discussion/comment/294088/#Comment_294088
+        UINavigationController GetUINavigationController(UIViewController controller)
+        {
+            if (controller != null) {
+                if (controller is UINavigationController) {
+                    return (controller as UINavigationController);
+                }
+                if (controller is UITabBarController) {
+                    //in case Root->Tab->Navi->Page
+                    var tabCtrl = controller as UITabBarController;
+                    return GetUINavigationController(tabCtrl.SelectedViewController);
+                }
+                if (controller.ChildViewControllers.Count() != 0) {
+                    var count = controller.ChildViewControllers.Count();
+
+                    for (int c = 0; c < count; c++) {
+                        var child = GetUINavigationController(controller.ChildViewControllers[c]);
+                        if (child == null) {
+                            //TODO: Analytics...
+                        }
+                        else if (child is UINavigationController) {
+                            return (child as UINavigationController);
+                        }
+                    }
+                }
+            }
+
+            return null;
         }
 
     }

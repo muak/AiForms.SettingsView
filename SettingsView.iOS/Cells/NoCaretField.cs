@@ -7,6 +7,7 @@ namespace AiForms.Renderers.iOS
     /// <summary>
     /// No caret field.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public class NoCaretField : UITextField
     {
         /// <summary>

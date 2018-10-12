@@ -12,11 +12,13 @@ namespace AiForms.Renderers.iOS
     /// <summary>
     /// Label cell renderer.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public class LabelCellRenderer : CellBaseRenderer<LabelCellView> { }
 
     /// <summary>
     /// Label cell view.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public class LabelCellView : CellBaseView
     {
         /// <summary>
