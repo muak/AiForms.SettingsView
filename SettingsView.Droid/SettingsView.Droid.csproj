@@ -133,6 +133,8 @@
     <Compile Include="Cells\ICheckableCell.cs" />
     <Compile Include="SettingsViewRecyclerAdapter.cs" />
     <Compile Include="Cells\TextPickerCellRenderer.cs" />
+    <Compile Include="Cells\RadioCellRenderer.cs" />
+    <Compile Include="Cells\SimpleCheck.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

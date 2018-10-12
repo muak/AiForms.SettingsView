@@ -94,10 +94,5 @@ namespace AiForms.Renderers.iOS
                 }
             }
         }
-
-        void SetUpSectionPropertyChanged(CellBase formsCell)
-        {
-
-        }
     }
 }

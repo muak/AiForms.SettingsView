@@ -26,7 +26,7 @@ namespace AiForms.Renderers.Droid
 
         Dictionary<Type, int> _viewTypes;
         List<CellCache> _cellCaches;
-        List<CellCache> CellCaches
+        internal List<CellCache> CellCaches
         {
             get
             {
@@ -127,14 +127,17 @@ namespace AiForms.Renderers.Droid
             //      But do it at a later as iOS side doesn't have that process.
             DeselectRow();
 
-            var cell = view.FindViewById<LinearLayout>(Resource.Id.ContentCellBody).GetChildAt(0);
+            var cell = view.FindViewById<LinearLayout>(Resource.Id.ContentCellBody).GetChildAt(0) as CellBaseView;
 
-            if(!CellCaches[position].Cell.IsEnabled){
+
+            if(cell == null || !CellCaches[position].Cell.IsEnabled){
                 //if FormsCell IsEnable is false, does nothing. 
                 return;
             }
 
             _settingsView.Model.RowSelected(CellCaches[position].Cell);
+
+            cell.RowSelected(this,position);
 
             if (cell is CommandCellView){
                 var cmdCell = cell as CommandCellView;
@@ -454,7 +457,7 @@ namespace AiForms.Renderers.Droid
                 {
                     newCellCaches.Add(new CellCache
                     {
-                        Cell = (Cell)model.GetItem(sectionIndex, i),
+                        Cell = model.GetCell(sectionIndex, i),
                         IsLastCell = i == sectionRowCount - 1,
                         SectionIndex = sectionIndex,
                         RowIndex = i
@@ -502,7 +505,7 @@ namespace AiForms.Renderers.Droid
  
 
         [Android.Runtime.Preserve(AllMembers = true)]
-        class CellCache
+        internal class CellCache
         {
             public Cell Cell { get; set; }
             public bool IsHeader { get; set; } = false;
