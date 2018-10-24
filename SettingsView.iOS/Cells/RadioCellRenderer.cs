@@ -123,12 +123,17 @@ namespace AiForms.Renderers.iOS
 
         void UpdateSelectedValue()
         {
-            if (_radioCell.Value == SelectedValue) {
-                Accessory = UITableViewCellAccessory.Checkmark;
+            bool result;
+            if(_radioCell.Value.GetType().IsValueType)
+            {
+                result = object.Equals(_radioCell.Value, SelectedValue);
             }
-            else {
-                Accessory = UITableViewCellAccessory.None;
+            else
+            {
+                result = object.ReferenceEquals(_radioCell.Value, SelectedValue);
             }
+
+            Accessory = result ? UITableViewCellAccessory.Checkmark : UITableViewCellAccessory.None;
         }
 
         void UpdateAccentColor()

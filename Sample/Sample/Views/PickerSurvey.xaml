@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:TestAiForms"
              xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
              x:Class="Sample.Views.PickerSurvey">
 
@@ -55,16 +54,19 @@
             </Style>-->
         </ResourceDictionary>
     </ContentPage.Resources>
-    
-    <sv:SettingsView BackgroundColor="Olive" HasUnevenRows="true" HeaderHeight="36" HeaderPadding="14,0,0,6" HeaderTextVerticalAlign="End" FooterPadding="14,4,4,6">
+    <StackLayout>
+    <sv:SettingsView VerticalOptions="Start" HeightRequest="120" BackgroundColor="Olive" HasUnevenRows="false" HeaderHeight="20" HeaderPadding="0,0,0,0" HeaderTextVerticalAlign="End" FooterPadding="0">
 
-        <sv:Section x:Name="svv">
-            <sv:ButtonCell Title="Button" BackgroundColor="White" />                
-            <sv:PickerCell Title="Select" ItemsSource="{Binding MasterItemsSource}" DisplayMember="Name" MaxSelectedNumber="1" 
+        <sv:Section Title="Hoge" FooterText="Fuga">
+            <sv:ButtonCell Title="Button" BackgroundColor="White" />
+            <sv:ButtonCell Title="Button" BackgroundColor="White" />         
+           <!-- <sv:PickerCell Title="Select" ItemsSource="{Binding MasterItemsSource}" DisplayMember="Name" MaxSelectedNumber="1" 
             SelectedItems="{Binding MasterItemsSourceSelectedItems}" SelectedCommand="{Binding SelectMasterCommand}"
-                           KeepSelectedUntilBack="true" PageTitle="Select" />
+                           KeepSelectedUntilBack="true" PageTitle="Select" />-->
         </sv:Section>
         
     </sv:SettingsView>
+    <ContentView VerticalOptions="FillAndExpand" />
+    </StackLayout>
 
 </ContentPage>

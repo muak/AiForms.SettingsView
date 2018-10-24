@@ -2,12 +2,12 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>AiForms.SettingsView</id>
-        <version>0.4.0</version>
+        <version>0.4.1</version>
         <title>SettingsView for Xamarin.Forms</title>
         <authors>kamu</authors>
         <owners>kamu</owners>
-        <projectUrl>https://github.com/muak/AiForms.Renderers</projectUrl>
-        <licenseUrl>https://github.com/muak/AiForms.Renderers/blob/master/LICENSE.txt</licenseUrl>
+        <projectUrl>https://github.com/muak/AiForms.SettingsView</projectUrl>
+        <licenseUrl>https://github.com/muak/AiForms.SettingsView/blob/master/LICENSE.txt</licenseUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>This is a flexible TableView specialized in settings for Android / iOS. 
 There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,CheckboxCell,RadioCell,PickerCell,EntryCell,NumberPickerCell,TimePickerCell,DatePickerCell)

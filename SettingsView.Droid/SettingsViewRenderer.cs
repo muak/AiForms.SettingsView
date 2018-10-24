@@ -82,6 +82,11 @@ namespace AiForms.Renderers.Droid
             Device.BeginInvokeOnMainThread(() => _adapter.DeselectRow());
         }
 
+        protected override void OnLayout(bool changed, int left, int top, int right, int bottom)
+        {
+            base.OnLayout(changed, left, top, right, bottom);
+        }
+
         /// <summary>
         /// Ons the element property changed.
         /// </summary>

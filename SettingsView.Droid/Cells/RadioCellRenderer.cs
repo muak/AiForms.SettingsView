@@ -146,12 +146,15 @@ namespace AiForms.Renderers.Droid
 
         void UpdateSelectedValue()
         {
-            if (_radioCell.Value == SelectedValue) {
-                _simpleCheck.Selected = true;
+            bool result;
+            if (_radioCell.Value.GetType().IsValueType) {
+                result = object.Equals(_radioCell.Value, SelectedValue);
             }
             else {
-                _simpleCheck.Selected = false;
+                result = object.ReferenceEquals(_radioCell.Value, SelectedValue);
             }
+
+            _simpleCheck.Selected = result;
         }
 
         void UpdateAccentColor()

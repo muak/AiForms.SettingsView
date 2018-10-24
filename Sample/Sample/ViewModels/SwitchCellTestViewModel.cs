@@ -1,6 +1,7 @@
 ﻿using System;
 using Reactive.Bindings;
 using Xamarin.Forms;
+using System.Diagnostics;
 
 namespace Sample.ViewModels
 {
@@ -18,7 +19,6 @@ namespace Sample.ViewModels
             OwnAccentColor.Value = AccentColor;
             On.Value = false;
             Checked.Value = false;
-
         }
 
         protected override void CellChanged(object obj)
