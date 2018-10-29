@@ -4,6 +4,8 @@ This is a flexible TableView specialized in settings for Android / iOS.
 
 [Japanese](./README-ja.md)
 
+![Build status](https://kamusoft.visualstudio.com/NugetCI/_apis/build/status/AiForms.SettingsView)
+
 ## What SettingsView can do.
 
 ### General

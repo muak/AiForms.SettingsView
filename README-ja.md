@@ -3,6 +3,8 @@
 SettingViewはXamarin.Formsで使用できる設定に特化した柔軟なTableViewです。  
 AndroidとiOSに対応しています。
 
+![Build status](https://kamusoft.visualstudio.com/NugetCI/_apis/build/status/AiForms.SettingsView)
+
 ## SettingsViewでできること（標準のTableViewとの違い）
 
 ### 全般
