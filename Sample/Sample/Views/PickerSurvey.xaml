@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
-             x:Class="Sample.Views.PickerSurvey">
+             x:Class="Sample.Views.PickerSurvey" x:Name="Me">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -54,10 +54,12 @@
             </Style>-->
         </ResourceDictionary>
     </ContentPage.Resources>
-    <StackLayout>
-    <sv:SettingsView VerticalOptions="Start" HeightRequest="120" BackgroundColor="Olive" HasUnevenRows="false" HeaderHeight="20" HeaderPadding="0,0,0,0" HeaderTextVerticalAlign="End" FooterPadding="0">
+    <StackLayout Spacing="0">
+    <sv:SettingsView VerticalOptions="Start" HeightRequest="{Binding ComputedContentHeight,Source={x:Reference settings}}" BackgroundColor="Olive" HasUnevenRows="false"
+                     HeaderHeight="0" HeaderPadding="0,0,0,0" HeaderTextVerticalAlign="End" FooterPadding="0" x:Name="settings" FooterTextColor="White" FooterBackgroundColor="Navy"
+                     >
 
-        <sv:Section Title="Hoge" FooterText="Fuga">
+        <sv:Section Title="Hoge" FooterText="Fuga" HeaderHeight="0">
             <sv:ButtonCell Title="Button" BackgroundColor="White" />
             <sv:ButtonCell Title="Button" BackgroundColor="White" />         
            <!-- <sv:PickerCell Title="Select" ItemsSource="{Binding MasterItemsSource}" DisplayMember="Name" MaxSelectedNumber="1" 
@@ -66,7 +68,7 @@
         </sv:Section>
         
     </sv:SettingsView>
-    <ContentView VerticalOptions="FillAndExpand" />
+    <ContentView VerticalOptions="FillAndExpand" BackgroundColor="Gray" />
     </StackLayout>
 
 </ContentPage>

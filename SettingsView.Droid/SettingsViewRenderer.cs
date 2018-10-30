@@ -85,6 +85,16 @@ namespace AiForms.Renderers.Droid
         protected override void OnLayout(bool changed, int left, int top, int right, int bottom)
         {
             base.OnLayout(changed, left, top, right, bottom);
+
+            var startPos = _layoutManager.FindFirstCompletelyVisibleItemPosition();
+            var endPos = _layoutManager.FindLastCompletelyVisibleItemPosition();
+
+            int totalH = 0;
+            for (var i = startPos; i <= endPos;i++)
+            {
+                totalH += _layoutManager.GetChildAt(i).Height;
+            }
+            Element.ComputedContentHeight = Context.FromPixels(Math.Min(totalH, Control.Height));
         }
 
         /// <summary>

@@ -114,6 +114,12 @@ namespace AiForms.Renderers.iOS
             return Control.GetSizeRequest(widthConstraint, heightConstraint, MinRowHeight, MinRowHeight);
         }
 
+        public override void LayoutSubviews()
+        {
+            base.LayoutSubviews();
+            Element.ComputedContentHeight = Math.Min(Control.ContentSize.Height, Control.Frame.Height);
+        }
+
         /// <summary>
         /// Updates the native widget.
         /// </summary>

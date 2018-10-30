@@ -656,5 +656,26 @@ namespace AiForms.Renderers
             get { return (bool)GetValue(ScrollToTopProperty); }
             set { SetValue(ScrollToTopProperty, value); }
         }
+
+        /// <summary>
+        /// The computed content height property.
+        /// </summary>
+        public static BindableProperty ComputedContentHeightProperty =
+            BindableProperty.Create(
+                nameof(ComputedContentHeight),
+                typeof(double),
+                typeof(SettingsView),
+                -1d,
+                defaultBindingMode: BindingMode.OneWayToSource
+            );
+
+        /// <summary>
+        /// Gets or sets the height of the computed content.
+        /// </summary>
+        /// <value>The height of the computed content.</value>
+        public double ComputedContentHeight {
+            get { return (double)GetValue(ComputedContentHeightProperty); }
+            set { SetValue(ComputedContentHeightProperty, value); }
+        }
     }
 }
