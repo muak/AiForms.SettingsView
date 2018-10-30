@@ -3,6 +3,7 @@
 	xmlns="http://xamarin.com/schemas/2014/forms" 
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
 	xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
+    xmlns:ef="clr-namespace:AiForms.Effects;assembly=AiForms.Effects"
 	x:Class="Sample.Views.SettingsViewPage"
     Title="Settings">
 
@@ -104,7 +105,7 @@
                     <Label Text="ViewCell" TextColor="{StaticResource DeepTextColor}" />
                     <StackLayout Orientation="Horizontal">
                         <Image Source="icon.png" WidthRequest="36" HeightRequest="36" />
-                        <Slider Minimum="0" Maximum="999" Value="500" HorizontalOptions="FillAndExpand" />
+                        <Slider Minimum="0" Maximum="999" Value="500" HorizontalOptions="FillAndExpand" ef:AlterColor.Accent="{StaticResource AccentColor}" />
                     </StackLayout>
                     <Label Text="You can use Forms build-in Cells." FontSize="11" TextColor="{StaticResource PaleTextColor}" />
                  </StackLayout>

@@ -12,6 +12,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using AiEntryCell = AiForms.Renderers.EntryCell;
 using Android.Text.Method;
+using Android.Graphics;
+using Android.Runtime;
 
 [assembly: ExportRenderer(typeof(AiEntryCell), typeof(AiForms.Renderers.Droid.EntryCellRenderer))]
 namespace AiForms.Renderers.Droid
@@ -324,6 +326,8 @@ namespace AiForms.Renderers.Droid
     internal class AiEditText : EditText
     {
         public Action ClearFocusAction { get; set; }
+        SoftInput _startingMode;
+
         public AiEditText(Context context) : base(context)
         {
         }

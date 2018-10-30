@@ -76,7 +76,8 @@
                               IconSize="{Binding IconSize.Value}" 
                               IconRadius="{Binding IconRadius.Value}" 
                               AccentColor="{Binding OwnAccentColor.Value}"
-                              Value="{Binding RadioItems[0]}" />
+                              Value="{Binding RadioItems[0]}"
+                              Tapped="Handle_Tapped"/>
                 <ai:RadioCell Title="{Binding RadioItems[1].Name}"  
                               AccentColor="{Binding OwnAccentColor.Value}"
                               Value="{Binding RadioItems[1]}" />

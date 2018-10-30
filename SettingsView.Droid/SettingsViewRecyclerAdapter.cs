@@ -138,49 +138,6 @@ namespace AiForms.Renderers.Droid
             _settingsView.Model.RowSelected(CellCaches[position].Cell);
 
             cell.RowSelected(this,position);
-
-            //if (cell is CommandCellView){
-            //    var cmdCell = cell as CommandCellView;
-            //    cmdCell?.Execute?.Invoke();
-            //    if ((cmdCell.Cell as CommandCell).KeepSelectedUntilBack)
-            //    {
-            //        SelectedRow(cell, position);
-            //    }
-            //}
-            //else if (cell is ButtonCellView)
-            //{
-            //    var buttonCell = cell as ButtonCellView;
-            //    buttonCell?.Execute?.Invoke();
-            //}
-            //else if (cell is ICheckableCell)
-            //{
-            //    var checkCell = cell as ICheckableCell;
-            //    checkCell.CheckChange();
-            //}
-            //else if (cell is IPickerCell)
-            //{
-            //    var pCell = cell as IPickerCell;
-            //    pCell.ShowDialog();
-            //}
-            //else if (cell is PickerCellView)
-            //{
-            //    var pCell = cell as PickerCellView;
-            //    var formPickerCell = pCell.Cell as PickerCell;
-
-            //    if (formPickerCell.ItemsSource == null){
-            //        return;
-            //    }
-
-            //    if(formPickerCell.ItemsSource.Count == 0){
-            //        return;
-            //    }
-
-            //    if (formPickerCell.KeepSelectedUntilBack){
-            //        SelectedRow(cell, position);
-            //    }
-            //    pCell.ShowDialog();
-            //}
-
         }
 
         /// <summary>

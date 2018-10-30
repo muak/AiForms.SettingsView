@@ -117,7 +117,7 @@ namespace AiForms.Renderers.iOS
         public override void LayoutSubviews()
         {
             base.LayoutSubviews();
-            Element.ComputedContentHeight = Math.Min(Control.ContentSize.Height, Control.Frame.Height);
+            Element.VisibleContentHeight = Math.Min(Control.ContentSize.Height, Control.Frame.Height);
         }
 
         /// <summary>

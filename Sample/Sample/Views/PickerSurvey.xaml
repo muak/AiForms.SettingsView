@@ -55,19 +55,16 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <StackLayout Spacing="0">
-    <sv:SettingsView VerticalOptions="Start" HeightRequest="{Binding ComputedContentHeight,Source={x:Reference settings}}" BackgroundColor="Olive" HasUnevenRows="false"
-                     HeaderHeight="0" HeaderPadding="0,0,0,0" HeaderTextVerticalAlign="End" FooterPadding="0" x:Name="settings" FooterTextColor="White" FooterBackgroundColor="Navy"
-                     >
+    <sv:SettingsView VerticalOptions="Start" BackgroundColor="Olive" HeightRequest="{Binding VisibleContentHeight,Source={x:Reference settings}}" HasUnevenRows="false"
+                     x:Name="settings" CellBackgroundColor="White">
 
-        <sv:Section Title="Hoge" FooterText="Fuga" HeaderHeight="0">
-            <sv:ButtonCell Title="Button" BackgroundColor="White" />
-            <sv:ButtonCell Title="Button" BackgroundColor="White" />         
-           <!-- <sv:PickerCell Title="Select" ItemsSource="{Binding MasterItemsSource}" DisplayMember="Name" MaxSelectedNumber="1" 
-            SelectedItems="{Binding MasterItemsSourceSelectedItems}" SelectedCommand="{Binding SelectMasterCommand}"
-                           KeepSelectedUntilBack="true" PageTitle="Select" />-->
-        </sv:Section>
-        
+        <sv:Section Title="A" FooterText="Fuga">
+            <sv:ButtonCell Title="Button" />
+            <sv:ButtonCell Title="Button" />         
+            <sv:ButtonCell Title="Button" />
+         </sv:Section>
     </sv:SettingsView>
+    
     <ContentView VerticalOptions="FillAndExpand" BackgroundColor="Gray" />
     </StackLayout>
 

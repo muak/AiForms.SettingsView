@@ -61,11 +61,9 @@ To use by iOS, you need to write some code in AppDelegate.cs.
 ```csharp
 public override bool FinishedLaunching(UIApplication app, NSDictionary options) {
     global::Xamarin.Forms.Forms.Init();
-
     AiForms.Renderers.iOS.SettingsViewInit.Init(); //need to write here
 
-    LoadApplication(new App(new iOSInitializer()));
-
+    LoadApplication(new App());
     return base.FinishedLaunching(app, options);
 }
 ```
@@ -204,6 +202,17 @@ Whereby any SettingsView in App will become the same property setttings.
 * ScrollToBottom
 	* When this property is set to true, the screen will be scrolled to first item position or last item position.
 	* If scrolling has complete, it will be set to false automatically.
+* VisibleContentHeight
+    * The height of the visible content. This value allows SettingsView itself height to fit total cells height.
+
+### To fit SettingsView height to visible content
+
+If SettingsView's total cells height is shorter than the parent view height, itself height can be fit total cells height as the following:
+
+```xml
+<sv:SettingsView x:Name="settings" HeightRequest="{Binding VisibleContentHeight,Source={x:Reference settings}}">
+</sv:SettingsView>
+```
 
 ## SettingsView Methods
 

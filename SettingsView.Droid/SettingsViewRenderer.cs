@@ -86,15 +86,20 @@ namespace AiForms.Renderers.Droid
         {
             base.OnLayout(changed, left, top, right, bottom);
 
+            if (!changed) return;
+
             var startPos = _layoutManager.FindFirstCompletelyVisibleItemPosition();
             var endPos = _layoutManager.FindLastCompletelyVisibleItemPosition();
 
             int totalH = 0;
-            for (var i = startPos; i <= endPos;i++)
-            {
+            for (var i = startPos; i <= endPos; i++) {
+                var child = _layoutManager.GetChildAt(i);
+
+                if (child == null) return;
+
                 totalH += _layoutManager.GetChildAt(i).Height;
             }
-            Element.ComputedContentHeight = Context.FromPixels(Math.Min(totalH, Control.Height));
+            Element.VisibleContentHeight = Context.FromPixels(Math.Min(totalH, Control.Height));
         }
 
         /// <summary>

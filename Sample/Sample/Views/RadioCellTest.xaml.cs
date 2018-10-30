@@ -11,5 +11,10 @@ namespace Sample.Views
         {
             InitializeComponent();
         }
+
+        void Handle_Tapped(object sender, System.EventArgs e)
+        {
+            DisplayAlert("", "Tapped", "OK");
+        }
     }
 }

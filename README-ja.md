@@ -60,11 +60,9 @@ iOSで使用する場合はAppDelegate.csに以下のようなコードを書く
 ```csharp
 public override bool FinishedLaunching(UIApplication app, NSDictionary options) {
     global::Xamarin.Forms.Forms.Init();
-
     AiForms.Renderers.iOS.SettingsViewInit.Init(); //ここに書く
 
-    LoadApplication(new App(new iOSInitializer()));
-
+    LoadApplication(new App());
     return base.FinishedLaunching(app, options);
 }
 ```
@@ -205,6 +203,17 @@ SettingsViewのプロパティ設定はApp.xamlに記述した方が良いかも
 * ScrollToBottom
 	* このプロパティにtrueをセットすると先頭または末尾までスクロールします。
 	* スクロール完了後は自動でfalseがセットされます。
+* VisibleContentHeight
+    * 表示されているコンテンツの高さです。この値を使って SettingsView 自体の高さを表示されているセルの合計の高さに合わせることができます。
+
+### SettingsView の高さを内容の高さに合わせるには
+
+SettingsView の内容のセルの合計の高さが、親のViewよりも低い場合は、次のように HeightRequest と VisibleContentHeight を使って、自身の高さを内容の高さに合わせることができます。
+
+```xml
+<sv:SettingsView x:Name="settings" HeightRequest="{Binding VisibleContentHeight,Source={x:Reference settings}}">
+</sv:SettingsView>
+```
 
 ## SettingsViewのメソッド
 

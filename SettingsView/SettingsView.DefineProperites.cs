@@ -660,9 +660,9 @@ namespace AiForms.Renderers
         /// <summary>
         /// The computed content height property.
         /// </summary>
-        public static BindableProperty ComputedContentHeightProperty =
+        public static BindableProperty VisibleContentHeightProperty =
             BindableProperty.Create(
-                nameof(ComputedContentHeight),
+                nameof(VisibleContentHeight),
                 typeof(double),
                 typeof(SettingsView),
                 -1d,
@@ -673,9 +673,9 @@ namespace AiForms.Renderers
         /// Gets or sets the height of the computed content.
         /// </summary>
         /// <value>The height of the computed content.</value>
-        public double ComputedContentHeight {
-            get { return (double)GetValue(ComputedContentHeightProperty); }
-            set { SetValue(ComputedContentHeightProperty, value); }
+        public double VisibleContentHeight {
+            get { return (double)GetValue(VisibleContentHeightProperty); }
+            set { SetValue(VisibleContentHeightProperty, value); }
         }
     }
 }
