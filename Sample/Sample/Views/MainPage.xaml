@@ -19,6 +19,7 @@
             <ai:ButtonCell Title="ButtonCellTest" Command="{Binding GoToTest}"  CommandParameter="ButtonCellTest" />
             <ai:ButtonCell Title="RadioCellTest" Command="{Binding GoToTest}"  CommandParameter="RadioCellTest" />
             <ai:ButtonCell Title="RadioCellTemplateTest" Command="{Binding GoToTest}"  CommandParameter="RadioCellTemplateTest" />
+            <ai:ButtonCell Title="GlobalDataTemplate" Command="{Binding GoToTest}"  CommandParameter="GlobalDataTemplate" />
             <ai:ButtonCell Title="FormsCellTest" Command="{Binding GoToTest}"  CommandParameter="FormsCellTest" />
             <ai:ButtonCell Title="OnTableViewTest" Command="{Binding GoToTest}"  CommandParameter="OnTableViewTest" />
             <ai:ButtonCell Title="PickerSurvey" Command="{Binding GoToTest}"  CommandParameter="PickerSurvey" />

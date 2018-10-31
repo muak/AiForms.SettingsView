@@ -18,6 +18,7 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
 
 * [RadioCell] A cell that can be selected just one from a section.
 * [EntryCell] [IsPassword] Input text can be hidden.
+* [SettingsView] [ItemsSource / ItemTemplate] DataTemplate for SettingsView can be used.
 * [SettingsView] [VisibleContentHeight] The height of visible content can be got.
         </releaseNotes>
         <tags>Xamarin.Forms TableView Cell Setting Configuration Option ListView UITableView RecyclerView ReOrder DragDrop</tags>
