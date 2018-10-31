@@ -1,5 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
+using System.Collections;
+using System.Collections.Specialized;
 
 namespace AiForms.Renderers
 {
@@ -676,6 +678,142 @@ namespace AiForms.Renderers
         public double VisibleContentHeight {
             get { return (double)GetValue(VisibleContentHeightProperty); }
             set { SetValue(VisibleContentHeightProperty, value); }
+        }
+
+        /// <summary>
+        /// The items source property.
+        /// </summary>
+        public static BindableProperty ItemsSourceProperty =
+            BindableProperty.Create(
+                nameof(ItemsSource),
+                typeof(IEnumerable),
+                typeof(SettingsView),
+                default(IEnumerable),
+                defaultBindingMode: BindingMode.OneWay,
+                propertyChanged: ItemsChanged
+            );
+
+        /// <summary>
+        /// Gets or sets the items source.
+        /// </summary>
+        /// <value>The items source.</value>
+        public IEnumerable ItemsSource {
+            get { return (IEnumerable)GetValue(ItemsSourceProperty); }
+            set { SetValue(ItemsSourceProperty, value); }
+        }
+
+        /// <summary>
+        /// The item template property.
+        /// </summary>
+        public static BindableProperty ItemTemplateProperty =
+            BindableProperty.Create(
+                nameof(ItemTemplate),
+                typeof(DataTemplate),
+                typeof(SettingsView),
+                default(DataTemplate),
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        /// <summary>
+        /// Gets or sets the item template.
+        /// </summary>
+        /// <value>The item template.</value>
+        public DataTemplate ItemTemplate {
+            get { return (DataTemplate)GetValue(ItemTemplateProperty); }
+            set { SetValue(ItemTemplateProperty, value); }
+        }
+
+        static void ItemsChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var settingsView = (SettingsView)bindable;
+
+            if (settingsView.ItemTemplate == null) {
+                return;
+            }
+
+            IList newValueAsEnumerable;
+            try {
+                newValueAsEnumerable = newValue as IList;
+            }
+            catch (Exception e) {
+                throw e;
+            }
+
+            var oldObservableCollection = oldValue as INotifyCollectionChanged;
+
+            if (oldObservableCollection != null) {
+                oldObservableCollection.CollectionChanged -= settingsView.OnItemsSourceCollectionChanged;
+            }
+
+            var newObservableCollection = newValue as INotifyCollectionChanged;
+
+            if (newObservableCollection != null) {
+                newObservableCollection.CollectionChanged += settingsView.OnItemsSourceCollectionChanged;
+            }
+
+            settingsView.Root.Clear();
+
+            if (newValueAsEnumerable != null) {
+                foreach (var item in newValueAsEnumerable) {
+                    var view = CreateChildViewFor(settingsView.ItemTemplate, item, settingsView);
+
+                    settingsView.Root.Add(view);
+                }
+            }
+        }
+
+        void OnItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Replace) {
+
+                Root.RemoveAt(e.OldStartingIndex);
+
+                var item = e.NewItems[e.NewStartingIndex];
+                var view = CreateChildViewFor(this.ItemTemplate, item, this);
+
+                Root.Insert(e.NewStartingIndex, view);
+            }
+
+            else if (e.Action == NotifyCollectionChangedAction.Add) {
+                if (e.NewItems != null) {
+                    for (var i = 0; i < e.NewItems.Count; ++i) {
+                        var item = e.NewItems[i];
+                        var view = CreateChildViewFor(this.ItemTemplate, item, this);
+
+                        Root.Insert(i + e.NewStartingIndex, view);
+                    }
+                }
+            }
+
+            else if (e.Action == NotifyCollectionChangedAction.Remove) {
+                if (e.OldItems != null) {
+                    Root.RemoveAt(e.OldStartingIndex);
+                }
+            }
+
+            else if (e.Action == NotifyCollectionChangedAction.Reset) {
+                Root.Clear();
+            }
+
+            else {
+                return;
+            }
+
+        }
+
+
+        static Section CreateChildViewFor(DataTemplate template, object item, BindableObject container)
+        {
+            var selector = template as DataTemplateSelector;
+
+            if (selector != null) {
+                template = selector.SelectTemplate(item, container);
+            }
+
+            //Binding context
+            template.SetValue(BindableObject.BindingContextProperty, item);
+
+            return (Section)template.CreateContent();
         }
     }
 }
