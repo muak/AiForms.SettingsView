@@ -204,6 +204,9 @@ Whereby any SettingsView in App will become the same property setttings.
 	* If scrolling has complete, it will be set to false automatically.
 * VisibleContentHeight
     * The height of the visible content. This value allows SettingsView itself height to fit total cells height.
+* ItemsSource
+* ItemTemplate
+    * A DataTemplate for entire SettingsView can be used.
 
 ### To fit SettingsView height to visible content
 

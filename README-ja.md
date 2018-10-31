@@ -205,6 +205,9 @@ SettingsViewのプロパティ設定はApp.xamlに記述した方が良いかも
 	* スクロール完了後は自動でfalseがセットされます。
 * VisibleContentHeight
     * 表示されているコンテンツの高さです。この値を使って SettingsView 自体の高さを表示されているセルの合計の高さに合わせることができます。
+* ItemsSource
+* ItemTemplate
+    * SettingsView全体のDataTemplateを使用できます。SectionのDataTemplateと組み合わせることで単純な構造のセルを短いコードで実現できます。
 
 ### SettingsView の高さを内容の高さに合わせるには
 
