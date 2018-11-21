@@ -667,7 +667,7 @@ namespace AiForms.Renderers
                 nameof(VisibleContentHeight),
                 typeof(double),
                 typeof(SettingsView),
-                0d,
+                -1d,
                 defaultBindingMode: BindingMode.OneWayToSource
             );
 
