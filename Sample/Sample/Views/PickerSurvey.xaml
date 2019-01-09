@@ -54,18 +54,24 @@
             </Style>-->
         </ResourceDictionary>
     </ContentPage.Resources>
-    <StackLayout Spacing="0">
-    <sv:SettingsView VerticalOptions="Start" BackgroundColor="Olive" HeightRequest="{Binding VisibleContentHeight,Source={x:Reference settings}}" HasUnevenRows="false"
+
+    <sv:SettingsView HeaderHeight="0" BackgroundColor="White" HasUnevenRows="true" RowHeight="44"
                      x:Name="settings" CellBackgroundColor="White">
 
-        <sv:Section Title="A" FooterText="Fuga">
-            <sv:ButtonCell Title="Button" />
-            <sv:ButtonCell Title="Button" />         
-            <sv:ButtonCell Title="Button" />
-         </sv:Section>
+        <sv:Section>
+            <ViewCell>
+                <StackLayout Padding="10,10,10,10" Orientation="Horizontal" Spacing="20" BackgroundColor="Navy">
+                    <BoxView WidthRequest="20" />
+                    <Label Text="ああああああああああああああ" TextColor="White" />
+                </StackLayout>
+            </ViewCell>
+            <ViewCell>
+                <StackLayout Padding="10,10,10,10" Orientation="Horizontal" Spacing="20" BackgroundColor="Navy">
+                    <BoxView WidthRequest="20" />
+                    <Label Text="あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ" TextColor="White" />
+                </StackLayout>
+            </ViewCell>
+        </sv:Section>
     </sv:SettingsView>
-    
-    <ContentView VerticalOptions="FillAndExpand" BackgroundColor="Gray" />
-    </StackLayout>
 
 </ContentPage>

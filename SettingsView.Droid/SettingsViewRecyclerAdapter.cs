@@ -361,14 +361,21 @@ namespace AiForms.Renderers.Droid
 
             if (!_settingsView.HasUnevenRows)
             {
-                //if not Uneven, set the larger one of RowHeight and MinRowHeight.
+                // if not Uneven, set the larger one of RowHeight and MinRowHeight.
                 layout.LayoutParameters.Height = minHeight;
             }
             else if (formsCell.Height > -1)
             {
-                //if the cell itself was specified height, set it.
+                // if the cell itself was specified height, set it.
                 layout.SetMinimumHeight((int)_context.ToPixels(formsCell.Height));
                 layout.LayoutParameters.Height = (int)_context.ToPixels(formsCell.Height);
+            }
+            else if (formsCell is ViewCell viewCell) 
+            {
+                // if used a viewcell, calculate the size and layout it.
+                var size = viewCell.View.Measure(_settingsView.Width, double.PositiveInfinity);
+                viewCell.View.Layout(new Rectangle(0, 0, size.Request.Width, size.Request.Height));
+                layout.LayoutParameters.Height = (int)_context.ToPixels(size.Request.Height);
             }
             else
             {
