@@ -3,6 +3,8 @@
 SettingViewはXamarin.Formsで使用できる設定に特化した柔軟なTableViewです。  
 AndroidとiOSに対応しています。
 
+![Build status](https://kamusoft.visualstudio.com/NugetCI/_apis/build/status/AiForms.SettingsView)
+
 ## SettingsViewでできること（標準のTableViewとの違い）
 
 ### 全般
@@ -58,11 +60,9 @@ iOSで使用する場合はAppDelegate.csに以下のようなコードを書く
 ```csharp
 public override bool FinishedLaunching(UIApplication app, NSDictionary options) {
     global::Xamarin.Forms.Forms.Init();
-
     AiForms.Renderers.iOS.SettingsViewInit.Init(); //ここに書く
 
-    LoadApplication(new App(new iOSInitializer()));
-
+    LoadApplication(new App());
     return base.FinishedLaunching(app, options);
 }
 ```
@@ -160,6 +160,7 @@ SettingsViewのプロパティ設定はApp.xamlに記述した方が良いかも
     * セパレータの線の色
 * SelectedColor
     * 行（セル）を選択した時の背景色（AndroidはRipple色も含む）
+    > AndroidのRipple効果はセルの背景色が設定されていない(透明の)場合は発動しません。
 * HeaderPadding
 * HeaderTextColor
 * HeaderFontSize
@@ -202,6 +203,20 @@ SettingsViewのプロパティ設定はApp.xamlに記述した方が良いかも
 * ScrollToBottom
 	* このプロパティにtrueをセットすると先頭または末尾までスクロールします。
 	* スクロール完了後は自動でfalseがセットされます。
+* VisibleContentHeight
+    * 表示されているコンテンツの高さです。この値を使って SettingsView 自体の高さを表示されているセルの合計の高さに合わせることができます。
+* ItemsSource
+* ItemTemplate
+    * SettingsView全体のDataTemplateを使用できます。SectionのDataTemplateと組み合わせることで単純な構造のセルを短いコードで実現できます。
+
+### SettingsView の高さを内容の高さに合わせるには
+
+SettingsView の内容のセルの合計の高さが、親のViewよりも低い場合は、次のように HeightRequest と VisibleContentHeight を使って、自身の高さを内容の高さに合わせることができます。
+
+```xml
+<sv:SettingsView x:Name="settings" HeightRequest="{Binding VisibleContentHeight,Source={x:Reference settings}}">
+</sv:SettingsView>
+```
 
 ## SettingsViewのメソッド
 
@@ -236,6 +251,7 @@ SettingsViewのプロパティ設定はApp.xamlに記述した方が良いかも
 * [ButtonCell](#buttoncell)
 * [SwitchCell](#switchcell)
 * [CheckboxCell](#checkboxcell)
+* [RadioCell](#radiocell)
 * [NumberPickerCell](#numberpickercell)
 * [TimePickerCell](#timepickercell)
 * [DatePickerCell](#datepickercell)
@@ -366,6 +382,52 @@ Checkboxを備えたLabelCellです。
     * Checkのオンオフ。OnがtrueでOffがfalse。
 * AccentColor
     * Checkboxのアクセントカラー。（枠や背景色） 
+
+## RadioCell
+
+セクション単位またはSettingsView全体で1つのアイテムを選択するCellです。PickerCellと違い選択項目を1階層目に配置する場合などに使用します。
+
+### Properties
+
+* Value
+    * セルに対応する選択候補値。
+* AccentColor
+    * チェックマークの色。
+
+### 添付プロパティ
+
+* SelectedValue
+    * 現在の選択値。
+    * このプロパティをSectionに設定した場合は、そのSectionから1つだけ選択できるようになり、SettingsView自体に設定した場合は、View全体から1つだけ選択できるようになります。
+    > SectionとSettingsViewの両方に設定して動作させることはできません。両方に設定した場合はSection側が使用されます。
+
+### XAML サンプル
+
+#### セクション単位
+
+```xml
+<sv:SettingsView>
+    <sv:Section Title="Sound" sv:RadioCell.SelectedValue="{Binding SelectedItem}">
+        <sv:RadioCell Title="Sound1" Value="{Binding Items[0]}">
+        <sv:RadioCell Title="Sound2" Value="{Binding Items[1]}">
+    </sv:Section>
+</sv:SettingsView>
+```
+
+#### コントロール全体
+
+```xml
+<sv:SettingsView sv:RadioCell.SelectedValue="{Binding GlobalSelectedItem}">
+    <sv:Section Title="Effect">
+        <sv:RadioCell Title="Sound1" Value="{Binding Items[0]}">
+        <sv:RadioCell Title="Sound2" Value="{Binding Items[1]}">
+    </sv:Section>
+    <sv:Section Title="Melody">
+        <sv:RadioCell Title="Melody1" Value="{Binding Items[2]}">
+        <sv:RadioCell Title="Melody2" Value="{Binding Items[3]}">
+    </sv:Section>
+</sv:SettingsView>
+```
 
 ## NumberPickerCell
 
@@ -504,6 +566,8 @@ Xamarin.Forms.EntryCellとは別物です。
     * 入力文字列の水平位置属性
 * AccentColor
     * 入力欄の下線の色（Androidのみ）
+* IsPassword
+    * パスワードなどのために入力文字を隠すかどうか。
 
 ## Contributors
 

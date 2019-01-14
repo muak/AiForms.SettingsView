@@ -13,6 +13,7 @@ namespace Sample.ViewModels
         public ReactiveProperty<string> Placeholder { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<string> InputText { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<TextAlignment> TextAlignment { get; } = new ReactiveProperty<Xamarin.Forms.TextAlignment>();
+        public ReactiveProperty<bool> IsPassword { get; } = new ReactiveProperty<bool>();
 
         static int[] MaxLengths = { -1, 10, 20, 0 };
         static string[] InputTexts = {"","TextText10","LongTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextEnd",
@@ -20,6 +21,7 @@ namespace Sample.ViewModels
         static Keyboard[] Keyboards = { Keyboard.Default, Keyboard.Email, Keyboard.Numeric, Keyboard.Plain, Keyboard.Telephone, Keyboard.Text, Keyboard.Url, Keyboard.Chat };
         static string[] Placeholders = { "", "Placeholder", "LongPlaceholderTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextEnd" };
         static TextAlignment[] TextAlignments = { Xamarin.Forms.TextAlignment.Start, Xamarin.Forms.TextAlignment.Center, Xamarin.Forms.TextAlignment.End };
+        static bool[] IsPasswords = { false, true };
 
         public EntryCellTestViewModel()
         {
@@ -56,6 +58,9 @@ namespace Sample.ViewModels
                     break;
                 case nameof(TextAlignment):
                     NextVal(TextAlignment, TextAlignments);
+                    break;
+                case nameof(IsPassword):
+                    NextVal(IsPassword, IsPasswords);
                     break;
             }
         }

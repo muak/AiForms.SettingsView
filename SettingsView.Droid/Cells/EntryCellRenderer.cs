@@ -11,6 +11,9 @@ using Java.Lang;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using AiEntryCell = AiForms.Renderers.EntryCell;
+using Android.Text.Method;
+using Android.Graphics;
+using Android.Runtime;
 
 [assembly: ExportRenderer(typeof(AiEntryCell), typeof(AiForms.Renderers.Droid.EntryCellRenderer))]
 namespace AiForms.Renderers.Droid
@@ -80,6 +83,7 @@ namespace AiForms.Renderers.Droid
             UpdatePlaceholder();
             UpdateAccentColor();
             UpdateTextAlignment();
+            UpdateIsPassword();
             base.UpdateCell();
         }
 
@@ -111,6 +115,9 @@ namespace AiForms.Renderers.Droid
             }
             else if (e.PropertyName == AiEntryCell.TextAlignmentProperty.PropertyName) {
                 UpdateTextAlignment();
+            }
+            else if (e.PropertyName == AiEntryCell.IsPasswordProperty.PropertyName) {
+                UpdateIsPassword();
             }
         }
 
@@ -208,6 +215,12 @@ namespace AiForms.Renderers.Droid
         void UpdateKeyboard()
         {
             _EditText.InputType = _EntryCell.Keyboard.ToInputType() | InputTypes.TextFlagNoSuggestions;
+        }
+
+        void UpdateIsPassword()
+        {
+            _EditText.TransformationMethod = _EntryCell.IsPassword ? new PasswordTransformationMethod() : null;
+
         }
 
         void UpdatePlaceholder()
@@ -313,6 +326,8 @@ namespace AiForms.Renderers.Droid
     internal class AiEditText : EditText
     {
         public Action ClearFocusAction { get; set; }
+        SoftInput _startingMode;
+
         public AiEditText(Context context) : base(context)
         {
         }

@@ -18,7 +18,7 @@ namespace AiForms.Renderers.Droid
     /// Date picker cell view.
     /// </summary>
     [Android.Runtime.Preserve(AllMembers = true)]
-    public class DatePickerCellView : LabelCellView, IPickerCell
+    public class DatePickerCellView : LabelCellView
     {
         DatePickerCell _datePickerCell => Cell as DatePickerCell;
         DatePickerDialog _dialog;
@@ -64,6 +64,16 @@ namespace AiForms.Renderers.Droid
         }
 
         /// <summary>
+        /// Rows the selected.
+        /// </summary>
+        /// <param name="adapter">Adapter.</param>
+        /// <param name="position">Position.</param>
+        public override void RowSelected(SettingsViewRecyclerAdapter adapter, int position)
+        {
+            ShowDialog();
+        }
+
+        /// <summary>
         /// Dispose the specified disposing.
         /// </summary>
         /// <returns>The dispose.</returns>
@@ -80,10 +90,7 @@ namespace AiForms.Renderers.Droid
             base.Dispose(disposing);
         }
 
-        /// <summary>
-        /// Shows the dialog.
-        /// </summary>
-        public void ShowDialog()
+        void ShowDialog()
         {
             CreateDatePickerDialog(_datePickerCell.Date.Year, _datePickerCell.Date.Month - 1, _datePickerCell.Date.Day);
 

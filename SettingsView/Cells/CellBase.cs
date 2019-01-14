@@ -300,6 +300,11 @@ namespace AiForms.Renderers
             set { SetValue(IconRadiusProperty, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the section.
+        /// </summary>
+        /// <value>The section.</value>
+        public Section Section { get; set; }
     }
 
 }

@@ -3,6 +3,7 @@
 	xmlns="http://xamarin.com/schemas/2014/forms" 
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
 	xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
+    xmlns:ef="clr-namespace:AiForms.Effects;assembly=AiForms.Effects"
 	x:Class="Sample.Views.SettingsViewPage"
     Title="Settings">
 
@@ -87,7 +88,12 @@
             <sv:TimePickerCell Title="TimePicker" Format="HH:mm" Time="15:30" PickerTitle="Select time" />
             <sv:DatePickerCell Title="DatePicker" Format="yyyy/MM/dd (ddd)" Date="2017/11/11" MinimumDate="2015/1/1" MaximumDate="2018/12/15" TodayText="Today's date"/>
             <sv:TextPickerCell Title="TextPicker" Items="{Binding TextItems}" SelectedItem="{Binding SelectedText.Value}" />
-        </sv:Section>    
+        </sv:Section>  
+        
+        <sv:Section Title="RadioCell" FooterText="You can select either TypeA or TypeB." sv:RadioCell.SelectedValue="1">
+            <sv:RadioCell Title="TypeA" Value="1" />
+            <sv:RadioCell Title="TypeB" Value="2" />
+        </sv:Section>
 
         <sv:Section Title="Input" IsVisible="{Binding InputSectionVisible.Value}">
             <sv:EntryCell Title="EntryCell" ValueText="{Binding InputText.Value}" Placeholder="Input text" Keyboard="Email" TextAlignment="End" HintText="{Binding InputError.Value}" />
@@ -99,7 +105,7 @@
                     <Label Text="ViewCell" TextColor="{StaticResource DeepTextColor}" />
                     <StackLayout Orientation="Horizontal">
                         <Image Source="icon.png" WidthRequest="36" HeightRequest="36" />
-                        <Slider Minimum="0" Maximum="999" Value="500" HorizontalOptions="FillAndExpand" />
+                        <Slider Minimum="0" Maximum="999" Value="500" HorizontalOptions="FillAndExpand" ef:AlterColor.Accent="{StaticResource AccentColor}" />
                     </StackLayout>
                     <Label Text="You can use Forms build-in Cells." FontSize="11" TextColor="{StaticResource PaleTextColor}" />
                  </StackLayout>

@@ -2,10 +2,11 @@
 using UIKit;
 using Xamarin.Forms;
 namespace AiForms.Renderers.iOS.Extensions
-{   
+{
     /// <summary>
     /// Text alignment extensions.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public static class TextAlignmentExtensions
     {
         /// <summary>

@@ -3,6 +3,7 @@ using System.Windows.Input;
 using AiForms.Renderers;
 using AiForms.Renderers.iOS;
 using CoreGraphics;
+using Foundation;
 using UIKit;
 using Xamarin.Forms;
 
@@ -12,12 +13,14 @@ namespace AiForms.Renderers.iOS
     /// <summary>
     /// Number picker cell renderer.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public class NumberPickerCellRenderer : CellBaseRenderer<NumberPickerCellView> { }
 
     /// <summary>
     /// Number picker cell view.
     /// </summary>
-    public class NumberPickerCellView : LabelCellView, IPickerCell
+    [Foundation.Preserve(AllMembers = true)]
+    public class NumberPickerCellView : LabelCellView
     {
         /// <summary>
         /// Gets or sets the dummy field.
@@ -71,6 +74,17 @@ namespace AiForms.Renderers.iOS
             else if (e.PropertyName == NumberPickerCell.SelectedCommandProperty.PropertyName) {
                 UpdateCommand();
             }
+        }
+
+        /// <summary>
+        /// Rows the selected.
+        /// </summary>
+        /// <param name="tableView">Table view.</param>
+        /// <param name="indexPath">Index path.</param>
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            tableView.DeselectRow(indexPath, true);
+            DummyField.BecomeFirstResponder();
         }
 
         /// <summary>

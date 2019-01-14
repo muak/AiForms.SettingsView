@@ -47,6 +47,14 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        public override void RowSelected(SettingsViewRecyclerAdapter adapter, int position)
+        {
+            Execute?.Invoke();
+            if (_CommandCell.KeepSelectedUntilBack) {
+                adapter.SelectedRow(this, position);
+            }
+        }
+
         /// <summary>
         /// Updates the cell.
         /// </summary>
@@ -95,8 +103,6 @@ namespace AiForms.Renderers.Droid
                     _command.Execute(_CommandCell.CommandParameter);
                 }
             };
-
-
         }
 
         /// <summary>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+    <metadata>
+        <id>AiForms.SettingsView</id>
+        <version>0.4.1</version>
+        <title>SettingsView for Xamarin.Forms</title>
+        <authors>kamu</authors>
+        <owners>kamu</owners>
+        <projectUrl>https://github.com/muak/AiForms.SettingsView</projectUrl>
+        <licenseUrl>https://github.com/muak/AiForms.SettingsView/blob/master/LICENSE.txt</licenseUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>This is a flexible TableView specialized in settings for Android / iOS. 
+There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,CheckboxCell,RadioCell,PickerCell,EntryCell,NumberPickerCell,TimePickerCell,DatePickerCell)
+        </description>
+        <summary></summary>
+        <releaseNotes>
+## New features
+
+* [RadioCell] A cell that can be selected just one from a section.
+* [EntryCell] [IsPassword] Input text can be hidden.
+* [SettingsView] [ItemsSource / ItemTemplate] DataTemplate for SettingsView can be used.
+* [SettingsView] [VisibleContentHeight] The height of visible content can be got.
+
+## Bug fixes
+
+* [Android] When SettingsView.HasUnevenrows is true and a ViewCell is used and FormsView's height is smaller than the RowHeight, the Cell is not filled.
+        </releaseNotes>
+        <tags>Xamarin.Forms TableView Cell Setting Configuration Option ListView UITableView RecyclerView ReOrder DragDrop</tags>
+        <language>en-US</language>
+        <dependencies>
+            <group targetFramework="netstandard2.0">
+                <dependency id="Xamarin.Forms" version="3.0.0.482510" />
+            </group>
+            <group targetFramework="portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10">
+                <dependency id="Xamarin.Forms" version="3.0.0.482510" />
+            </group>
+            <group targetFramework="MonoAndroid">
+                <dependency id="Xamarin.Forms" version="3.0.0.482510" />
+            </group>
+            <group targetFramework="MonoTouch">
+                <dependency id="Xamarin.Forms" version="3.0.0.482510" />
+            </group>
+        </dependencies>
+    </metadata>
+    <files>
+        <!-- .net standard 2.0 -->
+        <file src="SettingsView.dll" target="lib/netstandard2.0" />
+        <file src="SettingsView.xml" target="lib/netstandard2.0" />
+        <file src="SettingsView.pdb" target="lib/netstandard2.0" />
+
+        <!-- PCL -->
+        <file src="SettingsView.dll" target="lib/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10" />
+        <file src="SettingsView.xml" target="lib/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10" />
+        <file src="SettingsView.pdb" target="lib/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10" />
+
+        <!-- Mono.Android -->
+        <file src="SettingsView.dll" target="lib/MonoAndroid" />
+        <file src="SettingsView.xml" target="lib/MonoAndroid" />
+        <file src="SettingsView.pdb" target="lib/MonoAndroid" />
+        <file src="SettingsView.Droid.dll" target="lib/MonoAndroid" />
+        <file src="SettingsView.Droid.xml" target="lib/MonoAndroid" />
+        <file src="SettingsView.Droid.pdb" target="lib/MonoAndroid" />
+
+        <!-- Mono.Touch -->
+        <file src="SettingsView.dll" target="lib/MonoTouch" />
+        <file src="SettingsView.xml" target="lib/MonoTouch" />
+        <file src="SettingsView.pdb" target="lib/MonoTouch" />
+        <file src="SettingsView.iOS.dll" target="lib/MonoTouch" />
+        <file src="SettingsView.iOS.xml" target="lib/MonoTouch" />
+        <file src="SettingsView.iOS.pdb" target="lib/MonoTouch" />
+
+        <!-- Xamarin.iOS10 -->
+        <file src="SettingsView.dll" target="lib/Xamarin.iOS10" />
+        <file src="SettingsView.xml" target="lib/Xamarin.iOS10" />
+        <file src="SettingsView.pdb" target="lib/Xamarin.iOS10" />
+        <file src="SettingsView.iOS.dll" target="lib/Xamarin.iOS10" />
+        <file src="SettingsView.iOS.xml" target="lib/Xamarin.iOS10" />
+        <file src="SettingsView.iOS.pdb" target="lib/Xamarin.iOS10" />
+    </files>
+</package>

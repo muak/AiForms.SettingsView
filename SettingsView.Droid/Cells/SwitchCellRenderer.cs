@@ -20,7 +20,7 @@ namespace AiForms.Renderers.Droid
     /// Switch cell view.
     /// </summary>
     [Android.Runtime.Preserve(AllMembers = true)]
-    public class SwitchCellView : CellBaseView, CompoundButton.IOnCheckedChangeListener, ICheckableCell
+    public class SwitchCellView : CellBaseView, CompoundButton.IOnCheckedChangeListener
     {
         SwitchCompat _switch { get; set; }
         SwitchCell _SwitchCell => Cell as SwitchCell;
@@ -51,14 +51,6 @@ namespace AiForms.Renderers.Droid
             _switch.Focusable = false;
             Focusable = false;
             DescendantFocusability = Android.Views.DescendantFocusability.AfterDescendants;
-        }
-
-        /// <summary>
-        /// Checks the change.
-        /// </summary>
-        public void CheckChange()
-        {
-            _switch.Checked = !_switch.Checked;
         }
 
         /// <summary>

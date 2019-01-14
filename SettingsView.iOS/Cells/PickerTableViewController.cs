@@ -8,6 +8,7 @@ using Xamarin.Forms.Platform.iOS;
 
 namespace AiForms.Renderers.iOS
 {
+    [Foundation.Preserve(AllMembers = true)]
     internal class PickerTableViewController : UITableViewController
     {
 

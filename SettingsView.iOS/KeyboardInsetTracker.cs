@@ -9,6 +9,7 @@ namespace AiForms.Renderers.iOS
     /// Copy from
     /// https://github.com/xamarin/Xamarin.Forms/blob/master/Xamarin.Forms.Platform.iOS/Renderers/KeyboardInsetTracker.cs
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     internal class KeyboardInsetTracker : IDisposable
     {
         readonly Func<UIWindow> _fetchWindow;

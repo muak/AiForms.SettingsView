@@ -26,7 +26,7 @@ namespace AiForms.Renderers.Droid
 
         Dictionary<Type, int> _viewTypes;
         List<CellCache> _cellCaches;
-        List<CellCache> CellCaches
+        internal List<CellCache> CellCaches
         {
             get
             {
@@ -127,57 +127,17 @@ namespace AiForms.Renderers.Droid
             //      But do it at a later as iOS side doesn't have that process.
             DeselectRow();
 
-            var cell = view.FindViewById<LinearLayout>(Resource.Id.ContentCellBody).GetChildAt(0);
+            var cell = view.FindViewById<LinearLayout>(Resource.Id.ContentCellBody).GetChildAt(0) as CellBaseView;
 
-            if(!CellCaches[position].Cell.IsEnabled){
+
+            if(cell == null || !CellCaches[position].Cell.IsEnabled){
                 //if FormsCell IsEnable is false, does nothing. 
                 return;
             }
 
             _settingsView.Model.RowSelected(CellCaches[position].Cell);
 
-            if (cell is CommandCellView){
-                var cmdCell = cell as CommandCellView;
-                cmdCell?.Execute?.Invoke();
-                if ((cmdCell.Cell as CommandCell).KeepSelectedUntilBack)
-                {
-                    SelectedRow(cell, position);
-                }
-            }
-            else if (cell is ButtonCellView)
-            {
-                var buttonCell = cell as ButtonCellView;
-                buttonCell?.Execute?.Invoke();
-            }
-            else if (cell is ICheckableCell)
-            {
-                var checkCell = cell as ICheckableCell;
-                checkCell.CheckChange();
-            }
-            else if (cell is IPickerCell)
-            {
-                var pCell = cell as IPickerCell;
-                pCell.ShowDialog();
-            }
-            else if (cell is PickerCellView)
-            {
-                var pCell = cell as PickerCellView;
-                var formPickerCell = pCell.Cell as PickerCell;
-
-                if (formPickerCell.ItemsSource == null){
-                    return;
-                }
-
-                if(formPickerCell.ItemsSource.Count == 0){
-                    return;
-                }
-
-                if (formPickerCell.KeepSelectedUntilBack){
-                    SelectedRow(cell, position);
-                }
-                pCell.ShowDialog();
-            }
-
+            cell.RowSelected(this,position);
         }
 
         /// <summary>
@@ -401,14 +361,21 @@ namespace AiForms.Renderers.Droid
 
             if (!_settingsView.HasUnevenRows)
             {
-                //if not Uneven, set the larger one of RowHeight and MinRowHeight.
+                // if not Uneven, set the larger one of RowHeight and MinRowHeight.
                 layout.LayoutParameters.Height = minHeight;
             }
             else if (formsCell.Height > -1)
             {
-                //if the cell itself was specified height, set it.
+                // if the cell itself was specified height, set it.
                 layout.SetMinimumHeight((int)_context.ToPixels(formsCell.Height));
                 layout.LayoutParameters.Height = (int)_context.ToPixels(formsCell.Height);
+            }
+            else if (formsCell is ViewCell viewCell) 
+            {
+                // if used a viewcell, calculate the size and layout it.
+                var size = viewCell.View.Measure(_settingsView.Width, double.PositiveInfinity);
+                viewCell.View.Layout(new Rectangle(0, 0, size.Request.Width, size.Request.Height));
+                layout.LayoutParameters.Height = (int)_context.ToPixels(size.Request.Height);
             }
             else
             {
@@ -454,7 +421,7 @@ namespace AiForms.Renderers.Droid
                 {
                     newCellCaches.Add(new CellCache
                     {
-                        Cell = (Cell)model.GetItem(sectionIndex, i),
+                        Cell = model.GetCell(sectionIndex, i),
                         IsLastCell = i == sectionRowCount - 1,
                         SectionIndex = sectionIndex,
                         RowIndex = i
@@ -502,7 +469,7 @@ namespace AiForms.Renderers.Droid
  
 
         [Android.Runtime.Preserve(AllMembers = true)]
-        class CellCache
+        internal class CellCache
         {
             public Cell Cell { get; set; }
             public bool IsHeader { get; set; } = false;

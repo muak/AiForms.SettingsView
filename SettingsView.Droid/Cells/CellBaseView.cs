@@ -227,9 +227,27 @@ namespace AiForms.Renderers.Droid
                 UpdateIcon(true);
             }
             else if (e.PropertyName == SettingsView.SelectedColorProperty.PropertyName) {
-                UpdateSelectedColor();
+                UpdateWithForceLayout(UpdateSelectedColor);
             }
 
+        }
+
+        /// <summary>
+        /// Sections the property changed.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
+        public virtual void SectionPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// Rows the selected.
+        /// </summary>
+        /// <param name="adapter">Adapter.</param>
+        /// <param name="position">Position.</param>
+        public virtual void RowSelected(SettingsViewRecyclerAdapter adapter, int position)
+        {
         }
 
         /// <summary>
@@ -554,6 +572,11 @@ namespace AiForms.Renderers.Droid
             if (disposing) {
                 CellBase.PropertyChanged -= CellPropertyChanged;
                 CellParent.PropertyChanged -= ParentPropertyChanged;
+
+                if (CellBase.Section != null) {
+                    CellBase.Section.PropertyChanged -= SectionPropertyChanged;
+                    CellBase.Section = null;
+                }
 
                 HintLabel?.Dispose();
                 HintLabel = null;

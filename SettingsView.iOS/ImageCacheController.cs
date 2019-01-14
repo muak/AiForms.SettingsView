@@ -5,6 +5,7 @@ namespace AiForms.Renderers.iOS
     /// <summary>
     /// Image cache controller.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public static class ImageCacheController
     {
         /// <summary>

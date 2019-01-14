@@ -8,6 +8,7 @@ namespace AiForms.Renderers.iOS
     /// <summary>
     /// Settings lagacy table source.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public class SettingsLagacyTableSource : SettingsTableSource
     {
         /// <summary>

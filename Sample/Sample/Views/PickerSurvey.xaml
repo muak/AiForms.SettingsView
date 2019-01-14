@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:TestAiForms"
              xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
-             x:Class="Sample.Views.PickerSurvey">
+             x:Class="Sample.Views.PickerSurvey" x:Name="Me">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -36,7 +35,7 @@
             <!-- ちょい小さいフォントサイズ -->
             <x:Double x:Key="BaseFontSize-">11</x:Double>
 
-            <Style TargetType="sv:SettingsView">
+           <!-- <Style TargetType="sv:SettingsView">
                 <Setter Property="SeparatorColor" Value="{StaticResource DisabledColor}" />
                 <Setter Property="BackgroundColor" Value="{StaticResource PaleBackColorPrimary}" />
                 <Setter Property="HeaderBackgroundColor" Value="{StaticResource PaleBackColorPrimary}" />
@@ -52,19 +51,27 @@
                 <Setter Property="HeaderTextColor" Value="{StaticResource TitleTextColor}" />
                 <Setter Property="FooterFontSize" Value="{StaticResource BaseFontSize-}" />
                 <Setter Property="FooterTextColor" Value="{StaticResource PaleTextColor}" />
-            </Style>
+            </Style>-->
         </ResourceDictionary>
     </ContentPage.Resources>
-    
-    <sv:SettingsView   HasUnevenRows="true" HeaderHeight="36" HeaderPadding="14,0,0,6" HeaderTextVerticalAlign="End" FooterPadding="14,4,4,6">
 
-        <sv:Section x:Name="svv">
-                
-            <sv:PickerCell Title="Select" ItemsSource="{Binding MasterItemsSource}" DisplayMember="Name" MaxSelectedNumber="1" 
-            SelectedItems="{Binding MasterItemsSourceSelectedItems}" SelectedCommand="{Binding SelectMasterCommand}"
-                           KeepSelectedUntilBack="true" PageTitle="Select" />
+    <sv:SettingsView HeaderHeight="0" BackgroundColor="White" HasUnevenRows="true" RowHeight="44"
+                     x:Name="settings" CellBackgroundColor="Transparent" SelectedColor="Red">
+
+        <sv:Section>
+            <ViewCell>
+                <StackLayout Padding="10,10,10,10" Orientation="Horizontal" Spacing="20">
+                    <BoxView WidthRequest="20" />
+                    <Label Text="ああああああああああああああ" TextColor="Black" />
+                </StackLayout>
+            </ViewCell>
+            <ViewCell>
+                <StackLayout Padding="10,10,10,10" Orientation="Horizontal" Spacing="20">
+                    <BoxView WidthRequest="20" />
+                    <Label Text="あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ" TextColor="Black" />
+                </StackLayout>
+            </ViewCell>
         </sv:Section>
-        
     </sv:SettingsView>
 
 </ContentPage>

@@ -4,6 +4,7 @@ using AiEntryCell = AiForms.Renderers.EntryCell;
 using UIKit;
 using Xamarin.Forms.Platform.iOS;
 using AiForms.Renderers.iOS.Extensions;
+using Foundation;
 
 [assembly: ExportRenderer(typeof(AiEntryCell), typeof(AiForms.Renderers.iOS.EntryCellRenderer))]
 namespace AiForms.Renderers.iOS
@@ -11,11 +12,13 @@ namespace AiForms.Renderers.iOS
     /// <summary>
     /// Entry cell renderer.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public class EntryCellRenderer : CellBaseRenderer<EntryCellView> { }
 
     /// <summary>
     /// Entry cell view.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public class EntryCellView : CellBaseView
     {
         AiEntryCell _EntryCell => Cell as AiEntryCell;
@@ -55,6 +58,7 @@ namespace AiForms.Renderers.iOS
             UpdateValueTextFontSize();
             UpdatePlaceholder();
             UpdateKeyboard();
+            UpdateIsPassword();
             UpdateTextAlignment();
         }
 
@@ -84,6 +88,9 @@ namespace AiForms.Renderers.iOS
             else if (e.PropertyName == AiEntryCell.TextAlignmentProperty.PropertyName) {
                 UpdateTextAlignment();
             }
+            else if (e.PropertyName == AiEntryCell.IsPasswordProperty.PropertyName) {
+                UpdateIsPassword();
+            }
         }
 
         /// <summary>
@@ -101,6 +108,16 @@ namespace AiForms.Renderers.iOS
             else if (e.PropertyName == SettingsView.CellValueTextFontSizeProperty.PropertyName) {
                 UpdateWithForceLayout(UpdateValueTextFontSize);
             }
+        }
+
+        /// <summary>
+        /// Rows the selected.
+        /// </summary>
+        /// <param name="tableView">Table view.</param>
+        /// <param name="indexPath">Index path.</param>
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            ValueField.BecomeFirstResponder();
         }
 
         /// <summary>
@@ -189,6 +206,11 @@ namespace AiForms.Renderers.iOS
             ValueField.SetNeedsLayout();
         }
 
+        void UpdateIsPassword()
+        {
+            ValueField.SecureTextEntry = _EntryCell.IsPassword;
+        }
+
 
         void _textField_EditingChanged(object sender, EventArgs e)
         {
@@ -201,6 +223,5 @@ namespace AiForms.Renderers.iOS
             ValueField.ResignFirstResponder();
             return true;
         }
-
     }
 }

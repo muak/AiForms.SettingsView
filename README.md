@@ -4,6 +4,8 @@ This is a flexible TableView specialized in settings for Android / iOS.
 
 [Japanese](./README-ja.md)
 
+![Build status](https://kamusoft.visualstudio.com/NugetCI/_apis/build/status/AiForms.SettingsView)
+
 ## What SettingsView can do.
 
 ### General
@@ -59,11 +61,9 @@ To use by iOS, you need to write some code in AppDelegate.cs.
 ```csharp
 public override bool FinishedLaunching(UIApplication app, NSDictionary options) {
     global::Xamarin.Forms.Forms.Init();
-
     AiForms.Renderers.iOS.SettingsViewInit.Init(); //need to write here
 
-    LoadApplication(new App(new iOSInitializer()));
-
+    LoadApplication(new App());
     return base.FinishedLaunching(app, options);
 }
 ```
@@ -161,6 +161,7 @@ Whereby any SettingsView in App will become the same property setttings.
     * Row separator color.
 * SelectedColor
     * Backgraound color when row is selected.
+   > Note that cell's ripple effect is not worked on Android when the cell background color is not set.
 * HeaderPadding
 * HeaderTextColor
 * HeaderFontSize
@@ -201,6 +202,20 @@ Whereby any SettingsView in App will become the same property setttings.
 * ScrollToBottom
 	* When this property is set to true, the screen will be scrolled to first item position or last item position.
 	* If scrolling has complete, it will be set to false automatically.
+* VisibleContentHeight
+    * The height of the visible content. This value allows SettingsView itself height to fit total cells height.
+* ItemsSource
+* ItemTemplate
+    * A DataTemplate for entire SettingsView can be used.
+
+### To fit SettingsView height to visible content
+
+If SettingsView's total cells height is shorter than the parent view height, itself height can be fit total cells height as the following:
+
+```xml
+<sv:SettingsView x:Name="settings" HeightRequest="{Binding VisibleContentHeight,Source={x:Reference settings}}">
+</sv:SettingsView>
+```
 
 ## SettingsView Methods
 
@@ -234,6 +249,7 @@ Whereby any SettingsView in App will become the same property setttings.
 * [ButtonCell](#buttoncell)
 * [SwitchCell](#switchcell)
 * [CheckboxCell](#checkboxcell)
+* [RadioCell](#radiocell)
 * [NumberPickerCell](#numberpickercell)
 * [TimePickerCell](#timepickercell)
 * [DatePickerCell](#datepickercell)
@@ -360,6 +376,52 @@ This is a LabelCell equipped a checkbox.
     * Check on / off. On is true, Off is false.
 * AccentColor
     * Checkbox accent color. (frame and background)
+
+## RadioCell
+
+This is the cell that can be selected just one item from in a Section or a SettingsView.
+
+### Properties
+
+* Value
+    * A value that can be selected.
+* AccentColor
+    * Check mark color.
+
+### Attached Bindable Property
+
+* SelectedValue
+    * Current selected value.
+    * If this property is set to a section, the item can be selected just one from the section, and if set to SettingsView itself, the item can be selected just one from entire SettingsView.
+    > Note that this property can't be set to both entire and a section. If it is set to both, a section side is used.
+
+### XAML Example
+
+#### For a section
+
+```xml
+<sv:SettingsView>
+    <sv:Section Title="Sound" sv:RadioCell.SelectedValue="{Binding SelectedItem}">
+        <sv:RadioCell Title="Sound1" Value="{Binding Items[0]}">
+        <sv:RadioCell Title="Sound2" Value="{Binding Items[1]}">
+    </sv:Section>
+</sv:SettingsView>
+```
+
+#### For global
+
+```xml
+<sv:SettingsView sv:RadioCell.SelectedValue="{Binding GlobalSelectedItem}">
+    <sv:Section Title="Effect">
+        <sv:RadioCell Title="Sound1" Value="{Binding Items[0]}">
+        <sv:RadioCell Title="Sound2" Value="{Binding Items[1]}">
+    </sv:Section>
+    <sv:Section Title="Melody">
+        <sv:RadioCell Title="Melody1" Value="{Binding Items[2]}">
+        <sv:RadioCell Title="Melody2" Value="{Binding Items[3]}">
+    </sv:Section>
+</sv:SettingsView>
+```
 
 ## NumberPickerCell
 
@@ -492,6 +554,8 @@ This is a cell inputing some text.
     * Input text horizontal alignment.
 * AccentColor
     * Under line color on focus. (only android)
+* IsPassword
+    * Whether the input text is hidden or not for password.
 
 ## Contributors
 

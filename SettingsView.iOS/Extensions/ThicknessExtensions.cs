@@ -6,6 +6,7 @@ namespace AiForms.Renderers.iOS.Extensions
     /// <summary>
     /// Thickness extensions.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public static class ThicknessExtensions
     {
         /// <summary>

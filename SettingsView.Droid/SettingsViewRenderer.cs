@@ -82,6 +82,26 @@ namespace AiForms.Renderers.Droid
             Device.BeginInvokeOnMainThread(() => _adapter.DeselectRow());
         }
 
+        protected override void OnLayout(bool changed, int left, int top, int right, int bottom)
+        {
+            base.OnLayout(changed, left, top, right, bottom);
+
+            if (!changed) return;
+
+            var startPos = _layoutManager.FindFirstCompletelyVisibleItemPosition();
+            var endPos = _layoutManager.FindLastCompletelyVisibleItemPosition();
+
+            int totalH = 0;
+            for (var i = startPos; i <= endPos; i++) {
+                var child = _layoutManager.GetChildAt(i);
+
+                if (child == null) return;
+
+                totalH += _layoutManager.GetChildAt(i).Height;
+            }
+            Element.VisibleContentHeight = Context.FromPixels(Math.Min(totalH, Control.Height));
+        }
+
         /// <summary>
         /// Ons the element property changed.
         /// </summary>

@@ -13,12 +13,14 @@ namespace AiForms.Renderers.iOS
     /// <summary>
     /// Time picker cell renderer.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public class TimePickerCellRenderer : CellBaseRenderer<TimePickerCellView> { }
 
     /// <summary>
     /// Time picker cell view.
     /// </summary>
-    public class TimePickerCellView : LabelCellView, IPickerCell
+    [Foundation.Preserve(AllMembers = true)]
+    public class TimePickerCellView : LabelCellView
     {
         TimePickerCell _TimePickerCell => Cell as TimePickerCell;
         UIDatePicker _picker;
@@ -72,6 +74,17 @@ namespace AiForms.Renderers.iOS
             else if (e.PropertyName == TimePickerCell.PickerTitleProperty.PropertyName) {
                 UpdatePickerTitle();
             }
+        }
+
+        /// <summary>
+        /// Rows the selected.
+        /// </summary>
+        /// <param name="tableView">Table view.</param>
+        /// <param name="indexPath">Index path.</param>
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            tableView.DeselectRow(indexPath, true);
+            DummyField.BecomeFirstResponder();
         }
 
         /// <summary>

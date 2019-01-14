@@ -12,6 +12,7 @@ namespace AiForms.Renderers.iOS
     /// <summary>
     /// Settings table source.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public class SettingsTableSource : UITableViewSource
     {
         /// <summary>
@@ -22,8 +23,6 @@ namespace AiForms.Renderers.iOS
         /// The settings view.
         /// </summary>
         protected SettingsView _settingsView;
-
-        PickerTableViewController _pickerVC;
 
         bool _disposed;
 
@@ -258,87 +257,15 @@ namespace AiForms.Renderers.iOS
         /// <param name="indexPath">Index path.</param>
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {         
-            var cell = tableView.CellAt(indexPath);
-
             _settingsView.Model.RowSelected(indexPath.Section,indexPath.Row);
 
-            if (cell is CommandCellView) {
-                var cmdCell = cell as CommandCellView;
-                cmdCell?.Execute?.Invoke();
-                if (!(cmdCell.Cell as CommandCell).KeepSelectedUntilBack){
-                    tableView.DeselectRow(indexPath, true);
-                }
-            }
-            else if(cell is ButtonCellView){
-                var buttonCell = cell as ButtonCellView;
-                buttonCell?.Execute?.Invoke();
-                tableView.DeselectRow(indexPath,true);
-            }
-            else if(cell is PickerCellView){
-                var pickerCell = (cell as PickerCellView).Cell as PickerCell;
-
-                if(pickerCell.ItemsSource == null){
-                    tableView.DeselectRow(indexPath, true);
-                    return;
-                }
-
-                //var naviCtrl = GetUINavigationController(UIApplication.SharedApplication.Windows[0].RootViewController); 
-                var naviCtrl = GetUINavigationController(UIApplication.SharedApplication.KeyWindow.RootViewController); 
-                _pickerVC?.Dispose();
-                _pickerVC = new PickerTableViewController((PickerCellView)cell,tableView);
-                BeginInvokeOnMainThread(() => naviCtrl.PushViewController(_pickerVC, true));
-
-                if(!pickerCell.KeepSelectedUntilBack){
-                    tableView.DeselectRow(indexPath, true);
-                }
-            }
-            else if(cell is IPickerCell){
-                tableView.DeselectRow(indexPath, true);
-                var pCell = cell as IPickerCell;
-                pCell.DummyField.BecomeFirstResponder();
-            }
-            else if(cell is EntryCellView){
-                var eCell = cell as EntryCellView;
-                eCell.ValueField.BecomeFirstResponder();
-            }
-
-        }
-
-        // Refer to https://forums.xamarin.com/discussion/comment/294088/#Comment_294088
-        UINavigationController GetUINavigationController(UIViewController controller)
-        {
-            if (controller != null)
+            var cell = tableView.CellAt(indexPath) as CellBaseView;
+            if(cell == null)
             {
-                if (controller is UINavigationController)
-                {
-                    return (controller as UINavigationController);
-                }
-                if (controller is UITabBarController)
-                {
-                    //in case Root->Tab->Navi->Page
-                    var tabCtrl = controller as UITabBarController;
-                    return GetUINavigationController(tabCtrl.SelectedViewController);
-                }
-                if (controller.ChildViewControllers.Count() != 0)
-                {
-                    var count = controller.ChildViewControllers.Count();
-
-                    for (int c = 0; c < count; c++)
-                    {
-                        var child = GetUINavigationController(controller.ChildViewControllers[c]);
-                        if (child == null)
-                        {
-                            //TODO: Analytics...
-                        }
-                        else if (child is UINavigationController)
-                        {
-                            return (child as UINavigationController);
-                        }
-                    }
-                }
+                return;
             }
 
-            return null;
+            cell.RowSelected(tableView, indexPath);
         }
 
         /// <summary>
@@ -350,9 +277,7 @@ namespace AiForms.Renderers.iOS
         {
             if (!_disposed){
                 _settingsView = null;
-                _tableView = null;
-                _pickerVC?.Dispose();
-                _pickerVC = null;
+                _tableView = null;               
             }
 
             _disposed = true;

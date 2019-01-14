@@ -211,5 +211,22 @@ namespace AiForms.Renderers
             get { return (Color)GetValue(AccentColorProperty); }
             set { SetValue(AccentColorProperty, value); }
         }
+
+        /// <summary>
+        /// The is password property.
+        /// </summary>
+        public static BindableProperty IsPasswordProperty =
+            BindableProperty.Create(
+                nameof(IsPassword),
+                typeof(bool),
+                typeof(EntryCell),
+                default(bool),
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        public bool IsPassword {
+            get { return (bool)GetValue(IsPasswordProperty); }
+            set { SetValue(IsPasswordProperty, value); }
+        }
     }
 }

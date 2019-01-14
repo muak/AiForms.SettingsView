@@ -4,6 +4,7 @@ using Xamarin.Forms;
 using System;
 using UIKit;
 using System.Windows.Input;
+using Foundation;
 
 [assembly: ExportRenderer(typeof(CommandCell), typeof(CommandCellRenderer))]
 namespace AiForms.Renderers.iOS
@@ -11,11 +12,13 @@ namespace AiForms.Renderers.iOS
     /// <summary>
     /// Command cell renderer.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public class CommandCellRenderer : CellBaseRenderer<CommandCellView> { }
 
     /// <summary>
     /// Command cell view.
     /// </summary>
+    [Foundation.Preserve(AllMembers = true)]
     public class CommandCellView : LabelCellView
     {
         internal Action Execute { get; set; }
@@ -46,6 +49,20 @@ namespace AiForms.Renderers.iOS
             if (e.PropertyName == CommandCell.CommandProperty.PropertyName ||
                e.PropertyName == CommandCell.CommandParameterProperty.PropertyName) {
                 UpdateCommand();
+            }
+        }
+
+        /// <summary>
+        /// Rows the selected.
+        /// </summary>
+        /// <param name="tableView">Table view.</param>
+        /// <param name="indexPath">Index path.</param>
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            Execute?.Invoke();
+            if(!_CommandCell.KeepSelectedUntilBack)
+            {
+                tableView.DeselectRow(indexPath, true);
             }
         }
 
