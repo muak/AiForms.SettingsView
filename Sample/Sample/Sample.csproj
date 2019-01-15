@@ -11,7 +11,7 @@
     <PackageReference Include="ReactiveProperty" Version="4.2.2" />
 
     <PackageReference Include="Xamarin.Forms" Version="3.0.0.482510" />
-    <PackageReference Include="AiForms.Effects" Version="1.4.0-pre" />
+    <PackageReference Include="AiForms.Effects" Version="1.4.5-pre" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SettingsView\SettingsView.csproj" />
