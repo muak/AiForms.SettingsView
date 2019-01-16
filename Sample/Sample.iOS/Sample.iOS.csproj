@@ -155,10 +155,10 @@
       <HintPath>..\packages\Xamarin.Forms.3.0.0.482510\lib\Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
     <Reference Include="AiForms.Effects">
-      <HintPath>..\packages\AiForms.Effects.1.4.0-pre\lib\Xamarin.iOS10\AiForms.Effects.dll</HintPath>
+      <HintPath>..\packages\AiForms.Effects.1.4.5-pre\lib\Xamarin.iOS10\AiForms.Effects.dll</HintPath>
     </Reference>
     <Reference Include="AiForms.Effects.iOS">
-      <HintPath>..\packages\AiForms.Effects.1.4.0-pre\lib\Xamarin.iOS10\AiForms.Effects.iOS.dll</HintPath>
+      <HintPath>..\packages\AiForms.Effects.1.4.5-pre\lib\Xamarin.iOS10\AiForms.Effects.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

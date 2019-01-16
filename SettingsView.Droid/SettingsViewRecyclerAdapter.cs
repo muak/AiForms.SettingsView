@@ -561,7 +561,13 @@ namespace AiForms.Renderers.Droid
             if (disposing)
             {
                 var nativeCell = Body.GetChildAt(0);
-                nativeCell?.Dispose();
+                if(nativeCell is INativeElementView nativeElementView) {
+                    // If a ViewCell is used, it stops the ViewCellContainer from executing the dispose method.
+                    // Because if the AiForms.Effects is used and a ViewCellContainer is disposed, it crashes.
+                    if (!(nativeElementView.Element is ViewCell)) {
+                        nativeCell?.Dispose();
+                    }
+                }
                 Border?.Dispose();
                 Border = null;
                 Body?.Dispose();

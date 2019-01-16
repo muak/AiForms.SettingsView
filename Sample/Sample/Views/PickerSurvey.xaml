@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
+             xmlns:aie="clr-namespace:AiForms.Effects;assembly=AiForms.Effects"
              x:Class="Sample.Views.PickerSurvey" x:Name="Me">
 
     <ContentPage.Resources>
@@ -55,12 +56,12 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <sv:SettingsView HeaderHeight="0" BackgroundColor="White" HasUnevenRows="true" RowHeight="44"
+    <sv:SettingsView HeaderHeight="0" BackgroundColor="White" HasUnevenRows="false" RowHeight="44"
                      x:Name="settings" CellBackgroundColor="Transparent" SelectedColor="Red">
 
         <sv:Section>
             <ViewCell>
-                <StackLayout Padding="10,10,10,10" Orientation="Horizontal" Spacing="20">
+                <StackLayout Padding="10,10,10,10" Orientation="Horizontal" Spacing="20" aie:Feedback.EffectColor="Blue">
                     <BoxView WidthRequest="20" />
                     <Label Text="ああああああああああああああ" TextColor="Black" />
                 </StackLayout>
@@ -71,6 +72,7 @@
                     <Label Text="あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ" TextColor="Black" />
                 </StackLayout>
             </ViewCell>
+            <sv:CommandCell Title="Move" Command="{Binding TestCommand}" />
         </sv:Section>
     </sv:SettingsView>
 

@@ -169,10 +169,10 @@
       <HintPath>..\packages\Xamarin.Forms.3.0.0.482510\lib\MonoAndroid10\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
     <Reference Include="AiForms.Effects">
-      <HintPath>..\packages\AiForms.Effects.1.4.0-pre\lib\MonoAndroid\AiForms.Effects.dll</HintPath>
+      <HintPath>..\packages\AiForms.Effects.1.4.5-pre\lib\MonoAndroid\AiForms.Effects.dll</HintPath>
     </Reference>
     <Reference Include="AiForms.Effects.Droid">
-      <HintPath>..\packages\AiForms.Effects.1.4.0-pre\lib\MonoAndroid\AiForms.Effects.Droid.dll</HintPath>
+      <HintPath>..\packages\AiForms.Effects.1.4.5-pre\lib\MonoAndroid\AiForms.Effects.Droid.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -21,9 +21,13 @@ namespace Sample.ViewModels
         string[] listLetters = { "a", "b", "c", "d", "e" };
         string[] listNumbers = { "1", "2", "3", "4", "5" };
 
-        public PickerSurveyViewModel()
+        public ReactiveCommand TestCommand { get; } = new ReactiveCommand();
+         
+        public PickerSurveyViewModel(INavigationService navigationService)
         {
-
+            TestCommand.Subscribe(async _ => {
+                await navigationService.NavigateAsync("/MyNavigationPage/MainPage/PickerSurvey", null, true, true);
+            });
         }
 
         public void OnNavigatingTo(NavigationParameters parameters)
