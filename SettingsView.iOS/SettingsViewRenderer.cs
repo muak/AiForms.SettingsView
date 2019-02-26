@@ -223,14 +223,17 @@ namespace AiForms.Renderers.iOS
         {
             _parentPage.Appearing -= ParentPageAppearing;
 
-            if (_disposed) {
+            if (_disposed) 
+            {
                 return;
             }
 
-            if (disposing) {
+            if (disposing)
+            {
                 _insetTracker?.Dispose();
                 _insetTracker = null;
-                foreach (UIView subview in Subviews) {
+                foreach (UIView subview in Subviews) 
+                {
                     DisposeSubviews(subview);
                 }
 
@@ -244,11 +247,18 @@ namespace AiForms.Renderers.iOS
 
         void DisposeSubviews(UIView view)
         {
-            foreach (UIView subView in view.Subviews) {
-                DisposeSubviews(subView);
-            }
+            var ver = view as IVisualElementRenderer;
 
-            view.RemoveFromSuperview();
+            if (ver == null) 
+            {
+                foreach (UIView subView in view.Subviews)
+                {
+                    DisposeSubviews(subView);
+                }
+
+                view.RemoveFromSuperview();
+            }
+                
             view.Dispose();
         }
 
