@@ -14,17 +14,9 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
         </description>
         <summary></summary>
         <releaseNotes>
-## New features
-
-* [RadioCell] A cell that can be selected just one from a section.
-* [EntryCell] [IsPassword] Input text can be hidden.
-* [SettingsView] [ItemsSource / ItemTemplate] DataTemplate for SettingsView can be used.
-* [SettingsView] [VisibleContentHeight] The height of visible content can be got.
-
 ## Bug fixes
 
-* [Android] When SettingsView.HasUnevenrows is true and a ViewCell is used and FormsView's height is smaller than the RowHeight, the Cell is not filled.
-* [Others] When the AiForms.Effects.Feedback is used, it sometimes crashes.
+* [iOS] When SettingsViewRenderer is disposed of, Subviews in each ViewCell is disposed of. This sometimes causes the app to crash if using ViewCell.
         </releaseNotes>
         <tags>Xamarin.Forms TableView Cell Setting Configuration Option ListView UITableView RecyclerView ReOrder DragDrop</tags>
         <language>en-US</language>
