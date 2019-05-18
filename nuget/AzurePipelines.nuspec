@@ -16,7 +16,11 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
         <releaseNotes>
 ## Bug fixes
 
-* [iOS] When SettingsViewRenderer is disposed of, Subviews in each ViewCell is disposed of. This sometimes causes the app to crash if using ViewCell.
+* fix NaturalSort
+
+## Others
+* [Android] Add the library's initialize method for AndroidEnablePreloadAssemblies
+
         </releaseNotes>
         <tags>Xamarin.Forms TableView Cell Setting Configuration Option ListView UITableView RecyclerView ReOrder DragDrop</tags>
         <language>en-US</language>

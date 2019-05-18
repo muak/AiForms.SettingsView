@@ -291,7 +291,7 @@ namespace AiForms.Renderers
             if (_ignoreTable.Length > 0)
             {
                 SkipIgnoreCharacter(s1, ref p1);
-                SkipIgnoreCharacter(s1, ref p2);
+                SkipIgnoreCharacter(s2, ref p2);
             }
 
             while (p1 < s1.Length && p2 < s2.Length)
@@ -337,7 +337,7 @@ namespace AiForms.Renderers
                 // いずれかが数字の場合
                 else if ((t1 != CharTypes.None || t2 != CharTypes.None) && t1 != CharTypes.RomanNumber && t2 != CharTypes.RomanNumber)
                 {
-                    return (t1 != CharTypes.None) ? 1 : -1;
+                    return (t1 != CharTypes.None) ? -1 : 1;
                 }
                 // 数字でない場合は文字コードを比較する
                 else

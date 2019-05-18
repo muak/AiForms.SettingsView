@@ -19,8 +19,7 @@ namespace Sample.Droid
             global::Xamarin.Forms.Forms.SetFlags("FastRenderers_Experimental");
 			global::Xamarin.Forms.Forms.Init(this, bundle);
             Xamarin.Forms.Svg.Droid.SvgImage.Init();
-
-            var a = new AiForms.Renderers.Droid.PickerCellRenderer();
+            AiForms.Renderers.Droid.SettingsViewInit.Init();
 
 			LoadApplication(new App(new AndroidInitializer()));
 		}

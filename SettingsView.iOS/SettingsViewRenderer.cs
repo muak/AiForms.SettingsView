@@ -27,7 +27,6 @@ namespace AiForms.Renderers.iOS
         bool _disposed = false;
         float _topInset = 0f;
 
-
         /// <summary>
         /// Ons the element changed.
         /// </summary>

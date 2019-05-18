@@ -51,7 +51,7 @@ Android:version 5.1.1 (only FormsAppcompatActivity) / API22
 Install-Package AiForms.SettingsView
 ```
 
-PCLプロジェクトと各プラットフォームにインストールが必要です。
+NETStandardプロジェクトと各プラットフォームにインストールが必要です。
 
 ### iOSの場合
 
@@ -64,6 +64,20 @@ public override bool FinishedLaunching(UIApplication app, NSDictionary options) 
 
     LoadApplication(new App());
     return base.FinishedLaunching(app, options);
+}
+```
+
+### Androidの場合
+
+Androidで使用する場合はMainActivity.csに以下のようなコードを書く必要があります。
+
+```csharp
+protected override void OnCreate(Bundle bundle)
+{
+    base.OnCreate(bundle);
+
+    global::Xamarin.Forms.Forms.Init(this, bundle);
+    AiForms.Renderers.Droid.SettingsViewInit.Init(); // need to write here
 }
 ```
 
@@ -218,6 +232,61 @@ SettingsView の内容のセルの合計の高さが、親のViewよりも低い
 </sv:SettingsView>
 ```
 
+### SetttingsView自身のItemsSourceとItemTemplateの使用例
+
+```csharp
+public class SomeViewModel
+{
+    public List<MenuSection> ItemsSource {get;set;}
+
+    public SomeViewModel()
+    {
+        ItemsSource = new List<MenuSection>{
+            new new MenuSection("Select number",3){
+                new MenuItem{Title = "3",Value=3},
+                new MenuItem{Title = "4",Value=4},
+            },
+            new MenuSection("Select mode",1){
+                new MenuItem{Title = "A",Value = 1},
+                new MenuItem{Title = "B",Value = 2}
+            }
+        }
+    }
+}
+public class MenuItem
+{
+    public string Title { get; set; }
+    public int Value { get; set; }
+}
+
+public class MenuSection:List<MenuItem>
+{
+    public string SectionTitle { get; set; }
+    public bool Selected { get;set; } // must implement INotifyPropertyChanged by some way
+
+    public MenuSection(string title,int initalSelectedValue)
+    {
+        SectionTitle = title;
+    }
+}
+```
+
+```xml
+<sv:SettingsView x:Name="Settings" ItemsSource="{Binding ItemsSource}">
+    <sv:SettingsView.ItemTemplate>
+        <DataTemplate>
+            <sv:Section Title="{Binding SectionTitle}" ItemsSource="{Binding}" sv:RadioCell.SelectedValue="{Binding Selected}">
+                <sv:Section.ItemTemplate>
+                    <DataTemplate>
+                        <sv:RadioCell Title="{Binding Title}" Value="{Binding Value}" />
+                    </DataTemplate>
+                </sv:Section.ItemTemplate>
+            </sv:Section>
+        </DataTemplate>
+    </sv:SettingsView.ItemTemplate>
+</sv:SettingsView>
+```
+
 ## SettingsViewのメソッド
 
 * ClearCache (static)
@@ -242,6 +311,35 @@ SettingsView の内容のセルの合計の高さが、親のViewよりも低い
 	* セクション内のセルをDragDropで並べ替え可能にします。
 	* iOS11以降とそれ以外で外観が異なります。
 	* iOS10以下は三本線のアイコンを掴むと移動でき、iOS11はセル全体を長押しすると移動できるようになります。
+
+### セクションのItemsSourceとItemTemplateの使用例
+
+```csharp
+public class SomeModel
+{
+   // 動的なリストを使う場合はObservableCollectionを使った方が良いです。
+   public ObservableCollection<Option> Options {get;set;}
+   public void SomeMethod()
+   {
+       Options = new ObservableCollection(GetServerData());
+   }
+}
+public class Option
+{
+   public string Name {get;set;}
+   public string Address {get;set;}
+}
+```
+
+```xml
+<sv:Section ItemsSource="{Binding Options}">
+    <sv:Section.ItemTemplate>
+        <DataTemplate>
+            <sv:LabelCell Title="{Binding Name}" Value="{Binding Address}" />
+        </DataTemplate>
+    </sv:Section.ItemTemplate>
+</sv:Section>
+```
 
 ## Cells
 

@@ -18,7 +18,7 @@ namespace Sample.ViewModels
         static int[] MaxLengths = { -1, 10, 20, 0 };
         static string[] InputTexts = {"","TextText10","LongTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextEnd",
             "TextText10TextText20"};
-        static Keyboard[] Keyboards = { Keyboard.Default, Keyboard.Email, Keyboard.Numeric, Keyboard.Plain, Keyboard.Telephone, Keyboard.Text, Keyboard.Url, Keyboard.Chat };
+        static Keyboard[] Keyboards = { Keyboard.Numeric, Keyboard.Email, Keyboard.Default, Keyboard.Plain, Keyboard.Telephone, Keyboard.Text, Keyboard.Url, Keyboard.Chat };
         static string[] Placeholders = { "", "Placeholder", "LongPlaceholderTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextEnd" };
         static TextAlignment[] TextAlignments = { Xamarin.Forms.TextAlignment.Start, Xamarin.Forms.TextAlignment.Center, Xamarin.Forms.TextAlignment.End };
         static bool[] IsPasswords = { false, true };
