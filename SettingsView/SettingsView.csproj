@@ -10,7 +10,7 @@
     <DocumentationFile>bin\Release\netstandard2.0\SettingsView.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="3.0.0.482510" />
+    <PackageReference Include="Xamarin.Forms" Version="4.0.0.425677" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="project.json" />

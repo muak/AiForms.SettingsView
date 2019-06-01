@@ -54,9 +54,9 @@ Install-Package AiForms.SettingsView
 
 You need to install this nuget package to .NETStandard project and each platform project.
 
-### for iOS project
+### For iOS
 
-To use by iOS, you need to write some code in AppDelegate.cs.
+AppDelegate.cs
 
 ```csharp
 public override bool FinishedLaunching(UIApplication app, NSDictionary options) {
@@ -65,6 +65,20 @@ public override bool FinishedLaunching(UIApplication app, NSDictionary options) 
 
     LoadApplication(new App());
     return base.FinishedLaunching(app, options);
+}
+```
+
+### For Android
+
+MainActivity.cs
+
+```csharp
+protected override void OnCreate(Bundle bundle)
+{
+    base.OnCreate(bundle);
+
+    global::Xamarin.Forms.Forms.Init(this, bundle);
+    AiForms.Renderers.Droid.SettingsViewInit.Init(); // need to write here
 }
 ```
 
@@ -217,6 +231,61 @@ If SettingsView's total cells height is shorter than the parent view height, its
 </sv:SettingsView>
 ```
 
+### Sample of ItemsSource and ItemTemplate for a root
+
+```csharp
+public class SomeViewModel
+{
+    public List<MenuSection> ItemsSource {get;set;}
+
+    public SomeViewModel()
+    {
+        ItemsSource = new List<MenuSection>{
+            new new MenuSection("Select number",3){
+                new MenuItem{Title = "3",Value=3},
+                new MenuItem{Title = "4",Value=4},
+            },
+            new MenuSection("Select mode",1){
+                new MenuItem{Title = "A",Value = 1},
+                new MenuItem{Title = "B",Value = 2}
+            }
+        }
+    }
+}
+public class MenuItem
+{
+    public string Title { get; set; }
+    public int Value { get; set; }
+}
+
+public class MenuSection:List<MenuItem>
+{
+    public string SectionTitle { get; set; }
+    public bool Selected { get;set; } // must implement INotifyPropertyChanged by some way
+
+    public MenuSection(string title,int initalSelectedValue)
+    {
+        SectionTitle = title;
+    }
+}
+```
+
+```xml
+<sv:SettingsView x:Name="Settings" ItemsSource="{Binding ItemsSource}">
+    <sv:SettingsView.ItemTemplate>
+        <DataTemplate>
+            <sv:Section Title="{Binding SectionTitle}" ItemsSource="{Binding}" sv:RadioCell.SelectedValue="{Binding Selected}">
+                <sv:Section.ItemTemplate>
+                    <DataTemplate>
+                        <sv:RadioCell Title="{Binding Title}" Value="{Binding Value}" />
+                    </DataTemplate>
+                </sv:Section.ItemTemplate>
+            </sv:Section>
+        </DataTemplate>
+    </sv:SettingsView.ItemTemplate>
+</sv:SettingsView>
+```
+
 ## SettingsView Methods
 
 * ClearCache (static)
@@ -240,6 +309,35 @@ If SettingsView's total cells height is shorter than the parent view height, its
 * UseDragSort
 	* Enable you to reorder cells in a section with drag and drop.
 	* If iOS version is less than or equal to iOS10, the cells can be moved when grabbing the icon drawn three lines; Otherwise can be moved when doing long tap.
+
+### How to use an ItemsSource and an ItemTemplate for a Section
+
+```csharp
+public class SomeModel
+{
+   // you should use a ObservableCollection if you use a dynamic list.
+   public ObservableCollection<Option> Options {get;set;}
+   public void SomeMethod()
+   {
+       Options = new ObservableCollection(GetServerData());
+   }
+}
+public class Option
+{
+   public string Name {get;set;}
+   public string Address {get;set;}
+}
+```
+
+```xml
+<sv:Section ItemsSource="{Binding Options}">
+    <sv:Section.ItemTemplate>
+        <DataTemplate>
+            <sv:LabelCell Title="{Binding Name}" Value="{Binding Address}" />
+        </DataTemplate>
+    </sv:Section.ItemTemplate>
+</sv:Section>
+```
 
 ## Cells
 
