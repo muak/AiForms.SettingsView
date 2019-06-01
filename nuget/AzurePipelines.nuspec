@@ -8,6 +8,7 @@
         <owners>kamu</owners>
         <projectUrl>https://github.com/muak/AiForms.SettingsView</projectUrl>
         <licenseUrl>https://github.com/muak/AiForms.SettingsView/blob/master/LICENSE.txt</licenseUrl>
+        <iconUrl>https://raw.githubusercontent.com/muak/AiForms.SettingsView/master/images/icon.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>This is a flexible TableView specialized in settings for Android / iOS. 
 There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,CheckboxCell,RadioCell,PickerCell,EntryCell,NumberPickerCell,TimePickerCell,DatePickerCell)
@@ -17,6 +18,7 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
 ## Bug fixes
 
 * fix NaturalSort
+* PickerCell doesn't work when using a built-in-type.
 
 ## Others
 * [Android] Add the library's initialize method for AndroidEnablePreloadAssemblies

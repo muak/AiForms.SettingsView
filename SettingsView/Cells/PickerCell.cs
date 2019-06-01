@@ -428,9 +428,40 @@ namespace AiForms.Renderers
                 throw new ArgumentException("ItemsSource must be GenericType.");
             }
 
+            // If the type is a system built-in-type, it doesn't create GetProperty.
+            if(IsBuiltInType(typeArg[0]))
+            {
+                _getters = null;
+                return;
+            }
+
             _getters = DisplayValueCache.GetOrAdd(typeArg[0], CreateGetProperty);
         }
 
-
+        bool IsBuiltInType(Type type)
+        {
+            var name = type.FullName;
+            switch (name)
+            {
+                case "System.Boolean":
+                case "System.Byte":
+                case "System.SByte":
+                case "System.Char":
+                case "System.Int16":
+                case "System.UInt16":
+                case "System.Int32":
+                case "System.UInt32":
+                case "System.Int64":
+                case "System.UInt64":
+                case "System.Single":
+                case "System.Double":
+                case "System.Decimal":
+                case "System.String":
+                case "System.Object":
+                    return true;
+                default:
+                    return false;
+            }
+        }
     }
 }
