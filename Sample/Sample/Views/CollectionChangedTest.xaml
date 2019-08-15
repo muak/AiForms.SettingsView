@@ -5,7 +5,7 @@
     xmlns:ai="clr-namespace:AiForms.Renderers;assembly=SettingsView"
     xmlns:l="clr-namespace:AiForms.Layouts;assembly=AiForms.Layouts"
     xmlns:ef="clr-namespace:AiForms.Effects;assembly=AiForms.Effects"
-    xmlns:me="clr-namespace:Sample.Views;assembly=Sample"
+    xmlns:me="clr-namespace:Sample.Views;assembly=SettingsSample"
     x:Class="Sample.Views.CollectionChangedTest">
     <ContentPage.Resources>
         <ResourceDictionary>
