@@ -723,6 +723,20 @@ namespace AiForms.Renderers
             set { SetValue(ItemTemplateProperty, value); }
         }
 
+        public static BindableProperty ShowArrowIndicatorForAndroidProperty =
+            BindableProperty.Create(
+                nameof(ShowArrowIndicatorForAndroid),
+                typeof(bool),
+                typeof(SettingsView),
+                default(bool),
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        public bool ShowArrowIndicatorForAndroid {
+            get { return (bool)GetValue(ShowArrowIndicatorForAndroidProperty); }
+            set { SetValue(ShowArrowIndicatorForAndroidProperty, value); }
+        }
+
         static void ItemsChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var settingsView = (SettingsView)bindable;

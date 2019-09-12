@@ -1,5 +1,6 @@
 ﻿using System;
 using Xamarin.Forms;
+using System.Windows.Input;
 
 namespace AiForms.Renderers
 {
@@ -142,10 +143,37 @@ namespace AiForms.Renderers
         /// <summary>
         /// Sends the completed.
         /// </summary>
-        public void SendCompleted() {
-           EventHandler handler = Completed;
-            if (handler != null)
-                handler(this, EventArgs.Empty);
+        public void SendCompleted() 
+        {
+            Completed?.Invoke(this, EventArgs.Empty);
+            if(CompletedCommand != null)
+            {
+                if(CompletedCommand.CanExecute(null)) 
+                {
+                    CompletedCommand.Execute(null);
+                }
+            }           
+        }
+
+        /// <summary>
+        /// The completed command property.
+        /// </summary>
+        public static BindableProperty CompletedCommandProperty =
+            BindableProperty.Create(
+                nameof(CompletedCommand),
+                typeof(ICommand),
+                typeof(EntryCell),
+                default(ICommand),
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        /// <summary>
+        /// Gets or sets the completed command.
+        /// </summary>
+        /// <value>The completed command.</value>
+        public ICommand CompletedCommand {
+            get { return (ICommand)GetValue(CompletedCommandProperty); }
+            set { SetValue(CompletedCommandProperty, value); }
         }
 
         /// <summary>
@@ -224,9 +252,24 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="T:AiForms.Renderers.EntryCell"/> is password.
+        /// </summary>
+        /// <value><c>true</c> if is password; otherwise, <c>false</c>.</value>
         public bool IsPassword {
             get { return (bool)GetValue(IsPasswordProperty); }
             set { SetValue(IsPasswordProperty, value); }
+        }
+
+
+
+        internal event EventHandler Focused;
+        /// <summary>
+        /// Sets the focus.
+        /// </summary>
+        public void SetFocus()
+        {
+            Focused?.Invoke(this,EventArgs.Empty);
         }
     }
 }

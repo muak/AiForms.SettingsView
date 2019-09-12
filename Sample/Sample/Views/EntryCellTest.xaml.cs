@@ -21,5 +21,10 @@ namespace Sample.Views
         {
             DisplayAlert("", "Completed", "OK");
         }
+
+        void Button_Tapped(object sender, System.EventArgs e)
+        {
+            entryCell.SetFocus();
+        }
     }
 }

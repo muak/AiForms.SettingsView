@@ -59,6 +59,7 @@
     </ContentPage.Resources>
 	
 	<sv:SettingsView HasUnevenRows="true" HeaderHeight="36" HeaderPadding="14,0,0,6" HeaderTextVerticalAlign="End" FooterPadding="14,4,4,6"
+                  ShowArrowIndicatorForAndroid="True"
         >
      
 		<sv:Section FooterText="This is a footer. optionaly you can write here.">

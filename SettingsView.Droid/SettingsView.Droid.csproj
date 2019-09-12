@@ -213,11 +213,16 @@
     <AndroidResource Include="Resources\layout\ContentCell.axml" />
     <AndroidResource Include="Resources\layout\FooterCell.axml" />
     <AndroidResource Include="Resources\layout\HeaderCell.axml" />
+    <AndroidResource Include="Resources\drawable\ic_navigate_next.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Cells\" />
     <Folder Include="Extensions\" />
     <Folder Include="Resources\layout\" />
+    <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SettingsView\SettingsView.csproj">

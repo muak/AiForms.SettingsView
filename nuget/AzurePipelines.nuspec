@@ -15,13 +15,15 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
         </description>
         <summary></summary>
         <releaseNotes>
-## Bug fixes
+## New Features
 
-* fix NaturalSort
-* PickerCell doesn't work when using a built-in-type.
+* [EntryCell] SetFocus method #63
+* [EntryCell] CompletedCommand
+* [SettingsView] ShowArrowIndicatorForAndroid Property – show an arrow indicator at the right side of CommandCell and PickerCell.
 
-## Others
-* [Android] Add the library's initialize method for AndroidEnablePreloadAssemblies
+## Changes
+
+* EntryCell Completed event occurs when a cell is lost focus too.
 
         </releaseNotes>
         <tags>Xamarin.Forms TableView Cell Setting Configuration Option ListView UITableView RecyclerView ReOrder DragDrop</tags>
