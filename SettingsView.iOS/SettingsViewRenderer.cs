@@ -62,7 +62,7 @@ namespace AiForms.Renderers.iOS
                 SetNativeControl(_tableview);
                 _tableview.ScrollEnabled = true;
                 _tableview.RowHeight = UITableView.AutomaticDimension;
-
+                _tableview.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
 
                 _tableview.CellLayoutMarginsFollowReadableWidth = false;
 

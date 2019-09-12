@@ -23,7 +23,8 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
 
 ## Changes
 
-* EntryCell Completed event occurs when a cell is lost focus too.
+* EntryCell's keyboard is now hidden when scrolling on iOS. #59
+* EntryCell Completed event is now occurred when a cell is lost focus too.
 
         </releaseNotes>
         <tags>Xamarin.Forms TableView Cell Setting Configuration Option ListView UITableView RecyclerView ReOrder DragDrop</tags>
