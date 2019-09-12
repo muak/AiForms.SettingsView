@@ -105,7 +105,7 @@
                     <Label Text="ViewCell" TextColor="{StaticResource DeepTextColor}" />
                     <StackLayout Orientation="Horizontal">
                         <Image Source="icon.png" WidthRequest="36" HeightRequest="36" />
-                        <Slider Minimum="0" Maximum="999" Value="500" HorizontalOptions="FillAndExpand" ef:AlterColor.Accent="{StaticResource AccentColor}" />
+                        <Slider Minimum="0" Maximum="1" Value="0.5" HorizontalOptions="FillAndExpand" ef:AlterColor.Accent="{StaticResource AccentColor}" />
                     </StackLayout>
                     <Label Text="You can use Forms build-in Cells." FontSize="11" TextColor="{StaticResource PaleTextColor}" />
                  </StackLayout>
