@@ -72,6 +72,7 @@ namespace AiForms.Renderers.Droid
             base.CellPropertyChanged(sender, e);
 
             if (e.PropertyName == PickerCell.SelectedItemsProperty.PropertyName ||
+                e.PropertyName == PickerCell.SelectedItemProperty.PropertyName ||
                 e.PropertyName == PickerCell.DisplayMemberProperty.PropertyName ||
                 e.PropertyName == PickerCell.UseNaturalSortProperty.PropertyName ||
                 e.PropertyName == PickerCell.SelectedItemsOrderKeyProperty.PropertyName) {

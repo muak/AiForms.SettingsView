@@ -5,6 +5,7 @@ using Prism.Ioc;
 using Prism.Unity;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
+using Sample.Views;
 
 [assembly: Xamarin.Forms.Xaml.XamlCompilation(Xamarin.Forms.Xaml.XamlCompilationOptions.Compile)]
 namespace Sample
@@ -19,7 +20,8 @@ namespace Sample
 
             Xamarin.Forms.Svg.SvgImageSource.RegisterAssembly();
 
-			NavigationService.NavigateAsync("MyNavigationPage/MainPage");
+            NavigationService.NavigateAsync("MyNavigationPage/MainPage");
+            //MainPage = new AppShell();
 		}
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
