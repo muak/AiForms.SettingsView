@@ -309,6 +309,11 @@ namespace AiForms.Renderers.Droid
 
         void ITextWatcher.OnTextChanged(ICharSequence s, int start, int before, int count)
         {
+            if (string.IsNullOrEmpty(_EntryCell.ValueText) && s.Length() == 0)
+            {
+                return;
+            }
+
             _EntryCell.ValueText = s?.ToString();
         }
 

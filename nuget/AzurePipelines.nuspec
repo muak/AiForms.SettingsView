@@ -28,6 +28,11 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
 * EntryCell's keyboard is now hidden when scrolling on iOS. #59
 * EntryCell Completed event is now occurred when a cell is lost focus too.
 
+## Bug fixes
+
+* [TextPickerCell] Show the soft keyboard when tapping the dialog. #68
+* [EntryCell][Android] A binding sometimes lost.
+
         </releaseNotes>
         <tags>Xamarin.Forms TableView Cell Setting Configuration Option ListView UITableView RecyclerView ReOrder DragDrop</tags>
         <language>en-US</language>
