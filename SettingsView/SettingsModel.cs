@@ -79,6 +79,11 @@ namespace AiForms.Renderers
             return _visibleSections.ElementAtOrDefault(section);
         }
 
+        public virtual int GetSectionIndex(Section section)
+        {
+            return _visibleSections.IndexOf(section);
+        }
+
         /// <summary>
         /// Gets the section title.
         /// </summary>
@@ -89,6 +94,17 @@ namespace AiForms.Renderers
             return _visibleSections.ElementAt(section).Title;
         }
 
+
+        /// <summary>
+        /// Gets the section header view.
+        /// </summary>
+        /// <returns>The section header view.</returns>
+        /// <param name="section">Section.</param>
+        public virtual View GetSectionHeaderView(int section)
+        {
+            return _visibleSections.ElementAt(section).HeaderView;
+        }
+
         /// <summary>
         /// Gets the footer text.
         /// </summary>
@@ -97,6 +113,16 @@ namespace AiForms.Renderers
         public virtual string GetFooterText(int section)
         {
             return _visibleSections.ElementAt(section).FooterText;
+        }
+
+        /// <summary>
+        /// Gets the section footer view.
+        /// </summary>
+        /// <returns>The section footer view.</returns>
+        /// <param name="section">Section.</param>
+        public virtual View GetSectionFooterView(int section)
+        {
+            return _visibleSections.ElementAt(section).FooterView;
         }
 
         /// <summary>

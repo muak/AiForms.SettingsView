@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using System.Collections;
 using System.Collections.Specialized;
+using System.ComponentModel;
 
 namespace AiForms.Renderers
 {
@@ -15,7 +16,23 @@ namespace AiForms.Renderers
         /// </summary>
         public Section()
         {
+            CollectionChanged += OnCollectionChanged;
+            PropertyChanged += OnPropertyChanged;
         }
+
+        void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            SectionCollectionChanged?.Invoke(this, e);
+        }
+
+        void OnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            SectionPropertyChanged?.Invoke(this, e);
+        }
+
+
+        public event NotifyCollectionChangedEventHandler SectionCollectionChanged;
+        public event PropertyChangedEventHandler SectionPropertyChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Section"/> class.
@@ -135,6 +152,34 @@ namespace AiForms.Renderers
         {
             get { return (double)GetValue(HeaderHeightProperty); }
             set { SetValue(HeaderHeightProperty, value); }
+        }
+
+        public static BindableProperty HeaderViewProperty =
+            BindableProperty.Create(
+                nameof(HeaderView),
+                typeof(View),
+                typeof(Section),
+                default(View),
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        public View HeaderView {
+            get { return (View)GetValue(HeaderViewProperty); }
+            set { SetValue(HeaderViewProperty, value); }
+        }
+
+        public static BindableProperty FooterViewProperty =
+            BindableProperty.Create(
+                nameof(FooterView),
+                typeof(View),
+                typeof(Section),
+                default(View),
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        public View FooterView {
+            get { return (View)GetValue(FooterViewProperty); }
+            set { SetValue(FooterViewProperty, value); }
         }
 
         /// <summary>

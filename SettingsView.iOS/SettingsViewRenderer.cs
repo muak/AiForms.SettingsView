@@ -9,6 +9,7 @@ using Foundation;
 using ObjCRuntime;
 using System.Linq;
 using MobileCoreServices;
+using System.Collections.Specialized;
 
 [assembly: ExportRenderer(typeof(SettingsView), typeof(SettingsViewRenderer))]
 namespace AiForms.Renderers.iOS
@@ -19,6 +20,9 @@ namespace AiForms.Renderers.iOS
     [Foundation.Preserve(AllMembers = true)]
     public class SettingsViewRenderer : ViewRenderer<SettingsView, UITableView>,IUITableViewDragDelegate,IUITableViewDropDelegate
     {
+        internal static readonly string TextHeaderId = "textHeaderView";
+        internal static readonly string TextFooterId = "textFooterView";
+        internal static readonly string CustomHeaderFooterId = "customHeaderFooterView";
         Page _parentPage;
         KeyboardInsetTracker _insetTracker;
         internal static float MinRowHeight = 48;
@@ -35,8 +39,14 @@ namespace AiForms.Renderers.iOS
         {
             base.OnElementChanged(e);
 
-            if (e.NewElement != null) {
+            if(e.OldElement != null)
+            {
+                e.OldElement.CollectionChanged -= OnCollectionChanged;
+                e.OldElement.SectionCollectionChanged -= OnSectionCollectionChanged;
+            }
 
+            if (e.NewElement != null) 
+            {
                 _tableview = new UITableView(CGRect.Empty, UITableViewStyle.Grouped);
 
                 if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0))
@@ -73,6 +83,14 @@ namespace AiForms.Renderers.iOS
                 _tableview.SectionFooterHeight = UITableView.AutomaticDimension;
                 _tableview.EstimatedSectionFooterHeight = MinRowHeight;
 
+                _tableview.RegisterClassForHeaderFooterViewReuse(typeof(TextHeaderView), TextHeaderId);
+                _tableview.RegisterClassForHeaderFooterViewReuse(typeof(TextFooterView), TextFooterId);
+                _tableview.RegisterClassForHeaderFooterViewReuse(typeof(CustomHeaderFooterView), CustomHeaderFooterId);
+
+                e.NewElement.CollectionChanged += OnCollectionChanged;
+                e.NewElement.SectionCollectionChanged += OnSectionCollectionChanged; 
+
+
                 UpdateBackgroundColor();
                 UpdateSeparator();
                 UpdateRowHeight();
@@ -96,6 +114,147 @@ namespace AiForms.Renderers.iOS
                 });
             }
         }
+
+        void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            UpdateSections(e);
+        }
+
+        void OnSectionCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            var sectionIdx = Element.Model.GetSectionIndex((Section)sender);
+            UpdateItems(e, sectionIdx, false);
+        }
+
+        void UpdateSections(NotifyCollectionChangedEventArgs e)
+        {
+            switch(e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    if (e.NewStartingIndex == -1)
+                    {
+                        goto case NotifyCollectionChangedAction.Reset;
+                    }
+                    //Element.Model.GetSectionCount(); // reflect section count;
+                    Control.BeginUpdates();
+                    Control.InsertSections(NSIndexSet.FromIndex(e.NewStartingIndex), UITableViewRowAnimation.Automatic);
+                    Control.EndUpdates();
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    if (e.OldStartingIndex == -1)
+                    {
+                        goto case NotifyCollectionChangedAction.Reset;
+                    }
+                    //Element.Model.GetSectionCount(); // reflect section count;
+                    Control.BeginUpdates();
+                    Control.DeleteSections(NSIndexSet.FromIndex(e.OldStartingIndex), UITableViewRowAnimation.Automatic);
+                    Control.EndUpdates();
+                    break;
+
+                case NotifyCollectionChangedAction.Replace:
+                    if (e.OldStartingIndex == -1)
+                    {
+                        goto case NotifyCollectionChangedAction.Reset;
+                    }
+                    Control.BeginUpdates();
+                    Control.ReloadSections(NSIndexSet.FromIndex(e.OldStartingIndex), UITableViewRowAnimation.Automatic);
+                    Control.EndUpdates();
+                    break;
+
+                case NotifyCollectionChangedAction.Move:
+                case NotifyCollectionChangedAction.Reset:
+
+                    Control.ReloadData();
+                    return;
+            }
+        }
+
+        void UpdateItems(NotifyCollectionChangedEventArgs e, int section, bool resetWhenGrouped)
+        {
+            // This means the UITableView hasn't rendered any cells yet
+            // so there's no need to synchronize the rows on the UITableView
+            if (Control.IndexPathsForVisibleRows == null && e.Action != NotifyCollectionChangedAction.Reset)
+                return;
+
+            switch(e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    if (e.NewStartingIndex == -1)
+                    {
+                        goto case NotifyCollectionChangedAction.Reset;
+                    }
+
+                    Control.BeginUpdates();
+                    Control.InsertRows(GetPaths(section, e.NewStartingIndex, e.NewItems.Count), UITableViewRowAnimation.Automatic);
+                    Control.EndUpdates();
+
+                    break;
+
+                case NotifyCollectionChangedAction.Remove:
+                    if (e.OldStartingIndex == -1 )
+                    {
+                        goto case NotifyCollectionChangedAction.Reset;
+                    }
+                        
+                    Control.BeginUpdates();
+                    Control.DeleteRows(GetPaths(section, e.OldStartingIndex, e.OldItems.Count), UITableViewRowAnimation.Automatic);
+                    Control.EndUpdates();
+
+                    break;
+
+                case NotifyCollectionChangedAction.Move:
+                    if (e.OldStartingIndex == -1 || e.NewStartingIndex == -1)
+                    {
+                        goto case NotifyCollectionChangedAction.Reset;
+                    }
+                        
+                    Control.BeginUpdates();
+                    for (var i = 0; i < e.OldItems.Count; i++)
+                    {
+                        var oldi = e.OldStartingIndex;
+                        var newi = e.NewStartingIndex;
+
+                        if (e.NewStartingIndex < e.OldStartingIndex)
+                        {
+                            oldi += i;
+                            newi += i;
+                        }
+
+                        Control.MoveRow(NSIndexPath.FromRowSection(oldi, section), NSIndexPath.FromRowSection(newi, section));
+                    }
+                    Control.EndUpdates();
+                   
+                    break;
+
+                case NotifyCollectionChangedAction.Replace:
+                    if (e.OldStartingIndex == -1)
+                    {
+                        goto case NotifyCollectionChangedAction.Reset;
+                    }
+                        
+                    Control.BeginUpdates();
+                    Control.ReloadRows(GetPaths(section, e.OldStartingIndex, e.OldItems.Count), UITableViewRowAnimation.Automatic);
+                    Control.EndUpdates();
+
+                    break;
+
+                case NotifyCollectionChangedAction.Reset:
+                    Control.ReloadData();
+                    return;
+            }
+        }
+
+        protected virtual NSIndexPath[] GetPaths(int section, int index, int count)
+        {
+            var paths = new NSIndexPath[count];
+            for (var i = 0; i < paths.Length; i++)
+            {
+                paths[i] = NSIndexPath.FromRowSection(index + i, section);
+            }
+
+            return paths;
+        }
+
 
         void ParentPageAppearing(object sender, EventArgs e)
         {
@@ -229,6 +388,8 @@ namespace AiForms.Renderers.iOS
 
             if (disposing)
             {
+                Element.CollectionChanged -= OnCollectionChanged;
+                Element.SectionCollectionChanged -= OnSectionCollectionChanged;
                 _insetTracker?.Dispose();
                 _insetTracker = null;
                 foreach (UIView subview in Subviews) 

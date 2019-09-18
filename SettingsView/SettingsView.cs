@@ -30,6 +30,8 @@ namespace AiForms.Renderers
         /// Occurs when model changed.
         /// </summary>
         public new event EventHandler ModelChanged;
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        public event NotifyCollectionChangedEventHandler SectionCollectionChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AiForms.Renderers.SettingsView"/> class.
@@ -52,7 +54,7 @@ namespace AiForms.Renderers
             get { return _root; }
             set {
                 if (_root != null) {
-                    _root.PropertyChanged -= RootOnPropertyChanged;
+                    _root.SectionPropertyChanged -= RootOnPropertyChanged;
                     _root.CollectionChanged -= OnCollectionChanged;
                     _root.SectionCollectionChanged -= OnSectionCollectionChanged;
                 }
@@ -62,9 +64,10 @@ namespace AiForms.Renderers
                 //transfer binding context to the children (maybe...)
                 SetInheritedBindingContext(_root, BindingContext);
 
-                _root.PropertyChanged += RootOnPropertyChanged;
+                _root.SectionPropertyChanged += RootOnPropertyChanged;
                 _root.CollectionChanged += OnCollectionChanged;
                 _root.SectionCollectionChanged += OnSectionCollectionChanged;
+                OnModelChanged();
             }
         }
 
@@ -81,8 +84,11 @@ namespace AiForms.Renderers
         void RootOnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == TableSectionBase.TitleProperty.PropertyName ||
-                e.PropertyName == Section.FooterTextProperty.PropertyName ||
-                e.PropertyName == Section.IsVisibleProperty.PropertyName) {
+                e.PropertyName == Section.FooterTextProperty.PropertyName) {
+                OnModelChanged();
+            }
+            else if(e.PropertyName == Section.IsVisibleProperty.PropertyName)
+            {
                 OnModelChanged();
             }
         }
@@ -118,26 +124,59 @@ namespace AiForms.Renderers
         /// <param name="e">E.</param>
         public void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            OnModelChanged();
+            if(e.NewItems != null)
+            {
+                e.NewItems.Cast<Section>().ForEach(section => {
+                    if (section.HeaderView != null)
+                    {
+                        section.HeaderView.Parent = this;
+                    }
+                    if (section.FooterView != null)
+                    {
+                        section.FooterView.Parent = this;
+                    }
+                });
+                e.NewItems.Cast<Section>().SelectMany(x => x).ForEach(cell => cell.Parent = this);
+            }
+            CollectionChanged?.Invoke(sender, e);
+            //OnModelChanged();
         }
 
         /// <summary>
         /// CollectionChanged by the child in section
         /// </summary>
         /// <param name="sender">Sender.</param>
-        /// <param name="childCollectionChangedEventArgs">The ${ParameterType} instance containing the event data.</param>
-        public void OnSectionCollectionChanged(object sender, EventArgs childCollectionChangedEventArgs)
+        /// <param name="e">The ${ParameterType} instance containing the event data.</param>
+        public void OnSectionCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            OnModelChanged();
+            if (e.NewItems != null)
+            {
+                e.NewItems.Cast<Cell>().ForEach(cell => cell.Parent = this);
+            }
+            SectionCollectionChanged?.Invoke(sender, e);
+            //OnModelChanged();
         }
 
         new void OnModelChanged()
         {
+            foreach(var section in Root)
+            {
+                if (section.HeaderView != null)
+                {
+                    section.HeaderView.Parent = this;
+                }
+                if (section.FooterView != null)
+                {
+                    section.FooterView.Parent = this;
+                }
+            }
+
             var cells = Root?.SelectMany(r => r);
             if (cells == null)
             {
                 return;
             }
+                      
 
             foreach (Cell cell in cells)
             {
