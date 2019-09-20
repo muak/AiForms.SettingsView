@@ -79,6 +79,11 @@ namespace AiForms.Renderers
             return _visibleSections.ElementAtOrDefault(section);
         }
 
+        public virtual Section GetSectionFromCell(Cell cell)
+        {
+            return _visibleSections.FirstOrDefault(x => x.Contains(cell));
+        }
+
         public virtual int GetSectionIndex(Section section)
         {
             return _visibleSections.IndexOf(section);

@@ -23,7 +23,7 @@
         <item name="android:alertDialogTheme">@style/AppCompatDialogStyle</item>
         <item name="android:timePickerDialogTheme">@style/AppCompatDialogStyle</item>
 		<item name="android:textColorSecondary">#CC9900</item>
-
+        <item name="android:textAllCaps">false</item>
 	</style>
 	<style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog">
 		<item name="colorAccent">#FFBF00</item>

@@ -20,6 +20,24 @@ namespace AiForms.Renderers
             PropertyChanged += OnPropertyChanged;
         }
 
+        public void MoveSourceItemWithoutNotify(int from, int to)
+        {
+            CollectionChanged -= OnCollectionChanged;
+            var tmp = ItemsSource[from];
+            ItemsSource.RemoveAt(from);
+            ItemsSource.Insert(to, tmp);
+            CollectionChanged += OnCollectionChanged;
+        }
+
+        public void MoveCellWithoutNotify(int from, int to)
+        {
+            CollectionChanged -= OnCollectionChanged;
+            var tmp = this[from];
+            this.RemoveAt(from);
+            this.Insert(to, tmp);
+            CollectionChanged += OnCollectionChanged;
+        }
+
         void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             SectionCollectionChanged?.Invoke(this, e);
@@ -267,7 +285,7 @@ namespace AiForms.Renderers
             {
                 if (e.NewItems != null)
                 {
-                    for (var i = 0; i < e.NewItems.Count; ++i)
+                    for (var i = 0; i < e.NewItems.Count; i++)
                     {
                         var item = e.NewItems[i];
                         var view = CreateChildViewFor(this.ItemTemplate, item, this);

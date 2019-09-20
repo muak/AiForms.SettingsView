@@ -202,6 +202,7 @@
     <Compile Include="Cells\RadioCellRenderer.cs" />
     <Compile Include="Cells\SimpleCheck.cs" />
     <Compile Include="SettingsViewInit.cs" />
+    <Compile Include="ModelProxy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

@@ -19,22 +19,24 @@ namespace AiForms.Renderers.Droid
     [Android.Runtime.Preserve(AllMembers = true)]
     public class SettingsViewRecyclerAdapter:RecyclerView.Adapter,AView.IOnClickListener
     {
-        const int ViewTypeHeader = 0;
-        const int ViewTypeFooter = 1;
+        //const int ViewTypeHeader = 0;
+        //const int ViewTypeFooter = 1;
+        //const int ViewTypeCustomHeader = 2;
+        //const int ViewTypeCustomFooter = 3;
 
         float MinRowHeight => _context.ToPixels(44);
 
-        Dictionary<Type, int> _viewTypes;
-        List<CellCache> _cellCaches;
-        internal List<CellCache> CellCaches
-        {
-            get
-            {
-                if (_cellCaches == null)
-                    FillCache();
-                return _cellCaches;
-            }
-        }
+        //Dictionary<Type, int> _viewTypes;
+        //List<CellCache> _cellCaches;
+        //internal List<CellCache> CellCaches
+        //{
+        //    get
+        //    {
+        //        if (_cellCaches == null)
+        //            FillCache();
+        //        return _cellCaches;
+        //    }
+        //}
 
         //Item click. correspond to AdapterView.IOnItemClickListener
         int _selectedIndex = -1;
@@ -43,6 +45,7 @@ namespace AiForms.Renderers.Droid
         Context _context;
         SettingsView _settingsView;
         RecyclerView _recyclerView;
+        ModelProxy _proxy;
 
         List<ViewHolder> _viewHolders = new List<ViewHolder>();
 
@@ -57,6 +60,7 @@ namespace AiForms.Renderers.Droid
             _context = context;
             _settingsView = settingsView;
             _recyclerView = recyclerView;
+            _proxy = new ModelProxy(settingsView, this);
 
             _settingsView.ModelChanged += _settingsView_ModelChanged;
         }
@@ -65,7 +69,8 @@ namespace AiForms.Renderers.Droid
         {
             if (_recyclerView != null)
             {
-                _cellCaches = null;
+                //_cellCaches = null;
+                _proxy.FillProxy();
                 NotifyDataSetChanged();
             }
         }
@@ -74,7 +79,7 @@ namespace AiForms.Renderers.Droid
         /// Gets the item count.
         /// </summary>
         /// <value>The item count.</value>
-        public override int ItemCount => CellCaches.Count;
+        public override int ItemCount => _proxy.Count;
 
         /// <summary>
         /// return ID (As in paticular it doesn't exist, return the position.)
@@ -87,6 +92,29 @@ namespace AiForms.Renderers.Droid
         }
 
         /// <summary>
+        /// Gets the type of the item view.
+        /// </summary>
+        /// <returns>The item view type.</returns>
+        /// <param name="position">Position.</param>
+        public override int GetItemViewType(int position)
+        {
+            return (int)_proxy[position].ViewType;
+            //var cellInfo = CellCaches[position];
+            //if (cellInfo.IsHeader)
+            //{
+            //    return ViewTypeHeader;
+            //}
+            //else if (cellInfo.IsFooter)
+            //{
+            //    return ViewTypeFooter;
+            //}
+            //else
+            //{
+            //    return _viewTypes[cellInfo.Cell.GetType()];
+            //}
+        }
+
+        /// <summary>
         /// Ons the create view holder.
         /// </summary>
         /// <returns>The create view holder.</returns>
@@ -96,12 +124,12 @@ namespace AiForms.Renderers.Droid
         {
             ViewHolder viewHolder;
 
-            switch (viewType)
+            switch ((ViewType)viewType)
             {
-                case ViewTypeHeader:
+                case ViewType.TextHeader:
                     viewHolder = new HeaderViewHolder(LayoutInflater.FromContext(_context).Inflate(Resource.Layout.HeaderCell, parent, false),_settingsView);
                     break;
-                case ViewTypeFooter:
+                case ViewType.TextFooter:
                     viewHolder = new FooterViewHolder(LayoutInflater.FromContext(_context).Inflate(Resource.Layout.FooterCell, parent, false),_settingsView);
                     break;
                 default:
@@ -130,12 +158,12 @@ namespace AiForms.Renderers.Droid
             var cell = view.FindViewById<LinearLayout>(Resource.Id.ContentCellBody).GetChildAt(0) as CellBaseView;
 
 
-            if(cell == null || !CellCaches[position].Cell.IsEnabled){
+            if(cell == null || !_proxy[position].Cell.IsEnabled){
                 //if FormsCell IsEnable is false, does nothing. 
                 return;
             }
 
-            _settingsView.Model.RowSelected(CellCaches[position].Cell);
+            _settingsView.Model.RowSelected(_proxy[position].Cell);
 
             cell.RowSelected(this,position);
         }
@@ -147,41 +175,20 @@ namespace AiForms.Renderers.Droid
         /// <param name="position">Position.</param>
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            var cellInfo = CellCaches[position];
-
-            switch(holder.ItemViewType)
+            //var cellInfo = CellCaches[position];
+            var cellInfo = _proxy[position];
+            
+            switch(cellInfo.ViewType)
             {
-                case ViewTypeHeader:
-                    BindHeaderView((HeaderViewHolder)holder, (TextCell)cellInfo.Cell);
+                case ViewType.TextHeader:
+                    BindHeaderView((HeaderViewHolder)holder, cellInfo.Section);
                     break;
-                case ViewTypeFooter:
-                    BindFooterView((FooterViewHolder)holder, (TextCell)cellInfo.Cell);
+                case ViewType.TextFooter:
+                    BindFooterView((FooterViewHolder)holder, cellInfo.Section);
                     break;
                 default:
                     BindContentView((ContentViewHolder)holder, cellInfo.Cell, position);
                     break;
-            }
-        }
-
-        /// <summary>
-        /// Gets the type of the item view.
-        /// </summary>
-        /// <returns>The item view type.</returns>
-        /// <param name="position">Position.</param>
-        public override int GetItemViewType(int position)
-        {
-            var cellInfo = CellCaches[position];
-            if (cellInfo.IsHeader)
-            {
-                return ViewTypeHeader;
-            }
-            else if (cellInfo.IsFooter)
-            {
-                return ViewTypeFooter;
-            }
-            else
-            {
-                return _viewTypes[cellInfo.Cell.GetType()];
             }
         }
 
@@ -219,10 +226,12 @@ namespace AiForms.Renderers.Droid
         {
             if(disposing){
                 _settingsView.ModelChanged -= _settingsView_ModelChanged;
-                _cellCaches?.Clear();
-                _cellCaches = null;
+                _proxy?.Dispose();
+                _proxy = null;
+                //_cellCaches?.Clear();
+                //_cellCaches = null;
                 _settingsView = null;
-                _viewTypes = null;
+                //_viewTypes = null;
 
                 foreach (var holder in _viewHolders)
                 {
@@ -235,13 +244,13 @@ namespace AiForms.Renderers.Droid
         }
 
        
-        void BindHeaderView(HeaderViewHolder holder, TextCell formsCell)
+        void BindHeaderView(HeaderViewHolder holder, Section section)
         {
             var view = holder.ItemView;
 
             //judging cell height
             int cellHeight = (int)_context.ToPixels(44);
-            var individualHeight = formsCell.Height;
+            var individualHeight = section.HeaderHeight;
 
             if (individualHeight > 0d)
             {
@@ -287,17 +296,15 @@ namespace AiForms.Renderers.Droid
             }
 
             //update text
-            holder.TextView.Text = formsCell.Text;
-
-
+            holder.TextView.Text = section.Title;
         }
 
-        void BindFooterView(FooterViewHolder holder, TextCell formsCell)
+        void BindFooterView(FooterViewHolder holder, Section section)
         {
             var view = holder.ItemView;
 
             //footer visible setting
-            if (string.IsNullOrEmpty(formsCell.Text))
+            if (string.IsNullOrEmpty(section.FooterText))
             {
                 //if text is empty, hidden (height 0)
                 holder.TextView.Visibility = ViewStates.Gone;
@@ -325,7 +332,7 @@ namespace AiForms.Renderers.Droid
             }
 
             //update text
-            holder.TextView.Text = formsCell.Text;
+            holder.TextView.Text = section.FooterText;
         }
 
         void BindContentView(ContentViewHolder holder, Cell formsCell, int position)
@@ -333,8 +340,9 @@ namespace AiForms.Renderers.Droid
             AView nativeCell = null;
             AView layout = holder.ItemView;
 
-            holder.SectionIndex = CellCaches[position].SectionIndex;
-            holder.RowIndex = CellCaches[position].RowIndex;
+            //holder.SectionIndex = _proxy[position].SectionIndex;
+            //holder.RowIndex = _proxy[position].RowIndex;
+            holder.RowInfo = _proxy[position];
 
             nativeCell = holder.Body.GetChildAt(0);
             if (nativeCell != null)
@@ -382,7 +390,8 @@ namespace AiForms.Renderers.Droid
                 layout.LayoutParameters.Height = -2; //wrap_content
             }
 
-            if (!CellCaches[position].IsLastCell || _settingsView.ShowSectionTopBottomBorder)
+            var isLastCell = _proxy.Last(x => x.Section == holder.RowInfo.Section).Cell == formsCell;
+            if (!isLastCell || _settingsView.ShowSectionTopBottomBorder)
             {
                 holder.Border.SetBackgroundColor(_settingsView.SeparatorColor.ToAndroid());
             }
@@ -395,65 +404,65 @@ namespace AiForms.Renderers.Droid
            
         }
 
-        void FillCache()
-        {
-            SettingsModel model = _settingsView.Model;
-            int sectionCount = model.GetSectionCount();
+        //void FillCache()
+        //{
+        //    SettingsModel model = _settingsView.Model;
+        //    int sectionCount = model.GetSectionCount();
 
-            var newCellCaches = new List<CellCache>();
+        //    var newCellCaches = new List<CellCache>();
 
-            for (var sectionIndex = 0; sectionIndex < sectionCount; sectionIndex++)
-            {
-                var sectionTitle = model.GetSectionTitle(sectionIndex);
-                var sectionRowCount = model.GetRowCount(sectionIndex);
+        //    for (var sectionIndex = 0; sectionIndex < sectionCount; sectionIndex++)
+        //    {
+        //        var sectionTitle = model.GetSectionTitle(sectionIndex);
+        //        var sectionRowCount = model.GetRowCount(sectionIndex);
 
-                Cell headerCell = new TextCell { Text = sectionTitle, Height = model.GetHeaderHeight(sectionIndex) };
-                headerCell.Parent = _settingsView;
+        //        Cell headerCell = new TextCell { Text = sectionTitle, Height = model.GetHeaderHeight(sectionIndex) };
+        //        headerCell.Parent = _settingsView;
 
-                newCellCaches.Add(new CellCache
-                {
-                    Cell = headerCell,
-                    IsHeader = true,
-                    SectionIndex = sectionIndex,
-                });
+        //        newCellCaches.Add(new CellCache
+        //        {
+        //            Cell = headerCell,
+        //            IsHeader = true,
+        //            SectionIndex = sectionIndex,
+        //        });
 
-                for (int i = 0; i < sectionRowCount; i++)
-                {
-                    newCellCaches.Add(new CellCache
-                    {
-                        Cell = model.GetCell(sectionIndex, i),
-                        IsLastCell = i == sectionRowCount - 1,
-                        SectionIndex = sectionIndex,
-                        RowIndex = i
-                    });
-                }
+        //        for (int i = 0; i < sectionRowCount; i++)
+        //        {
+        //            newCellCaches.Add(new CellCache
+        //            {
+        //                Cell = model.GetCell(sectionIndex, i),
+        //                IsLastCell = i == sectionRowCount - 1,
+        //                SectionIndex = sectionIndex,
+        //                RowIndex = i
+        //            });
+        //        }
 
-                Cell footerCell = new TextCell { Text = model.GetFooterText(sectionIndex) };
-                footerCell.Parent = _settingsView;
+        //        Cell footerCell = new TextCell { Text = model.GetFooterText(sectionIndex) };
+        //        footerCell.Parent = _settingsView;
 
-                newCellCaches.Add(new CellCache
-                {
-                    Cell = footerCell,
-                    IsFooter = true,
-                    SectionIndex = sectionIndex,
-                });
-            }
+        //        newCellCaches.Add(new CellCache
+        //        {
+        //            Cell = footerCell,
+        //            IsFooter = true,
+        //            SectionIndex = sectionIndex,
+        //        });
+        //    }
 
-            _cellCaches = newCellCaches;
+        //    _cellCaches = newCellCaches;
 
-            if(_viewTypes == null)
-            {
-                _viewTypes = _cellCaches.Select(x => x.Cell.GetType()).Distinct().Select((x, idx) => new { x, index = idx }).ToDictionary(key => key.x, val => val.index + 2);
-            }
-            else
-            {
-                var idx = _viewTypes.Values.Max() + 1;
-                foreach(var t in _cellCaches.Select(x=>x.Cell.GetType()).Distinct().Except(_viewTypes.Keys).ToList())
-                {
-                    _viewTypes.Add(t, idx++);
-                }
-            }
-        }
+        //    if(_viewTypes == null)
+        //    {
+        //        _viewTypes = _cellCaches.Select(x => x.Cell.GetType()).Distinct().Select((x, idx) => new { x, index = idx }).ToDictionary(key => key.x, val => val.index + 4);
+        //    }
+        //    else
+        //    {
+        //        var idx = _viewTypes.Values.Max() + 1;
+        //        foreach(var t in _cellCaches.Select(x=>x.Cell.GetType()).Distinct().Except(_viewTypes.Keys).ToList())
+        //        {
+        //            _viewTypes.Add(t, idx++);
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// Cells the moved.
@@ -462,22 +471,22 @@ namespace AiForms.Renderers.Droid
         /// <param name="toPos">To position.</param>
         public void CellMoved(int fromPos,int toPos)
         {
-            var tmp = CellCaches[fromPos];
-            CellCaches.RemoveAt(fromPos);
-            CellCaches.Insert(toPos,tmp);
+            var tmp = _proxy[fromPos];
+            _proxy.RemoveAt(fromPos);
+            _proxy.Insert(toPos,tmp);
         }
  
 
-        [Android.Runtime.Preserve(AllMembers = true)]
-        internal class CellCache
-        {
-            public Cell Cell { get; set; }
-            public bool IsHeader { get; set; } = false;
-            public bool IsFooter { get; set; } = false;
-            public bool IsLastCell { get; set; } = false;
-            public int SectionIndex { get; set; }
-            public int RowIndex { get; set; }
-        }
+        //[Android.Runtime.Preserve(AllMembers = true)]
+        //internal class CellCache
+        //{
+        //    public Cell Cell { get; set; }
+        //    public bool IsHeader { get; set; } = false;
+        //    public bool IsFooter { get; set; } = false;
+        //    public bool IsLastCell { get; set; } = false;
+        //    public int SectionIndex { get; set; }
+        //    public int RowIndex { get; set; }
+        //}
     }
 
     [Android.Runtime.Preserve(AllMembers = true)]
@@ -547,8 +556,9 @@ namespace AiForms.Renderers.Droid
     {
         public LinearLayout Body { get; private set; }
         public AView Border { get; private set; }
-        public int SectionIndex { get; set; }
-        public int RowIndex { get; set; }
+        //public int SectionIndex { get; set; }
+        //public int RowIndex { get; set; }
+        public RowInfo RowInfo { get; set; }
 
         public ContentViewHolder(AView view) : base(view)
         {

@@ -224,11 +224,11 @@ namespace AiForms.Renderers.Droid
                 return false;
             }
 
-            if(fromContentHolder.SectionIndex != toContentHolder.SectionIndex){
+            if (fromContentHolder.RowInfo.Section != toContentHolder.RowInfo.Section){
                 return false;
             }
 
-            var section = _settingsView.Model.GetSection(fromContentHolder.SectionIndex);
+            var section = fromContentHolder.RowInfo.Section;
             if(section == null || !section.UseDragSort){
                 return false;
             }
@@ -258,19 +258,21 @@ namespace AiForms.Renderers.Droid
                 return;
             }
 
-            var section = _settingsView.Model.GetSection(contentHolder.SectionIndex);
-            var pos = contentHolder.RowIndex;
+            var section = contentHolder.RowInfo.Section;
+            var pos = section.IndexOf(contentHolder.RowInfo.Cell);
             if(section.ItemsSource == null){
-                var tmp = section[pos];
-                section.RemoveAt(pos);
-                section.Insert(pos +_offset, tmp);
+                section.MoveCellWithoutNotify(pos, pos + _offset);
+                //var tmp = section[pos];
+                //section.RemoveAt(pos);
+                //section.Insert(pos +_offset, tmp);               
             }
             else if(section.ItemsSource != null)
             {
                 // must update DataSource at this timing.
-                var tmp = section.ItemsSource[pos];
-                section.ItemsSource.RemoveAt(pos);
-                section.ItemsSource.Insert(pos + _offset, tmp);
+                section.MoveSourceItemWithoutNotify(pos, pos + _offset);
+                //var tmp = section.ItemsSource[pos];
+                //section.ItemsSource.RemoveAt(pos);
+                //section.ItemsSource.Insert(pos + _offset, tmp);
             }
 
             _offset = 0;
@@ -284,7 +286,7 @@ namespace AiForms.Renderers.Droid
                 return 0;
             }
 
-            var section = _settingsView.Model.GetSection(contentHolder.SectionIndex);
+            var section = contentHolder.RowInfo.Section;
             if (section == null || !section.UseDragSort)
             {
                 return 0;

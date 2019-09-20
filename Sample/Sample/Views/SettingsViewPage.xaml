@@ -70,7 +70,7 @@
 		</sv:Section>
 
         <sv:Section Title="LabelCell">
-            <sv:Section.HeaderView>
+            <!--<sv:Section.HeaderView>
                 <StackLayout Orientation="Vertical">
                     <Label Text="LabelCell" HorizontalOptions="FillAndExpand" />
                     <Label Text="Hoge" />
@@ -85,7 +85,7 @@
                     <Label Text="Fuga" />
                     <Button Text="Menu" HorizontalOptions="End" />
                 </StackLayout>
-            </sv:Section.FooterView>
+            </sv:Section.FooterView>-->
             <sv:LabelCell Title="Storage" ValueText="3,065MB" />
         </sv:Section>
 
