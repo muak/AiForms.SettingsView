@@ -19,24 +19,7 @@ namespace AiForms.Renderers.Droid
     [Android.Runtime.Preserve(AllMembers = true)]
     public class SettingsViewRecyclerAdapter:RecyclerView.Adapter,AView.IOnClickListener
     {
-        //const int ViewTypeHeader = 0;
-        //const int ViewTypeFooter = 1;
-        //const int ViewTypeCustomHeader = 2;
-        //const int ViewTypeCustomFooter = 3;
-
         float MinRowHeight => _context.ToPixels(44);
-
-        //Dictionary<Type, int> _viewTypes;
-        //List<CellCache> _cellCaches;
-        //internal List<CellCache> CellCaches
-        //{
-        //    get
-        //    {
-        //        if (_cellCaches == null)
-        //            FillCache();
-        //        return _cellCaches;
-        //    }
-        //}
 
         //Item click. correspond to AdapterView.IOnItemClickListener
         int _selectedIndex = -1;
@@ -69,7 +52,6 @@ namespace AiForms.Renderers.Droid
         {
             if (_recyclerView != null)
             {
-                //_cellCaches = null;
                 _proxy.FillProxy();
                 NotifyDataSetChanged();
             }
@@ -99,19 +81,6 @@ namespace AiForms.Renderers.Droid
         public override int GetItemViewType(int position)
         {
             return (int)_proxy[position].ViewType;
-            //var cellInfo = CellCaches[position];
-            //if (cellInfo.IsHeader)
-            //{
-            //    return ViewTypeHeader;
-            //}
-            //else if (cellInfo.IsFooter)
-            //{
-            //    return ViewTypeFooter;
-            //}
-            //else
-            //{
-            //    return _viewTypes[cellInfo.Cell.GetType()];
-            //}
         }
 
         /// <summary>
@@ -124,24 +93,66 @@ namespace AiForms.Renderers.Droid
         {
             ViewHolder viewHolder;
 
+            var inflater = LayoutInflater.FromContext(_context);
+
             switch ((ViewType)viewType)
             {
                 case ViewType.TextHeader:
-                    viewHolder = new HeaderViewHolder(LayoutInflater.FromContext(_context).Inflate(Resource.Layout.HeaderCell, parent, false),_settingsView);
+                    viewHolder = new HeaderViewHolder(inflater.Inflate(Resource.Layout.HeaderCell, parent, false));
                     break;
                 case ViewType.TextFooter:
-                    viewHolder = new FooterViewHolder(LayoutInflater.FromContext(_context).Inflate(Resource.Layout.FooterCell, parent, false),_settingsView);
+                    viewHolder = new FooterViewHolder(inflater.Inflate(Resource.Layout.FooterCell, parent, false));
+                    break;
+                case ViewType.CustomHeader:
+                    var hContainer = new HeaderFooterContainer(_context);
+                    viewHolder = new CustomHeaderViewHolder(hContainer);
+                    break;
+                case ViewType.CustomFooter:
+                    var fContainer = new HeaderFooterContainer(_context);
+                    viewHolder = new CustomFooterViewHolder(fContainer);
                     break;
                 default:
-                    viewHolder = new ContentViewHolder(LayoutInflater.FromContext(_context).Inflate(Resource.Layout.ContentCell, parent, false));
+                    viewHolder = new ContentViewHolder(inflater.Inflate(Resource.Layout.ContentCell, parent, false));
                     viewHolder.ItemView.SetOnClickListener(this);
                     break;
             }
 
             _viewHolders.Add(viewHolder);
 
+            inflater.Dispose();
+
             return viewHolder;
         }
+
+        /// <summary>
+        /// Ons the bind view holder.
+        /// </summary>
+        /// <param name="holder">Holder.</param>
+        /// <param name="position">Position.</param>
+        public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
+        {
+            var cellInfo = _proxy[position];
+
+            switch (cellInfo.ViewType)
+            {
+                case ViewType.TextHeader:
+                    BindHeaderView((HeaderViewHolder)holder, cellInfo.Section);
+                    break;
+                case ViewType.TextFooter:
+                    BindFooterView((FooterViewHolder)holder, cellInfo.Section);
+                    break;
+                case ViewType.CustomHeader:
+                    BindCustomHeaderFooterView((ViewHolder)holder, cellInfo.Section.HeaderView);
+                    break;
+                case ViewType.CustomFooter:
+                    BindCustomHeaderFooterView((ViewHolder)holder, cellInfo.Section.FooterView);
+                    break;
+                default:
+                    BindContentView((ContentViewHolder)holder, cellInfo.Cell, position);
+                    break;
+            }
+        }
+
 
         /// <summary>
         /// Ons the click.
@@ -157,7 +168,6 @@ namespace AiForms.Renderers.Droid
 
             var cell = view.FindViewById<LinearLayout>(Resource.Id.ContentCellBody).GetChildAt(0) as CellBaseView;
 
-
             if(cell == null || !_proxy[position].Cell.IsEnabled){
                 //if FormsCell IsEnable is false, does nothing. 
                 return;
@@ -168,29 +178,6 @@ namespace AiForms.Renderers.Droid
             cell.RowSelected(this,position);
         }
 
-        /// <summary>
-        /// Ons the bind view holder.
-        /// </summary>
-        /// <param name="holder">Holder.</param>
-        /// <param name="position">Position.</param>
-        public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
-        {
-            //var cellInfo = CellCaches[position];
-            var cellInfo = _proxy[position];
-            
-            switch(cellInfo.ViewType)
-            {
-                case ViewType.TextHeader:
-                    BindHeaderView((HeaderViewHolder)holder, cellInfo.Section);
-                    break;
-                case ViewType.TextFooter:
-                    BindFooterView((FooterViewHolder)holder, cellInfo.Section);
-                    break;
-                default:
-                    BindContentView((ContentViewHolder)holder, cellInfo.Cell, position);
-                    break;
-            }
-        }
 
         /// <summary>
         /// Deselects the row.
@@ -285,16 +272,6 @@ namespace AiForms.Renderers.Droid
                 holder.TextView.SetTextColor(_settingsView.HeaderTextColor.ToAndroid());
             }
 
-            //border setting
-            if (_settingsView.ShowSectionTopBottomBorder)
-            {
-                holder.Border.SetBackgroundColor(_settingsView.SeparatorColor.ToAndroid());
-            }
-            else
-            {
-                holder.Border.SetBackgroundColor(Android.Graphics.Color.Transparent);
-            }
-
             //update text
             holder.TextView.Text = section.Title;
         }
@@ -335,13 +312,19 @@ namespace AiForms.Renderers.Droid
             holder.TextView.Text = section.FooterText;
         }
 
+        void BindCustomHeaderFooterView(ViewHolder holder, Xamarin.Forms.View formsView)
+        {
+            var nativeCell = holder.ItemView as HeaderFooterContainer;
+
+            nativeCell.FormsCell = formsView;
+        }
+
+
         void BindContentView(ContentViewHolder holder, Cell formsCell, int position)
         {
             AView nativeCell = null;
             AView layout = holder.ItemView;
 
-            //holder.SectionIndex = _proxy[position].SectionIndex;
-            //holder.RowIndex = _proxy[position].RowIndex;
             holder.RowInfo = _proxy[position];
 
             nativeCell = holder.Body.GetChildAt(0);
@@ -390,79 +373,9 @@ namespace AiForms.Renderers.Droid
                 layout.LayoutParameters.Height = -2; //wrap_content
             }
 
-            var isLastCell = _proxy.Last(x => x.Section == holder.RowInfo.Section).Cell == formsCell;
-            if (!isLastCell || _settingsView.ShowSectionTopBottomBorder)
-            {
-                holder.Border.SetBackgroundColor(_settingsView.SeparatorColor.ToAndroid());
-            }
-            else
-            {
-                holder.Border.SetBackgroundColor(Android.Graphics.Color.Transparent);
-            }
-
             holder.Body.AddView(nativeCell, 0);
-           
         }
 
-        //void FillCache()
-        //{
-        //    SettingsModel model = _settingsView.Model;
-        //    int sectionCount = model.GetSectionCount();
-
-        //    var newCellCaches = new List<CellCache>();
-
-        //    for (var sectionIndex = 0; sectionIndex < sectionCount; sectionIndex++)
-        //    {
-        //        var sectionTitle = model.GetSectionTitle(sectionIndex);
-        //        var sectionRowCount = model.GetRowCount(sectionIndex);
-
-        //        Cell headerCell = new TextCell { Text = sectionTitle, Height = model.GetHeaderHeight(sectionIndex) };
-        //        headerCell.Parent = _settingsView;
-
-        //        newCellCaches.Add(new CellCache
-        //        {
-        //            Cell = headerCell,
-        //            IsHeader = true,
-        //            SectionIndex = sectionIndex,
-        //        });
-
-        //        for (int i = 0; i < sectionRowCount; i++)
-        //        {
-        //            newCellCaches.Add(new CellCache
-        //            {
-        //                Cell = model.GetCell(sectionIndex, i),
-        //                IsLastCell = i == sectionRowCount - 1,
-        //                SectionIndex = sectionIndex,
-        //                RowIndex = i
-        //            });
-        //        }
-
-        //        Cell footerCell = new TextCell { Text = model.GetFooterText(sectionIndex) };
-        //        footerCell.Parent = _settingsView;
-
-        //        newCellCaches.Add(new CellCache
-        //        {
-        //            Cell = footerCell,
-        //            IsFooter = true,
-        //            SectionIndex = sectionIndex,
-        //        });
-        //    }
-
-        //    _cellCaches = newCellCaches;
-
-        //    if(_viewTypes == null)
-        //    {
-        //        _viewTypes = _cellCaches.Select(x => x.Cell.GetType()).Distinct().Select((x, idx) => new { x, index = idx }).ToDictionary(key => key.x, val => val.index + 4);
-        //    }
-        //    else
-        //    {
-        //        var idx = _viewTypes.Values.Max() + 1;
-        //        foreach(var t in _cellCaches.Select(x=>x.Cell.GetType()).Distinct().Except(_viewTypes.Keys).ToList())
-        //        {
-        //            _viewTypes.Add(t, idx++);
-        //        }
-        //    }
-        //}
 
         /// <summary>
         /// Cells the moved.
@@ -475,116 +388,8 @@ namespace AiForms.Renderers.Droid
             _proxy.RemoveAt(fromPos);
             _proxy.Insert(toPos,tmp);
         }
- 
 
-        //[Android.Runtime.Preserve(AllMembers = true)]
-        //internal class CellCache
-        //{
-        //    public Cell Cell { get; set; }
-        //    public bool IsHeader { get; set; } = false;
-        //    public bool IsFooter { get; set; } = false;
-        //    public bool IsLastCell { get; set; } = false;
-        //    public int SectionIndex { get; set; }
-        //    public int RowIndex { get; set; }
-        //}
     }
 
-    [Android.Runtime.Preserve(AllMembers = true)]
-    internal class ViewHolder : RecyclerView.ViewHolder
-    {
-        public ViewHolder(AView view) : base(view) { }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                ItemView?.Dispose();
-                ItemView = null;
-            }
-            base.Dispose(disposing);
-        }
-    }
-
-    [Android.Runtime.Preserve(AllMembers = true)]
-    internal class HeaderViewHolder : ViewHolder
-    {
-        public TextView TextView { get; private set; }
-        public LinearLayout Border { get; private set; }
-
-        public HeaderViewHolder(AView view, SettingsView settingsView) : base(view)
-        {
-            TextView = view.FindViewById<TextView>(Resource.Id.HeaderCellText);
-            Border = view.FindViewById<LinearLayout>(Resource.Id.HeaderCellBorder);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                TextView?.Dispose();
-                TextView = null;
-                Border?.Dispose();
-                Border = null;
-            }
-            base.Dispose(disposing);
-        }
-    }
-
-    [Android.Runtime.Preserve(AllMembers = true)]
-    internal class FooterViewHolder : ViewHolder
-    {
-        public TextView TextView { get; private set; }
-
-        public FooterViewHolder(AView view, SettingsView settingsView) : base(view)
-        {
-            TextView = view.FindViewById<TextView>(Resource.Id.FooterCellText);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                TextView?.Dispose();
-                TextView = null;
-            }
-            base.Dispose(disposing);
-        }
-    }
-
-    [Android.Runtime.Preserve(AllMembers = true)]
-    internal class ContentViewHolder : ViewHolder
-    {
-        public LinearLayout Body { get; private set; }
-        public AView Border { get; private set; }
-        //public int SectionIndex { get; set; }
-        //public int RowIndex { get; set; }
-        public RowInfo RowInfo { get; set; }
-
-        public ContentViewHolder(AView view) : base(view)
-        {
-            Body = view.FindViewById<LinearLayout>(Resource.Id.ContentCellBody);
-            Border = view.FindViewById(Resource.Id.ContentCellBorder);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                var nativeCell = Body.GetChildAt(0);
-                if(nativeCell is INativeElementView nativeElementView) {
-                    // If a ViewCell is used, it stops the ViewCellContainer from executing the dispose method.
-                    // Because if the AiForms.Effects is used and a ViewCellContainer is disposed, it crashes.
-                    if (!(nativeElementView.Element is ViewCell)) {
-                        nativeCell?.Dispose();
-                    }
-                }
-                Border?.Dispose();
-                Border = null;
-                Body?.Dispose();
-                Body = null;
-                ItemView.SetOnClickListener(null);
-            }
-            base.Dispose(disposing);
-        }
-    }
 }

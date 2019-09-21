@@ -5,11 +5,9 @@ using Android.Content;
 using Android.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using AListView = Android.Widget.ListView;
 using Android.Support.V7.Widget;
 using Android.Support.V7.Widget.Helper;
-using System.Collections.Generic;
-using System.Collections;
+using Android.Graphics.Drawables;
 
 [assembly: ExportRenderer(typeof(SettingsView), typeof(SettingsViewRenderer))]
 namespace AiForms.Renderers.Droid
@@ -26,6 +24,8 @@ namespace AiForms.Renderers.Droid
         LinearLayoutManager _layoutManager;
         ItemTouchHelper _itemTouchhelper;
         SettingsViewSimpleCallback _simpleCallback;
+        SVItemdecoration _itemDecoration;
+        Drawable _divider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.SettingsViewRenderer"/> class.
@@ -49,11 +49,16 @@ namespace AiForms.Renderers.Droid
                 _layoutManager = new LinearLayoutManager(Context);
                 recyclerView.SetLayoutManager(_layoutManager);
 
+                _divider = Context.GetDrawable(Resource.Drawable.divider);
+                _itemDecoration = new SVItemdecoration(_divider,e.NewElement);
+                recyclerView.AddItemDecoration(_itemDecoration);
+
                 SetNativeControl(recyclerView);
 
                 Control.Focusable = false;
                 Control.DescendantFocusability = DescendantFocusability.AfterDescendants;
 
+                UpdateSeparatorColor();
                 UpdateBackgroundColor();
                 UpdateRowHeight();
 
@@ -111,7 +116,8 @@ namespace AiForms.Renderers.Droid
         {
             base.OnElementPropertyChanged(sender, e);
             if (e.PropertyName == SettingsView.SeparatorColorProperty.PropertyName) {
-                _adapter.NotifyDataSetChanged();
+                UpdateSeparatorColor();
+                Control.InvalidateItemDecorations();
             }
             else if (e.PropertyName == SettingsView.BackgroundColorProperty.PropertyName) {
                 UpdateBackgroundColor();
@@ -126,7 +132,8 @@ namespace AiForms.Renderers.Droid
                 //_adapter.NotifyDataSetChanged();
             }
             else if (e.PropertyName == SettingsView.ShowSectionTopBottomBorderProperty.PropertyName) {
-                _adapter.NotifyDataSetChanged();
+                //_adapter.NotifyDataSetChanged();
+                Control.InvalidateItemDecorations();
             }
             else if (e.PropertyName == TableView.HasUnevenRowsProperty.PropertyName) {
                 _adapter.NotifyDataSetChanged();
@@ -137,6 +144,11 @@ namespace AiForms.Renderers.Droid
             else if (e.PropertyName == SettingsView.ScrollToBottomProperty.PropertyName){
                 UpdateScrollToBottom();
             }
+        }
+
+        void UpdateSeparatorColor()
+        {
+            _divider.SetTint(Element.SeparatorColor.ToAndroid());
         }
 
         void UpdateRowHeight()
@@ -183,7 +195,9 @@ namespace AiForms.Renderers.Droid
         /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing) {
+            if (disposing)
+            {
+                Control.RemoveItemDecoration(_itemDecoration);
                 _parentPage.Appearing -= ParentPageAppearing;
                 _adapter?.Dispose();
                 _adapter = null;
@@ -193,6 +207,27 @@ namespace AiForms.Renderers.Droid
                 _simpleCallback = null;
                 _itemTouchhelper?.Dispose();
                 _itemTouchhelper = null;
+
+                _itemDecoration?.Dispose();
+                _itemDecoration = null;
+                _divider?.Dispose();
+                _divider = null;
+
+                //foreach (var section in Element.Root)
+                //{
+                //    if (section.HeaderView != null)
+                //    {
+                //        var rdr = Platform.GetRenderer(section.HeaderView);
+                //        rdr?.View?.RemoveFromParent();
+                //        rdr?.Dispose();
+                //    }
+                //    if (section.FooterView != null)
+                //    {
+                //        var rdr = Platform.GetRenderer(section.FooterView);
+                //        rdr?.View?.RemoveFromParent();
+                //        rdr?.Dispose();
+                //    }
+                //}
             }
             base.Dispose(disposing);
         }

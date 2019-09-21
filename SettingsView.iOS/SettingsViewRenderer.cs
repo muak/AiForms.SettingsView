@@ -398,6 +398,7 @@ namespace AiForms.Renderers.iOS
                 }
 
                 _tableview = null;
+
             }
 
             _disposed = true;

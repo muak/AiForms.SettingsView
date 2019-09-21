@@ -162,11 +162,6 @@ namespace AiForms.Renderers.iOS
 
         protected virtual IVisualElementRenderer GetNewRenderer()
         {
-            if (_formsCell == null)
-            {
-                throw new InvalidOperationException("CustomHeaderView must have a view.");
-            }
-
             var newRenderer = Platform.CreateRenderer(_formsCell);
             _rendererRef = new WeakReference<IVisualElementRenderer>(newRenderer);
             ContentView.AddSubview(newRenderer.NativeView);

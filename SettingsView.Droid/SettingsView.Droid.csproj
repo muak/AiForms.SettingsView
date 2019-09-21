@@ -203,6 +203,9 @@
     <Compile Include="Cells\SimpleCheck.cs" />
     <Compile Include="SettingsViewInit.cs" />
     <Compile Include="ModelProxy.cs" />
+    <Compile Include="SVItemdecoration.cs" />
+    <Compile Include="ViewHolders.cs" />
+    <Compile Include="HeaderFooterContainer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -215,6 +218,14 @@
     <AndroidResource Include="Resources\layout\FooterCell.axml" />
     <AndroidResource Include="Resources\layout\HeaderCell.axml" />
     <AndroidResource Include="Resources\drawable\ic_navigate_next.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\divider.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\CustomHeaderFooter.axml">
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>
