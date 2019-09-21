@@ -20,6 +20,11 @@ namespace AiForms.Renderers
             PropertyChanged += OnPropertyChanged;
         }
 
+        public Section(string title) :this()
+        {
+            Title = title;
+        }
+
         public void MoveSourceItemWithoutNotify(int from, int to)
         {
             CollectionChanged -= OnCollectionChanged;
@@ -52,14 +57,6 @@ namespace AiForms.Renderers
         public event NotifyCollectionChangedEventHandler SectionCollectionChanged;
         public event PropertyChangedEventHandler SectionPropertyChanged;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Section"/> class.
-        /// </summary>
-        /// <param name="title">Title.</param>
-        public Section(string title) : base(title)
-        {
-
-        }
 
         /// <summary>
         /// The is visible property.

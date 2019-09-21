@@ -113,13 +113,19 @@ namespace AiForms.Renderers.iOS
         /// <param name="section">Section.</param>
         public override nfloat GetHeightForHeader(UITableView tableView, nint section)
         {
-            var formsView = _settingsView.Model.GetSectionHeaderView((int)section);
-            if(formsView != null)
+            var sec = _settingsView.Model.GetSection((int)section);
+
+            if (!sec.IsVisible)
+            {
+                return nfloat.Epsilon;
+            }
+
+            if(sec.HeaderView != null)
             {
                 return -1; // automatic height
             }
 
-            var individualHeight = _settingsView.Model.GetHeaderHeight((int)section);
+            var individualHeight = sec.HeaderHeight;
 
             if(individualHeight > 0d){
                 return (nfloat)individualHeight;
@@ -147,10 +153,7 @@ namespace AiForms.Renderers.iOS
 
 
             var headerView = _tableView.DequeueReusableHeaderFooterView(SettingsViewRenderer.TextHeaderId) as TextHeaderView;
-            if(!headerView.IsInitialized)
-            {
-                headerView.Initialzie(_settingsView.HeaderPadding.ToUIEdgeInsets(),_settingsView.HeaderTextVerticalAlign);
-            }
+            headerView.Initialzie(_settingsView.HeaderPadding.ToUIEdgeInsets(),_settingsView.HeaderTextVerticalAlign);
 
             headerView.Label.Text = _settingsView.Model.GetSectionTitle((int)section); 
             headerView.Label.TextColor = _settingsView.HeaderTextColor == Color.Default ?
@@ -179,13 +182,19 @@ namespace AiForms.Renderers.iOS
         /// <param name="section">Section.</param>
         public override nfloat GetHeightForFooter(UITableView tableView, nint section)
         {
-            var formsView = _settingsView.Model.GetSectionFooterView((int)section);
-            if (formsView != null)
+            var sec = _settingsView.Model.GetSection((int)section);
+
+            if (!sec.IsVisible)
+            {
+                return nfloat.Epsilon;
+            }
+
+            if (sec.FooterView != null)
             {
                 return -1; // automatic height
             }
 
-            var footerText = _settingsView.Model.GetFooterText((int)section);
+            var footerText = sec.FooterText;
 
             if (string.IsNullOrEmpty(footerText)) {
                 //hide footer
@@ -216,10 +225,7 @@ namespace AiForms.Renderers.iOS
             }
 
             var footerView = _tableView.DequeueReusableHeaderFooterView(SettingsViewRenderer.TextFooterId) as TextFooterView;
-            if (!footerView.IsInitialized)
-            {
-                footerView.Initialzie(_settingsView.FooterPadding.ToUIEdgeInsets());
-            }
+            footerView.Initialzie(_settingsView.FooterPadding.ToUIEdgeInsets());
 
             footerView.Label.Text = text;
             footerView.Label.TextColor = _settingsView.FooterTextColor == Color.Default ?
@@ -250,7 +256,8 @@ namespace AiForms.Renderers.iOS
         /// <param name="section">Section.</param>
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            return _settingsView.Model.GetRowCount((int)section);
+            var sec = _settingsView.Model.GetSection((int)section);
+            return sec.IsVisible ? sec.Count : 0;
         }
 
         /// <summary>
@@ -298,9 +305,5 @@ namespace AiForms.Renderers.iOS
 
             base.Dispose(disposing);
         }
-
-
-
-
     }
 }

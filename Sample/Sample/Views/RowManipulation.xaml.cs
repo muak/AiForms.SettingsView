@@ -15,37 +15,72 @@ namespace Sample.Views
 
         void AddFirstClicked(object sender, System.EventArgs e)
         {
-            section.Insert(0, CreateCell());
+            settings.Root[0].Insert(0, CreateCell());
         }
 
         void AddLastClicked(object sender, System.EventArgs e)
         {
-            section.Add(CreateCell());
+            settings.Root[0].Add(CreateCell());
         }
 
         void Add2ndClicked(object sender, System.EventArgs e)
         {
-            section.Insert(1, CreateCell());
+            settings.Root[0].Insert(1, CreateCell());
         }
 
         void DelFirstClicked(object sender, System.EventArgs e)
         {
-            section.RemoveAt(0);
+            settings.Root[0].RemoveAt(0);
         }
 
         void DelLastClicked(object sender, System.EventArgs e)
         {
-            section.Remove(section.Last());
+            settings.Root[0].Remove(section.Last());
         }
 
         void Del2ndClicked(object sender, System.EventArgs e)
         {
-            section.RemoveAt(1);
+            settings.Root[0].RemoveAt(1);
         }
 
         void Replace3To1Clicked(object sender, System.EventArgs e)
         {
-            section[0] = section[2];
+            settings.Root[0][0] = settings.Root[0][2];
+        }
+
+        void AddSecFirstClicked(object sender, System.EventArgs e)
+        {
+            settings.Root.Insert(0, CreateSection());
+        }
+
+        void AddSecLastClicked(object sender, System.EventArgs e)
+        {
+            settings.Root.Add(CreateSection());
+        }
+
+        void AddSec2ndClicked(object sender, System.EventArgs e)
+        {
+            settings.Root.Insert(1, CreateSection());
+        }
+
+        void DelSecFirstClicked(object sender, System.EventArgs e)
+        {
+            settings.Root.RemoveAt(0);
+        }
+
+        void DelSecLastClicked(object sender, System.EventArgs e)
+        {
+            settings.Root.Remove(settings.Root.Last());
+        }
+
+        void DelSec2ndClicked(object sender, System.EventArgs e)
+        {
+            settings.Root.RemoveAt(1);
+        }
+
+        void ReplaceSec2To1Clicked(object sender, System.EventArgs e)
+        {
+            settings.Root[0] = settings.Root[1];
         }
 
 
@@ -57,6 +92,23 @@ namespace Sample.Views
                 Description = "add cell",
                 HintText = "hint"
             };
+        }
+
+        Section CreateSection()
+        {
+            var sec = new AiForms.Renderers.Section() {
+                Title = "Additional Section",
+                FooterText = "Footer"
+            };
+            sec.Add(
+               new LabelCell {
+                   Title = "AddCell",
+                   ValueText = "addcell",
+                   Description = "add cell in new section",
+                   HintText = "hint"
+               }
+            );
+            return sec;
         }
     }
 }

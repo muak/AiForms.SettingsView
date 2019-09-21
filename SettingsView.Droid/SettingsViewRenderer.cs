@@ -43,8 +43,8 @@ namespace AiForms.Renderers.Droid
         {
             base.OnElementChanged(e);
 
-            if (e.NewElement != null) {
-
+            if (e.NewElement != null) 
+            {
                 var recyclerView = new RecyclerView(Context);
                 _layoutManager = new LinearLayoutManager(Context);
                 recyclerView.SetLayoutManager(_layoutManager);
@@ -81,6 +81,7 @@ namespace AiForms.Renderers.Droid
                 _parentPage.Appearing += ParentPageAppearing;
             }
         }
+
 
         void ParentPageAppearing(object sender, EventArgs e)
         {
@@ -213,21 +214,6 @@ namespace AiForms.Renderers.Droid
                 _divider?.Dispose();
                 _divider = null;
 
-                //foreach (var section in Element.Root)
-                //{
-                //    if (section.HeaderView != null)
-                //    {
-                //        var rdr = Platform.GetRenderer(section.HeaderView);
-                //        rdr?.View?.RemoveFromParent();
-                //        rdr?.Dispose();
-                //    }
-                //    if (section.FooterView != null)
-                //    {
-                //        var rdr = Platform.GetRenderer(section.FooterView);
-                //        rdr?.View?.RemoveFromParent();
-                //        rdr?.Dispose();
-                //    }
-                //}
             }
             base.Dispose(disposing);
         }
@@ -296,18 +282,12 @@ namespace AiForms.Renderers.Droid
             var section = contentHolder.RowInfo.Section;
             var pos = section.IndexOf(contentHolder.RowInfo.Cell);
             if(section.ItemsSource == null){
-                section.MoveCellWithoutNotify(pos, pos + _offset);
-                //var tmp = section[pos];
-                //section.RemoveAt(pos);
-                //section.Insert(pos +_offset, tmp);               
+                section.MoveCellWithoutNotify(pos, pos + _offset);            
             }
             else if(section.ItemsSource != null)
             {
                 // must update DataSource at this timing.
                 section.MoveSourceItemWithoutNotify(pos, pos + _offset);
-                //var tmp = section.ItemsSource[pos];
-                //section.ItemsSource.RemoveAt(pos);
-                //section.ItemsSource.Insert(pos + _offset, tmp);
             }
 
             _offset = 0;

@@ -43,6 +43,7 @@ namespace AiForms.Renderers.iOS
             {
                 e.OldElement.CollectionChanged -= OnCollectionChanged;
                 e.OldElement.SectionCollectionChanged -= OnSectionCollectionChanged;
+                e.OldElement.SectionPropertyChanged -= OnSectionPropertyChanged;
             }
 
             if (e.NewElement != null) 
@@ -89,6 +90,7 @@ namespace AiForms.Renderers.iOS
 
                 e.NewElement.CollectionChanged += OnCollectionChanged;
                 e.NewElement.SectionCollectionChanged += OnSectionCollectionChanged; 
+                e.NewElement.SectionPropertyChanged += OnSectionPropertyChanged;
 
 
                 UpdateBackgroundColor();
@@ -126,6 +128,39 @@ namespace AiForms.Renderers.iOS
             UpdateItems(e, sectionIdx, false);
         }
 
+        void OnSectionPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if(e.PropertyName == Section.IsVisibleProperty.PropertyName)
+            {
+                UpdateSectionVisible((Section)sender);
+            }
+            else if(e.PropertyName == TableSectionBase.TitleProperty.PropertyName ||
+                    e.PropertyName == Section.HeaderViewProperty.PropertyName ||
+                    e.PropertyName == Section.HeaderHeightProperty.PropertyName ||
+                    e.PropertyName == Section.FooterTextProperty.PropertyName ||
+                    e.PropertyName == Section.FooterViewProperty.PropertyName)
+            {
+                UpdateSectionNoAnimation((Section)sender);
+            }
+        }
+
+        void UpdateSectionVisible(Section section)
+        {
+            var secIndex = Element.Model.GetSectionIndex(section);
+            Control.BeginUpdates();
+            Control.ReloadSections(NSIndexSet.FromIndex(secIndex), UITableViewRowAnimation.Automatic);
+            Control.EndUpdates();
+        }
+
+        void UpdateSectionNoAnimation(Section section)
+        {
+            var secIndex = Element.Model.GetSectionIndex(section);
+            Control.BeginUpdates();
+            Control.ReloadSections(NSIndexSet.FromIndex(secIndex), UITableViewRowAnimation.None);
+            Control.EndUpdates();
+        }
+
+
         void UpdateSections(NotifyCollectionChangedEventArgs e)
         {
             switch(e.Action)
@@ -135,7 +170,6 @@ namespace AiForms.Renderers.iOS
                     {
                         goto case NotifyCollectionChangedAction.Reset;
                     }
-                    //Element.Model.GetSectionCount(); // reflect section count;
                     Control.BeginUpdates();
                     Control.InsertSections(NSIndexSet.FromIndex(e.NewStartingIndex), UITableViewRowAnimation.Automatic);
                     Control.EndUpdates();
@@ -145,7 +179,6 @@ namespace AiForms.Renderers.iOS
                     {
                         goto case NotifyCollectionChangedAction.Reset;
                     }
-                    //Element.Model.GetSectionCount(); // reflect section count;
                     Control.BeginUpdates();
                     Control.DeleteSections(NSIndexSet.FromIndex(e.OldStartingIndex), UITableViewRowAnimation.Automatic);
                     Control.EndUpdates();
@@ -390,6 +423,7 @@ namespace AiForms.Renderers.iOS
             {
                 Element.CollectionChanged -= OnCollectionChanged;
                 Element.SectionCollectionChanged -= OnSectionCollectionChanged;
+                Element.SectionPropertyChanged -= OnSectionPropertyChanged;
                 _insetTracker?.Dispose();
                 _insetTracker = null;
                 foreach (UIView subview in Subviews) 

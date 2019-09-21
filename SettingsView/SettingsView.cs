@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
+using System.ComponentModel;
 
 namespace AiForms.Renderers
 {
@@ -32,6 +33,7 @@ namespace AiForms.Renderers
         public new event EventHandler ModelChanged;
         public event NotifyCollectionChangedEventHandler CollectionChanged;
         public event NotifyCollectionChangedEventHandler SectionCollectionChanged;
+        public event PropertyChangedEventHandler SectionPropertyChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AiForms.Renderers.SettingsView"/> class.
@@ -54,7 +56,7 @@ namespace AiForms.Renderers
             get { return _root; }
             set {
                 if (_root != null) {
-                    _root.SectionPropertyChanged -= RootOnPropertyChanged;
+                    _root.SectionPropertyChanged -= OnSectionPropertyChanged;
                     _root.CollectionChanged -= OnCollectionChanged;
                     _root.SectionCollectionChanged -= OnSectionCollectionChanged;
                 }
@@ -64,7 +66,7 @@ namespace AiForms.Renderers
                 //transfer binding context to the children (maybe...)
                 SetInheritedBindingContext(_root, BindingContext);
 
-                _root.SectionPropertyChanged += RootOnPropertyChanged;
+                _root.SectionPropertyChanged += OnSectionPropertyChanged;
                 _root.CollectionChanged += OnCollectionChanged;
                 _root.SectionCollectionChanged += OnSectionCollectionChanged;
                 OnModelChanged();
@@ -81,16 +83,9 @@ namespace AiForms.Renderers
                 SetInheritedBindingContext(Root, BindingContext);
         }
 
-        void RootOnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        void OnSectionPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == TableSectionBase.TitleProperty.PropertyName ||
-                e.PropertyName == Section.FooterTextProperty.PropertyName) {
-                OnModelChanged();
-            }
-            else if(e.PropertyName == Section.IsVisibleProperty.PropertyName)
-            {
-                OnModelChanged();
-            }
+            SectionPropertyChanged?.Invoke(sender, e);
         }
 
         /// <summary>
@@ -139,7 +134,6 @@ namespace AiForms.Renderers
                 e.NewItems.Cast<Section>().SelectMany(x => x).ForEach(cell => cell.Parent = this);
             }
             CollectionChanged?.Invoke(sender, e);
-            //OnModelChanged();
         }
 
         /// <summary>
@@ -154,7 +148,6 @@ namespace AiForms.Renderers
                 e.NewItems.Cast<Cell>().ForEach(cell => cell.Parent = this);
             }
             SectionCollectionChanged?.Invoke(sender, e);
-            //OnModelChanged();
         }
 
         new void OnModelChanged()

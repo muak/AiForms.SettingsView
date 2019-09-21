@@ -46,6 +46,7 @@ namespace AiForms.Renderers.Droid
             _proxy = new ModelProxy(settingsView, this);
 
             _settingsView.ModelChanged += _settingsView_ModelChanged;
+            _settingsView.SectionPropertyChanged += OnSectionPropertyChanged;
         }
 
         void _settingsView_ModelChanged(object sender, EventArgs e)
@@ -56,6 +57,44 @@ namespace AiForms.Renderers.Droid
                 NotifyDataSetChanged();
             }
         }
+
+        void OnSectionPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == Section.IsVisibleProperty.PropertyName)
+            {
+                UpdateSectionVisible((Section)sender);
+            }
+            else if (e.PropertyName == TableSectionBase.TitleProperty.PropertyName ||
+                     e.PropertyName == Section.HeaderViewProperty.PropertyName ||
+                     e.PropertyName == Section.HeaderHeightProperty.PropertyName)
+            {
+                UpdateSectionHeader((Section)sender);
+            }
+            else if (e.PropertyName == Section.FooterTextProperty.PropertyName ||
+                     e.PropertyName == Section.FooterViewProperty.PropertyName)
+            {
+                UpdateSectionFooter((Section)sender);
+            }
+        }
+
+        void UpdateSectionVisible(Section section)
+        {
+            var indexes = _proxy.Select((x, idx) => new { idx, x.Section }).Where(x => x.Section == section).Select(x => x.idx).ToList();
+            NotifyItemRangeChanged(indexes[0], indexes.Count);
+        }
+
+        void UpdateSectionHeader(Section section)
+        {
+            var index = _proxy.FindIndex(x => x.Section == section);
+            NotifyItemChanged(index);
+        }
+
+        void UpdateSectionFooter(Section section)
+        {
+            var index = _proxy.FindLastIndex(x => x.Section == section);
+            NotifyItemChanged(index);
+        }
+
 
         /// <summary>
         /// Gets the item count.
@@ -131,24 +170,37 @@ namespace AiForms.Renderers.Droid
         /// <param name="position">Position.</param>
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            var cellInfo = _proxy[position];
+            var rowInfo = _proxy[position];
 
-            switch (cellInfo.ViewType)
+            var vHolder = holder as ViewHolder;
+            vHolder.RowInfo = rowInfo;
+            
+            if(!rowInfo.Section.IsVisible)
+            {
+                vHolder.ItemView.Visibility = ViewStates.Gone;
+                vHolder.ItemView.SetMinimumHeight(0);
+                vHolder.ItemView.LayoutParameters.Height = 0;
+                return;
+            }
+
+            vHolder.ItemView.Visibility = ViewStates.Visible;
+
+            switch (rowInfo.ViewType)
             {
                 case ViewType.TextHeader:
-                    BindHeaderView((HeaderViewHolder)holder, cellInfo.Section);
+                    BindHeaderView((HeaderViewHolder)vHolder);
                     break;
                 case ViewType.TextFooter:
-                    BindFooterView((FooterViewHolder)holder, cellInfo.Section);
+                    BindFooterView((FooterViewHolder)vHolder);
                     break;
                 case ViewType.CustomHeader:
-                    BindCustomHeaderFooterView((ViewHolder)holder, cellInfo.Section.HeaderView);
+                    BindCustomHeaderFooterView(vHolder, rowInfo.Section.HeaderView);
                     break;
                 case ViewType.CustomFooter:
-                    BindCustomHeaderFooterView((ViewHolder)holder, cellInfo.Section.FooterView);
+                    BindCustomHeaderFooterView(vHolder, rowInfo.Section.FooterView);
                     break;
                 default:
-                    BindContentView((ContentViewHolder)holder, cellInfo.Cell, position);
+                    BindContentView((ContentViewHolder)vHolder, position);
                     break;
             }
         }
@@ -213,12 +265,10 @@ namespace AiForms.Renderers.Droid
         {
             if(disposing){
                 _settingsView.ModelChanged -= _settingsView_ModelChanged;
+                _settingsView.SectionPropertyChanged -= OnSectionPropertyChanged;
                 _proxy?.Dispose();
                 _proxy = null;
-                //_cellCaches?.Clear();
-                //_cellCaches = null;
                 _settingsView = null;
-                //_viewTypes = null;
 
                 foreach (var holder in _viewHolders)
                 {
@@ -231,8 +281,9 @@ namespace AiForms.Renderers.Droid
         }
 
        
-        void BindHeaderView(HeaderViewHolder holder, Section section)
+        void BindHeaderView(HeaderViewHolder holder)
         {
+            var section = holder.RowInfo.Section;
             var view = holder.ItemView;
 
             //judging cell height
@@ -276,8 +327,9 @@ namespace AiForms.Renderers.Droid
             holder.TextView.Text = section.Title;
         }
 
-        void BindFooterView(FooterViewHolder holder, Section section)
+        void BindFooterView(FooterViewHolder holder)
         {
+            var section = holder.RowInfo.Section;
             var view = holder.ItemView;
 
             //footer visible setting
@@ -315,13 +367,13 @@ namespace AiForms.Renderers.Droid
         void BindCustomHeaderFooterView(ViewHolder holder, Xamarin.Forms.View formsView)
         {
             var nativeCell = holder.ItemView as HeaderFooterContainer;
-
             nativeCell.FormsCell = formsView;
         }
 
 
-        void BindContentView(ContentViewHolder holder, Cell formsCell, int position)
+        void BindContentView(ContentViewHolder holder, int position)
         {
+            var formsCell = holder.RowInfo.Cell;
             AView nativeCell = null;
             AView layout = holder.ItemView;
 

@@ -169,17 +169,6 @@ namespace AiForms.Renderers.Droid
             Platform.SetRenderer(_formsCell, _renderer);
             AddView(_renderer.View);
 
-
-
-            //_renderer?.View?.RemoveFromParent();
-            //_renderer = Platform.GetRenderer(_formsCell);
-            //if (_renderer == null)
-            //{
-            //    CreateNewRenderer();
-            //    return;
-            //}
-
-            //AddView(_renderer.View);
             UpdateNativeCell();
         }
     }

@@ -133,7 +133,7 @@ namespace Sample.Views
                     Description = "add cell in new section",
                     HintText = "hint"
                 }
-            );
+            ); 
             settings.Root.Add(section);
         }
 

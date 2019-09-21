@@ -25,7 +25,6 @@ namespace AiForms.Renderers.Droid
         SettingsModel _model;
         SettingsRoot _root;
         SettingsViewRecyclerAdapter _adapter;
-        //List<RowInfo> this = new List<RowInfo>();
 
         public ModelProxy(SettingsView settingsView,SettingsViewRecyclerAdapter adapter)
         {
@@ -33,14 +32,16 @@ namespace AiForms.Renderers.Droid
             _root = settingsView.Root;
             _adapter = adapter;
 
-            _root.SectionCollectionChanged += _root_SectionCollectionChanged;
-            _root.CollectionChanged += _root_CollectionChanged;
+            _root.SectionCollectionChanged += OnRootSectionCollectionChanged;
+            _root.CollectionChanged += OnRootCollectionChanged;
 
             FillProxy();
         }       
 
         public void Dispose()
         {
+            _root.SectionCollectionChanged -= OnRootSectionCollectionChanged;
+            _root.CollectionChanged -= OnRootCollectionChanged;
             _model = null;
             _root = null;
             _adapter = null;
@@ -49,7 +50,7 @@ namespace AiForms.Renderers.Droid
             ViewTypes = null;
         }
 
-        void _root_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        void OnRootCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch(e.Action)
             {
@@ -77,7 +78,7 @@ namespace AiForms.Renderers.Droid
         }
 
 
-        void _root_SectionCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        void OnRootSectionCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch(e.Action)
             {
@@ -269,9 +270,5 @@ namespace AiForms.Renderers.Droid
         public Section Section { get; set; }
         public Cell Cell { get; set; }
         public ViewType ViewType { get; set; }
-        //public bool IsLastCell { get; set; } = false;
-
-        //public int SectionIndex => SettingsModel.GetPath(Cell).Item1;
-        //public int RowIndex => SettingsModel.GetPath(Cell).Item2;
     }
 }

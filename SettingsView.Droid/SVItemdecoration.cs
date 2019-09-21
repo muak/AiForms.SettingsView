@@ -31,15 +31,16 @@ namespace AiForms.Renderers.Droid
             var right = parent.Right;
 
             var childCount = parent.ChildCount;
-            RecyclerView.ViewHolder prevHolder = null;
+            ViewHolder prevHolder = null;
             for(var i = 0; i < childCount; i++)
             {
                 var child = parent.GetChildAt(i);
-                var holder = parent.GetChildViewHolder(child);
+                var holder = parent.GetChildViewHolder(child) as ViewHolder;
 
                 if(prevHolder != null && prevHolder is IHeaderViewHolder && !_settingsView.ShowSectionTopBottomBorder ||
                    holder is IFooterViewHolder && !_settingsView.ShowSectionTopBottomBorder ||
-                   holder is IHeaderViewHolder)
+                   holder is IHeaderViewHolder ||
+                   !holder.RowInfo.Section.IsVisible)
                 {
                     prevHolder = holder;
                     continue;

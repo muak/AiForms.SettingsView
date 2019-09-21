@@ -32,15 +32,6 @@ namespace AiForms.Renderers
         void ChildPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             SectionPropertyChanged?.Invoke(sender, e);
-            //if (e.PropertyName == TitleProperty.PropertyName) {
-            //    OnPropertyChanged(TitleProperty.PropertyName);
-            //}
-            //else if (e.PropertyName == Section.FooterTextProperty.PropertyName) {
-            //    OnPropertyChanged(Section.FooterTextProperty.PropertyName);
-            //}
-            //else if (e.PropertyName == Section.IsVisibleProperty.PropertyName) {
-            //    OnPropertyChanged(Section.IsVisibleProperty.PropertyName);
-            //}
         }
 
         void SetupEvents()

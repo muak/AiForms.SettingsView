@@ -11,6 +11,8 @@ namespace AiForms.Renderers.Droid
     [Android.Runtime.Preserve(AllMembers = true)]
     internal class ViewHolder : RecyclerView.ViewHolder
     {
+        public RowInfo RowInfo { get; set; }
+
         public ViewHolder(AView view) : base(view) { }
 
         protected override void Dispose(bool disposing)
@@ -83,27 +85,7 @@ namespace AiForms.Renderers.Droid
         public CustomHeaderViewHolder(AView view) : base(view)
         {
             view.LayoutParameters = new ViewGroup.LayoutParams(-1, -2);
-        }
-
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        var nativeCell = (ItemView as ViewGroup).GetChildAt(0);
-        //        nativeCell.RemoveFromParent();
-        //        nativeCell.Dispose();
-        //        //if (nativeCell is INativeElementView nativeElementView)
-        //        //{
-        //        //    // If a ViewCell is used, it stops the ViewCellContainer from executing the dispose method.
-        //        //    // Because if the AiForms.Effects is used and a ViewCellContainer is disposed, it crashes.
-        //        //    if (!(nativeElementView.Element is ViewCell))
-        //        //    {
-        //        //        nativeCell?.Dispose();
-        //        //    }
-        //        //}
-        //    }
-        //    base.Dispose(disposing);
-        //}
+        }       
     }
 
     [Android.Runtime.Preserve(AllMembers = true)]
@@ -113,24 +95,13 @@ namespace AiForms.Renderers.Droid
         {
             view.LayoutParameters = new ViewGroup.LayoutParams(-1, -2);
         }
-
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        var nativeCell = (ItemView as ViewGroup).GetChildAt(0);
-        //        nativeCell.RemoveFromParent();
-        //        nativeCell.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
     }
 
     [Android.Runtime.Preserve(AllMembers = true)]
     internal class ContentViewHolder : ViewHolder
     {
         public LinearLayout Body { get; private set; }
-        public RowInfo RowInfo { get; set; }
+        //public RowInfo RowInfo { get; set; }
 
         public ContentViewHolder(AView view) : base(view)
         {

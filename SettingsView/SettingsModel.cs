@@ -14,7 +14,6 @@ namespace AiForms.Renderers
         static readonly BindableProperty PathProperty = BindableProperty.Create("Path", typeof(Tuple<int, int>), typeof(Cell), null);
 
         SettingsRoot _root;
-        IEnumerable<Section> _visibleSections;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AiForms.Renderers.SettingsModel"/> class.
@@ -23,7 +22,6 @@ namespace AiForms.Renderers
         public SettingsModel(SettingsRoot settingsRoot)
         {
             _root = settingsRoot;
-            _visibleSections = _root.Where(x => x.IsVisible);
         }
 
         /// <summary>
@@ -47,7 +45,7 @@ namespace AiForms.Renderers
         /// <param name="row">Row.</param>
         public override object GetItem(int section, int row)
         {
-            return _visibleSections.ElementAt(section)[row];
+            return _root.ElementAt(section)[row];
         }
 
         /// <summary>
@@ -57,7 +55,7 @@ namespace AiForms.Renderers
         /// <param name="section">Section.</param>
         public override int GetRowCount(int section)
         {
-            return _visibleSections.ElementAt(section).Count;
+            return _root.ElementAt(section).Count;
         }
 
         /// <summary>
@@ -66,7 +64,7 @@ namespace AiForms.Renderers
         /// <returns>The section count.</returns>
         public override int GetSectionCount()
         {
-            return _visibleSections.Count();
+            return _root.Count();
         }
 
         /// <summary>
@@ -76,17 +74,17 @@ namespace AiForms.Renderers
         /// <param name="section">Section.</param>
         public virtual Section GetSection(int section)
         {
-            return _visibleSections.ElementAtOrDefault(section);
+            return _root.ElementAtOrDefault(section);
         }
 
         public virtual Section GetSectionFromCell(Cell cell)
         {
-            return _visibleSections.FirstOrDefault(x => x.Contains(cell));
+            return _root.FirstOrDefault(x => x.Contains(cell));
         }
 
         public virtual int GetSectionIndex(Section section)
         {
-            return _visibleSections.IndexOf(section);
+            return _root.IndexOf(section);
         }
 
         /// <summary>
@@ -96,7 +94,7 @@ namespace AiForms.Renderers
         /// <param name="section">Section.</param>
         public override string GetSectionTitle(int section)
         {
-            return _visibleSections.ElementAt(section).Title;
+            return _root.ElementAt(section).Title;
         }
 
 
@@ -107,7 +105,7 @@ namespace AiForms.Renderers
         /// <param name="section">Section.</param>
         public virtual View GetSectionHeaderView(int section)
         {
-            return _visibleSections.ElementAt(section).HeaderView;
+            return _root.ElementAt(section).HeaderView;
         }
 
         /// <summary>
@@ -117,7 +115,7 @@ namespace AiForms.Renderers
         /// <param name="section">Section.</param>
         public virtual string GetFooterText(int section)
         {
-            return _visibleSections.ElementAt(section).FooterText;
+            return _root.ElementAt(section).FooterText;
         }
 
         /// <summary>
@@ -127,7 +125,7 @@ namespace AiForms.Renderers
         /// <param name="section">Section.</param>
         public virtual View GetSectionFooterView(int section)
         {
-            return _visibleSections.ElementAt(section).FooterView;
+            return _root.ElementAt(section).FooterView;
         }
 
         /// <summary>
@@ -148,10 +146,11 @@ namespace AiForms.Renderers
         /// <param name="section">Section.</param>
         public virtual double GetHeaderHeight(int section)
         {
-            return _visibleSections.ElementAt(section).HeaderHeight;
+            return _root.ElementAt(section).HeaderHeight;
         }
 
 
+        // this method no longer uses except for iOS.CellBaseRenderer.
         internal static Tuple<int, int> GetPath(Cell item)
         {
             if (item == null)

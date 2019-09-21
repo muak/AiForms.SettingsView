@@ -1,13 +1,17 @@
 ﻿using System;
 using UIKit;
 using Xamarin.Forms;
+using System.Collections.Generic;
 
 namespace AiForms.Renderers.iOS
 {
     public class TextHeaderView : UITableViewHeaderFooterView
     {
         public UILabel Label { get; set; }
-        public bool IsInitialized { get; private set; } = false;
+        List<NSLayoutConstraint> _constraints = new List<NSLayoutConstraint>();
+        UIEdgeInsets _curPadding;
+        LayoutAlignment _curAlignment;
+        bool _isInitialized;
 
         public TextHeaderView(IntPtr handle): base(handle) 
         {
@@ -22,23 +26,42 @@ namespace AiForms.Renderers.iOS
         }
         public void Initialzie(UIEdgeInsets padding, LayoutAlignment align)
         {
-            Label.LeftAnchor.ConstraintEqualTo(this.LeftAnchor, padding.Left).Active = true;
-            Label.RightAnchor.ConstraintEqualTo(this.RightAnchor, -padding.Right).Active = true;
+            if(_isInitialized && _curPadding == padding && align == _curAlignment)
+            {
+                return;
+            }
+
+            foreach (var c in _constraints)
+            {
+                c.Active = false;
+                c.Dispose();
+            }
+            _constraints.Clear();
+
+            _constraints.Add(Label.LeftAnchor.ConstraintEqualTo(this.LeftAnchor, padding.Left));
+            _constraints.Add(Label.RightAnchor.ConstraintEqualTo(this.RightAnchor, -padding.Right));
 
             if (align == LayoutAlignment.Start)
             {
-                Label.TopAnchor.ConstraintEqualTo(this.TopAnchor, padding.Top).Active = true;
+                _constraints.Add(Label.TopAnchor.ConstraintEqualTo(this.TopAnchor, padding.Top));
             }
             else if (align == LayoutAlignment.End)
             {
-                Label.BottomAnchor.ConstraintEqualTo(this.BottomAnchor, -padding.Bottom).Active = true;
+                _constraints.Add(Label.BottomAnchor.ConstraintEqualTo(this.BottomAnchor, -padding.Bottom));
             }
             else
             {
-                Label.CenterYAnchor.ConstraintEqualTo(this.CenterYAnchor, 0).Active = true;
+                _constraints.Add(Label.CenterYAnchor.ConstraintEqualTo(this.CenterYAnchor, 0));
             }
 
-            IsInitialized = true;
+            _constraints.ForEach(c => {
+                c.Priority = 999f; // fix warning-log:Unable to simultaneously satisfy constraints.
+                c.Active = true;
+            });
+
+            _curPadding = padding;
+            _curAlignment = align;
+            _isInitialized = true;         
         }
 
         protected override void Dispose(bool disposing)
@@ -46,6 +69,7 @@ namespace AiForms.Renderers.iOS
             base.Dispose(disposing);
             if(disposing)
             {
+                _constraints.ForEach(c => c.Dispose());
                 Label?.Dispose();
                 Label = null;
                 BackgroundView?.Dispose();

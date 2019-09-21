@@ -31,9 +31,20 @@
             <Button Text="DelLast" Clicked="DelLastClicked"/>
             <Button Text="Del2nd" Clicked="Del2ndClicked" />
             <Button Text="Replace3To1" Clicked="Replace3To1Clicked" />
+
+            <Button Text="AddSecFirst" Clicked="AddSecFirstClicked" />
+            <Button Text="AddSecLast" Clicked="AddSecLastClicked"/>
+            <Button Text="AddSec2nd" Clicked="AddSec2ndClicked"/>
+
+            <Button Text="DelSecFirst" Clicked="DelSecFirstClicked" />
+            <Button Text="DelSecLast" Clicked="DelSecLastClicked"/>
+            <Button Text="DelSec2nd" Clicked="DelSec2ndClicked"/>
+
+            <Button Text="ReplaceSec2To1" Clicked="ReplaceSec2To1Clicked" />
+
         </StackLayout>
 
-        <sv:SettingsView Grid.Column="1" Style="{StaticResource settingsView}" >
+        <sv:SettingsView Grid.Column="1" Style="{StaticResource settingsView}" x:Name="settings">
             <sv:Section Title="Header" FooterText="Footer" x:Name="section">
                 <sv:LabelCell        IconSource="icon.png" Title="LabelCell"        Description="HogeFuga" HintText="hint" ValueText="Value"/>
                 <sv:CommandCell      IconSource="icon.png" Title="CommandCell"      Description="HogeFuga" HintText="hint" ValueText="Value"/>
