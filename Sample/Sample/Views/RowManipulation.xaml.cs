@@ -43,9 +43,9 @@ namespace Sample.Views
             settings.Root[0].RemoveAt(1);
         }
 
-        void Replace3To1Clicked(object sender, System.EventArgs e)
+        void Replace1Clicked(object sender, System.EventArgs e)
         {
-            settings.Root[0][0] = settings.Root[0][2];
+            settings.Root[0][0] = CreateCell();
         }
 
         void AddSecFirstClicked(object sender, System.EventArgs e)
@@ -78,9 +78,14 @@ namespace Sample.Views
             settings.Root.RemoveAt(1);
         }
 
-        void ReplaceSec2To1Clicked(object sender, System.EventArgs e)
+        void ReplaceSec1Clicked(object sender, System.EventArgs e)
         {
-            settings.Root[0] = settings.Root[1];
+            settings.Root[0] = CreateSection();
+        }
+
+        void ShowHide1stClicked(object sender, System.EventArgs e)
+        {
+            settings.Root[0].IsVisible = !settings.Root[0].IsVisible;
         }
 
 

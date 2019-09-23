@@ -8,6 +8,7 @@ using Xamarin.Forms.Platform.Android;
 using Android.Support.V7.Widget;
 using Android.Support.V7.Widget.Helper;
 using Android.Graphics.Drawables;
+using System.Linq;
 
 [assembly: ExportRenderer(typeof(SettingsView), typeof(SettingsViewRenderer))]
 namespace AiForms.Renderers.Droid
@@ -261,10 +262,11 @@ namespace AiForms.Renderers.Droid
 
             var settingsAdapter = recyclerView.GetAdapter() as SettingsViewRecyclerAdapter;
 
-            settingsAdapter.NotifyItemMoved(fromPos, toPos); //rows update
             settingsAdapter.CellMoved(fromPos, toPos); //caches update
+            settingsAdapter.NotifyItemMoved(fromPos, toPos); //rows update
 
-            //Console.WriteLine($"From:{fromPos} To:{toPos} Offset:{_offset}");
+
+            Console.WriteLine($"From:{fromPos} To:{toPos} Offset:{_offset}");
 
             return true;
         }
@@ -281,6 +283,11 @@ namespace AiForms.Renderers.Droid
 
             var section = contentHolder.RowInfo.Section;
             var pos = section.IndexOf(contentHolder.RowInfo.Cell);
+            //var pos = section.ToList().IndexOf(contentHolder.RowInfo.Cell);
+            if(pos == -1)
+            {
+                ;
+            }
             if(section.ItemsSource == null){
                 section.MoveCellWithoutNotify(pos, pos + _offset);            
             }

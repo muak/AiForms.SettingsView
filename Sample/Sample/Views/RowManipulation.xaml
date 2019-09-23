@@ -30,7 +30,7 @@
             <Button Text="DelFirst" Clicked="DelFirstClicked"/>
             <Button Text="DelLast" Clicked="DelLastClicked"/>
             <Button Text="Del2nd" Clicked="Del2ndClicked" />
-            <Button Text="Replace3To1" Clicked="Replace3To1Clicked" />
+            <Button Text="Replace1" Clicked="Replace1Clicked" />
 
             <Button Text="AddSecFirst" Clicked="AddSecFirstClicked" />
             <Button Text="AddSecLast" Clicked="AddSecLastClicked"/>
@@ -40,7 +40,9 @@
             <Button Text="DelSecLast" Clicked="DelSecLastClicked"/>
             <Button Text="DelSec2nd" Clicked="DelSec2ndClicked"/>
 
-            <Button Text="ReplaceSec2To1" Clicked="ReplaceSec2To1Clicked" />
+            <Button Text="ReplaceSec1" Clicked="ReplaceSec1Clicked" />
+
+            <Button Text="ShowHide1st" Clicked="ShowHide1stClicked" />
 
         </StackLayout>
 

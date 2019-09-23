@@ -25,12 +25,41 @@ namespace AiForms.Renderers
             Title = title;
         }
 
+        protected override void OnBindingContextChanged()
+        {
+            base.OnBindingContextChanged();
+            if(HeaderView != null)
+            {
+                HeaderView.BindingContext = BindingContext;
+            }
+            if(FooterView != null)
+            {
+                FooterView.BindingContext = BindingContext;
+            }
+        }
+
         public void MoveSourceItemWithoutNotify(int from, int to)
         {
             CollectionChanged -= OnCollectionChanged;
+            var notifyCollection = ItemsSource as INotifyCollectionChanged;
+            if(notifyCollection != null)
+            {
+                notifyCollection.CollectionChanged -= OnItemsSourceCollectionChanged;
+            }
+
             var tmp = ItemsSource[from];
             ItemsSource.RemoveAt(from);
             ItemsSource.Insert(to, tmp);
+
+            var tmpCell = this[from];
+            this.RemoveAt(from);
+            this.Insert(to, tmpCell);
+
+            if (notifyCollection != null)
+            {
+                notifyCollection.CollectionChanged += OnItemsSourceCollectionChanged;
+            }
+
             CollectionChanged += OnCollectionChanged;
         }
 
