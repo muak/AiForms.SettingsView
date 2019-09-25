@@ -719,8 +719,8 @@ It is envisaged that makes use of subclass of CustomCell.
 
 ### Example for CustomCell
 
-https://github.com/muak/AiForms.SettingsView/tree/development/Sample/Sample/Views/Cells
-https://github.com/muak/AiForms.SettingsView/blob/development/Sample/Sample/Views/CustomCellTest.xaml
+* https://github.com/muak/AiForms.SettingsView/tree/development/Sample/Sample/Views/Cells
+* https://github.com/muak/AiForms.SettingsView/blob/development/Sample/Sample/Views/CustomCellTest.xaml
 
 ## Contributors
 
@@ -734,6 +734,7 @@ https://github.com/muak/AiForms.SettingsView/blob/development/Sample/Sample/View
 ## Donation
 
 I am asking for your donation for continuous development🙇
+
 Your donation will allow me to work harder and harder.
 
 * [PayPalMe](https://paypal.me/kamusoftJP?locale.x=ja_JP)

@@ -730,8 +730,8 @@ Xamarin.Forms.EntryCellとは別物です。
 
 ### CustomCellの使用例
 
-https://github.com/muak/AiForms.SettingsView/tree/development/Sample/Sample/Views/Cells
-https://github.com/muak/AiForms.SettingsView/blob/development/Sample/Sample/Views/CustomCellTest.xaml
+* https://github.com/muak/AiForms.SettingsView/tree/development/Sample/Sample/Views/Cells
+* https://github.com/muak/AiForms.SettingsView/blob/development/Sample/Sample/Views/CustomCellTest.xaml
 
 ## Contributors
 
@@ -749,6 +749,7 @@ NaturalSortの実装に以下のソースを利用させていただきました
 ## 寄付
 
 開発継続のため、寄付を募集しています。
+
 寄付をいただけるとやる気が非常にアップしますので、どうかよろしくお願いいたします🙇
 
 * [PayPalMe](https://paypal.me/kamusoftJP?locale.x=ja_JP)
