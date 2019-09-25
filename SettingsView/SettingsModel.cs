@@ -77,11 +77,21 @@ namespace AiForms.Renderers
             return _root.ElementAtOrDefault(section);
         }
 
+        /// <summary>
+        /// Gets the section from cell.
+        /// </summary>
+        /// <returns>The section from cell.</returns>
+        /// <param name="cell">Cell.</param>
         public virtual Section GetSectionFromCell(Cell cell)
         {
             return _root.FirstOrDefault(x => x.Contains(cell));
         }
 
+        /// <summary>
+        /// Gets the index of the section.
+        /// </summary>
+        /// <returns>The section index.</returns>
+        /// <param name="section">Section.</param>
         public virtual int GetSectionIndex(Section section)
         {
             return _root.IndexOf(section);

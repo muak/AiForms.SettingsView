@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
     x:Class="Sample.Views.Cells.SliderCell"
-    IsSelectable="False" ShowArrowIndicator="False" x:Name="me">
+    IsSelectable="False" IsMeasureOnce="True" ShowArrowIndicator="False" x:Name="me">
     <Slider Minimum="{Binding Min,Source={x:Reference me}}" Maximum="{Binding Max,Source={x:Reference me}}" Value="{Binding Value,Source={x:Reference me}}"
-            ValueChanged="OnChanged" />
+            ValueChanged="OnChanged" MinimumTrackColor="Red" MaximumTrackColor="Gray" />
 </sv:CustomCell>

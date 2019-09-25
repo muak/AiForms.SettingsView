@@ -266,7 +266,7 @@ namespace AiForms.Renderers.Droid
             settingsAdapter.NotifyItemMoved(fromPos, toPos); //rows update
 
 
-            Console.WriteLine($"From:{fromPos} To:{toPos} Offset:{_offset}");
+            //Console.WriteLine($"From:{fromPos} To:{toPos} Offset:{_offset}");
 
             return true;
         }

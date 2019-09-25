@@ -17,5 +17,19 @@ namespace Sample.Views.Cells
         {
             InitializeComponent();
         }
+
+        public static BindableProperty TextProperty =
+            BindableProperty.Create(
+                nameof(Text),
+                typeof(string),
+                typeof(MyCellA),
+                default(string),
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        public string Text {
+            get { return (string)GetValue(TextProperty); }
+            set { SetValue(TextProperty, value); }
+        }
     }
 }

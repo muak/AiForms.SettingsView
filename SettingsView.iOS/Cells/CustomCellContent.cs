@@ -7,11 +7,12 @@ using Xamarin.Forms.Platform.iOS;
 
 namespace AiForms.Renderers.iOS
 {
+    [Foundation.Preserve(AllMembers = true)]
     public class CustomCellContent:UIView
     {
         WeakReference<IVisualElementRenderer> _rendererRef;
         bool _disposed;
-
+        NSLayoutConstraint _heightConstraint;
         View _formsCell;
         public View FormsCell {
             get { return _formsCell; }
@@ -21,6 +22,9 @@ namespace AiForms.Renderers.iOS
                 UpdateCell(value);
             }
         }
+        public CustomCell CustomCell { get; set; }
+        double _lastWidth = -9999d;
+        double _lastHeight = -9999d;
 
         public CustomCellContent() { }
 
@@ -38,6 +42,10 @@ namespace AiForms.Renderers.iOS
                     _formsCell.PropertyChanged -= CellPropertyChanged;
                 }
 
+                CustomCell = null;
+
+                _heightConstraint?.Dispose();
+                _heightConstraint = null;
 
                 IVisualElementRenderer renderer = null;
                 if (_rendererRef != null && _rendererRef.TryGetTarget(out renderer) && renderer.Element != null)
@@ -47,7 +55,6 @@ namespace AiForms.Renderers.iOS
                 }
 
                 renderer?.Dispose();
-
 
                 _formsCell = null;
             }
@@ -85,27 +92,37 @@ namespace AiForms.Renderers.iOS
             //This sets the content views frame.
             base.LayoutSubviews();
 
+            if(CustomCell.IsMeasureOnce && Frame.Width <= _lastWidth && Frame.Height <= _lastHeight)
+            {
+                Layout.LayoutChildIntoBoundingRegion(FormsCell,
+                new Rectangle(0, 0, _lastWidth, _lastHeight));
+                return;
+            }
+
             SizeToFit();
 
-            var contentFrame = Frame;
-            var view = FormsCell;
-
-
-
-            Layout.LayoutChildIntoBoundingRegion(view, contentFrame.ToRectangle());
+            Layout.LayoutChildIntoBoundingRegion(FormsCell, 
+                new Rectangle(0,0,Frame.Width,Frame.Height));
 
             if (_rendererRef == null)
                 return;
 
             IVisualElementRenderer renderer;
             if (_rendererRef.TryGetTarget(out renderer))
-                renderer.NativeView.Frame = view.Bounds.ToRectangleF();
+                renderer.NativeView.Frame = FormsCell.Bounds.ToRectangleF();
 
-            var constraint = this.HeightAnchor.ConstraintEqualTo(Frame.Height);
-            constraint.Priority = 999f;
-            constraint.Active = true;
+            if (_heightConstraint != null)
+            {
+                _heightConstraint.Active = false;
+                _heightConstraint?.Dispose();
+            }
 
-            UpdateConstraintsIfNeeded();
+            _heightConstraint = HeightAnchor.ConstraintEqualTo(Frame.Height);
+            _heightConstraint.Priority = 999f;
+            _heightConstraint.Active = true;
+
+            _lastWidth = Frame.Width;
+            _lastHeight = Frame.Height;
         }
 
 
@@ -160,13 +177,13 @@ namespace AiForms.Renderers.iOS
 
             Platform.SetRenderer(this._formsCell, renderer);
             UpdateNativeCell();
+            SetNeedsLayout();
         }
 
         protected virtual IVisualElementRenderer GetNewRenderer()
         {
             var newRenderer = Platform.CreateRenderer(_formsCell);
             _rendererRef = new WeakReference<IVisualElementRenderer>(newRenderer);
-            var asdf = this.Frame;
             AddSubview(newRenderer.NativeView);
 
             return newRenderer;

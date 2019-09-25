@@ -723,6 +723,9 @@ namespace AiForms.Renderers
             set { SetValue(ItemTemplateProperty, value); }
         }
 
+        /// <summary>
+        /// The show arrow indicator for android property.
+        /// </summary>
         public static BindableProperty ShowArrowIndicatorForAndroidProperty =
             BindableProperty.Create(
                 nameof(ShowArrowIndicatorForAndroid),
@@ -732,6 +735,11 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="T:AiForms.Renderers.SettingsView"/> show arrow
+        /// indicator for android.
+        /// </summary>
+        /// <value><c>true</c> if show arrow indicator for android; otherwise, <c>false</c>.</value>
         public bool ShowArrowIndicatorForAndroid {
             get { return (bool)GetValue(ShowArrowIndicatorForAndroidProperty); }
             set { SetValue(ShowArrowIndicatorForAndroidProperty, value); }

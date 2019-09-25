@@ -55,8 +55,6 @@ namespace AiForms.Renderers.iOS
         /// <value>The content stack.</value>
         protected UIStackView ContentStack { get; private set; }
 
-        protected CGRect ContentFrame => StackV.Frame;
-
         protected UIStackView StackH;
         protected UIStackView StackV;
 
@@ -582,83 +580,6 @@ namespace AiForms.Renderers.iOS
             }
         }
 
-        protected void SetRightMargin()
-        {
-            if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0))
-            {
-                StackH.LayoutMargins = new UIEdgeInsets(6, 16, 6, 16);
-            }
-        }
-
-        protected void RemoveContentLayout()
-        {
-            StackV.RemoveArrangedSubview(ContentStack);
-            StackV.RemoveArrangedSubview(DescriptionLabel);
-            ////_stackH.RemoveArrangedSubview(_stackV);
-            ////_stackV.RemoveFromSuperview();
-            ContentStack.RemoveFromSuperview();
-            DescriptionLabel.RemoveFromSuperview();
-            //ContentStack.Hidden = true;
-            //DescriptionLabel.Hidden = true;
-
-            //_stackH.RemoveFromSuperview();
-
-            //var uu = new UIView(new CGRect(0,0,100,20)) { BackgroundColor = UIColor.Red };
-            //uu.AddSubview(new UILabel { Text = "FFF" });
-            //var uu = new UIView(new CGRect(0, 0, 100, 20)) { BackgroundColor = UIColor.Red }; //new UILabel { Text = "FDFSF" };
-            //_stackV.AddArrangedSubview(uu);
-            //uu.SetNeedsLayout();
-            //uu.SetNeedsDisplay();
-            //_stackV.SetNeedsUpdateConstraints();
-            //_stackH.SetNeedsUpdateConstraints();
-        }
-
-        protected void SetContentLayout(UIView view)
-        {
-
-            ContentView.AddSubview(view);
-
-            view.TranslatesAutoresizingMaskIntoConstraints = false;
-            view.TopAnchor.ConstraintEqualTo(ContentView.TopAnchor,6).Active = true;
-            view.LeftAnchor.ConstraintEqualTo(IconView.RightAnchor,16).Active = true;
-            view.BottomAnchor.ConstraintEqualTo(ContentView.BottomAnchor,-6).Active = true;
-            view.RightAnchor.ConstraintEqualTo(ContentView.RightAnchor,-16).Active = true;
-
-
-            //uu.AddSubview(new UILabel { Text = "FFF" });
-
-            ////_stackH.InsertArrangedSubview(view,1);
-            //_stackV.AddArrangedSubview(view);
-
-            //ContentView.AddSubview(_stackH);
-
-            //_stackH.TranslatesAutoresizingMaskIntoConstraints = false;
-            //_stackH.TopAnchor.ConstraintEqualTo(ContentView.TopAnchor).Active = true;
-            //_stackH.LeftAnchor.ConstraintEqualTo(ContentView.LeftAnchor).Active = true;
-            //_stackH.BottomAnchor.ConstraintEqualTo(ContentView.BottomAnchor).Active = true;
-            //_stackH.RightAnchor.ConstraintEqualTo(ContentView.RightAnchor).Active = true;
-
-
-            //var minHeight = Math.Max(CellParent?.RowHeight ?? 44, SettingsViewRenderer.MinRowHeight);
-            //_minheightConstraint = _stackH.HeightAnchor.ConstraintGreaterThanOrEqualTo(minHeight);
-            //// fix warning-log:Unable to simultaneously satisfy constraints.
-            //_minheightConstraint.Priority = 999f; // this is superior to any other view.
-            //_minheightConstraint.Active = true;
-
-            ////view.SetContentHuggingPriority(1f, UILayoutConstraintAxis.Horizontal);
-            ////view.SetContentHuggingPriority(1f, UILayoutConstraintAxis.Vertical);
-            ////view.SetContentCompressionResistancePriority(999f, UILayoutConstraintAxis.Horizontal);
-            ////view.SetContentCompressionResistancePriority(999f, UILayoutConstraintAxis.Vertical);
-            //_stackH.UpdateConstraints();
-            //_stackH.SetNeedsLayout();
-            //_stackH.SetNeedsDisplay();
-            //_stackV.UpdateConstraints();
-            //_stackV.SetNeedsLayout();
-            //_stackV.SetNeedsDisplay();
-            //_stackV.SetNeedsUpdateConstraints();
-            //SetNeedsLayout();
-            //SetNeedsDisplay();
-        }
 
         protected virtual void SetUpContentView()
         {

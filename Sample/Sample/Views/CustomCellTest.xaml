@@ -3,15 +3,15 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
-    xmlns:ef="clr-namespace:AiForms.Effects;assembly=AiForms.Effects"
     xmlns:cell="clr-namespace:Sample.Views.Cells"
     x:Class="Sample.Views.CustomCellTest">
 
-    <sv:SettingsView Style="{StaticResource settingsView}" HasUnevenRows="True">
+    <sv:SettingsView Style="{StaticResource settingsView}" HasUnevenRows="True"      >
         <sv:Section Title="CustomCell">
             <cell:SliderCell IconSource="icon.png" Min="0" Max="1.0" Value="0.7" ChangedCommand="{Binding ChangedCommand}" />
-            <cell:MyCellA IconSource="icon.png" />
+            <cell:MyCellA Text="FirstText" IconSource="icon.png" />
             <cell:MyCellB IconSource="icon.png" />
+            <cell:MyCellC IconSource="icon.png" />
             
         </sv:Section>            
 
@@ -24,9 +24,10 @@
         </sv:Section>
 
         <sv:Section Title="CustomCell">
-            <cell:SliderCell Min="0" Max="1.0" Value="0.3" ChangedCommand="{Binding ChangedCommand}" />
-            <cell:MyCellA />
-            <cell:MyCellB />            
+            <cell:SliderCell IconSource="icon.png" Min="0" Max="1.0" Value="0.3" ChangedCommand="{Binding ChangedCommand}" />
+            <cell:MyCellA Text="LastText" />
+            <cell:MyCellB />
+            <cell:MyCellC />
         </sv:Section>   
     </sv:SettingsView>
 </ContentPage>

@@ -24,8 +24,7 @@ namespace AiForms.Renderers.Droid
         public CustomCell CustomCell { get; set; }
 
         IVisualElementRenderer _renderer;
-
-        SettingsView CellParent => FormsCell.Parent as SettingsView;       
+          
 
         public FormsViewContainer(Context context) : base(context)
         {
@@ -44,7 +43,7 @@ namespace AiForms.Renderers.Droid
 
         public override bool OnTouchEvent(MotionEvent e)
         {
-            return false;
+            return false; // pass to parent (ripple effect)
         }
 
         protected override void Dispose(bool disposing)
@@ -56,6 +55,7 @@ namespace AiForms.Renderers.Droid
                     _formsCell.PropertyChanged -= CellPropertyChanged;
                     _formsCell = null;
                 }
+                CustomCell = null;
 
                 ViewHolder = null;
 

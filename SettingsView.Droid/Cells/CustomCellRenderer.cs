@@ -58,14 +58,20 @@ namespace AiForms.Renderers.Droid
 
             _container = new FormsViewContainer(Context);
 
-            var layout = FindViewById<ARelativeLayout>(Resource.Id.CellLayout);
-
-            layout.SetPadding(0, 0, 0, 0);
 
             _coreView = FindViewById<LinearLayout>(Resource.Id.CellBody);
-            _coreView.SetPadding(0, 0, 0, 0);
             ContentStack.RemoveFromParent();
             DescriptionLabel.RemoveFromParent();
+
+            if(CustomCell.UseFullSize)
+            {
+                IconView.RemoveFromParent();
+                var layout = FindViewById<ARelativeLayout>(Resource.Id.CellLayout);
+                var rMargin = CustomCell.ShowArrowIndicator ? _Context.ToPixels(10) : 0;
+                layout.SetPadding(0, 0, (int)rMargin, 0);
+                _coreView.SetPadding(0, 0, 0, 0);
+            }
+
             _coreView.AddView(_container);
         }
 

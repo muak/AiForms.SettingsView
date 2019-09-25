@@ -2,12 +2,12 @@
 <sv:CustomCell xmlns="http://xamarin.com/schemas/2014/forms"
           xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Sample.Views.Cells.MyCellA" ShowArrowIndicator="True" IsMeasureOnce="True" >
+             x:Class="Sample.Views.Cells.MyCellA" ShowArrowIndicator="True" IsMeasureOnce="True" UseFullSize="True" x:Name="me" >
 
     <StackLayout BackgroundColor="Blue" InputTransparent="True">
-        <Label Text="Hoge" InputTransparent="True"  />
-        <!--<Label Text="Fuga" />
-        <BoxView Color="Red" HeightRequest="20" />-->
+        <Label Text="{Binding Text,Source={x:Reference me}}" InputTransparent="True" HeightRequest="20" />
+        <Label Text="Hoge" />
+        <Label Text="Fuga" />
     </StackLayout>
 
 </sv:CustomCell>

@@ -20,11 +20,18 @@ namespace AiForms.Renderers
             PropertyChanged += OnPropertyChanged;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Section"/> class.
+        /// </summary>
+        /// <param name="title">Title.</param>
         public Section(string title) :this()
         {
             Title = title;
         }
 
+        /// <summary>
+        /// Ons the binding context changed.
+        /// </summary>
         protected override void OnBindingContextChanged()
         {
             base.OnBindingContextChanged();
@@ -38,6 +45,11 @@ namespace AiForms.Renderers
             }
         }
 
+        /// <summary>
+        /// Moves the source item without notify.
+        /// </summary>
+        /// <param name="from">From.</param>
+        /// <param name="to">To.</param>
         public void MoveSourceItemWithoutNotify(int from, int to)
         {
             CollectionChanged -= OnCollectionChanged;
@@ -63,6 +75,11 @@ namespace AiForms.Renderers
             CollectionChanged += OnCollectionChanged;
         }
 
+        /// <summary>
+        /// Moves the cell without notify.
+        /// </summary>
+        /// <param name="from">From.</param>
+        /// <param name="to">To.</param>
         public void MoveCellWithoutNotify(int from, int to)
         {
             CollectionChanged -= OnCollectionChanged;
@@ -83,7 +100,13 @@ namespace AiForms.Renderers
         }
 
 
+        /// <summary>
+        /// Occurs when section collection changed.
+        /// </summary>
         public event NotifyCollectionChangedEventHandler SectionCollectionChanged;
+        /// <summary>
+        /// Occurs when section property changed.
+        /// </summary>
         public event PropertyChangedEventHandler SectionPropertyChanged;
 
 
@@ -198,6 +221,9 @@ namespace AiForms.Renderers
             set { SetValue(HeaderHeightProperty, value); }
         }
 
+        /// <summary>
+        /// The header view property.
+        /// </summary>
         public static BindableProperty HeaderViewProperty =
             BindableProperty.Create(
                 nameof(HeaderView),
@@ -207,11 +233,18 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
+        /// <summary>
+        /// Gets or sets the header view.
+        /// </summary>
+        /// <value>The header view.</value>
         public View HeaderView {
             get { return (View)GetValue(HeaderViewProperty); }
             set { SetValue(HeaderViewProperty, value); }
         }
 
+        /// <summary>
+        /// The footer view property.
+        /// </summary>
         public static BindableProperty FooterViewProperty =
             BindableProperty.Create(
                 nameof(FooterView),
@@ -221,6 +254,10 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
+        /// <summary>
+        /// Gets or sets the footer view.
+        /// </summary>
+        /// <value>The footer view.</value>
         public View FooterView {
             get { return (View)GetValue(FooterViewProperty); }
             set { SetValue(FooterViewProperty, value); }

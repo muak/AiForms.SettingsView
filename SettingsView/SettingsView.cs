@@ -31,8 +31,17 @@ namespace AiForms.Renderers
         /// Occurs when model changed.
         /// </summary>
         public new event EventHandler ModelChanged;
+        /// <summary>
+        /// Occurs when collection changed.
+        /// </summary>
         public event NotifyCollectionChangedEventHandler CollectionChanged;
+        /// <summary>
+        /// Occurs when section collection changed.
+        /// </summary>
         public event NotifyCollectionChangedEventHandler SectionCollectionChanged;
+        /// <summary>
+        /// Occurs when section property changed.
+        /// </summary>
         public event PropertyChangedEventHandler SectionPropertyChanged;
 
         /// <summary>
