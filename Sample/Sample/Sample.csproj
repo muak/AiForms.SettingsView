@@ -17,4 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\SettingsView\SettingsView.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Cells\" />
+  </ItemGroup>
 </Project>

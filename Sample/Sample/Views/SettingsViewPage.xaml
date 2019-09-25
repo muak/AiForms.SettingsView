@@ -4,6 +4,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
 	xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
     xmlns:ef="clr-namespace:AiForms.Effects;assembly=AiForms.Effects"
+    xmlns:cell="clr-namespace:Sample.Views.Cells"
 	x:Class="Sample.Views.SettingsViewPage"
     Title="Settings">
 

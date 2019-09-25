@@ -202,6 +202,11 @@
     <Compile Include="Cells\RadioCellRenderer.cs" />
     <Compile Include="Cells\SimpleCheck.cs" />
     <Compile Include="SettingsViewInit.cs" />
+    <Compile Include="ModelProxy.cs" />
+    <Compile Include="SVItemdecoration.cs" />
+    <Compile Include="ViewHolders.cs" />
+    <Compile Include="FormsViewContainer.cs" />
+    <Compile Include="Cells\CustomCellRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -214,6 +219,10 @@
     <AndroidResource Include="Resources\layout\FooterCell.axml" />
     <AndroidResource Include="Resources\layout\HeaderCell.axml" />
     <AndroidResource Include="Resources\drawable\ic_navigate_next.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\divider.xml">
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>

@@ -103,6 +103,16 @@ namespace AiForms.Renderers.Droid
         }
 
         /// <summary>
+        /// Rows the selected.
+        /// </summary>
+        /// <param name="adapter">Adapter.</param>
+        /// <param name="position">Position.</param>
+        public override void RowSelected(SettingsViewRecyclerAdapter adapter, int position)
+        {
+            _switch.Checked = !_switch.Checked;
+        }
+
+        /// <summary>
         /// Dispose the specified disposing.
         /// </summary>
         /// <returns>The dispose.</returns>

@@ -77,9 +77,9 @@
                     </DataTemplate>
                 </ai:Section.ItemTemplate>
             </ai:Section>
-            <ai:Section Title="UseSelector" ItemsSource="{Binding ItemsSource}" ItemTemplate="{StaticResource selector}">
+            <!--<ai:Section Title="UseSelector" ItemsSource="{Binding ItemsSource}" ItemTemplate="{StaticResource selector}">
                 
-            </ai:Section>
+            </ai:Section>-->
 
         </ai:SettingsView>
     </StackLayout>

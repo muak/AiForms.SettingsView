@@ -94,6 +94,12 @@
     <Compile Include="Cells\TextPickerCellRenderer.cs" />
     <Compile Include="Cells\TextPickerSource.cs" />
     <Compile Include="Cells\RadioCellRenderer.cs" />
+    <Compile Include="TextHeaderView.cs" />
+    <Compile Include="CustomHeaderFooterView.cs" />
+    <Compile Include="TextFooterView.cs" />
+    <Compile Include="Cells\CustomCellRenderer.cs" />
+    <Compile Include="FormsInternals.cs" />
+    <Compile Include="Cells\CustomCellContent.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SettingsView\SettingsView.csproj">

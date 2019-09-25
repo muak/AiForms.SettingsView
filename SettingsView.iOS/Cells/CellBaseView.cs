@@ -6,6 +6,7 @@ using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 using Foundation;
+using CoreGraphics;
 
 namespace AiForms.Renderers.iOS
 {
@@ -41,6 +42,7 @@ namespace AiForms.Renderers.iOS
         /// </summary>
         /// <value>The cell base.</value>
         protected CellBase CellBase => Cell as CellBase;
+
         /// <summary>
         /// Gets the cell parent.
         /// </summary>
@@ -53,7 +55,8 @@ namespace AiForms.Renderers.iOS
         /// <value>The content stack.</value>
         protected UIStackView ContentStack { get; private set; }
 
-        UIStackView _stackH;
+        protected UIStackView StackH;
+        protected UIStackView StackV;
 
         Size _iconSize;
         NSLayoutConstraint _iconConstraintHeight;
@@ -451,13 +454,13 @@ namespace AiForms.Renderers.iOS
             }
 
             if (CellParent.HasUnevenRows) {
-                _minheightConstraint = _stackH.HeightAnchor.ConstraintGreaterThanOrEqualTo(CellParent.RowHeight);
+                _minheightConstraint = StackH.HeightAnchor.ConstraintGreaterThanOrEqualTo(CellParent.RowHeight);
                 _minheightConstraint.Priority = 999f;
                 _minheightConstraint.Active = true;
 
             }
 
-            _stackH.UpdateConstraints();
+            StackH.UpdateConstraints();
         }
 
         /// <summary>
@@ -510,9 +513,9 @@ namespace AiForms.Renderers.iOS
                     HintLabel.RemoveFromSuperview();
                     HintLabel.Dispose();
                     HintLabel = null;
-                    TitleLabel.Dispose();
+                    TitleLabel?.Dispose();
                     TitleLabel = null;
-                    DescriptionLabel.Dispose();
+                    DescriptionLabel?.Dispose();
                     DescriptionLabel = null;
                     IconView.RemoveFromSuperview();
                     IconView.Image?.Dispose();
@@ -524,13 +527,18 @@ namespace AiForms.Renderers.iOS
                     _iconConstraintHeight?.Dispose();
                     _iconConstraintHeight = null;
                     _iconConstraintWidth = null;
-                    ContentStack.RemoveFromSuperview();
-                    ContentStack.Dispose();
+                    ContentStack?.RemoveFromSuperview();
+                    ContentStack?.Dispose();
                     ContentStack = null;
                     Cell = null;
 
-                    _stackH.RemoveFromSuperview();
-                    _stackH.Dispose();
+                    StackV?.RemoveFromSuperview();
+                    StackV?.Dispose();
+                    StackV = null;
+
+                    StackH.RemoveFromSuperview();
+                    StackH.Dispose();
+                    StackH = null;
 
                 });
             }
@@ -540,7 +548,6 @@ namespace AiForms.Renderers.iOS
 
         void SetUpHintLabel()
         {
-            var hoge = this.Subviews;
             HintLabel = new UILabel();
             HintLabel.LineBreakMode = UILineBreakMode.Clip;
             HintLabel.Lines = 0;
@@ -569,11 +576,12 @@ namespace AiForms.Renderers.iOS
         {
             if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0))
             {
-                _stackH.LayoutMargins = new UIEdgeInsets(6, 16, 6, 0);
+                StackH.LayoutMargins = new UIEdgeInsets(6, 16, 6, 0);
             }
         }
 
-        void SetUpContentView()
+
+        protected virtual void SetUpContentView()
         {
             //remove existing views 
             ImageView.RemoveFromSuperview();
@@ -583,7 +591,7 @@ namespace AiForms.Renderers.iOS
 
             //外側のHorizontalStackView
             //Outer HorizontalStackView
-            _stackH = new UIStackView
+            StackH = new UIStackView
             {
                 Axis = UILayoutConstraintAxis.Horizontal,
                 Alignment = UIStackViewAlignment.Center,
@@ -591,21 +599,21 @@ namespace AiForms.Renderers.iOS
                 Distribution = UIStackViewDistribution.Fill
             };
             //set margin
-            _stackH.LayoutMargins = new UIEdgeInsets(6, 16, 6, 16);
-            _stackH.LayoutMarginsRelativeArrangement = true;
+            StackH.LayoutMargins = new UIEdgeInsets(6, 16, 6, 16);
+            StackH.LayoutMarginsRelativeArrangement = true;
 
             IconView = new UIImageView();
 
             //round corners
             IconView.ClipsToBounds = true;
 
-            _stackH.AddArrangedSubview(IconView);
+            StackH.AddArrangedSubview(IconView);
 
             UpdateIconSize();
 
             //右に配置するVerticalStackView（コアの部品とDescriptionを格納）
             //VerticalStackView that is arranged at right. ( put main parts and Description ) 
-            var stackV = new UIStackView
+            StackV = new UIStackView
             {
                 Axis = UILayoutConstraintAxis.Vertical,
                 Alignment = UIStackViewAlignment.Fill,
@@ -631,14 +639,14 @@ namespace AiForms.Renderers.iOS
 
             ContentStack.AddArrangedSubview(TitleLabel);
 
-            stackV.AddArrangedSubview(ContentStack);
-            stackV.AddArrangedSubview(DescriptionLabel);
+            StackV.AddArrangedSubview(ContentStack);
+            StackV.AddArrangedSubview(DescriptionLabel);
 
-            _stackH.AddArrangedSubview(stackV);
+            StackH.AddArrangedSubview(StackV);
 
             //余った領域を広げる優先度の設定（低いものが優先して拡大する）
             IconView.SetContentHuggingPriority(999f, UILayoutConstraintAxis.Horizontal); //if possible, not to expand. 極力広げない
-            stackV.SetContentHuggingPriority(1f, UILayoutConstraintAxis.Horizontal);
+            StackV.SetContentHuggingPriority(1f, UILayoutConstraintAxis.Horizontal);
             ContentStack.SetContentHuggingPriority(1f, UILayoutConstraintAxis.Horizontal);
             TitleLabel.SetContentHuggingPriority(1f, UILayoutConstraintAxis.Horizontal);
             DescriptionLabel.SetContentHuggingPriority(1f, UILayoutConstraintAxis.Horizontal);
@@ -646,27 +654,27 @@ namespace AiForms.Renderers.iOS
 
             //縮まりやすさの設定（低いものが優先して縮まる）
             IconView.SetContentCompressionResistancePriority(999f, UILayoutConstraintAxis.Horizontal); //if possible, not to shrink. 極力縮めない
-            stackV.SetContentCompressionResistancePriority(999f, UILayoutConstraintAxis.Horizontal);
+            StackV.SetContentCompressionResistancePriority(999f, UILayoutConstraintAxis.Horizontal);
             ContentStack.SetContentCompressionResistancePriority(999f, UILayoutConstraintAxis.Horizontal);
             TitleLabel.SetContentCompressionResistancePriority(999f, UILayoutConstraintAxis.Horizontal);
             DescriptionLabel.SetContentCompressionResistancePriority(999f, UILayoutConstraintAxis.Horizontal);
 
             IconView.SetContentCompressionResistancePriority(999f, UILayoutConstraintAxis.Vertical);
             IconView.SetContentHuggingPriority(1f, UILayoutConstraintAxis.Vertical);
-            stackV.SetContentCompressionResistancePriority(999f, UILayoutConstraintAxis.Vertical);
-            stackV.SetContentHuggingPriority(1f, UILayoutConstraintAxis.Vertical);
+            StackV.SetContentCompressionResistancePriority(999f, UILayoutConstraintAxis.Vertical);
+            StackV.SetContentHuggingPriority(1f, UILayoutConstraintAxis.Vertical);
 
-            ContentView.AddSubview(_stackH);
+            ContentView.AddSubview(StackH);
 
-            _stackH.TranslatesAutoresizingMaskIntoConstraints = false;
-            _stackH.TopAnchor.ConstraintEqualTo(ContentView.TopAnchor).Active = true;
-            _stackH.LeftAnchor.ConstraintEqualTo(ContentView.LeftAnchor).Active = true;
-            _stackH.BottomAnchor.ConstraintEqualTo(ContentView.BottomAnchor).Active = true;
-            _stackH.RightAnchor.ConstraintEqualTo(ContentView.RightAnchor).Active = true;
+            StackH.TranslatesAutoresizingMaskIntoConstraints = false;
+            StackH.TopAnchor.ConstraintEqualTo(ContentView.TopAnchor).Active = true;
+            StackH.LeftAnchor.ConstraintEqualTo(ContentView.LeftAnchor).Active = true;
+            StackH.BottomAnchor.ConstraintEqualTo(ContentView.BottomAnchor).Active = true;
+            StackH.RightAnchor.ConstraintEqualTo(ContentView.RightAnchor).Active = true;
 
 
             var minHeight = Math.Max(CellParent?.RowHeight ?? 44, SettingsViewRenderer.MinRowHeight);
-            _minheightConstraint = _stackH.HeightAnchor.ConstraintGreaterThanOrEqualTo(minHeight);
+            _minheightConstraint = StackH.HeightAnchor.ConstraintGreaterThanOrEqualTo(minHeight);
             // fix warning-log:Unable to simultaneously satisfy constraints.
             _minheightConstraint.Priority = 999f; // this is superior to any other view.
             _minheightConstraint.Active = true;

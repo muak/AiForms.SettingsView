@@ -4,6 +4,9 @@ using Xamarin.Forms;
 
 namespace AiForms.Renderers
 {
+    /// <summary>
+    /// Radio cell.
+    /// </summary>
     public class RadioCell:CellBase
     {
         /// <summary>

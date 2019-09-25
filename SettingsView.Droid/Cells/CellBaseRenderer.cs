@@ -67,7 +67,7 @@ namespace AiForms.Renderers.Droid
 
             if (parentElement != null) {
                 parentElement.PropertyChanged += nativeCell.ParentPropertyChanged;
-                var section = parentElement.Model.GetSection(SettingsModel.GetPath(formsCell).Item1);
+                var section = parentElement.Model.GetSectionFromCell(formsCell);
                 if (section != null) {
                     formsCell.Section = section;
                     formsCell.Section.PropertyChanged += nativeCell.SectionPropertyChanged;

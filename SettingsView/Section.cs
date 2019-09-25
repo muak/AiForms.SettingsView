@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using System.Collections;
 using System.Collections.Specialized;
+using System.ComponentModel;
 
 namespace AiForms.Renderers
 {
@@ -15,16 +16,99 @@ namespace AiForms.Renderers
         /// </summary>
         public Section()
         {
+            CollectionChanged += OnCollectionChanged;
+            PropertyChanged += OnPropertyChanged;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Section"/> class.
         /// </summary>
         /// <param name="title">Title.</param>
-        public Section(string title) : base(title)
+        public Section(string title) :this()
         {
-
+            Title = title;
         }
+
+        /// <summary>
+        /// Ons the binding context changed.
+        /// </summary>
+        protected override void OnBindingContextChanged()
+        {
+            base.OnBindingContextChanged();
+            if(HeaderView != null)
+            {
+                HeaderView.BindingContext = BindingContext;
+            }
+            if(FooterView != null)
+            {
+                FooterView.BindingContext = BindingContext;
+            }
+        }
+
+        /// <summary>
+        /// Moves the source item without notify.
+        /// </summary>
+        /// <param name="from">From.</param>
+        /// <param name="to">To.</param>
+        public void MoveSourceItemWithoutNotify(int from, int to)
+        {
+            CollectionChanged -= OnCollectionChanged;
+            var notifyCollection = ItemsSource as INotifyCollectionChanged;
+            if(notifyCollection != null)
+            {
+                notifyCollection.CollectionChanged -= OnItemsSourceCollectionChanged;
+            }
+
+            var tmp = ItemsSource[from];
+            ItemsSource.RemoveAt(from);
+            ItemsSource.Insert(to, tmp);
+
+            var tmpCell = this[from];
+            this.RemoveAt(from);
+            this.Insert(to, tmpCell);
+
+            if (notifyCollection != null)
+            {
+                notifyCollection.CollectionChanged += OnItemsSourceCollectionChanged;
+            }
+
+            CollectionChanged += OnCollectionChanged;
+        }
+
+        /// <summary>
+        /// Moves the cell without notify.
+        /// </summary>
+        /// <param name="from">From.</param>
+        /// <param name="to">To.</param>
+        public void MoveCellWithoutNotify(int from, int to)
+        {
+            CollectionChanged -= OnCollectionChanged;
+            var tmp = this[from];
+            this.RemoveAt(from);
+            this.Insert(to, tmp);
+            CollectionChanged += OnCollectionChanged;
+        }
+
+        void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            SectionCollectionChanged?.Invoke(this, e);
+        }
+
+        void OnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            SectionPropertyChanged?.Invoke(this, e);
+        }
+
+
+        /// <summary>
+        /// Occurs when section collection changed.
+        /// </summary>
+        public event NotifyCollectionChangedEventHandler SectionCollectionChanged;
+        /// <summary>
+        /// Occurs when section property changed.
+        /// </summary>
+        public event PropertyChangedEventHandler SectionPropertyChanged;
+
 
         /// <summary>
         /// The is visible property.
@@ -138,6 +222,48 @@ namespace AiForms.Renderers
         }
 
         /// <summary>
+        /// The header view property.
+        /// </summary>
+        public static BindableProperty HeaderViewProperty =
+            BindableProperty.Create(
+                nameof(HeaderView),
+                typeof(View),
+                typeof(Section),
+                default(View),
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        /// <summary>
+        /// Gets or sets the header view.
+        /// </summary>
+        /// <value>The header view.</value>
+        public View HeaderView {
+            get { return (View)GetValue(HeaderViewProperty); }
+            set { SetValue(HeaderViewProperty, value); }
+        }
+
+        /// <summary>
+        /// The footer view property.
+        /// </summary>
+        public static BindableProperty FooterViewProperty =
+            BindableProperty.Create(
+                nameof(FooterView),
+                typeof(View),
+                typeof(Section),
+                default(View),
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        /// <summary>
+        /// Gets or sets the footer view.
+        /// </summary>
+        /// <value>The footer view.</value>
+        public View FooterView {
+            get { return (View)GetValue(FooterViewProperty); }
+            set { SetValue(FooterViewProperty, value); }
+        }
+
+        /// <summary>
         /// The use drag sort property.
         /// </summary>
         public static BindableProperty UseDragSortProperty =
@@ -222,7 +348,7 @@ namespace AiForms.Renderers
             {
                 if (e.NewItems != null)
                 {
-                    for (var i = 0; i < e.NewItems.Count; ++i)
+                    for (var i = 0; i < e.NewItems.Count; i++)
                     {
                         var item = e.NewItems[i];
                         var view = CreateChildViewFor(this.ItemTemplate, item, this);
