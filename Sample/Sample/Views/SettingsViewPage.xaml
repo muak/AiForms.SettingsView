@@ -4,6 +4,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
 	xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
     xmlns:ef="clr-namespace:AiForms.Effects;assembly=AiForms.Effects"
+    xmlns:cell="clr-namespace:Sample.Views.Cells"
 	x:Class="Sample.Views.SettingsViewPage"
     Title="Settings">
 
@@ -86,6 +87,9 @@
                     <Button Text="Menu" HorizontalOptions="End" />
                 </StackLayout>
             </sv:Section.FooterView>
+            <cell:MyCellA />
+
+
             <sv:LabelCell Title="Storage" ValueText="3,065MB" />
         </sv:Section>
 
@@ -145,6 +149,7 @@
                 </StackLayout>
             </sv:Section.FooterView>
             <sv:ButtonCell Title="Toggle Section" TitleColor="{StaticResource TitleTextColor}" TitleAlignment="Center" Command="{Binding SectionToggleCommand}" />
+            <cell:MyCellB IconSource="icon.png" />
         </sv:Section>
 	</sv:SettingsView>
         

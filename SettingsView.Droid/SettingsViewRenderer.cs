@@ -283,11 +283,7 @@ namespace AiForms.Renderers.Droid
 
             var section = contentHolder.RowInfo.Section;
             var pos = section.IndexOf(contentHolder.RowInfo.Cell);
-            //var pos = section.ToList().IndexOf(contentHolder.RowInfo.Cell);
-            if(pos == -1)
-            {
-                ;
-            }
+
             if(section.ItemsSource == null){
                 section.MoveCellWithoutNotify(pos, pos + _offset);            
             }

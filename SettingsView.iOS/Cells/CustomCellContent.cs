@@ -1,21 +1,19 @@
 ﻿using System;
-using UIKit;
-using Xamarin.Forms.Platform.iOS;
-using Xamarin.Forms;
-using System.Reflection;
 using System.ComponentModel;
 using CoreGraphics;
+using UIKit;
+using Xamarin.Forms;
+using Xamarin.Forms.Platform.iOS;
 
 namespace AiForms.Renderers.iOS
 {
-    public class CustomHeaderFooterView:UITableViewHeaderFooterView
+    public class CustomCellContent:UIView
     {
         WeakReference<IVisualElementRenderer> _rendererRef;
         bool _disposed;
 
         View _formsCell;
-        public View FormsCell
-        {
+        public View FormsCell {
             get { return _formsCell; }
             set {
                 if (_formsCell == value)
@@ -24,9 +22,7 @@ namespace AiForms.Renderers.iOS
             }
         }
 
-        public CustomHeaderFooterView(IntPtr handle):base(handle)
-        {
-        }
+        public CustomCellContent() { }
 
         protected override void Dispose(bool disposing)
         {
@@ -45,7 +41,7 @@ namespace AiForms.Renderers.iOS
 
                 IVisualElementRenderer renderer = null;
                 if (_rendererRef != null && _rendererRef.TryGetTarget(out renderer) && renderer.Element != null)
-                {   
+                {
                     FormsInternals.DisposeModelAndChildrenRenderers(renderer.Element);
                     _rendererRef = null;
                 }
@@ -89,8 +85,12 @@ namespace AiForms.Renderers.iOS
             //This sets the content views frame.
             base.LayoutSubviews();
 
-            var contentFrame = ContentView.Frame;
+            SizeToFit();
+
+            var contentFrame = Frame;
             var view = FormsCell;
+
+
 
             Layout.LayoutChildIntoBoundingRegion(view, contentFrame.ToRectangle());
 
@@ -100,8 +100,14 @@ namespace AiForms.Renderers.iOS
             IVisualElementRenderer renderer;
             if (_rendererRef.TryGetTarget(out renderer))
                 renderer.NativeView.Frame = view.Bounds.ToRectangleF();
-                
+
+            var constraint = this.HeightAnchor.ConstraintEqualTo(Frame.Height);
+            constraint.Priority = 999f;
+            constraint.Active = true;
+
+            UpdateConstraintsIfNeeded();
         }
+
 
         public override CGSize SizeThatFits(CGSize size)
         {
@@ -121,12 +127,12 @@ namespace AiForms.Renderers.iOS
 
         protected virtual void UpdateCell(View cell)
         {
-            if(_formsCell != null)
+            if (_formsCell != null)
             {
                 _formsCell.PropertyChanged -= CellPropertyChanged;
             }
             _formsCell = cell;
-            _formsCell.PropertyChanged += CellPropertyChanged;           
+            _formsCell.PropertyChanged += CellPropertyChanged;
 
             IVisualElementRenderer renderer;
             if (_rendererRef == null || !_rendererRef.TryGetTarget(out renderer))
@@ -153,14 +159,16 @@ namespace AiForms.Renderers.iOS
             }
 
             Platform.SetRenderer(this._formsCell, renderer);
-            UpdateNativeCell();          
+            UpdateNativeCell();
         }
 
         protected virtual IVisualElementRenderer GetNewRenderer()
         {
             var newRenderer = Platform.CreateRenderer(_formsCell);
             _rendererRef = new WeakReference<IVisualElementRenderer>(newRenderer);
-            ContentView.AddSubview(newRenderer.NativeView);
+            var asdf = this.Frame;
+            AddSubview(newRenderer.NativeView);
+
             return newRenderer;
         }
     }

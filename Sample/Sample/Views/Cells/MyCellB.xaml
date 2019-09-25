@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<sv:CustomCell xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+          xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
+             x:Class="Sample.Views.Cells.MyCellB" IsSelectable="False" ShowArrowIndicator="False">
+
+    <StackLayout BackgroundColor="Green">
+        <Button Text="Hoge" />
+        <Button Text="Fuga" />
+        <BoxView Color="Red" HeightRequest="20" />
+        <Label Text="AAAAAAAAAAAAAAA" />
+    </StackLayout>      
+
+</sv:CustomCell>

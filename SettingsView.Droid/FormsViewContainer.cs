@@ -12,7 +12,7 @@ using Android.Graphics.Drawables;
 namespace AiForms.Renderers.Droid
 {
     [Android.Runtime.Preserve(AllMembers = true)]
-    internal class HeaderFooterContainer: FrameLayout, INativeElementView
+    internal class FormsViewContainer: FrameLayout, INativeElementView
     {
         // Get internal members
         static Type DefaultRenderer = typeof(Platform).Assembly.GetType("Xamarin.Forms.Platform.Android.Platform+DefaultRenderer");
@@ -20,12 +20,14 @@ namespace AiForms.Renderers.Droid
         public ViewHolder ViewHolder { get; set; }
         public Element Element => FormsCell;
         public bool IsEmpty => _formsCell == null;
+        public bool IsMeasureOnce => CustomCell?.IsMeasureOnce ?? false;
+        public CustomCell CustomCell { get; set; }
 
         IVisualElementRenderer _renderer;
 
         SettingsView CellParent => FormsCell.Parent as SettingsView;       
 
-        public HeaderFooterContainer(Context context) : base(context)
+        public FormsViewContainer(Context context) : base(context)
         {
             Clickable = true;
         }
@@ -38,6 +40,11 @@ namespace AiForms.Renderers.Droid
                     return;
                 UpdateCell(value);
             }
+        }
+
+        public override bool OnTouchEvent(MotionEvent e)
+        {
+            return false;
         }
 
         protected override void Dispose(bool disposing)
@@ -75,14 +82,23 @@ namespace AiForms.Renderers.Droid
             _renderer.UpdateLayout();
         }
 
+        int _heightCache;
+
         protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
         {
             int width = MeasureSpec.GetSize(widthMeasureSpec);
+
+            if(IsMeasureOnce && _heightCache > 0)
+            {
+                SetMeasuredDimension(width, _heightCache);
+                return;
+            }
 
             SizeRequest measure = _renderer.Element.Measure(Context.FromPixels(width), double.PositiveInfinity, MeasureFlags.IncludeMargins);
             int height = (int)Context.ToPixels(measure.Request.Height);
 
             SetMeasuredDimension(width, height);
+            _heightCache = height;
         }
 
         public virtual void CellPropertyChanged(object sender, PropertyChangedEventArgs e)

@@ -205,7 +205,8 @@
     <Compile Include="ModelProxy.cs" />
     <Compile Include="SVItemdecoration.cs" />
     <Compile Include="ViewHolders.cs" />
-    <Compile Include="HeaderFooterContainer.cs" />
+    <Compile Include="FormsViewContainer.cs" />
+    <Compile Include="Cells\CustomCellRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

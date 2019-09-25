@@ -143,11 +143,11 @@ namespace AiForms.Renderers.Droid
                     viewHolder = new FooterViewHolder(inflater.Inflate(Resource.Layout.FooterCell, parent, false));
                     break;
                 case ViewType.CustomHeader:
-                    var hContainer = new HeaderFooterContainer(_context);
+                    var hContainer = new FormsViewContainer(_context);
                     viewHolder = new CustomHeaderViewHolder(hContainer);
                     break;
                 case ViewType.CustomFooter:
-                    var fContainer = new HeaderFooterContainer(_context);
+                    var fContainer = new FormsViewContainer(_context);
                     viewHolder = new CustomFooterViewHolder(fContainer);
                     break;
                 default:
@@ -366,7 +366,7 @@ namespace AiForms.Renderers.Droid
 
         void BindCustomHeaderFooterView(ViewHolder holder, Xamarin.Forms.View formsView)
         {
-            var nativeCell = holder.ItemView as HeaderFooterContainer;
+            var nativeCell = holder.ItemView as FormsViewContainer;
             nativeCell.FormsCell = formsView;
         }
 
