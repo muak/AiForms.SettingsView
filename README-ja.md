@@ -18,6 +18,7 @@ AndroidとiOSに対応しています。
 * セクションごとの表示・非表示の設定
 * セクションのフッターの設定
 * ヘッダーとフッターの様々な設定
+* ヘッダーとフッターにFormsのViewを設定
 * セクション内にDataTemplateおよびDataTemplateSelectorを適用
 * セクション内でドラッグドラッグによる並べ替え
 
@@ -213,6 +214,9 @@ SettingsViewのプロパティ設定はApp.xamlに記述した方が良いかも
 	* 行の境界線をセクションの上と下にも表示するかどうか
 	* （一般的なAndroidアプリでありがちな上と下は表示しないようにしないかどうか）
 	* デフォルトはtrue（表示する）
+* ShowArrowIndicatorForAndroid
+  * CommandCell や PickerCell で 右端の矢印アイコンを Android でも表示するかどうか
+  * デフォルトは false (表示しない)
 * ScrollToTop
 * ScrollToBottom
 	* このプロパティにtrueをセットすると先頭または末尾までスクロールします。
@@ -311,8 +315,28 @@ public class MenuSection:List<MenuItem>
 	* セクション内のセルをDragDropで並べ替え可能にします。
 	* iOS11以降とそれ以外で外観が異なります。
 	* iOS10以下は三本線のアイコンを掴むと移動でき、iOS11はセル全体を長押しすると移動できるようになります。
+* HeaderView
+* FooterView
+  * Header または Footer に Forms の View を指定します。
+  > こちらを設定すると Title や FooterText も文字列は無効になります。
+  > HeaderView と FooterView を使用するとセルの高さは自動になります。
 
-### セクションのItemsSourceとItemTemplateの使用例
+### Section HeaderView FooterView XAMLからの使用例
+
+```xml
+<sv:Section>
+    <sv:Section.HeaderView>
+        <StackLayout>
+            <Label Text="Header" />
+        </StackLayout>
+    </sv:Section.HeaderView>
+    <sv:Section.FooterView>
+        <Label Text="{Binding FooterText}" />
+    </sv:Section.FooterView>
+</sv:Section>
+```
+
+### SectionのItemsSourceとItemTemplateの使用例
 
 ```csharp
 public class SomeModel
@@ -356,6 +380,7 @@ public class Option
 * [TextPickerCell](#textpickercell)
 * [PickerCell](#pickercell)
 * [EntryCell](#entrycell)
+* [CustomCell](#customcell)
 
 ## CellBase
 
@@ -614,10 +639,15 @@ Androidではタップ時にダイアログでピッカーが表示されます�
     * Pickerに選択肢として表示させるメンバー名（プロパティ名）。省略時はToStringの値が使用されます。
 * SubDisplayMember
 	* Pickerに表示させる二番目のメンバー名（プロパティ名）。指定するとセルは2行表示となり、1行目にDisplayMemberが、2行目にSubDisplayMemberが表示されるようになります。
+* SelectionMode
+  * 複数選択か単一選択かのモードを Single / Multiple から選択。デフォルト Multiple。
+* SelectedItem
+  * 単一選択の場合の選択されたアイテム。
 * SelectedItems
-    * 選択したItemを保存するためのIList。ItemsSourceと同じ型のものを指定。
-	* 選択済み要素をあらかじめ設定する場合は、ItemsSourceの要素と同一インスタンスの要素にする必要があります。
-    * 指定する場合は必ずnullではなくインスタンス設定済みのものを指定する。
+  * 複数選択の場合の選択されたアイテム。
+  * 選択したItemを保存するためのIList。ItemsSourceと同じ型のものを指定。
+  * 選択済み要素をあらかじめ設定する場合は、ItemsSourceの要素と同一インスタンスの要素にする必要があります。
+  * 指定する場合は必ずnullではなくインスタンス設定済みのものを指定する。
 * SelectedItemsOrderKey
 	* 選択済みItemを文字列として表示する時のソートのキーとなるメンバー（プロパティ）名
 * SelectedCommand
@@ -666,6 +696,42 @@ Xamarin.Forms.EntryCellとは別物です。
     * 入力欄の下線の色（Androidのみ）
 * IsPassword
     * パスワードなどのために入力文字を隠すかどうか。
+* CompletedCommand
+  * エンターによる文字入力の確定、またはフォーカス移動による確定時に発火するコマンド。
+
+### Methods
+
+* SetFocus
+  * フォーカスを設定します。
+
+## CustomCell
+
+真ん中の Title / ValueText / Description の部分を Forms View で自由に設定できるCellです。View部分はXAMLで指定することができます。
+基本的には CustomCell のサブクラスを作成し、それを利用する形で使用されることを想定しています。
+
+## Properties
+
+* ShowArrowIndicator
+  * セルの右端に矢印インジケータを表示するかどうか。
+  * true で iOS / Android に関わらず矢印を表示します。
+* IsSelectable
+  * 行を選択可能かどうか。true で Commandが発火するようになります。
+* IsMeasureOnce
+  * サイズ計算を1回だけ行うかどうか。デフォルト false。
+  * 高さが内容によって変わらないような場合にサイズ計算を省略することができます。
+* UseFullSize
+  * true で自由領域を範囲を余白なしで目一杯使うようにします。
+  > 有効にした場合、アイコンの設定は無効になります。
+* Command
+* CommandParameter
+* KeepSelectedUntilBack
+	* タップして次のページに遷移した時、遷移先ページから戻ってくるまで選択状態をそのままにしておくかの設定
+	* trueの場合は選択状態をキープして、falseの場合は選択はすぐに解除されます。
+
+### CustomCellの使用例
+
+https://github.com/muak/AiForms.SettingsView/tree/development/Sample/Sample/Views/Cells
+https://github.com/muak/AiForms.SettingsView/blob/development/Sample/Sample/Views/CustomCellTest.xaml
 
 ## Contributors
 
@@ -679,6 +745,14 @@ NaturalSortの実装に以下のソースを利用させていただきました
 * NaturalComparer
 	* https://qiita.com/tomochan154/items/1a3048f2cd9755233b4f
     * https://github.com/tomochan154/toy-box/blob/master/NaturalComparer.cs
+
+## 寄付
+
+開発継続のため、寄付を募集しています。
+寄付をいただけるとやる気が非常にアップしますので、どうかよろしくお願いいたします🙇
+
+* [PayPalMe](https://paypal.me/kamusoftJP?locale.x=ja_JP)
+
 
 ## License
 

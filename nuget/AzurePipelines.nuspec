@@ -11,7 +11,7 @@
         <iconUrl>https://raw.githubusercontent.com/muak/AiForms.SettingsView/master/images/icon.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>This is a flexible TableView specialized in settings for Android / iOS. 
-There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,CheckboxCell,RadioCell,PickerCell,EntryCell,NumberPickerCell,TimePickerCell,DatePickerCell)
+There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,CheckboxCell,RadioCell,PickerCell,EntryCell,NumberPickerCell,TimePickerCell,DatePickerCell,CustomCell)
         </description>
         <summary></summary>
         <releaseNotes>
@@ -30,6 +30,7 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
 
 * EntryCell's keyboard is now hidden when scrolling on iOS. #59
 * EntryCell Completed event is now occurred when a cell is lost focus too.
+* Improved cell maniputation performance.
 
 ## Bug fixes
 

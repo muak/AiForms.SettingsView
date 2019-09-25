@@ -19,6 +19,7 @@ This is a flexible TableView specialized in settings for Android / iOS.
 * To set IsVisible each section.
 * To set section a footer.
 * To set various options of a header and  a footer.
+* To set Forms View to a section header and footer.
 * To use DataTemplate and DataTemplateSelector in a section.
 * To reorder items by drag and drop in a section.
 
@@ -212,6 +213,8 @@ Whereby any SettingsView in App will become the same property setttings.
 * ShowSectionTopBottomBorder (for Android)
 	* Whether a separator is shown at section top and bottom. (like general android app)
     * Default true
+* ShowArrowIndicatorForAndroid
+  * Whether a right arrow icon is shown at the right side in a CommandCel and PickerCell on Android.
 * ScrollToTop
 * ScrollToBottom
 	* When this property is set to true, the screen will be scrolled to first item position or last item position.
@@ -309,6 +312,26 @@ public class MenuSection:List<MenuItem>
 * UseDragSort
 	* Enable you to reorder cells in a section with drag and drop.
 	* If iOS version is less than or equal to iOS10, the cells can be moved when grabbing the icon drawn three lines; Otherwise can be moved when doing long tap.
+* HeaderView
+* FooterView
+  * Set a Forms View to Header or Footer.
+  > Once these are set, Title or FooterText is disabled.
+  > If HeaderView or FooterView is used, the cell height turns auto size.
+
+### Example for Section HeaderView FooterView with XAML
+
+```xml
+<sv:Section>
+    <sv:Section.HeaderView>
+        <StackLayout>
+            <Label Text="Header" />
+        </StackLayout>
+    </sv:Section.HeaderView>
+    <sv:Section.FooterView>
+        <Label Text="{Binding FooterText}" />
+    </sv:Section.FooterView>
+</sv:Section>
+```
 
 ### How to use an ItemsSource and an ItemTemplate for a Section
 
@@ -354,6 +377,7 @@ public class Option
 * [TextPickerCell](#textpickercell)
 * [PickerCell](#pickercell)
 * [EntryCell](#entrycell)
+* [CustomCell](#customcell)
 
 ## CellBase
 
@@ -607,9 +631,14 @@ When tapped on Android, show the picker on a dialog.
     * Class member(property) name Displayed on the picker.
 * SubDisplayMember
 	 * Class member(property) name secondary displayed on the Picker. If this property is set, the cell will be two line and the first line will display DisplayMember and the second line will display SubDisplayMember.
+* SelectionMode
+  * Whether SelectionMode is Single or Multiple. Default Multiple.
+* SelectedItem
+  * If SelectionMode is Single, a selected item assigned.
 * SelectedItems
-    * IList where selected items is stored.
-    * This have to assing a instance and must not null.
+  * If SelectionMode is Multiple, selected items assigned.
+  * IList where selected items is stored.
+  * This have to assing a instance and must not null.
 * SelectedItemsOrderKey
     * Class member(Property) name that becomes a order key when selected items is displayed  as text.
 * SelectedCommand
@@ -654,6 +683,44 @@ This is a cell inputing some text.
     * Under line color on focus. (only android)
 * IsPassword
     * Whether the input text is hidden or not for password.
+* CompletedCommand
+  * A command invoked When completing to input or losing the focus.
+
+### Methods
+
+* SetFocus
+  * Set the EntryCell focus to show the soft keyboard.
+
+## CustomCell
+
+This is a cell that custom layout can be freely set in the center of Layout (blocks of the Title and ValueText and Description).
+The forms view can be specified with XAML.
+
+It is envisaged that makes use of subclass of CustomCell.
+
+## Properties
+
+* ShowArrowIndicator
+  * Whether the arrow indicator is shown at the right side.
+  * If true, the arrow is shown regardless of iOS and Android.
+* IsSelectable
+  * Whether a row can be selected. If true, the Command can be invoked.
+* IsMeasureOnce
+  * Whether a size calculation does just once. Default false.
+  * If the height doesn't change depending on the cell contents, a size calculation can be omitted.
+* UseFullSize
+  * If true, the custom area uses full of the layout without paddings.
+  > If this property is enabled, the icon settings turn disabled.
+* Command
+    * Invoked action.
+* CommandParameter
+* KeepSelectedUntilBack
+    * When moving next page, whether keep the cell selected until being back to the page.
+
+### Example for CustomCell
+
+https://github.com/muak/AiForms.SettingsView/tree/development/Sample/Sample/Views/Cells
+https://github.com/muak/AiForms.SettingsView/blob/development/Sample/Sample/Views/CustomCellTest.xaml
 
 ## Contributors
 
@@ -663,6 +730,14 @@ This is a cell inputing some text.
 
 * NaturalComparer
     * https://github.com/tomochan154/toy-box/blob/master/NaturalComparer.cs
+
+## Donation
+
+I am asking for your donation for continuous development🙇
+Your donation will allow me to work harder and harder.
+
+* [PayPalMe](https://paypal.me/kamusoftJP?locale.x=ja_JP)
+
 
 ## License
 
