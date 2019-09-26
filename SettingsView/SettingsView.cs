@@ -161,6 +161,11 @@ namespace AiForms.Renderers
 
         new void OnModelChanged()
         {
+            if(Root == null)
+            {
+                return;
+            }
+
             foreach(var section in Root)
             {
                 if (section.HeaderView != null)
