@@ -6,6 +6,7 @@ using System.Collections.Specialized;
 using System;
 using Foundation;
 using System.Linq;
+using System.ComponentModel;
 
 [assembly: ExportRenderer(typeof(PickerCell), typeof(PickerCellRenderer))]
 namespace AiForms.Renderers.iOS
@@ -24,7 +25,6 @@ namespace AiForms.Renderers.iOS
     {
         PickerCell _PickerCell => Cell as PickerCell;
         PickerTableViewController _pickerVC;
-        string _valueTextCache;
         INotifyCollectionChanged _notifyCollection;
         INotifyCollectionChanged _selectedCollection;
 
@@ -53,11 +53,11 @@ namespace AiForms.Renderers.iOS
                 e.PropertyName == PickerCell.DisplayMemberProperty.PropertyName ||
                 e.PropertyName == PickerCell.UseNaturalSortProperty.PropertyName ||
                 e.PropertyName == PickerCell.SelectedItemsOrderKeyProperty.PropertyName) {
-                UpdateSelectedItems(true);
+                UpdateSelectedItems();
             }
             if(e.PropertyName == PickerCell.UseAutoValueTextProperty.PropertyName){
                 if(_PickerCell.UseAutoValueText){
-                    UpdateSelectedItems(true);
+                    UpdateSelectedItems();
                 }
                 else{
                     base.UpdateValueText();
@@ -65,7 +65,7 @@ namespace AiForms.Renderers.iOS
             }
             if(e.PropertyName == PickerCell.ItemsSourceProperty.PropertyName){
                 UpdateCollectionChanged();
-                UpdateSelectedItems(true);
+                UpdateSelectedItems();
             }
         }
 
@@ -107,24 +107,25 @@ namespace AiForms.Renderers.iOS
         /// Updates the selected items.
         /// </summary>
         /// <param name="force">If set to <c>true</c> force.</param>
-        public void UpdateSelectedItems(bool force = false)
+        public void UpdateSelectedItems()
         {
             if(!_PickerCell.UseAutoValueText){
                 return;
             }
 
-            if (force || string.IsNullOrEmpty(_valueTextCache)) {
-                if (_selectedCollection != null) {
-                    _selectedCollection.CollectionChanged -= SelectedItems_CollectionChanged;
-                }
-                _selectedCollection = _PickerCell.SelectedItems as INotifyCollectionChanged;
-                if (_selectedCollection != null) {
-                    _selectedCollection.CollectionChanged += SelectedItems_CollectionChanged;
-                }
-                _valueTextCache = _PickerCell.GetSelectedItemsText();
+            if (_selectedCollection != null) 
+            {
+                _selectedCollection.CollectionChanged -= SelectedItems_CollectionChanged;
             }
 
-            ValueLabel.Text = _valueTextCache;
+            _selectedCollection = _PickerCell.SelectedItems as INotifyCollectionChanged;
+
+            if (_selectedCollection != null) 
+            {
+                _selectedCollection.CollectionChanged += SelectedItems_CollectionChanged;
+            }
+
+            ValueLabel.Text = _PickerCell.GetSelectedItemsText();
         }
 
         void UpdateCollectionChanged()
@@ -164,7 +165,7 @@ namespace AiForms.Renderers.iOS
 
         void SelectedItems_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            UpdateSelectedItems(true);
+            UpdateSelectedItems();
         }
 
         /// <summary>
