@@ -125,6 +125,7 @@ namespace AiForms.Renderers.Droid
                 Body?.Dispose();
                 Body = null;
                 ItemView.SetOnClickListener(null);
+                ItemView.SetOnLongClickListener(null);
             }
             base.Dispose(disposing);
         }

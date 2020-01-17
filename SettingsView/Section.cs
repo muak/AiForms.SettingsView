@@ -89,6 +89,67 @@ namespace AiForms.Renderers
             CollectionChanged += OnCollectionChanged;
         }
 
+        public (Cell Cell,Object Item) DeleteSourceItemWithoutNotify(int from)
+        {
+            CollectionChanged -= OnCollectionChanged;
+            var notifyCollection = ItemsSource as INotifyCollectionChanged;
+            if (notifyCollection != null)
+            {
+                notifyCollection.CollectionChanged -= OnItemsSourceCollectionChanged;
+            }
+
+            var deletedItem = ItemsSource[from];
+            ItemsSource.RemoveAt(from);
+
+            var deletedCell = this[from];
+            this.RemoveAt(from);
+
+            if (notifyCollection != null)
+            {
+                notifyCollection.CollectionChanged += OnItemsSourceCollectionChanged;
+            }
+
+            CollectionChanged += OnCollectionChanged;
+
+            return (deletedCell, deletedItem);
+        }
+
+        public void InsertSourceItemWithoutNotify(Cell cell,Object item, int to)
+        {
+            CollectionChanged -= OnCollectionChanged;
+            var notifyCollection = ItemsSource as INotifyCollectionChanged;
+            if (notifyCollection != null)
+            {
+                notifyCollection.CollectionChanged -= OnItemsSourceCollectionChanged;
+            }
+
+            ItemsSource.Insert(to, item);
+            Insert(to, cell);
+
+            if (notifyCollection != null)
+            {
+                notifyCollection.CollectionChanged += OnItemsSourceCollectionChanged;
+            }
+
+            CollectionChanged += OnCollectionChanged;
+        }
+
+        public Cell DeleteCellWithoutNotify(int from)
+        {
+            var deletedCell = this[from];
+            CollectionChanged -= OnCollectionChanged;
+            RemoveAt(from);
+            CollectionChanged += OnCollectionChanged;
+            return deletedCell;
+        }
+
+        public void InsertCellWithoutNotify(Cell cell,int to)
+        {
+            CollectionChanged -= OnCollectionChanged;
+            Insert(to, cell);
+            CollectionChanged += OnCollectionChanged;
+        }
+
         void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             SectionCollectionChanged?.Invoke(this, e);
@@ -285,6 +346,23 @@ namespace AiForms.Renderers
             set { SetValue(UseDragSortProperty, value); }
         }
 
+        public static BindableProperty TemplateStartIndexProperty =
+            BindableProperty.Create(
+                nameof(TemplateStartIndex),
+                typeof(int),
+                typeof(Section),
+                default(int),
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        public int TemplateStartIndex
+        {
+            get { return (int)GetValue(TemplateStartIndexProperty); }
+            set { SetValue(TemplateStartIndexProperty, value); }
+        }
+
+        int templatedItemsCount;
+
         static void ItemsChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var section = (Section)bindable;
@@ -294,9 +372,11 @@ namespace AiForms.Renderers
                 return;
             }
 
+            IList oldValueAsEnumerable;
             IList newValueAsEnumerable;
             try
             {
+                oldValueAsEnumerable = oldValue as IList;
                 newValueAsEnumerable = newValue as IList;
             }
             catch (Exception e)
@@ -311,6 +391,24 @@ namespace AiForms.Renderers
                 oldObservableCollection.CollectionChanged -= section.OnItemsSourceCollectionChanged;
             }
 
+            if (oldValueAsEnumerable != null)
+            {
+                for (var i = oldValueAsEnumerable.Count - 1; i >= 0; i--)
+                {
+                    section.RemoveAt(section.TemplateStartIndex + i);
+                }
+            }
+
+            if (newValueAsEnumerable != null)
+            {
+                for (var i = 0; i < newValueAsEnumerable.Count; i++)
+                {
+                    var view = CreateChildViewFor(section.ItemTemplate, newValueAsEnumerable[i], section);
+                    section.Insert(section.TemplateStartIndex + i, view);
+                }
+                section.templatedItemsCount = newValueAsEnumerable.Count;
+            }
+
             var newObservableCollection = newValue as INotifyCollectionChanged;
 
             if (newObservableCollection != null)
@@ -318,17 +416,8 @@ namespace AiForms.Renderers
                 newObservableCollection.CollectionChanged += section.OnItemsSourceCollectionChanged;
             }
 
-            section.Clear();
-
-            if (newValueAsEnumerable != null)
-            {
-                foreach (var item in newValueAsEnumerable)
-                {
-                    var view = CreateChildViewFor(section.ItemTemplate, item, section);
-
-                    section.Add(view);
-                }
-            }
+            // Notify manually Collection Reset.
+            section.SectionCollectionChanged?.Invoke(section,new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
         void OnItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -336,12 +425,12 @@ namespace AiForms.Renderers
             if (e.Action == NotifyCollectionChangedAction.Replace)
             {
 
-                this.RemoveAt(e.OldStartingIndex);
+                RemoveAt(e.OldStartingIndex + TemplateStartIndex);
 
                 var item = e.NewItems[e.NewStartingIndex];
-                var view = CreateChildViewFor(this.ItemTemplate, item, this);
+                var view = CreateChildViewFor(ItemTemplate, item, this);
 
-                this.Insert(e.NewStartingIndex, view);
+                Insert(e.NewStartingIndex + TemplateStartIndex, view);
             }
 
             else if (e.Action == NotifyCollectionChangedAction.Add)
@@ -351,9 +440,10 @@ namespace AiForms.Renderers
                     for (var i = 0; i < e.NewItems.Count; i++)
                     {
                         var item = e.NewItems[i];
-                        var view = CreateChildViewFor(this.ItemTemplate, item, this);
+                        var view = CreateChildViewFor(ItemTemplate, item, this);
 
-                        this.Insert(i + e.NewStartingIndex, view);
+                        Insert(i + e.NewStartingIndex + TemplateStartIndex, view);
+                        templatedItemsCount++;
                     }
                 }
             }
@@ -362,13 +452,20 @@ namespace AiForms.Renderers
             {
                 if (e.OldItems != null)
                 {
-                    this.RemoveAt(e.OldStartingIndex);
+                    RemoveAt(e.OldStartingIndex + TemplateStartIndex);
+                    templatedItemsCount--;
                 }
             }
 
             else if (e.Action == NotifyCollectionChangedAction.Reset)
             {
-                this.Clear();
+                //this.Clear();
+                IList source = ItemsSource as IList;
+                for (var i = templatedItemsCount - 1; i >= 0; i--)
+                {
+                    RemoveAt(TemplateStartIndex + i);
+                }
+                templatedItemsCount = 0;
             }
 
             else

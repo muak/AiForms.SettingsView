@@ -252,6 +252,17 @@ namespace AiForms.Renderers.Droid
         }
 
         /// <summary>
+        /// Rows the long pressed.
+        /// </summary>
+        /// <returns><c>true</c>, if long pressed was rowed, <c>false</c> otherwise.</returns>
+        /// <param name="adapter">Adapter.</param>
+        /// <param name="position">Position.</param>
+        public virtual bool RowLongPressed(SettingsViewRecyclerAdapter adapter, int position)
+        {
+            return false;
+        }
+
+        /// <summary>
         /// Updates the with force layout.
         /// </summary>
         /// <param name="updateAction">Update action.</param>

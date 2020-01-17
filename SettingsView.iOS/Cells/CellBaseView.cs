@@ -190,6 +190,11 @@ namespace AiForms.Renderers.iOS
         {
         }
 
+        public virtual bool RowLongPressed(UITableView tableView,NSIndexPath indexPath)
+        {
+            return false;
+        }
+
         /// <summary>
         /// Updates the with force layout.
         /// </summary>

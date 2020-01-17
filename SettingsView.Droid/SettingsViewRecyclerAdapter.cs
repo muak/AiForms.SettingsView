@@ -17,7 +17,7 @@ namespace AiForms.Renderers.Droid
     /// Settings view recycler adapter.
     /// </summary>
     [Android.Runtime.Preserve(AllMembers = true)]
-    public class SettingsViewRecyclerAdapter:RecyclerView.Adapter,AView.IOnClickListener
+    public class SettingsViewRecyclerAdapter:RecyclerView.Adapter,AView.IOnClickListener, AView.IOnLongClickListener
     {
         float MinRowHeight => _context.ToPixels(44);
 
@@ -143,16 +143,17 @@ namespace AiForms.Renderers.Droid
                     viewHolder = new FooterViewHolder(inflater.Inflate(Resource.Layout.FooterCell, parent, false));
                     break;
                 case ViewType.CustomHeader:
-                    var hContainer = new FormsViewContainer(_context);
+                    var hContainer = new HeaderFooterContainer(_context);
                     viewHolder = new CustomHeaderViewHolder(hContainer);
                     break;
                 case ViewType.CustomFooter:
-                    var fContainer = new FormsViewContainer(_context);
+                    var fContainer = new HeaderFooterContainer(_context);
                     viewHolder = new CustomFooterViewHolder(fContainer);
                     break;
                 default:
                     viewHolder = new ContentViewHolder(inflater.Inflate(Resource.Layout.ContentCell, parent, false));
                     viewHolder.ItemView.SetOnClickListener(this);
+                    viewHolder.ItemView.SetOnLongClickListener(this);
                     break;
             }
 
@@ -228,6 +229,32 @@ namespace AiForms.Renderers.Droid
             _settingsView.Model.RowSelected(_proxy[position].Cell);
 
             cell.RowSelected(this,position);
+        }
+
+        public virtual bool OnLongClick(AView v)
+        {
+            var position = _recyclerView.GetChildAdapterPosition(v);
+
+            DeselectRow();
+
+            if(_proxy[position].Section.UseDragSort)
+            {
+                return false;
+            }
+
+            var cell = v.FindViewById<LinearLayout>(Resource.Id.ContentCellBody).GetChildAt(0) as CellBaseView;
+
+            if (cell == null || !_proxy[position].Cell.IsEnabled)
+            {
+                //if FormsCell IsEnable is false, does nothing. 
+                return false;
+            }
+
+            _settingsView.Model.RowLongPressed(_proxy[position].Cell);
+
+            cell.RowLongPressed(this, position);
+
+            return true;
         }
 
 
@@ -366,7 +393,7 @@ namespace AiForms.Renderers.Droid
 
         void BindCustomHeaderFooterView(ViewHolder holder, Xamarin.Forms.View formsView)
         {
-            var nativeCell = holder.ItemView as FormsViewContainer;
+            var nativeCell = holder.ItemView as HeaderFooterContainer;
             nativeCell.FormsCell = formsView;
         }
 

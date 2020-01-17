@@ -61,8 +61,8 @@ namespace AiForms.Renderers.iOS
         /// <param name="indexPath">Index path.</param>
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            Execute?.Invoke();
             tableView.DeselectRow(indexPath, true);
+            Execute?.Invoke();
         }
 
         /// <summary>

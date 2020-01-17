@@ -8,6 +8,8 @@ using Xamarin.Forms.Platform.iOS;
 using AiForms.Renderers;
 using AiForms.Renderers.iOS;
 using Xamarin.Forms.Internals;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 [assembly: ExportRenderer(typeof(CustomCell), typeof(CustomCellRenderer))]
 namespace AiForms.Renderers.iOS
@@ -22,6 +24,7 @@ namespace AiForms.Renderers.iOS
         protected Action Execute { get; set; }
         protected ICommand _command;
         protected CustomCellContent _coreView;
+        Dictionary<UIView, UIColor> _colorCache = new Dictionary<UIView, UIColor>();
 
         public CustomCellView(Cell formsCell) : base(formsCell)
         {
@@ -101,6 +104,71 @@ namespace AiForms.Renderers.iOS
             }
         }
 
+        public override bool RowLongPressed(UITableView tableView, NSIndexPath indexPath)
+        {
+            if(CustomCell.LongCommand == null)
+            {
+                return false;
+            }
+
+            CustomCell.SendLongCommand();
+
+            return true;
+        }
+
+        public override void SetHighlighted(bool highlighted, bool animated)
+        {
+            if(!highlighted)
+            {
+                base.SetHighlighted(highlighted, animated);
+                return;
+            }
+
+            // https://stackoverflow.com/questions/6745919/uitableviewcell-subview-disappears-when-cell-is-selected
+
+            BackupSubviewsColor(_coreView.Subviews[0], _colorCache);
+
+            base.SetHighlighted(highlighted, animated);
+
+            RestoreSubviewsColor(_coreView.Subviews[0], _colorCache);
+        }
+
+        public override void SetSelected(bool selected, bool animated)
+        {
+            if (!selected)
+            {
+                base.SetSelected(selected, animated);
+                return;
+            }
+
+            base.SetSelected(selected, animated);
+
+            RestoreSubviewsColor(_coreView.Subviews[0], _colorCache);
+        }
+
+        void BackupSubviewsColor(UIView view,Dictionary<UIView,UIColor> colors)
+        {
+            colors[view] = view.BackgroundColor;
+           
+            foreach (UIView subView in view.Subviews)
+            {
+                BackupSubviewsColor(subView,colors);
+            }
+        }
+
+        void RestoreSubviewsColor(UIView view, Dictionary<UIView, UIColor> colors)
+        {
+            if(colors.TryGetValue(view,out var color))
+            {
+                view.BackgroundColor = color;
+            }
+
+            foreach (UIView subView in view.Subviews)
+            {
+                RestoreSubviewsColor(subView, colors);
+            }
+        }
+
         /// <summary>
         /// Updates the cell.
         /// </summary>
@@ -119,13 +187,16 @@ namespace AiForms.Renderers.iOS
         protected override void Dispose(bool disposing)
         {
             if (disposing)
-            {
+            {               
                 if (_command != null)
                 {
                     _command.CanExecuteChanged -= Command_CanExecuteChanged;
                 }
                 Execute = null;
                 _command = null;
+
+                _colorCache.Clear();
+                _colorCache = null;
 
                 _coreView?.RemoveFromSuperview();
                 _coreView?.Dispose();

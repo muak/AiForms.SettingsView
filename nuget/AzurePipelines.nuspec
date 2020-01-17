@@ -23,6 +23,7 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
 * [PickerCell] SelectionMode property
 * [PickerCell] SelectedItem property
 * [SettingsView] ShowArrowIndicatorForAndroid Property – show an arrow indicator at the right side of CommandCell and PickerCell.
+* [SettingsView] TemplateStartIndex property – the index that starts inserting the template.
 * [Section] HeaderView and FooterView property – can set a Forms view to a section header / footer.
 
 

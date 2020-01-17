@@ -1,6 +1,7 @@
 ﻿using System;
 using AiForms.Renderers;
 using Xamarin.Forms;
+using System.Windows.Input;
 
 namespace AiForms.Renderers
 {
@@ -115,6 +116,21 @@ namespace AiForms.Renderers
             set { SetValue(UseFullSizeProperty, value); }
         }
 
+        public static BindableProperty LongCommandProperty =
+            BindableProperty.Create(
+                nameof(LongCommand),
+                typeof(ICommand),
+                typeof(CustomCell),
+                default(ICommand),
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        public ICommand LongCommand
+        {
+            get { return (ICommand)GetValue(LongCommandProperty); }
+            set { SetValue(LongCommandProperty, value); }
+        }
+
         /// <summary>
         /// Ons the binding context changed.
         /// </summary>
@@ -136,6 +152,19 @@ namespace AiForms.Renderers
             if(Content != null)
             {
                 Content.Parent = Parent;
+            }
+        }
+
+        public void SendLongCommand()
+        {
+            if (LongCommand == null)
+            {
+                return;
+            }
+
+            if (LongCommand.CanExecute(BindingContext))
+            {
+                LongCommand.Execute(BindingContext);
             }
         }
     }

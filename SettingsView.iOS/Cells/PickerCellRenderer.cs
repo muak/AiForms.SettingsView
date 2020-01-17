@@ -197,6 +197,11 @@ namespace AiForms.Renderers.iOS
         UINavigationController GetUINavigationController(UIViewController controller)
         {
             if (controller != null) {
+                if (controller.PresentedViewController != null)
+                {
+                    // on modal page
+                    return GetUINavigationController(controller.PresentedViewController);
+                }
                 if (controller is UINavigationController) {
                     return (controller as UINavigationController);
                 }

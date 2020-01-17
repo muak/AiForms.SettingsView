@@ -109,6 +109,18 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        public override bool RowLongPressed(SettingsViewRecyclerAdapter adapter, int position)
+        {
+            if (CustomCell.LongCommand == null)
+            {
+                return false;
+            }
+
+            CustomCell.SendLongCommand();
+
+            return true;
+        }
+
         /// <summary>
         /// Updates the cell.
         /// </summary>

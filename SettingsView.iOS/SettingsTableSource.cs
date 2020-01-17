@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using AiForms.Renderers.iOS.Extensions;
 using CoreGraphics;
 using Foundation;
+using ObjCRuntime;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
@@ -122,6 +124,13 @@ namespace AiForms.Renderers.iOS
 
             if(sec.HeaderView != null)
             {
+                if(sec.HeaderView.Height < 0)
+                {
+                    // stop the cell layout from being broken.
+                    var measure = sec.HeaderView.Measure(tableView.Bounds.Width, double.PositiveInfinity, MeasureFlags.IncludeMargins);
+                    return (System.nfloat)measure.Request.Height;
+                }
+
                 return -1; // automatic height
             }
 
@@ -148,7 +157,7 @@ namespace AiForms.Renderers.iOS
             var formsView = _settingsView.Model.GetSectionHeaderView((int)section);
             if (formsView != null)
             {
-                return GetNativeSectionHeaderFooterView(formsView, tableView, (int)section);
+                return GetNativeSectionHeaderFooterView(formsView, tableView, true);
             }
 
 
@@ -163,16 +172,6 @@ namespace AiForms.Renderers.iOS
 
             return headerView;
         }
-
-
-        UIView GetNativeSectionHeaderFooterView(View formsView, UITableView tableView, int section)
-        {
-            var nativeView = tableView.DequeueReusableHeaderFooterView(SettingsViewRenderer.CustomHeaderFooterId) as CustomHeaderFooterView;
-            nativeView.FormsCell = formsView;
-
-            return nativeView;
-        }
-
 
         /// <summary>
         /// section footer height
@@ -215,7 +214,7 @@ namespace AiForms.Renderers.iOS
             var formsView = _settingsView.Model.GetSectionFooterView((int)section);
             if (formsView != null)
             {
-                return GetNativeSectionHeaderFooterView(formsView, tableView, (int)section);
+                return GetNativeSectionHeaderFooterView(formsView, tableView, false);
             }
 
             var text = _settingsView.Model.GetFooterText((int)section);
@@ -236,6 +235,14 @@ namespace AiForms.Renderers.iOS
             return footerView;
         }
 
+        UIView GetNativeSectionHeaderFooterView(View formsView, UITableView tableView, bool isHeader)
+        {
+            var idString = isHeader ? SettingsViewRenderer.CustomHeaderId : SettingsViewRenderer.CustomFooterId;
+            var nativeView = tableView.DequeueReusableHeaderFooterView(idString) as CustomHeaderFooterView;
+            nativeView.FormsCell = formsView;
+
+            return nativeView;
+        }
 
         /// <summary>
         /// Numbers the of sections.
@@ -260,6 +267,42 @@ namespace AiForms.Renderers.iOS
             return sec.IsVisible ? sec.Count : 0;
         }
 
+
+        public override bool ShouldShowMenu(UITableView tableView, NSIndexPath rowAtindexPath)
+        {
+            if(_settingsView.Model.GetSection(rowAtindexPath.Section).UseDragSort)
+            {
+                return false;
+            }
+
+            var ret = false;
+            if(tableView.CellAt(rowAtindexPath) is CellBaseView cell)
+            {
+                System.Diagnostics.Debug.WriteLine("LongTap");
+                ret = cell.RowLongPressed(tableView, rowAtindexPath);
+            }
+
+            if(ret)
+            {
+                _settingsView.Model.RowLongPressed(_settingsView.Model.GetCell(rowAtindexPath.Section, rowAtindexPath.Row));
+                BeginInvokeOnMainThread(async () => {
+                    await Task.Delay(250);
+                    tableView.CellAt(rowAtindexPath).SetSelected(false, true);
+                });
+            }
+
+            return ret;
+        }
+
+        public override bool CanPerformAction(UITableView tableView, Selector action, NSIndexPath indexPath, NSObject sender)
+        {
+            return false;
+        }
+
+        public override void PerformAction(UITableView tableView, Selector action, NSIndexPath indexPath, NSObject sender)
+        {
+        }
+
         /// <summary>
         /// Title text string array (unknown what to do ) 
         /// </summary>
@@ -268,26 +311,22 @@ namespace AiForms.Renderers.iOS
         public override string[] SectionIndexTitles(UITableView tableView)
         {
             return _settingsView.Model.GetSectionIndexTitles();
-        }      
+        }
 
-      
         /// <summary>
         /// processing when row is selected.
         /// </summary>
         /// <param name="tableView">Table view.</param>
         /// <param name="indexPath">Index path.</param>
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
-        {         
-            _settingsView.Model.RowSelected(indexPath.Section,indexPath.Row);
+        {
+            _settingsView.Model.RowSelected(indexPath.Section, indexPath.Row);
 
-            var cell = tableView.CellAt(indexPath) as CellBaseView;
-            if(cell == null)
+            if (tableView.CellAt(indexPath) is CellBaseView cell)
             {
-                return;
+                cell.RowSelected(tableView, indexPath);
             }
-
-            cell.RowSelected(tableView, indexPath);
-        }
+        }       
 
         /// <summary>
         /// Dispose the specified disposing.

@@ -226,6 +226,8 @@ SettingsViewのプロパティ設定はApp.xamlに記述した方が良いかも
 * ItemsSource
 * ItemTemplate
     * SettingsView全体のDataTemplateを使用できます。SectionのDataTemplateと組み合わせることで単純な構造のセルを短いコードで実現できます。
+* TemplateStartIndex
+  * Templateの挿入を開始するインデックスを指定。デフォルトは0で最初からTemplateを適用します。1以上の値を指定すると、その位置からTemplateが挿入されるようになり、XAML等で挿入したデータはそのままの状態で残ります。任意の位置から繰り返しのセクションを設置した場合などに利用できます。
 
 ### SettingsView の高さを内容の高さに合わせるには
 
@@ -311,6 +313,8 @@ public class MenuSection:List<MenuItem>
 	* DataTemplateのソースを指定します。
 * ItemTemplate
 	* DataTemplateを指定します。
+* TemplateStartIndex
+  * Templateの挿入を開始するインデックスを指定。デフォルトは0で最初からTemplateを適用します。1以上の値を指定すると、その位置からTemplateが挿入されるようになり、XAML等で挿入したデータはそのままの状態で残ります。任意の位置から繰り返しの Cell を設置した場合などに利用できます。
 * UseDragSort
 	* セクション内のセルをDragDropで並べ替え可能にします。
 	* iOS11以降とそれ以外で外観が異なります。
@@ -753,6 +757,13 @@ NaturalSortの実装に以下のソースを利用させていただきました
 寄付をいただけるとやる気が非常にアップしますので、どうかよろしくお願いいたします🙇
 
 * [PayPalMe](https://paypal.me/kamusoftJP?locale.x=ja_JP)
+
+## スポンサー
+
+スポンサーも募集しています。
+こちらはサブスクリプション制になります。
+
+* [GitHub Sponsors](https://github.com/sponsors/muak)
 
 
 ## License

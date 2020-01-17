@@ -5,6 +5,7 @@ using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using Android.Graphics.Drawables;
+using System.Linq;
 
 namespace AiForms.Renderers.Droid
 {
@@ -39,6 +40,7 @@ namespace AiForms.Renderers.Droid
 
                 if(prevHolder != null && prevHolder is IHeaderViewHolder && !_settingsView.ShowSectionTopBottomBorder ||
                    holder is IFooterViewHolder && !_settingsView.ShowSectionTopBottomBorder ||
+                   holder is IFooterViewHolder && !holder.RowInfo.Section.Any() ||
                    holder is IHeaderViewHolder ||
                    !holder.RowInfo.Section.IsVisible)
                 {

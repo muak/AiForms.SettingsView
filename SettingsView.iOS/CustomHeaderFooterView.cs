@@ -5,9 +5,24 @@ using Xamarin.Forms;
 using System.Reflection;
 using System.ComponentModel;
 using CoreGraphics;
+using System.Linq;
 
 namespace AiForms.Renderers.iOS
 {
+    public class CustomHeaderView : CustomHeaderFooterView
+    {
+        public CustomHeaderView(IntPtr handle) : base(handle)
+        {
+        }
+    }
+
+    public class CustomFooterView : CustomHeaderFooterView
+    {
+        public CustomFooterView(IntPtr handle) : base(handle)
+        {
+        }
+    }
+
     public class CustomHeaderFooterView:UITableViewHeaderFooterView
     {
         WeakReference<IVisualElementRenderer> _rendererRef;
@@ -128,39 +143,33 @@ namespace AiForms.Renderers.iOS
             _formsCell = cell;
             _formsCell.PropertyChanged += CellPropertyChanged;           
 
-            IVisualElementRenderer renderer;
-            if (_rendererRef == null || !_rendererRef.TryGetTarget(out renderer))
+            if(ContentView.Subviews.Any())
             {
-                renderer = GetNewRenderer();
+                ContentView.Subviews[0].RemoveFromSuperview();
+            }
+
+            var renderer = CreateOrGetRenderer();
+            renderer.NativeView.RemoveFromSuperview();
+            ContentView.AddSubview(renderer.NativeView);
+           
+
+            UpdateNativeCell();      
+        }
+
+        protected virtual IVisualElementRenderer CreateOrGetRenderer()
+        {
+            var newRenderer = Platform.GetRenderer(_formsCell) ?? Platform.CreateRenderer(_formsCell);
+            Platform.SetRenderer(_formsCell, newRenderer);
+
+            if(_rendererRef == null)
+            {
+                _rendererRef = new WeakReference<IVisualElementRenderer>(newRenderer);
             }
             else
             {
-                if (renderer.Element != null && renderer == Platform.GetRenderer(renderer.Element))
-                    renderer.Element.ClearValue(FormsInternals.RendererProperty);
-
-                var type = Xamarin.Forms.Internals.Registrar.Registered.GetHandlerTypeForObject(this._formsCell);
-                var reflectableType = renderer as System.Reflection.IReflectableType;
-                var rendererType = reflectableType != null ? reflectableType.GetTypeInfo().AsType() : renderer.GetType();
-                if (rendererType == type || (renderer.GetType() == FormsInternals.DefaultRenderer) && type == null)
-                    renderer.SetElement(this._formsCell);
-                else
-                {
-                    //when cells are getting reused the element could be already set to another cell
-                    //so we should dispose based on the renderer and not the renderer.Element
-                    FormsInternals.DisposeRendererAndChildren(renderer);
-                    renderer = GetNewRenderer();
-                }
+                _rendererRef.SetTarget(newRenderer);
             }
 
-            Platform.SetRenderer(this._formsCell, renderer);
-            UpdateNativeCell();          
-        }
-
-        protected virtual IVisualElementRenderer GetNewRenderer()
-        {
-            var newRenderer = Platform.CreateRenderer(_formsCell);
-            _rendererRef = new WeakReference<IVisualElementRenderer>(newRenderer);
-            ContentView.AddSubview(newRenderer.NativeView);
             return newRenderer;
         }
     }

@@ -224,6 +224,8 @@ Whereby any SettingsView in App will become the same property setttings.
 * ItemsSource
 * ItemTemplate
     * A DataTemplate for entire SettingsView can be used.
+* TemplateStartIndex
+  * This is the index that starts inserting the template. The default value is 0. If a specified value is greater or equal than 1, the template is inserted from its position and the section inserted with XAML remains. You can insert the repeating data wherever you want to do.
 
 ### To fit SettingsView height to visible content
 
@@ -309,6 +311,8 @@ public class MenuSection:List<MenuItem>
 	* Specify the source of a DataTemplate.
 * ItemTemplate
 	 * Specify a DataTemplate.
+* TemplateStartIndex
+  * This is the index that starts inserting the template. The default value is 0. If a specified value is greater or equal than 1, the template is inserted from its position and cells inserted with XAML remains. You can insert the repeating data wherever you want to do.
 * UseDragSort
 	* Enable you to reorder cells in a section with drag and drop.
 	* If iOS version is less than or equal to iOS10, the cells can be moved when grabbing the icon drawn three lines; Otherwise can be moved when doing long tap.
@@ -739,6 +743,12 @@ Your donation will allow me to work harder and harder.
 
 * [PayPalMe](https://paypal.me/kamusoftJP?locale.x=ja_JP)
 
+## Sponsors
+
+I am asking for sponsors too.
+This is a subscription.
+
+* [GitHub Sponsors](https://github.com/sponsors/muak)
 
 ## License
 

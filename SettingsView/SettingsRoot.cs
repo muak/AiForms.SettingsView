@@ -26,7 +26,7 @@ namespace AiForms.Renderers
         /// Occurs when section property changed.
         /// </summary>
         public event PropertyChangedEventHandler SectionPropertyChanged;
-
+       
         void ChildCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
         {           
             SectionCollectionChanged?.Invoke(sender, notifyCollectionChangedEventArgs);

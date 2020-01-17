@@ -139,8 +139,17 @@ namespace AiForms.Renderers
                     {
                         section.FooterView.Parent = this;
                     }
+                    foreach(var cell in section)
+                    {
+                        var context = cell.BindingContext;
+                        cell.Parent = this; // When setting the parent, the bindingcontext is updated too.
+                        if(context != null)
+                        {
+                            cell.BindingContext = context; // so set the original bindingcontext again.
+                        }
+                    }
                 });
-                e.NewItems.Cast<Section>().SelectMany(x => x).ForEach(cell => cell.Parent = this);
+                //e.NewItems.Cast<Section>().SelectMany(x => x).ForEach(cell =>cell.Parent = this);
             }
             CollectionChanged?.Invoke(sender, e);
         }
@@ -176,6 +185,15 @@ namespace AiForms.Renderers
                 {
                     section.FooterView.Parent = this;
                 }
+                foreach (var cell in section)
+                {
+                    var context = cell.BindingContext;
+                    cell.Parent = this; // When setting the parent, the bindingcontext is updated too.
+                    if (context != null)
+                    {
+                        cell.BindingContext = context; // so set the original bindingcontext again.
+                    }
+                }
             }
 
             var cells = Root?.SelectMany(r => r);
@@ -185,11 +203,11 @@ namespace AiForms.Renderers
             }
                       
 
-            foreach (Cell cell in cells)
-            {
-                //ViewCell size is not decided if parent isn't set.
-                cell.Parent = this;
-            }
+            //foreach (Cell cell in cells)
+            //{
+            //    //ViewCell size is not decided if parent isn't set.
+            //    cell.Parent = this;
+            //}
 
             //notify Native
             if (ModelChanged != null)
