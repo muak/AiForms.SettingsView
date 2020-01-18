@@ -4,6 +4,10 @@ using AiForms.Renderers;
 using AiForms.Renderers.Droid;
 using Android.Content;
 using Xamarin.Forms;
+using Android.Widget;
+using Android.Views;
+using Android.Graphics;
+using Xamarin.Forms.Platform.Android;
 
 [assembly: ExportRenderer(typeof(CommandCell), typeof(CommandCellRenderer))]
 namespace AiForms.Renderers.Droid
@@ -23,6 +27,7 @@ namespace AiForms.Renderers.Droid
         internal Action Execute { get; set; }
         CommandCell _CommandCell => Cell as CommandCell;
         ICommand _command;
+        ImageView _indicatorView;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.CommandCellView"/> class.
@@ -31,6 +36,22 @@ namespace AiForms.Renderers.Droid
         /// <param name="cell">Cell.</param>
         public CommandCellView(Context context, Cell cell) : base(context, cell)
         {
+            if(!CellParent.ShowArrowIndicatorForAndroid)
+            {
+                return;
+            }
+            _indicatorView = new ImageView(context);
+            _indicatorView.SetImageResource(Resource.Drawable.ic_navigate_next);
+
+            var param = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WrapContent,
+                ViewGroup.LayoutParams.WrapContent) {
+            };
+
+            using (param)
+            {
+                AccessoryStack.AddView(_indicatorView, param);
+            }
         }
 
         /// <summary>
@@ -77,6 +98,11 @@ namespace AiForms.Renderers.Droid
                 }
                 Execute = null;
                 _command = null;
+                _indicatorView?.RemoveFromParent();
+                _indicatorView?.SetImageDrawable(null);
+                _indicatorView?.SetImageBitmap(null);
+                _indicatorView?.Dispose();
+                _indicatorView = null;
             }
             base.Dispose(disposing);
         }

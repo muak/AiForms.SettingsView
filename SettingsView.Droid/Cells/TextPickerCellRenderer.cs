@@ -126,6 +126,7 @@ namespace AiForms.Renderers.Droid
             var displayValues = _TextPickerCell.Items.Cast<object>().Select(x => x.ToString()).ToArray();
 
             _picker = new APicker(_context);
+            _picker.DescendantFocusability = DescendantFocusability.BlockDescendants;
             _picker.MinValue = 0;
             _picker.MaxValue = _TextPickerCell.Items.Count - 1;
             _picker.SetDisplayedValues(displayValues);

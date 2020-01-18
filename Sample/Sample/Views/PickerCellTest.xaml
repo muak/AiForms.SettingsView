@@ -4,7 +4,7 @@
     xmlns:ai="clr-namespace:AiForms.Renderers;assembly=SettingsView"
     xmlns:l="clr-namespace:AiForms.Layouts;assembly=AiForms.Layouts"
     xmlns:ef="clr-namespace:AiForms.Effects;assembly=AiForms.Effects"
-    xmlns:me="clr-namespace:Sample.Views;assembly=Sample"
+    xmlns:me="clr-namespace:Sample.Views;assembly=SettingsSample"
     x:Class="Sample.Views.PickerCellTest">
 
     <ContentPage.Resources>
@@ -74,6 +74,9 @@
             <ai:Section Title="Section1" FooterText="Footer1" IsVisible="{Binding IsVisible.Value}" >
                 <ai:PickerCell  IsEnabled="{Binding IsEnabled.Value}"  IconSource="{Binding IconSource.Value}" Title="{Binding Title.Value}" Description="{Binding Description.Value}" HintText="{Binding HintText.Value}" BackgroundColor="{Binding BgColor.Value}" TitleColor="{Binding TitleColor.Value}" TitleFontSize="{Binding TitleFontSize.Value}" ValueTextColor="{Binding ValueTextColor.Value}" ValueTextFontSize="{Binding ValueTextFontSize.Value}" DescriptionColor="{Binding DescriptionColor.Value}" DescriptionFontSize="{Binding DescriptionFontSize.Value}" HintTextColor="{Binding HintTextColor.Value}" HintFontSize="{Binding HintFontSize.Value}" IconSize="{Binding IconSize.Value}" IconRadius="{Binding IconRadius.Value}" Tapped="Handle_Tapped" AccentColor="{Binding OwnAccentColor.Value}" PageTitle="{Binding PageTitle.Value}" ItemsSource="{Binding ItemsSource}" DisplayMember="{Binding DisplayMember.Value}" SubDisplayMember="{Binding SubDisplayMember.Value}" SelectedItems="{Binding SelectedItems}" MaxSelectedNumber="{Binding MaxSelectedNumber.Value}" KeepSelectedUntilBack="{Binding KeepSelected.Value}" SelectedItemsOrderKey="{Binding SelectedItemsOrderKey.Value}" SelectedCommand="{Binding SelectedCommand}" UseNaturalSort="{Binding UseNaturalSort.Value}" UseAutoValueText="{Binding UseAutoValueText.Value}" UsePickToClose="{Binding UsePickToClose.Value}" ValueText="abc" />
                 <ai:PickerCell  IsEnabled="{Binding IsEnabled.Value}"  IconSource="{Binding IconSource.Value}" Title="{Binding Title.Value}" Description="{Binding Description.Value}" HintText="{Binding HintText.Value}" BackgroundColor="{Binding BgColor.Value}" TitleColor="{Binding TitleColor.Value}" TitleFontSize="{Binding TitleFontSize.Value}" ValueTextColor="{Binding ValueTextColor.Value}" ValueTextFontSize="{Binding ValueTextFontSize.Value}" DescriptionColor="{Binding DescriptionColor.Value}" DescriptionFontSize="{Binding DescriptionFontSize.Value}" HintTextColor="{Binding HintTextColor.Value}" HintFontSize="{Binding HintFontSize.Value}" IconSize="{Binding IconSize.Value}" IconRadius="{Binding IconRadius.Value}" Tapped="Handle_Tapped" AccentColor="{Binding OwnAccentColor.Value}" PageTitle="{Binding PageTitle.Value}" ItemsSource="{Binding ItemsSource2}" DisplayMember="{Binding DisplayMember2.Value}" SelectedItems="{Binding SelectedItems2}" MaxSelectedNumber="{Binding MaxSelectedNumber.Value}" KeepSelectedUntilBack="{Binding KeepSelected.Value}" SelectedItemsOrderKey="{Binding SelectedItemsOrderKey.Value}" UseNaturalSort="{Binding UseNaturalSort.Value}"/>
+
+                <ai:PickerCell ItemsSource="{Binding ItemsSource}" SelectedItem="{Binding SelectedItem.Value}" SelectionMode="Single"
+                               DisplayMember="{Binding DisplayMember.Value}" SubDisplayMember="{Binding SubDisplayMember.Value}" SelectedCommand="{Binding SelectedCommand}" />
             </ai:Section>
         </ai:SettingsView>
     </StackLayout>  

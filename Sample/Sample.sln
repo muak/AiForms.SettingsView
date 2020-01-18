@@ -107,7 +107,6 @@ Global
 		$2.NewLinesForBracesInProperties = False
 		$2.NewLinesForBracesInAccessors = False
 		$2.NewLinesForBracesInAnonymousMethods = False
-		$2.NewLinesForBracesInControlBlocks = False
 		$2.NewLinesForBracesInAnonymousTypes = False
 		$2.NewLinesForBracesInObjectCollectionArrayInitializers = False
 		$2.NewLinesForBracesInLambdaExpressionBody = False

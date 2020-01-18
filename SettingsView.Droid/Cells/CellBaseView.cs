@@ -97,7 +97,7 @@ namespace AiForms.Renderers.Droid
             CreateContentView();
         }
 
-        void CreateContentView()
+        protected virtual void CreateContentView()
         {
             var layoutInflater = (LayoutInflater)_Context.GetSystemService(Context.LayoutInflaterService);
             var contentView = layoutInflater.Inflate(Resource.Layout.CellBaseView, this, true);
@@ -133,6 +133,7 @@ namespace AiForms.Renderers.Droid
 
             _defaultTextColor = new Android.Graphics.Color(TitleLabel.CurrentTextColor);
             _defaultFontSize = TitleLabel.TextSize;
+
         }
 
         /// <summary>
@@ -249,6 +250,17 @@ namespace AiForms.Renderers.Droid
         /// <param name="position">Position.</param>
         public virtual void RowSelected(SettingsViewRecyclerAdapter adapter, int position)
         {
+        }
+
+        /// <summary>
+        /// Rows the long pressed.
+        /// </summary>
+        /// <returns><c>true</c>, if long pressed was rowed, <c>false</c> otherwise.</returns>
+        /// <param name="adapter">Adapter.</param>
+        /// <param name="position">Position.</param>
+        public virtual bool RowLongPressed(SettingsViewRecyclerAdapter adapter, int position)
+        {
+            return false;
         }
 
         /// <summary>

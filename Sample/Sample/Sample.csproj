@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>SettingsSample</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,10 +11,14 @@
     <PackageReference Include="Prism.Unity.Forms" Version="7.0.0.396" />
     <PackageReference Include="ReactiveProperty" Version="4.2.2" />
 
-    <PackageReference Include="Xamarin.Forms" Version="4.0.0.425677" />
-    <PackageReference Include="AiForms.Effects" Version="1.4.5-pre" />
+    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991477" />
+    <PackageReference Include="AiForms.Effects" Version="1.5.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Cells\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SettingsView\SettingsView.csproj" />
   </ItemGroup>
+  <Import Project="..\packages\Xamarin.Android.Support.Animated.Vector.Drawable.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.Animated.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Animated.Vector.Drawable.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.Animated.Vector.Drawable.targets')" />
 </Project>

@@ -13,7 +13,7 @@ namespace AiForms.Renderers
     /// <summary>
     /// Picker cell.
     /// </summary>
-    public class PickerCell:LabelCell
+    public class PickerCell : LabelCell
     {
         /// <summary>
         /// The page title property.
@@ -46,7 +46,7 @@ namespace AiForms.Renderers
                 typeof(PickerCell),
                 default(IList),
                 defaultBindingMode: BindingMode.OneWay,
-                propertyChanging:ItemsSourceChanging
+                propertyChanging: ItemsSourceChanging
             );
 
         /// <summary>
@@ -95,8 +95,7 @@ namespace AiForms.Renderers
         /// Gets or sets the sub display member.
         /// </summary>
         /// <value>The sub display member.</value>
-        public string SubDisplayMember
-        {
+        public string SubDisplayMember {
             get { return (string)GetValue(SubDisplayMemberProperty); }
             set { SetValue(SubDisplayMemberProperty, value); }
         }
@@ -123,6 +122,54 @@ namespace AiForms.Renderers
         }
 
         /// <summary>
+        /// The selected item property.
+        /// </summary>
+        public static BindableProperty SelectedItemProperty =
+            BindableProperty.Create(
+                nameof(SelectedItem),
+                typeof(object),
+                typeof(PickerCell),
+                default(object),
+                defaultBindingMode: BindingMode.TwoWay
+            );
+
+        /// <summary>
+        /// Gets or sets the selected item.
+        /// </summary>
+        /// <value>The selected item.</value>
+        public object SelectedItem {
+            get { return GetValue(SelectedItemProperty); }
+            set { SetValue(SelectedItemProperty, value); }
+        }
+
+        /// <summary>
+        /// The selection mode property.
+        /// </summary>
+        public static BindableProperty SelectionModeProperty =
+            BindableProperty.Create(
+                nameof(SelectionMode),
+                typeof(SelectionMode),
+                typeof(PickerCell),
+                SelectionMode.Multiple,
+                defaultBindingMode: BindingMode.OneWay,
+                propertyChanged: (bindable, oldValue, newValue) => {
+                    if ((SelectionMode)newValue == SelectionMode.Single)
+                    {
+                        bindable.SetValue(MaxSelectedNumberProperty, 1);
+                    }
+                }
+            );
+
+        /// <summary>
+        /// Gets or sets the selection mode.
+        /// </summary>
+        /// <value>The selection mode.</value>
+        public SelectionMode SelectionMode {
+            get { return (SelectionMode)GetValue(SelectionModeProperty); }
+            set { SetValue(SelectionModeProperty, value); }
+        }
+
+        /// <summary>
         /// The max selected number property.
         /// </summary>
         public static BindableProperty MaxSelectedNumberProperty =
@@ -131,7 +178,11 @@ namespace AiForms.Renderers
                 typeof(int),
                 typeof(PickerCell),
                 0,
-                defaultBindingMode: BindingMode.OneWay
+                defaultBindingMode: BindingMode.OneWay,
+                coerceValue: (bindable, value) => {
+                    return (SelectionMode)bindable.GetValue(SelectionModeProperty) == SelectionMode.Single
+                        ? 1 : value;
+                }
             );
 
         /// <summary>
@@ -202,8 +253,7 @@ namespace AiForms.Renderers
         /// Gets or sets the selected items order key.
         /// </summary>
         /// <value>The selected items order key.</value>
-        public string SelectedItemsOrderKey
-        {
+        public string SelectedItemsOrderKey {
             get { return (string)GetValue(SelectedItemsOrderKeyProperty); }
             set { SetValue(SelectedItemsOrderKeyProperty, value); }
         }
@@ -266,8 +316,7 @@ namespace AiForms.Renderers
         /// Gets or sets a value indicating whether this <see cref="T:AiForms.Renderers.PickerCell"/> use auto value text.
         /// </summary>
         /// <value><c>true</c> if use auto value text; otherwise, <c>false</c>.</value>
-        public bool UseAutoValueText
-        {
+        public bool UseAutoValueText {
             get { return (bool)GetValue(UseAutoValueTextProperty); }
             set { SetValue(UseAutoValueTextProperty, value); }
         }
@@ -288,10 +337,24 @@ namespace AiForms.Renderers
         /// Gets or sets a value indicating whether this <see cref="T:AiForms.Renderers.PickerCell"/> use pick to close.
         /// </summary>
         /// <value><c>true</c> if use pick to close; otherwise, <c>false</c>.</value>
-        public bool UsePickToClose
-        {
+        public bool UsePickToClose {
             get { return (bool)GetValue(UsePickToCloseProperty); }
             set { SetValue(UsePickToCloseProperty, value); }
+        }
+
+        internal IList MergedSelectedList {
+            get {
+                if (SelectionMode == SelectionMode.Single) 
+                {
+                    var list = new ArrayList();
+                    if(SelectedItem != null)
+                    {
+                        list.Add(SelectedItem);
+                    }
+                    return list;
+                }
+                return SelectedItems;
+            }
         }
 
 
@@ -346,7 +409,7 @@ namespace AiForms.Renderers
         internal string GetSelectedItemsText(){
             List<string> sortedList = null;
 
-            if(SelectedItems == null){
+            if(MergedSelectedList == null){
                 return string.Empty;
             }
 
@@ -354,7 +417,7 @@ namespace AiForms.Renderers
             if (KeyValue != null)
             {
                 var dict = new Dictionary<object, string>();
-                foreach (var item in SelectedItems)
+                foreach (var item in MergedSelectedList)
                 {
                     dict.Add(KeyValue(item), DisplayValue(item).ToString());
                 }
@@ -368,20 +431,20 @@ namespace AiForms.Renderers
             else
             {
                 var strList = new List<string>();
-                foreach (var item in SelectedItems)
+                foreach (var item in MergedSelectedList)
                 {
                     strList.Add(DisplayValue(item).ToString());
                 }
                 var comparer = UseNaturalSort ? new NaturalComparer() : null;
                 sortedList = strList.OrderBy(x => x, comparer).ToList();
             }
-
+            
             return string.Join(", ", sortedList.ToArray());
         }
 
         internal void InvokeCommand()
         {
-            SelectedCommand?.Execute(SelectedItems);
+            SelectedCommand?.Execute(SelectionMode == SelectionMode.Single ? SelectedItem : SelectedItems);
         }
 
         Dictionary<string, Func<object, object>> _getters;

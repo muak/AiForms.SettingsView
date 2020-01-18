@@ -5,11 +5,11 @@ using Android.Content;
 using Android.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using AListView = Android.Widget.ListView;
 using Android.Support.V7.Widget;
 using Android.Support.V7.Widget.Helper;
+using Android.Graphics.Drawables;
+using System.Linq;
 using System.Collections.Generic;
-using System.Collections;
 
 [assembly: ExportRenderer(typeof(SettingsView), typeof(SettingsViewRenderer))]
 namespace AiForms.Renderers.Droid
@@ -26,6 +26,8 @@ namespace AiForms.Renderers.Droid
         LinearLayoutManager _layoutManager;
         ItemTouchHelper _itemTouchhelper;
         SettingsViewSimpleCallback _simpleCallback;
+        SVItemdecoration _itemDecoration;
+        Drawable _divider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.SettingsViewRenderer"/> class.
@@ -43,17 +45,22 @@ namespace AiForms.Renderers.Droid
         {
             base.OnElementChanged(e);
 
-            if (e.NewElement != null) {
-
+            if (e.NewElement != null) 
+            {
                 var recyclerView = new RecyclerView(Context);
                 _layoutManager = new LinearLayoutManager(Context);
                 recyclerView.SetLayoutManager(_layoutManager);
+
+                _divider = Context.GetDrawable(Resource.Drawable.divider);
+                _itemDecoration = new SVItemdecoration(_divider,e.NewElement);
+                recyclerView.AddItemDecoration(_itemDecoration);
 
                 SetNativeControl(recyclerView);
 
                 Control.Focusable = false;
                 Control.DescendantFocusability = DescendantFocusability.AfterDescendants;
 
+                UpdateSeparatorColor();
                 UpdateBackgroundColor();
                 UpdateRowHeight();
 
@@ -74,12 +81,45 @@ namespace AiForms.Renderers.Droid
 
                 _parentPage = elm as Page;
                 _parentPage.Appearing += ParentPageAppearing;
+
+                e.NewElement.Root.CollectionChanged += RootCollectionChanged;
             }
         }
 
+        List<IVisualElementRenderer> _shouldDisposeRenderers = new List<IVisualElementRenderer>();
+
+        void RootCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if(e.OldItems == null)
+            {
+                return;
+            }
+
+            foreach(Section section in e.OldItems)
+            {
+                if(section.HeaderView != null)
+                {
+                    var header = Platform.GetRenderer(section.HeaderView);
+                    if(header != null)
+                    {
+                        _shouldDisposeRenderers.Add(header);
+                    }
+                }
+                if(section.FooterView != null)
+                {
+                    var footer = Platform.GetRenderer(section.FooterView);
+                    if (footer != null)
+                    {
+                        _shouldDisposeRenderers.Add(footer);
+                    }
+                }
+            }
+        }
+
+
         void ParentPageAppearing(object sender, EventArgs e)
         {
-            Device.BeginInvokeOnMainThread(() => _adapter.DeselectRow());
+            Device.BeginInvokeOnMainThread(() => _adapter?.DeselectRow());
         }
 
         protected override void OnLayout(bool changed, int left, int top, int right, int bottom)
@@ -111,7 +151,8 @@ namespace AiForms.Renderers.Droid
         {
             base.OnElementPropertyChanged(sender, e);
             if (e.PropertyName == SettingsView.SeparatorColorProperty.PropertyName) {
-                _adapter.NotifyDataSetChanged();
+                UpdateSeparatorColor();
+                Control.InvalidateItemDecorations();
             }
             else if (e.PropertyName == SettingsView.BackgroundColorProperty.PropertyName) {
                 UpdateBackgroundColor();
@@ -126,7 +167,8 @@ namespace AiForms.Renderers.Droid
                 //_adapter.NotifyDataSetChanged();
             }
             else if (e.PropertyName == SettingsView.ShowSectionTopBottomBorderProperty.PropertyName) {
-                _adapter.NotifyDataSetChanged();
+                //_adapter.NotifyDataSetChanged();
+                Control.InvalidateItemDecorations();
             }
             else if (e.PropertyName == TableView.HasUnevenRowsProperty.PropertyName) {
                 _adapter.NotifyDataSetChanged();
@@ -137,6 +179,11 @@ namespace AiForms.Renderers.Droid
             else if (e.PropertyName == SettingsView.ScrollToBottomProperty.PropertyName){
                 UpdateScrollToBottom();
             }
+        }
+
+        void UpdateSeparatorColor()
+        {
+            _divider.SetTint(Element.SeparatorColor.ToAndroid());
         }
 
         void UpdateRowHeight()
@@ -183,7 +230,33 @@ namespace AiForms.Renderers.Droid
         /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing) {
+            if (disposing)
+            {
+                foreach (var section in Element.Root)
+                {
+                    if (section.HeaderView != null)
+                    {
+                        DisposeChildRenderer(section.HeaderView);
+                    }
+                    if (section.FooterView != null)
+                    {
+                        DisposeChildRenderer(section.FooterView);
+                    }
+                }
+
+                foreach(var renderer in _shouldDisposeRenderers)
+                {
+                    if(renderer.View.Handle != IntPtr.Zero)
+                    {
+                        renderer.View.RemoveFromParent();
+                        renderer.View.Dispose();
+                    }
+                    renderer.Dispose();
+                }
+                _shouldDisposeRenderers.Clear();
+                _shouldDisposeRenderers = null;
+
+                Control.RemoveItemDecoration(_itemDecoration);
                 _parentPage.Appearing -= ParentPageAppearing;
                 _adapter?.Dispose();
                 _adapter = null;
@@ -193,10 +266,30 @@ namespace AiForms.Renderers.Droid
                 _simpleCallback = null;
                 _itemTouchhelper?.Dispose();
                 _itemTouchhelper = null;
+
+                _itemDecoration?.Dispose();
+                _itemDecoration = null;
+                _divider?.Dispose();
+                _divider = null;
+
+                Element.Root.CollectionChanged -= RootCollectionChanged;
             }
             base.Dispose(disposing);
         }
 
+        void DisposeChildRenderer(Xamarin.Forms.View view)
+        {
+            var renderer = Platform.GetRenderer(view);
+            if(renderer != null)
+            {
+                if(renderer.View.Handle != IntPtr.Zero)
+                {
+                    renderer.View.RemoveFromParent();
+                    renderer.View.Dispose();
+                }
+                renderer.Dispose();
+            }
+        }
 
     }
 
@@ -204,7 +297,8 @@ namespace AiForms.Renderers.Droid
     class SettingsViewSimpleCallback : ItemTouchHelper.SimpleCallback
     {
         SettingsView _settingsView;
-        int _offset = 0;
+        RowInfo _fromInfo;
+        RowInfo _toInfo;
 
         public SettingsViewSimpleCallback(SettingsView settingsView,int dragDirs,int swipeDirs):base(dragDirs,swipeDirs)
         {
@@ -213,37 +307,52 @@ namespace AiForms.Renderers.Droid
 
         public override bool OnMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target)
         {
-            var fromContentHolder = viewHolder as ContentViewHolder;
-            if (fromContentHolder == null)
+            if (!(viewHolder is ContentViewHolder fromContentHolder))
             {
-                return false;
-            }
-
-            var toContentHolder = target as ContentViewHolder;
-            if(toContentHolder == null){
-                return false;
-            }
-
-            if(fromContentHolder.SectionIndex != toContentHolder.SectionIndex){
-                return false;
-            }
-
-            var section = _settingsView.Model.GetSection(fromContentHolder.SectionIndex);
-            if(section == null || !section.UseDragSort){
                 return false;
             }
 
             var fromPos = viewHolder.AdapterPosition;
             var toPos = target.AdapterPosition;
 
-            _offset += toPos - fromPos;
+            if(fromPos < toPos)
+            {
+                // disallow a Footer when drag is from up to down.
+                if (target is IFooterViewHolder)
+                {
+                    _toInfo = null;
+                    return false;
+                }
+            }
+            else
+            {
+                // disallow a Header when drag is from down to up.
+                if (target is IHeaderViewHolder)
+                {
+                    _toInfo = null;
+                    return false;
+                }
+            }
+
+            var toContentHolder = target as ViewHolder;
+
+            var section = fromContentHolder.RowInfo.Section;
+            if(section == null || !section.UseDragSort){
+                return false;
+            }
+
+            var toSection = toContentHolder.RowInfo.Section;
+            if(toSection == null || !toSection.UseDragSort)
+            {
+                return false;
+            }
+
+            _toInfo = toContentHolder.RowInfo;
 
             var settingsAdapter = recyclerView.GetAdapter() as SettingsViewRecyclerAdapter;
 
-            settingsAdapter.NotifyItemMoved(fromPos, toPos); //rows update
             settingsAdapter.CellMoved(fromPos, toPos); //caches update
-
-            //Console.WriteLine($"From:{fromPos} To:{toPos} Offset:{_offset}");
+            settingsAdapter.NotifyItemMoved(fromPos, toPos); //rows update
 
             return true;
         }
@@ -257,23 +366,37 @@ namespace AiForms.Renderers.Droid
             {
                 return;
             }
-
-            var section = _settingsView.Model.GetSection(contentHolder.SectionIndex);
-            var pos = contentHolder.RowIndex;
-            if(section.ItemsSource == null){
-                var tmp = section[pos];
-                section.RemoveAt(pos);
-                section.Insert(pos +_offset, tmp);
+            if(_toInfo == null)
+            {
+                return;
             }
-            else if(section.ItemsSource != null)
+
+            var fromSection = _fromInfo.Section;
+            var fromPos = fromSection.IndexOf(_fromInfo.Cell);
+
+            var toSection = _toInfo.Section;
+            var toPos = toSection.IndexOf(_toInfo.Cell);
+            if(fromSection != toSection)
+            {
+                toPos++;
+            }
+
+            if (fromSection.ItemsSource == null) 
+            {
+                var cell = fromSection.DeleteCellWithoutNotify(fromPos);
+                toSection.InsertCellWithoutNotify(cell, toPos);
+            }
+            else
             {
                 // must update DataSource at this timing.
-                var tmp = section.ItemsSource[pos];
-                section.ItemsSource.RemoveAt(pos);
-                section.ItemsSource.Insert(pos + _offset, tmp);
+                var deletedSet = fromSection.DeleteSourceItemWithoutNotify(fromPos);
+                toSection.InsertSourceItemWithoutNotify(deletedSet.Cell, deletedSet.Item, toPos);
             }
 
-            _offset = 0;
+            _fromInfo.Section = _toInfo.Section;
+
+            _toInfo = null;
+            _fromInfo = null;
         }
 
         public override int GetDragDirs(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder)
@@ -284,11 +407,13 @@ namespace AiForms.Renderers.Droid
                 return 0;
             }
 
-            var section = _settingsView.Model.GetSection(contentHolder.SectionIndex);
+            var section = contentHolder.RowInfo.Section;
             if (section == null || !section.UseDragSort)
             {
                 return 0;
             }
+
+            _fromInfo = contentHolder.RowInfo;
             return base.GetDragDirs(recyclerView, viewHolder);
         }
 

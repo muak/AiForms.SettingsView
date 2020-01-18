@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using System.Collections;
 using System.Collections.Specialized;
+using System.Linq;
 
 namespace AiForms.Renderers
 {
@@ -723,6 +724,52 @@ namespace AiForms.Renderers
             set { SetValue(ItemTemplateProperty, value); }
         }
 
+        /// <summary>
+        /// The template start index property.
+        /// </summary>
+        public static BindableProperty TemplateStartIndexProperty =
+            BindableProperty.Create(
+                nameof(TemplateStartIndex),
+                typeof(int),
+                typeof(SettingsView),
+                default(int),
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        /// <summary>
+        /// Gets or sets the index of the template start.
+        /// </summary>
+        /// <value>The index of the template start.</value>
+        public int TemplateStartIndex
+        {
+            get { return (int)GetValue(TemplateStartIndexProperty); }
+            set { SetValue(TemplateStartIndexProperty, value); }
+        }
+
+        /// <summary>
+        /// The show arrow indicator for android property.
+        /// </summary>
+        public static BindableProperty ShowArrowIndicatorForAndroidProperty =
+            BindableProperty.Create(
+                nameof(ShowArrowIndicatorForAndroid),
+                typeof(bool),
+                typeof(SettingsView),
+                default(bool),
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="T:AiForms.Renderers.SettingsView"/> show arrow
+        /// indicator for android.
+        /// </summary>
+        /// <value><c>true</c> if show arrow indicator for android; otherwise, <c>false</c>.</value>
+        public bool ShowArrowIndicatorForAndroid {
+            get { return (bool)GetValue(ShowArrowIndicatorForAndroidProperty); }
+            set { SetValue(ShowArrowIndicatorForAndroidProperty, value); }
+        }
+
+        int templatedItemsCount;
+
         static void ItemsChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var settingsView = (SettingsView)bindable;
@@ -731,13 +778,18 @@ namespace AiForms.Renderers
                 return;
             }
 
+            IList oldValueAsEnumerable;
             IList newValueAsEnumerable;
-            try {
+            try 
+            {
+                oldValueAsEnumerable = oldValue as IList;
                 newValueAsEnumerable = newValue as IList;
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 throw e;
             }
+
 
             var oldObservableCollection = oldValue as INotifyCollectionChanged;
 
@@ -745,33 +797,50 @@ namespace AiForms.Renderers
                 oldObservableCollection.CollectionChanged -= settingsView.OnItemsSourceCollectionChanged;
             }
 
+
+            settingsView.Root.CollectionChanged -= settingsView.OnCollectionChanged;
+
+            if (oldValueAsEnumerable != null)
+            {
+                for (var i = oldValueAsEnumerable.Count - 1; i >= 0; i--)
+                {
+                    settingsView.Root.RemoveAt(settingsView.TemplateStartIndex + i);
+                }
+            }
+
+            if (newValueAsEnumerable != null)
+            {
+                for (var i = 0; i < newValueAsEnumerable.Count; i++)
+                {
+                    var view = CreateChildViewFor(settingsView.ItemTemplate, newValueAsEnumerable[i], settingsView);
+                    settingsView.Root.Insert(settingsView.TemplateStartIndex + i, view);
+                }
+                settingsView.templatedItemsCount = newValueAsEnumerable.Count;
+            }
+
+            settingsView.Root.CollectionChanged += settingsView.OnCollectionChanged;
+
             var newObservableCollection = newValue as INotifyCollectionChanged;
 
             if (newObservableCollection != null) {
                 newObservableCollection.CollectionChanged += settingsView.OnItemsSourceCollectionChanged;
             }
 
-            settingsView.Root.Clear();
 
-            if (newValueAsEnumerable != null) {
-                foreach (var item in newValueAsEnumerable) {
-                    var view = CreateChildViewFor(settingsView.ItemTemplate, item, settingsView);
-
-                    settingsView.Root.Add(view);
-                }
-            }
+            // Notify manually ModelChanged.
+            settingsView.OnModelChanged();
         }
 
         void OnItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Replace) {
 
-                Root.RemoveAt(e.OldStartingIndex);
+                Root.RemoveAt(e.OldStartingIndex + TemplateStartIndex);
 
                 var item = e.NewItems[e.NewStartingIndex];
                 var view = CreateChildViewFor(this.ItemTemplate, item, this);
 
-                Root.Insert(e.NewStartingIndex, view);
+                Root.Insert(e.NewStartingIndex + TemplateStartIndex, view);
             }
 
             else if (e.Action == NotifyCollectionChangedAction.Add) {
@@ -780,19 +849,30 @@ namespace AiForms.Renderers
                         var item = e.NewItems[i];
                         var view = CreateChildViewFor(this.ItemTemplate, item, this);
 
-                        Root.Insert(i + e.NewStartingIndex, view);
+                        Root.Insert(i + e.NewStartingIndex + TemplateStartIndex, view);
+                        templatedItemsCount++;
                     }
                 }
             }
 
             else if (e.Action == NotifyCollectionChangedAction.Remove) {
                 if (e.OldItems != null) {
-                    Root.RemoveAt(e.OldStartingIndex);
+                    Root.RemoveAt(e.OldStartingIndex + TemplateStartIndex);
+                    templatedItemsCount--;
                 }
             }
 
             else if (e.Action == NotifyCollectionChangedAction.Reset) {
-                Root.Clear();
+
+                Root.CollectionChanged -= OnCollectionChanged;
+                IList source = ItemsSource as IList;
+                for (var i = templatedItemsCount - 1; i >= 0; i--)
+                {
+                    Root.RemoveAt(TemplateStartIndex + i);
+                }
+                Root.CollectionChanged += OnCollectionChanged;
+                templatedItemsCount = 0;
+                OnModelChanged();
             }
 
             else {

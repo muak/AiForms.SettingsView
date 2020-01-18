@@ -223,7 +223,9 @@ namespace AiForms.Renderers.iOS
                 TableView.BackgroundColor = parent.BackgroundColor.ToUIColor();
             }
 
-            foreach (var item in _pickerCell.SelectedItems) {
+            IList selectedList = _pickerCell.MergedSelectedList;
+
+            foreach (var item in selectedList) {
                 var idx = _source.IndexOf(item);
                 if (idx < 0) {
                     continue;
@@ -234,8 +236,8 @@ namespace AiForms.Renderers.iOS
                 }
             }
 
-            if (_pickerCell.SelectedItems.Count > 0) {
-                var idx = _source.IndexOf(_pickerCell.SelectedItems[0]);
+            if (selectedList.Count > 0) {
+                var idx = _source.IndexOf(selectedList[0]);
                 if(idx < 0){
                     return;
                 }
@@ -256,18 +258,25 @@ namespace AiForms.Renderers.iOS
         {
             _pickerCell.SelectedItems.Clear();
 
-            foreach (var kv in _selectedCache) {
+            foreach (var kv in _selectedCache)
+            {
                 _pickerCell.SelectedItems.Add(kv.Value);
             }
 
+            _pickerCell.SelectedItem = _selectedCache.Values.FirstOrDefault();
 
-            _pickerCellNative.UpdateSelectedItems(true);
+            //_pickerCellNative.UpdateSelectedItems(true);
 
             if (_pickerCell.KeepSelectedUntilBack) {
                 _tableView.DeselectRow(_tableView.IndexPathForSelectedRow, true);
             }
 
             _pickerCell.InvokeCommand();
+        }
+
+        public override void ViewDidDisappear(bool animated)
+        {
+
         }
 
         /// <summary>

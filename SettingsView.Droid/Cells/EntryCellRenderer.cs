@@ -58,6 +58,8 @@ namespace AiForms.Renderers.Droid
             _EditText.ClearFocusAction = DoneEdit;
             Click += EntryCellView_Click;
 
+            _EntryCell.Focused += EntryCell_Focused;
+
             //remove weight and change width due to fill _EditText.
             var titleParam = TitleLabel.LayoutParameters as LinearLayout.LayoutParams;
             titleParam.Weight = 0;
@@ -149,6 +151,7 @@ namespace AiForms.Renderers.Droid
         {
             if (disposing) {
                 Click -= EntryCellView_Click;
+                _EntryCell.Focused -= EntryCell_Focused;
                 _EditText.RemoveFromParent();
                 _EditText.SetOnEditorActionListener(null);
                 _EditText.RemoveTextChangedListener(this);
@@ -273,7 +276,7 @@ namespace AiForms.Renderers.Droid
         void DoneEdit()
         {
             var entryCell = (IEntryCellController)Cell;
-            entryCell.SendCompleted();
+            //entryCell.SendCompleted();
             _EditText.ClearFocus();
             ClearFocus();
         }
@@ -306,6 +309,11 @@ namespace AiForms.Renderers.Droid
 
         void ITextWatcher.OnTextChanged(ICharSequence s, int start, int before, int count)
         {
+            if (string.IsNullOrEmpty(_EntryCell.ValueText) && s.Length() == 0)
+            {
+                return;
+            }
+
             _EntryCell.ValueText = s?.ToString();
         }
 
@@ -318,8 +326,17 @@ namespace AiForms.Renderers.Droid
             else {
                 //hide underline
                 _EditText.Background.Alpha = 0;
+                // consider as text inpute completed.
+                _EntryCell.SendCompleted(); 
             }
         }
+
+        void EntryCell_Focused(object sender, EventArgs e)
+        {
+            _EditText.RequestFocus();
+            ShowKeyboard(_EditText);
+        }
+
     }
 
     [Android.Runtime.Preserve(AllMembers = true)]

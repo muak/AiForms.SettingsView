@@ -21,6 +21,7 @@ namespace Sample.ViewModels
         public ReactiveProperty<bool> UseAutoValueText { get; } = new ReactiveProperty<bool>();
         public ReactiveProperty<bool> UsePickToClose { get; } = new ReactiveProperty<bool>();
         public ReactiveProperty<bool> IsVisible { get; } = new ReactiveProperty<bool>(true);
+        public ReactivePropertySlim<Person> SelectedItem { get; } = new ReactivePropertySlim<Person>();
 
         public ObservableCollection<Person> ItemsSource { get; } = new ObservableCollection<Person>();
         public ObservableCollection<int> ItemsSource2 { get; } = new ObservableCollection<int>();
@@ -61,9 +62,12 @@ namespace Sample.ViewModels
             SelectedItemsOrderKey.Value = DisplayMembers[0];
             ChangeSelectedItems();
 
+            SelectedItem.Value = ItemsSource[0];
+
             SelectedCommand.Subscribe(obj=>{
                 var list = obj as ObservableCollection<Person>;
                 System.Diagnostics.Debug.WriteLine(list);
+                var adsfsa = SelectedItem.Value;
             });
         }
 

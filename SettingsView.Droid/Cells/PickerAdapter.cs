@@ -136,20 +136,24 @@ namespace AiForms.Renderers.Droid
                 var index = positions.KeyAt(i);
                 _pickerCell.SelectedItems.Add(_source[index]);
             }
+
+            _pickerCell.SelectedItem = _pickerCell.SelectedItems.Count > 0 ? _pickerCell.SelectedItems[0] : null;
         }
 
         internal void RestoreSelect()
         {
-            if (_pickerCell.SelectedItems.Count == 0) {
+            IList selectedList = _pickerCell.MergedSelectedList;
+
+            if (selectedList.Count == 0) {
                 return;
             }
 
-            for (var i = 0; i < _pickerCell.SelectedItems.Count; i++) {
+            for (var i = 0; i < selectedList.Count; i++) {
                 if (_pickerCell.MaxSelectedNumber >= 1 && i >= _pickerCell.MaxSelectedNumber) {
                     break;
                 }
 
-                var item = _pickerCell.SelectedItems[i];
+                var item = selectedList[i];
                 var pos = _source.IndexOf(item);
                 if (pos < 0) {
                     continue;

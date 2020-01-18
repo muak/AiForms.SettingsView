@@ -1,3 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<prism:PrismApplication xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms" x:Class="Sample.App">
+<prism:PrismApplication
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
+    xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms"
+    x:Class="Sample.App">
+
+    <Application.Resources>
+		<ResourceDictionary>
+            <Color x:Key="AppBackground">#ffffff</Color>
+            <Color x:Key="AccentColor">#FFBF00</Color>
+            <Color x:Key="DisabledColor">#E6DAB9</Color>
+            <Color x:Key="TitleTextColor">#CC9900</Color>
+            <Color x:Key="PaleBackColorPrimary">#F2EFE6</Color>
+            <Color x:Key="PaleBackColorSecondary">#F2EDDA</Color>
+            <Color x:Key="DeepTextColor">#555555</Color>
+            <Color x:Key="NormalTextColor">#666666</Color>
+            <Color x:Key="PaleTextColor">#999999</Color>
+            <Color x:Key="EmphasisTextColor">#FF0000</Color>
+            <x:Double x:Key="BaseFontSize">12</x:Double>
+            <x:Double x:Key="BaseFontSize+">14</x:Double>
+            <x:Double x:Key="BaseFontSize++">17</x:Double>
+            <x:Double x:Key="BaseFontSize-">11</x:Double>
+
+            <Style TargetType="sv:SettingsView" x:Key="settingsView">
+                <Setter Property="SeparatorColor" Value="{StaticResource DisabledColor}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource PaleBackColorPrimary}" />
+                <Setter Property="HeaderBackgroundColor" Value="{StaticResource PaleBackColorPrimary}" />
+                <Setter Property="CellBackgroundColor" Value="{StaticResource AppBackground}" />
+                <Setter Property="CellTitleColor" Value="{StaticResource DeepTextColor}" />
+                <Setter Property="CellValueTextColor" Value="{StaticResource NormalTextColor}" />
+                <Setter Property="CellTitleFontSize" Value="{StaticResource BaseFontSize++}" />
+                <Setter Property="CellValueTextFontSize" Value="{StaticResource BaseFontSize}" />
+                <Setter Property="CellDescriptionColor" Value="{StaticResource NormalTextColor}" />
+                <Setter Property="CellDescriptionFontSize" Value="{StaticResource BaseFontSize-}" />
+                <Setter Property="CellAccentColor" Value="{StaticResource AccentColor}" />
+                <Setter Property="SelectedColor" Value="#50FFBF00" />
+                <Setter Property="HeaderTextColor" Value="{StaticResource TitleTextColor}" />
+                <Setter Property="FooterFontSize" Value="{StaticResource BaseFontSize-}" />
+                <Setter Property="FooterTextColor" Value="{StaticResource PaleTextColor}" />
+            </Style>
+         </ResourceDictionary>
+	</Application.Resources>
+
 </prism:PrismApplication>

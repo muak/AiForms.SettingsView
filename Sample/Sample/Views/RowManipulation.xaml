@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
+    xmlns:ef="clr-namespace:AiForms.Effects;assembly=AiForms.Effects"
+    x:Class="Sample.Views.RowManipulation">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Button">
+                <Setter Property="ef:ToFlatButton.On" Value="True" />
+                <Setter Property="ef:ToFlatButton.RippleColor" Value="#80FFBF00" />
+                <Setter Property="Padding"  Value="0" />
+                <Setter Property="FontSize" Value="Small" />
+                <Setter Property="HeightRequest" Value="30" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackLayout Grid.Column="0" Spacing="1">
+            <Button Text="AddFirst" Clicked="AddFirstClicked" />
+            <Button Text="AddLast" Clicked="AddLastClicked"/>
+            <Button Text="Add2nd" Clicked="Add2ndClicked"/>
+            <Button Text="DelFirst" Clicked="DelFirstClicked"/>
+            <Button Text="DelLast" Clicked="DelLastClicked"/>
+            <Button Text="Del2nd" Clicked="Del2ndClicked" />
+            <Button Text="Replace1" Clicked="Replace1Clicked" />
+
+            <Button Text="AddSecFirst" Clicked="AddSecFirstClicked" />
+            <Button Text="AddSecLast" Clicked="AddSecLastClicked"/>
+            <Button Text="AddSec2nd" Clicked="AddSec2ndClicked"/>
+
+            <Button Text="DelSecFirst" Clicked="DelSecFirstClicked" />
+            <Button Text="DelSecLast" Clicked="DelSecLastClicked"/>
+            <Button Text="DelSec2nd" Clicked="DelSec2ndClicked"/>
+
+            <Button Text="ReplaceSec1" Clicked="ReplaceSec1Clicked" />
+
+            <Button Text="ShowHide1st" Clicked="ShowHide1stClicked" />
+
+        </StackLayout>
+
+        <sv:SettingsView Grid.Column="1" Style="{StaticResource settingsView}" x:Name="settings">
+            <sv:Section Title="Header" FooterText="Footer" x:Name="section">
+                <sv:LabelCell        IconSource="icon.png" Title="LabelCell"        Description="HogeFuga" HintText="hint" ValueText="Value"/>
+                <sv:CommandCell      IconSource="icon.png" Title="CommandCell"      Description="HogeFuga" HintText="hint" ValueText="Value"/>
+                <sv:SwitchCell       IconSource="icon.png" Title="SwitchCell"       Description="HogeFuga" HintText="hint" />
+                <sv:CheckboxCell     IconSource="icon.png" Title="CheckboxCell"     Description="HogeFuga" HintText="hint" />
+            </sv:Section>
+        </sv:SettingsView>
+    </Grid>
+</ContentPage>

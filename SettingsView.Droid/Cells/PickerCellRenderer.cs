@@ -4,7 +4,10 @@ using AiForms.Renderers;
 using AiForms.Renderers.Droid;
 using Android.App;
 using Android.Content;
+using Android.Views;
+using Android.Widget;
 using Xamarin.Forms;
+using Xamarin.Forms.Platform.Android;
 using AListView = Android.Widget.ListView;
 
 [assembly: ExportRenderer(typeof(PickerCell), typeof(PickerCellRenderer))]
@@ -30,6 +33,7 @@ namespace AiForms.Renderers.Droid
         string _valueTextCache;
         INotifyCollectionChanged _notifyCollection;
         INotifyCollectionChanged _selectedCollection;
+        ImageView _indicatorView;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.PickerCellView"/> class.
@@ -39,6 +43,23 @@ namespace AiForms.Renderers.Droid
         public PickerCellView(Context context, Cell cell) : base(context, cell)
         {
             _context = context;
+
+            if (!CellParent.ShowArrowIndicatorForAndroid)
+            {
+                return;
+            }
+            _indicatorView = new ImageView(context);
+            _indicatorView.SetImageResource(Resource.Drawable.ic_navigate_next);
+
+            var param = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WrapContent,
+                ViewGroup.LayoutParams.WrapContent) {
+            };
+
+            using (param)
+            {
+                AccessoryStack.AddView(_indicatorView, param);
+            }
         }
 
         /// <summary>
@@ -51,6 +72,7 @@ namespace AiForms.Renderers.Droid
             base.CellPropertyChanged(sender, e);
 
             if (e.PropertyName == PickerCell.SelectedItemsProperty.PropertyName ||
+                e.PropertyName == PickerCell.SelectedItemProperty.PropertyName ||
                 e.PropertyName == PickerCell.DisplayMemberProperty.PropertyName ||
                 e.PropertyName == PickerCell.UseNaturalSortProperty.PropertyName ||
                 e.PropertyName == PickerCell.SelectedItemsOrderKeyProperty.PropertyName) {
@@ -149,6 +171,11 @@ namespace AiForms.Renderers.Droid
                     _selectedCollection.CollectionChanged -= SelectedItems_CollectionChanged;
                     _selectedCollection = null;
                 }
+                _indicatorView?.RemoveFromParent();
+                _indicatorView?.SetImageDrawable(null);
+                _indicatorView?.SetImageBitmap(null);
+                _indicatorView?.Dispose();
+                _indicatorView = null;
             }
             base.Dispose(disposing);
         }

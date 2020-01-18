@@ -11,17 +11,32 @@
         <iconUrl>https://raw.githubusercontent.com/muak/AiForms.SettingsView/master/images/icon.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>This is a flexible TableView specialized in settings for Android / iOS. 
-There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,CheckboxCell,RadioCell,PickerCell,EntryCell,NumberPickerCell,TimePickerCell,DatePickerCell)
+There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,CheckboxCell,RadioCell,PickerCell,EntryCell,NumberPickerCell,TimePickerCell,DatePickerCell,CustomCell)
         </description>
         <summary></summary>
         <releaseNotes>
+## New Features
+
+* [CustomCell] set XAML in SettingsView's cell
+* [EntryCell] SetFocus method #63
+* [EntryCell] CompletedCommand property
+* [PickerCell] SelectionMode property
+* [PickerCell] SelectedItem property
+* [SettingsView] ShowArrowIndicatorForAndroid Property – show an arrow indicator at the right side of CommandCell and PickerCell.
+* [SettingsView][Section] TemplateStartIndex property – the index that starts inserting the template.
+* [Section] HeaderView and FooterView property – can set a Forms view to a section header / footer.
+
+
+## Changes
+
+* EntryCell's keyboard is now hidden when scrolling on iOS. #59
+* EntryCell Completed event is now occurred when a cell is lost focus too.
+* Improved cell maniputation performance.
+
 ## Bug fixes
 
-* fix NaturalSort
-* PickerCell doesn't work when using a built-in-type.
-
-## Others
-* [Android] Add the library's initialize method for AndroidEnablePreloadAssemblies
+* [TextPickerCell] Show the soft keyboard when tapping the dialog. #68
+* [EntryCell][Android] A binding sometimes lost.
 
         </releaseNotes>
         <tags>Xamarin.Forms TableView Cell Setting Configuration Option ListView UITableView RecyclerView ReOrder DragDrop</tags>

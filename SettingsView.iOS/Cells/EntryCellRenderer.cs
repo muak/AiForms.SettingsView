@@ -24,6 +24,7 @@ namespace AiForms.Renderers.iOS
         AiEntryCell _EntryCell => Cell as AiEntryCell;
         internal UITextField ValueField;
         UIView _FieldWrapper;
+        bool _hasFocus = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AiForms.Renderers.iOS.EntryCellView"/> class.
@@ -35,7 +36,11 @@ namespace AiForms.Renderers.iOS
             ValueField.AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
 
             ValueField.EditingChanged += _textField_EditingChanged;
+            ValueField.EditingDidBegin += ValueField_EditingDidBegin;
+            ValueField.EditingDidEnd += ValueField_EditingDidEnd;
             ValueField.ShouldReturn = OnShouldReturn;
+
+            _EntryCell.Focused += EntryCell_Focused;
 
 
             _FieldWrapper = new UIView();
@@ -129,10 +134,14 @@ namespace AiForms.Renderers.iOS
         {
             if (disposing) {
                 ValueField.EditingChanged -= _textField_EditingChanged;
+                ValueField.EditingDidBegin -= ValueField_EditingDidBegin;
+                ValueField.EditingDidEnd -= ValueField_EditingDidEnd;
+                _EntryCell.Focused -= EntryCell_Focused;
                 ValueField.ShouldReturn = null;
                 ValueField.RemoveFromSuperview();
                 ValueField.Dispose();
                 ValueField = null;
+
                 ContentStack.RemoveArrangedSubview(_FieldWrapper);
                 _FieldWrapper.Dispose();
                 _FieldWrapper = null;
@@ -217,10 +226,35 @@ namespace AiForms.Renderers.iOS
             _EntryCell.ValueText = ValueField.Text;
         }
 
+
+        void ValueField_EditingDidBegin(object sender, EventArgs e)
+        {
+            _hasFocus = true;
+        }
+
+
+        void ValueField_EditingDidEnd(object sender, EventArgs e)
+        {           
+            if(!_hasFocus)
+            {
+                return;
+            }
+            ValueField.ResignFirstResponder();
+            _EntryCell.SendCompleted();
+            _hasFocus = false;
+        }
+
+        void EntryCell_Focused(object sender, EventArgs e)
+        {
+            ValueField.BecomeFirstResponder();
+        }
+
+
         bool OnShouldReturn(UITextField view)
         {
-            _EntryCell.SendCompleted();
+            _hasFocus = false;
             ValueField.ResignFirstResponder();
+            _EntryCell.SendCompleted();
             return true;
         }
     }

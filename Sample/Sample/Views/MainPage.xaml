@@ -7,11 +7,15 @@
 	x:Class="Sample.Views.MainPage" Title="MainPage">
     <ai:SettingsView>
         <ai:Section HeaderHeight="10">
+            <ai:ButtonCell Title="RowManipulation" Command="{Binding GoToTest}"  CommandParameter="RowManipulation" />
+            <ai:ButtonCell Title="RowManipulationTemplate" Command="{Binding GoToTest}"  CommandParameter="RowManipulationTemplate" />
+            <ai:ButtonCell Title="ReorderTest" Command="{Binding GoToTest}"  CommandParameter="ReorderTest" />
             <ai:ButtonCell Title="DataTemplateTest" Command="{Binding GoToTest}"  CommandParameter="DataTemplateTest" />
             <ai:ButtonCell Title="SettingsView" Command="{Binding GoToPage}" CommandParameter="SettingsView" />
             <ai:ButtonCell Title="DefaultPropTest" Command="{Binding GoToTest}"  CommandParameter="DefaultPropTest" />
             <ai:ButtonCell Title="ParentPropTest" Command="{Binding GoToTest}"  CommandParameter="ParentPropTest" />
             <ai:ButtonCell Title="CollectionChangedTest" Command="{Binding GoToTest}"  CommandParameter="CollectionChangedTest" />
+            <ai:ButtonCell Title="CustomCellTest" Command="{Binding GoToTest}"  CommandParameter="CustomCellTest" />
             <ai:ButtonCell Title="LabelCellTest" Command="{Binding GoToTest}"  CommandParameter="LabelCellTest" />
             <ai:ButtonCell Title="SwitchCellTest" Command="{Binding GoToTest}"  CommandParameter="SwitchCellTest" />
             <ai:ButtonCell Title="PickerCellTest" Command="{Binding GoToTest}"  CommandParameter="PickerCellTest" />

@@ -21,24 +21,20 @@ namespace AiForms.Renderers
         /// <summary>
         /// Occurs when section collection changed.
         /// </summary>
-        public event EventHandler<EventArgs> SectionCollectionChanged;
-
+        public event EventHandler<NotifyCollectionChangedEventArgs> SectionCollectionChanged;
+        /// <summary>
+        /// Occurs when section property changed.
+        /// </summary>
+        public event PropertyChangedEventHandler SectionPropertyChanged;
+       
         void ChildCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
-        {
-            SectionCollectionChanged?.Invoke(this, EventArgs.Empty);
+        {           
+            SectionCollectionChanged?.Invoke(sender, notifyCollectionChangedEventArgs);
         }
 
         void ChildPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == TitleProperty.PropertyName) {
-                OnPropertyChanged(TitleProperty.PropertyName);
-            }
-            else if (e.PropertyName == Section.FooterTextProperty.PropertyName) {
-                OnPropertyChanged(Section.FooterTextProperty.PropertyName);
-            }
-            else if (e.PropertyName == Section.IsVisibleProperty.PropertyName) {
-                OnPropertyChanged(Section.IsVisibleProperty.PropertyName);
-            }
+            SectionPropertyChanged?.Invoke(sender, e);
         }
 
         void SetupEvents()
@@ -47,15 +43,15 @@ namespace AiForms.Renderers
             {
                 if (args.NewItems != null) {
                     foreach (Section section in args.NewItems) {
-                        section.CollectionChanged += ChildCollectionChanged;
-                        section.PropertyChanged += ChildPropertyChanged;
+                        section.SectionCollectionChanged += ChildCollectionChanged;
+                        section.SectionPropertyChanged += ChildPropertyChanged;
                     }
                 }
 
                 if (args.OldItems != null) {
                     foreach (Section section in args.OldItems) {
-                        section.CollectionChanged -= ChildCollectionChanged;
-                        section.PropertyChanged -= ChildPropertyChanged;
+                        section.SectionCollectionChanged -= ChildCollectionChanged;
+                        section.SectionPropertyChanged -= ChildPropertyChanged;
                     }
                 }
             };

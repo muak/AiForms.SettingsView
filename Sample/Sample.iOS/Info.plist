@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>Sample</string>
+	<string>SettingsView</string>
 	<key>CFBundleIdentifier</key>
 	<string>jp.kamusoft.sample</string>
 	<key>CFBundleShortVersionString</key>
@@ -41,7 +41,7 @@
 	<key>XSAppIconAssets</key>
 	<string>Resources/Images.xcassets/AppIcons.appiconset</string>
 	<key>CFBundleName</key>
-	<string>Sample</string>
+	<string>SettingsView</string>
 	<key>CFBundleAllowMixedLocalizations</key>
 	<true/>
 </dict>

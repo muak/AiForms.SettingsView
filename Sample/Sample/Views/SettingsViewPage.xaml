@@ -4,6 +4,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
 	xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
     xmlns:ef="clr-namespace:AiForms.Effects;assembly=AiForms.Effects"
+    xmlns:cell="clr-namespace:Sample.Views.Cells"
 	x:Class="Sample.Views.SettingsViewPage"
     Title="Settings">
 
@@ -59,6 +60,7 @@
     </ContentPage.Resources>
 	
 	<sv:SettingsView HasUnevenRows="true" HeaderHeight="36" HeaderPadding="14,0,0,6" HeaderTextVerticalAlign="End" FooterPadding="14,4,4,6"
+                  ShowArrowIndicatorForAndroid="True"
         >
      
 		<sv:Section FooterText="This is a footer. optionaly you can write here.">
@@ -86,7 +88,7 @@
         <sv:Section Title="Picker 4 Brothers">
             <sv:NumberPickerCell Title="NumberPicker" Min="0" Max="99" Number="15" PickerTitle="Select number" />
             <sv:TimePickerCell Title="TimePicker" Format="HH:mm" Time="15:30" PickerTitle="Select time" />
-            <sv:DatePickerCell Title="DatePicker" Format="yyyy/MM/dd (ddd)" Date="2017/11/11" MinimumDate="2015/1/1" MaximumDate="2018/12/15" TodayText="Today's date"/>
+            <sv:DatePickerCell Title="DatePicker" Format="yyyy/MM/dd (ddd)" Date="2017/11/11" MinimumDate="2015/1/1" MaximumDate="2025/12/15" TodayText="Today's date"/>
             <sv:TextPickerCell Title="TextPicker" Items="{Binding TextItems}" SelectedItem="{Binding SelectedText.Value}" />
         </sv:Section>  
         
@@ -105,7 +107,7 @@
                     <Label Text="ViewCell" TextColor="{StaticResource DeepTextColor}" />
                     <StackLayout Orientation="Horizontal">
                         <Image Source="icon.png" WidthRequest="36" HeightRequest="36" />
-                        <Slider Minimum="0" Maximum="999" Value="500" HorizontalOptions="FillAndExpand" ef:AlterColor.Accent="{StaticResource AccentColor}" />
+                        <Slider Minimum="0" Maximum="1" Value="0.5" HorizontalOptions="FillAndExpand" ef:AlterColor.Accent="{StaticResource AccentColor}" />
                     </StackLayout>
                     <Label Text="You can use Forms build-in Cells." FontSize="11" TextColor="{StaticResource PaleTextColor}" />
                  </StackLayout>

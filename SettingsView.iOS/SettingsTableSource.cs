@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using AiForms.Renderers.iOS.Extensions;
 using CoreGraphics;
 using Foundation;
+using ObjCRuntime;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
@@ -113,7 +115,26 @@ namespace AiForms.Renderers.iOS
         /// <param name="section">Section.</param>
         public override nfloat GetHeightForHeader(UITableView tableView, nint section)
         {
-            var individualHeight = _settingsView.Model.GetHeaderHeight((int)section);
+            var sec = _settingsView.Model.GetSection((int)section);
+
+            if (!sec.IsVisible)
+            {
+                return nfloat.Epsilon;
+            }
+
+            if(sec.HeaderView != null)
+            {
+                if(sec.HeaderView.Height < 0)
+                {
+                    // stop the cell layout from being broken.
+                    var measure = sec.HeaderView.Measure(tableView.Bounds.Width, double.PositiveInfinity, MeasureFlags.IncludeMargins);
+                    return (System.nfloat)measure.Request.Height;
+                }
+
+                return -1; // automatic height
+            }
+
+            var individualHeight = sec.HeaderHeight;
 
             if(individualHeight > 0d){
                 return (nfloat)individualHeight;
@@ -133,21 +154,23 @@ namespace AiForms.Renderers.iOS
         /// <param name="section">Section.</param>
         public override UIView GetViewForHeader(UITableView tableView, nint section)
         {
-            var title = TitleForHeader(tableView, section);
+            var formsView = _settingsView.Model.GetSectionHeaderView((int)section);
+            if (formsView != null)
+            {
+                return GetNativeSectionHeaderFooterView(formsView, tableView, true);
+            }
 
-            var container = new HeaderView(_settingsView.HeaderPadding.ToUIEdgeInsets(),
-                                           _settingsView.HeaderTextVerticalAlign);
 
-            container.BackgroundColor = _settingsView.HeaderBackgroundColor.ToUIColor();
+            var headerView = _tableView.DequeueReusableHeaderFooterView(SettingsViewRenderer.TextHeaderId) as TextHeaderView;
+            headerView.Initialzie(_settingsView.HeaderPadding.ToUIEdgeInsets(),_settingsView.HeaderTextVerticalAlign);
 
-            var label = container.Label;
-
-            label.Text = title;
-            label.TextColor = _settingsView.HeaderTextColor == Color.Default ?
+            headerView.Label.Text = _settingsView.Model.GetSectionTitle((int)section); 
+            headerView.Label.TextColor = _settingsView.HeaderTextColor == Color.Default ?
                 UIColor.Gray : _settingsView.HeaderTextColor.ToUIColor();
-            label.Font = UIFont.SystemFontOfSize((nfloat)_settingsView.HeaderFontSize);
+            headerView.Label.Font = UIFont.SystemFontOfSize((nfloat)_settingsView.HeaderFontSize);
+            headerView.BackgroundView.BackgroundColor = _settingsView.HeaderBackgroundColor.ToUIColor();
 
-            return container;
+            return headerView;
         }
 
         /// <summary>
@@ -158,7 +181,19 @@ namespace AiForms.Renderers.iOS
         /// <param name="section">Section.</param>
         public override nfloat GetHeightForFooter(UITableView tableView, nint section)
         {
-            var footerText = _settingsView.Model.GetFooterText((int)section);
+            var sec = _settingsView.Model.GetSection((int)section);
+
+            if (!sec.IsVisible)
+            {
+                return nfloat.Epsilon;
+            }
+
+            if (sec.FooterView != null)
+            {
+                return -1; // automatic height
+            }
+
+            var footerText = sec.FooterText;
 
             if (string.IsNullOrEmpty(footerText)) {
                 //hide footer
@@ -176,34 +211,37 @@ namespace AiForms.Renderers.iOS
         /// <param name="section">Section.</param>
         public override UIView GetViewForFooter(UITableView tableView, nint section)
         {
-            var text = TitleForFooter(tableView, section);
+            var formsView = _settingsView.Model.GetSectionFooterView((int)section);
+            if (formsView != null)
+            {
+                return GetNativeSectionHeaderFooterView(formsView, tableView, false);
+            }
+
+            var text = _settingsView.Model.GetFooterText((int)section);
 
             if (string.IsNullOrEmpty(text)) {
                 return new UIView(CGRect.Empty);
             }
 
-            var container = new FooterView(_settingsView.FooterPadding.ToUIEdgeInsets());
-            container.BackgroundColor = _settingsView.FooterBackgroundColor.ToUIColor();
+            var footerView = _tableView.DequeueReusableHeaderFooterView(SettingsViewRenderer.TextFooterId) as TextFooterView;
+            footerView.Initialzie(_settingsView.FooterPadding.ToUIEdgeInsets());
 
-            var label = container.Label;
-
-            label.Text = text;
-            label.TextColor = _settingsView.FooterTextColor == Color.Default ?
+            footerView.Label.Text = text;
+            footerView.Label.TextColor = _settingsView.FooterTextColor == Color.Default ?
                 UIColor.Gray : _settingsView.FooterTextColor.ToUIColor();
-            label.Font = UIFont.SystemFontOfSize((nfloat)_settingsView.FooterFontSize);
+            footerView.Label.Font = UIFont.SystemFontOfSize((nfloat)_settingsView.FooterFontSize);
+            footerView.BackgroundView.BackgroundColor = _settingsView.FooterBackgroundColor.ToUIColor();
 
-            return container;
+            return footerView;
         }
 
-        /// <summary>
-        /// section footer text
-        /// </summary>
-        /// <returns>The for footer.</returns>
-        /// <param name="tableView">Table view.</param>
-        /// <param name="section">Section.</param>
-        public override string TitleForFooter(UITableView tableView, nint section)
+        UIView GetNativeSectionHeaderFooterView(View formsView, UITableView tableView, bool isHeader)
         {
-            return _settingsView.Model.GetFooterText((int)section);
+            var idString = isHeader ? SettingsViewRenderer.CustomHeaderId : SettingsViewRenderer.CustomFooterId;
+            var nativeView = tableView.DequeueReusableHeaderFooterView(idString) as CustomHeaderFooterView;
+            nativeView.FormsCell = formsView;
+
+            return nativeView;
         }
 
         /// <summary>
@@ -225,7 +263,44 @@ namespace AiForms.Renderers.iOS
         /// <param name="section">Section.</param>
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            return _settingsView.Model.GetRowCount((int)section);
+            var sec = _settingsView.Model.GetSection((int)section);
+            return sec.IsVisible ? sec.Count : 0;
+        }
+
+
+        public override bool ShouldShowMenu(UITableView tableView, NSIndexPath rowAtindexPath)
+        {
+            if(_settingsView.Model.GetSection(rowAtindexPath.Section).UseDragSort)
+            {
+                return false;
+            }
+
+            var ret = false;
+            if(tableView.CellAt(rowAtindexPath) is CellBaseView cell)
+            {
+                System.Diagnostics.Debug.WriteLine("LongTap");
+                ret = cell.RowLongPressed(tableView, rowAtindexPath);
+            }
+
+            if(ret)
+            {
+                _settingsView.Model.RowLongPressed(_settingsView.Model.GetCell(rowAtindexPath.Section, rowAtindexPath.Row));
+                BeginInvokeOnMainThread(async () => {
+                    await Task.Delay(250);
+                    tableView.CellAt(rowAtindexPath).SetSelected(false, true);
+                });
+            }
+
+            return ret;
+        }
+
+        public override bool CanPerformAction(UITableView tableView, Selector action, NSIndexPath indexPath, NSObject sender)
+        {
+            return false;
+        }
+
+        public override void PerformAction(UITableView tableView, Selector action, NSIndexPath indexPath, NSObject sender)
+        {
         }
 
         /// <summary>
@@ -239,34 +314,19 @@ namespace AiForms.Renderers.iOS
         }
 
         /// <summary>
-        /// section header title
-        /// </summary>
-        /// <returns>The for header.</returns>
-        /// <param name="tableView">Table view.</param>
-        /// <param name="section">Section.</param>
-        public override string TitleForHeader(UITableView tableView, nint section)
-        {
-            return _settingsView.Model.GetSectionTitle((int)section);
-        }
-
-      
-        /// <summary>
         /// processing when row is selected.
         /// </summary>
         /// <param name="tableView">Table view.</param>
         /// <param name="indexPath">Index path.</param>
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
-        {         
-            _settingsView.Model.RowSelected(indexPath.Section,indexPath.Row);
+        {
+            _settingsView.Model.RowSelected(indexPath.Section, indexPath.Row);
 
-            var cell = tableView.CellAt(indexPath) as CellBaseView;
-            if(cell == null)
+            if (tableView.CellAt(indexPath) is CellBaseView cell)
             {
-                return;
+                cell.RowSelected(tableView, indexPath);
             }
-
-            cell.RowSelected(tableView, indexPath);
-        }
+        }       
 
         /// <summary>
         /// Dispose the specified disposing.
@@ -283,56 +343,6 @@ namespace AiForms.Renderers.iOS
             _disposed = true;
 
             base.Dispose(disposing);
-        }
-
-        class HeaderView : UIView
-        {
-            public UILabel Label { get; set; }
-
-
-            public HeaderView(UIEdgeInsets padding, LayoutAlignment align)
-            {
-                Label = new UILabel();
-                Label.Lines = 1;
-                Label.LineBreakMode = UILineBreakMode.TailTruncation;
-                Label.TranslatesAutoresizingMaskIntoConstraints = false;
-
-                this.AddSubview(Label);
-
-                Label.LeftAnchor.ConstraintEqualTo(this.LeftAnchor, padding.Left).Active = true;
-                Label.RightAnchor.ConstraintEqualTo(this.RightAnchor, -padding.Right).Active = true;
-
-                if (align == LayoutAlignment.Start) {
-                    Label.TopAnchor.ConstraintEqualTo(this.TopAnchor, padding.Top).Active = true;
-                }
-                else if (align == LayoutAlignment.End) {
-                    Label.BottomAnchor.ConstraintEqualTo(this.BottomAnchor, -padding.Bottom).Active = true;
-                }
-                else {
-                    Label.CenterYAnchor.ConstraintEqualTo(this.CenterYAnchor, 0).Active = true;
-                }
-
-            }
-        }
-
-        class FooterView : UIView
-        {
-            public UILabel Label { get; set; }
-
-            public FooterView(UIEdgeInsets padding)
-            {
-                Label = new UILabel();
-                Label.Lines = 0;
-                Label.LineBreakMode = UILineBreakMode.WordWrap;
-                Label.TranslatesAutoresizingMaskIntoConstraints = false;
-
-                this.AddSubview(Label);
-
-                Label.TopAnchor.ConstraintEqualTo(this.TopAnchor, padding.Top).Active = true;
-                Label.LeftAnchor.ConstraintEqualTo(this.LeftAnchor, padding.Left).Active = true;
-                Label.RightAnchor.ConstraintEqualTo(this.RightAnchor, -padding.Right).Active = true;
-                Label.BottomAnchor.ConstraintEqualTo(this.BottomAnchor, -padding.Bottom).Active = true;
-            }
         }
     }
 }

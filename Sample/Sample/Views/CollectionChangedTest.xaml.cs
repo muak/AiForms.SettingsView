@@ -33,6 +33,12 @@ namespace Sample.Views
                 case "SectionVisible":
                     SectionVisible();
                     break;
+                case "ReplaceCell":
+                    ReplaceCell();
+                    break;
+                case "ReplaceSection":
+                    ReplaceSection();
+                    break;
                 default:
                     break;
             }
@@ -76,6 +82,11 @@ namespace Sample.Views
             if(AddCellCount > 5){
                 AddCellCount = 0;
             }
+        }
+
+        void ReplaceCell()
+        {
+            settings.Root[0][0] = settings.Root[0][2];
         }
 
         int DeleteCellCount = 0;
@@ -122,13 +133,18 @@ namespace Sample.Views
                     Description = "add cell in new section",
                     HintText = "hint"
                 }
-            );
+            ); 
             settings.Root.Add(section);
         }
 
         void DeleteSection()
         {
             settings.Root.Remove(settings.Root.Last());
+        }
+
+        void ReplaceSection()
+        {
+            settings.Root[0] = settings.Root[1];
         }
 
         int SectionVisibleCount = 0;

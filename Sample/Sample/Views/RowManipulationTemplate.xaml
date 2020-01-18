@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
+    xmlns:ef="clr-namespace:AiForms.Effects;assembly=AiForms.Effects"
+    x:Class="Sample.Views.RowManipulationTemplate">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Button">
+                <Setter Property="ef:ToFlatButton.On" Value="True" />
+                <Setter Property="ef:ToFlatButton.RippleColor" Value="#80FFBF00" />
+                <Setter Property="Padding"  Value="0" />
+                <Setter Property="FontSize" Value="Small" />
+                <Setter Property="HeightRequest" Value="30" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackLayout Grid.Column="0" Spacing="1">
+            <Button Text="AddFirst" Command="{Binding ManipulateCommand}"  CommandParameter="AddFirst" />
+            <Button Text="AddLast" Command="{Binding ManipulateCommand}" CommandParameter="AddLast"/>
+            <Button Text="Add2nd" Command="{Binding ManipulateCommand}" CommandParameter="Add2nd"/>
+            <Button Text="DelFirst" Command="{Binding ManipulateCommand}" CommandParameter="DelFirst"/>
+            <Button Text="DelLast" Command="{Binding ManipulateCommand}" CommandParameter="DelLast"/>
+            <Button Text="Del2nd" Command="{Binding ManipulateCommand}" CommandParameter="Del2nd" />
+            <Button Text="Replace1" Command="{Binding ManipulateCommand}" CommandParameter="Replace1" />
+
+            <Button Text="AddSecFirst" Command="{Binding ManipulateCommand}" CommandParameter="AddSecFirst" />
+            <Button Text="AddSecLast" Command="{Binding ManipulateCommand}" CommandParameter="AddSecLast"/>
+            <Button Text="AddSec2nd" Command="{Binding ManipulateCommand}" CommandParameter="AddSec2nd"/>
+
+            <Button Text="DelSecFirst" Command="{Binding ManipulateCommand}" CommandParameter="DelSecFirst" />
+            <Button Text="DelSecLast" Command="{Binding ManipulateCommand}" CommandParameter="DelSecLast"/>
+            <Button Text="DelSec2nd" Command="{Binding ManipulateCommand}" CommandParameter="DelSec2nd"/>
+
+            <Button Text="ReplaceSec1" Command="{Binding ManipulateCommand}" CommandParameter="ReplaceSec1" />
+
+            <Button Text="ShowHide1st" Command="{Binding ManipulateCommand}" CommandParameter="ShowHide1st" />
+
+        </StackLayout>
+
+        <sv:SettingsView Grid.Column="1" Style="{StaticResource settingsView}" ItemsSource="{Binding Settings}">
+            <sv:SettingsView.ItemTemplate>
+                <DataTemplate>
+                    <sv:Section ItemsSource="{Binding}" IsVisible="{Binding IsVisible.Value}">
+                        <sv:Section.HeaderView>
+                            <StackLayout>
+                                <Label Text="{Binding HeaderText}" />
+                            </StackLayout>
+                        </sv:Section.HeaderView>
+                        <sv:Section.FooterView>
+                            <Label Text="{Binding FooterText}" HorizontalTextAlignment="End" />
+                        </sv:Section.FooterView>
+                        <sv:Section.ItemTemplate>
+                            <DataTemplate>
+                                <sv:LabelCell Title="{Binding Text}" />
+                            </DataTemplate>
+                        </sv:Section.ItemTemplate>
+                    </sv:Section>
+                </DataTemplate>
+            </sv:SettingsView.ItemTemplate>
+            
+        </sv:SettingsView>
+    </Grid>
+</ContentPage>

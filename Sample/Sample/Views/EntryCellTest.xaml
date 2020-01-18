@@ -4,7 +4,7 @@
     xmlns:ai="clr-namespace:AiForms.Renderers;assembly=SettingsView"
     xmlns:l="clr-namespace:AiForms.Layouts;assembly=AiForms.Layouts"
     xmlns:ef="clr-namespace:AiForms.Effects;assembly=AiForms.Effects"
-    xmlns:me="clr-namespace:Sample.Views;assembly=Sample"
+    xmlns:me="clr-namespace:Sample.Views;assembly=SettingsSample"
     x:Class="Sample.Views.EntryCellTest">
     
     <ContentPage.Resources>
@@ -66,7 +66,8 @@
             ShowSectionTopBottomBorder="{Binding ShowSectionTopBottomBorder.Value}"
         >
             <ai:Section Title="Section1" FooterText="Footer1" >
-                <ai:EntryCell IsEnabled="{Binding IsEnabled.Value}"
+                <ai:EntryCell x:Name="entryCell"
+                              IsEnabled="{Binding IsEnabled.Value}"
                               IconSource="{Binding IconSource.Value}" Title="{Binding Title.Value}" 
                               Description="{Binding Description.Value}" 
                               HintText="{Binding HintText.Value}" 
@@ -89,9 +90,11 @@
                               Completed="Handle_Completed" 
                               Placeholder="{Binding Placeholder.Value}" 
                               TextAlignment="{Binding TextAlignment.Value}"
-                              IsPassword="{Binding IsPassword.Value}"/>
+                              IsPassword="{Binding IsPassword.Value}"
+                              CompletedCommand="{Binding CompletedCommand}"/>
                 <EntryCell Text="{Binding InputText.Value}" Label="DefaultEntry" />
-              
+                <ai:NumberPickerCell Min="1" Max="10" ValueText="5" />
+                <ai:ButtonCell Title="SetFocus" Tapped="Button_Tapped" />
             </ai:Section>
         </ai:SettingsView>
     </StackLayout>  
