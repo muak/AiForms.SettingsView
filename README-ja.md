@@ -317,6 +317,7 @@ public class MenuSection:List<MenuItem>
   * Templateの挿入を開始するインデックスを指定。デフォルトは0で最初からTemplateを適用します。1以上の値を指定すると、その位置からTemplateが挿入されるようになり、XAML等で挿入したデータはそのままの状態で残ります。任意の位置から繰り返しの Cell を設置した場合などに利用できます。
 * UseDragSort
 	* セクション内のセルをDragDropで並べ替え可能にします。
+	* UseDragSortがtrueのセクション間でのみ移動が可能です。
 	* iOS11以降とそれ以外で外観が異なります。
 	* iOS10以下は三本線のアイコンを掴むと移動でき、iOS11はセル全体を長押しすると移動できるようになります。
 * HeaderView
