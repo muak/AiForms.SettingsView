@@ -119,7 +119,7 @@ namespace AiForms.Renderers.Droid
 
         void ParentPageAppearing(object sender, EventArgs e)
         {
-            Device.BeginInvokeOnMainThread(() => _adapter.DeselectRow());
+            Device.BeginInvokeOnMainThread(() => _adapter?.DeselectRow());
         }
 
         protected override void OnLayout(bool changed, int left, int top, int right, int bottom)
