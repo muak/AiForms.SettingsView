@@ -729,6 +729,8 @@ It is envisaged that makes use of subclass of CustomCell.
 ## Contributors
 
 * [codegrue](https://github.com/codegrue)
+* [cpraehaus](https://github.com/cpraehaus)
+* [dylanberry](https://github.com/dylanberry)
 
 ## Thanks 
 

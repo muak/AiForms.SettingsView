@@ -740,6 +740,9 @@ Xamarin.Forms.EntryCellとは別物です。
 ## Contributors
 
 * [codegrue](https://github.com/codegrue)
+* [cpraehaus](https://github.com/cpraehaus)
+* [dylanberry](https://github.com/dylanberry)
+
 
 ## 謝辞
 

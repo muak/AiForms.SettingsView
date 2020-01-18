@@ -10,7 +10,7 @@
     <DocumentationFile>bin\Release\netstandard2.0\SettingsView.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.3.0.908675" />
+    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991477" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="project.json" />
@@ -20,4 +20,5 @@
       <Link>AzurePipelines.nuspec</Link>
     </None>
   </ItemGroup>
+  <Import Project="..\packages\Xamarin.Android.Support.CustomTabs.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.CustomTabs.targets" Condition="Exists('..\packages\Xamarin.Android.Support.CustomTabs.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.CustomTabs.targets')" />
 </Project>
