@@ -99,7 +99,8 @@ namespace AiForms.Renderers.Droid
 
         void CreateContentView()
         {
-            var contentView = (_Context as FormsAppCompatActivity).LayoutInflater.Inflate(Resource.Layout.CellBaseView, this, true);
+            var layoutInflater = (LayoutInflater)_Context.GetSystemService(Context.LayoutInflaterService);
+            var contentView = layoutInflater.Inflate(Resource.Layout.CellBaseView, this, true);
 
             contentView.LayoutParameters = new ViewGroup.LayoutParams(-1, -1);
 
