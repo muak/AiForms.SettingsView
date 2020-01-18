@@ -315,6 +315,7 @@ public class MenuSection:List<MenuItem>
   * This is the index that starts inserting the template. The default value is 0. If a specified value is greater or equal than 1, the template is inserted from its position and cells inserted with XAML remains. You can insert the repeating data wherever you want to do.
 * UseDragSort
 	* Enable you to reorder cells in a section with drag and drop.
+	* Items can move in sections that UseDragSort Property is true.
 	* If iOS version is less than or equal to iOS10, the cells can be moved when grabbing the icon drawn three lines; Otherwise can be moved when doing long tap.
 * HeaderView
 * FooterView
