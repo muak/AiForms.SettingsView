@@ -3,8 +3,6 @@ name: Bug report
 about: Create a report to help us improve
 ---
 
-<!-- Bug report best practices: https://github.com/xamarin/Xamarin.Forms/wiki/Submitting-Issues -->
-
 ### Description
 
 ### Steps to Reproduce
