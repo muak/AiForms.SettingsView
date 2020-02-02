@@ -1,20 +1,24 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: ''
-labels: ''
-assignees: ''
-
+title: "[Enhancement] YOUR IDEA!"
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+## Summary
+Please provide a brief summary of your proposal. Two to three sentences is best here.
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+## API Changes
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+Include a list of all API changes, additions, subtractions as would be required by your proposal. These APIs should be considered placeholders, so the naming is not as important as getting the concepts correct. If possible you should include some "example" code of usage of your new API.
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+e.g.
+
+In order to facilitate the new Shiny Button api, a bool is added to the Button class. This is done as a bool because it is simpler to data bind and other reasons...
+
+    var button = new Button ();
+    button.MakeShiny = true; // new API
+
+The MakeShiny API works even if the button is already visible.
+
+## Intended Use Case
+Provide a detailed example of where your proposal would be used and for what purpose.
