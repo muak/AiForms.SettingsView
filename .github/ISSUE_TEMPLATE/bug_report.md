@@ -1,38 +1,42 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: ''
-labels: ''
-assignees: ''
-
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+<!-- Bug report best practices: https://github.com/xamarin/Xamarin.Forms/wiki/Submitting-Issues -->
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+### Description
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+### Steps to Reproduce
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+1. 
+2. 
+3. 
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+### Expected Behavior
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+### Actual Behavior
 
-**Additional context**
-Add any other context about the problem here.
+### Platforms
+
+- [ ] Android
+- [ ] iOS
+
+### Basic Information
+
+- AiForms.SettingsView x.x.x
+- Xamarin.Forms x.x.x
+- Android Support Library Version: <!-- if applicable -->
+- Affected Devices:
+
+### Screenshots
+
+<!-- If the issue is a visual issue, please include screenshots showing the problem if possible -->
+
+### Reproduction Link
+
+<!-- Please upload or provide a link to a reproduction case -->
+
+### Workaround
+
+<!-- Did you find any workaround for this issue? This can unblock other people while waiting for this issue to be resolved -->
