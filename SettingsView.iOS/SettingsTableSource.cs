@@ -162,7 +162,7 @@ namespace AiForms.Renderers.iOS
 
 
             var headerView = _tableView.DequeueReusableHeaderFooterView(SettingsViewRenderer.TextHeaderId) as TextHeaderView;
-            headerView.Initialzie(_settingsView.HeaderPadding.ToUIEdgeInsets(),_settingsView.HeaderTextVerticalAlign);
+            headerView.Initialzie(_settingsView.HeaderPadding.ToUIEdgeInsets(),_settingsView.HeaderTextVerticalAlign,_tableView);
 
             headerView.Label.Text = _settingsView.Model.GetSectionTitle((int)section); 
             headerView.Label.TextColor = _settingsView.HeaderTextColor == Color.Default ?
@@ -224,7 +224,7 @@ namespace AiForms.Renderers.iOS
             }
 
             var footerView = _tableView.DequeueReusableHeaderFooterView(SettingsViewRenderer.TextFooterId) as TextFooterView;
-            footerView.Initialzie(_settingsView.FooterPadding.ToUIEdgeInsets());
+            footerView.Initialzie(_settingsView.FooterPadding.ToUIEdgeInsets(), _tableView);
 
             footerView.Label.Text = text;
             footerView.Label.TextColor = _settingsView.FooterTextColor == Color.Default ?

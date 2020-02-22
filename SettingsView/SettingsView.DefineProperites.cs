@@ -837,7 +837,7 @@ namespace AiForms.Renderers
 
                 Root.RemoveAt(e.OldStartingIndex + TemplateStartIndex);
 
-                var item = e.NewItems[e.NewStartingIndex];
+                var item = e.NewItems[0];
                 var view = CreateChildViewFor(this.ItemTemplate, item, this);
 
                 Root.Insert(e.NewStartingIndex + TemplateStartIndex, view);

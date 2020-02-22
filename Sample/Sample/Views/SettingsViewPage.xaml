@@ -101,6 +101,19 @@
             <sv:EntryCell Title="EntryCell" ValueText="{Binding InputText.Value}" Placeholder="Input text" Keyboard="Email" TextAlignment="End" HintText="{Binding InputError.Value}" />
         </sv:Section>
 
+        <sv:Section>
+            <sv:Section.HeaderView>
+                <FlexLayout Direction="Row" JustifyContent="SpaceBetween" AlignItems="End" HeightRequest="50" Padding="10,0,10,6">
+                    <Label Text="CustomHeaderView" TextColor="DeepSkyBlue" />
+                    <ImageButton Source="icon.png" WidthRequest="20" HeightRequest="20" />
+                </FlexLayout>                
+            </sv:Section.HeaderView>
+            <sv:Section.FooterView>
+                <Label Text="CustomFooterView. " TextColor="DeepSkyBlue" Padding="10,6,10,0" />
+            </sv:Section.FooterView>
+            <cell:SliderCell Value="0.5" HintText="CustomCell" />            
+        </sv:Section>
+
         <sv:Section Title="FormsCell">
             <ViewCell>
                 <StackLayout Padding="14,8,8,8" BackgroundColor="White">

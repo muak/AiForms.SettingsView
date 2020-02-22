@@ -102,13 +102,13 @@
     <Compile Include="Cells\CustomCellContent.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SettingsView\SettingsView.csproj">
-      <Project>{8FFB1EF3-FAF3-478C-B9F1-4D02E599C3C6}</Project>
-      <Name>SettingsView</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\SettingsView\SettingsView.csproj">
+      <Project>{1BE95507-DABA-43AD-954A-6CDFEB25B5E4}</Project>
+      <Name>SettingsView</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.4.4.0.991477\build\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.4.4.0.991477\build\Xamarin.Forms.targets')" />

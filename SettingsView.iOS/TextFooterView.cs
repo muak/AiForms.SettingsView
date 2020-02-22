@@ -11,6 +11,8 @@ namespace AiForms.Renderers.iOS
         List<NSLayoutConstraint> _constraints = new List<NSLayoutConstraint>();
         UIEdgeInsets _curPadding;
         bool _isInitialized;
+        NSLayoutConstraint _leftConstraint;
+        UITableView _tableView;
 
         public TextFooterView(IntPtr handle):base(handle)
         {
@@ -24,7 +26,22 @@ namespace AiForms.Renderers.iOS
             this.BackgroundView = new UIView();
         }
 
-        public void Initialzie(UIEdgeInsets padding)
+        public override void LayoutSubviews()
+        {
+            base.LayoutSubviews();
+
+            if (_leftConstraint != null)
+            {
+                _leftConstraint.Active = false;
+                _leftConstraint.Dispose();
+                _leftConstraint = null;
+            }
+
+            _leftConstraint = Label.LeftAnchor.ConstraintEqualTo(LeftAnchor, _curPadding.Left + _tableView.SafeAreaInsets.Left);
+            _leftConstraint.Active = true;
+        }
+
+        public void Initialzie(UIEdgeInsets padding, UITableView tableView)
         {
             if(_isInitialized && _curPadding == padding)
             {
@@ -39,7 +56,6 @@ namespace AiForms.Renderers.iOS
             _constraints.Clear();
 
             _constraints.Add(Label.TopAnchor.ConstraintEqualTo(this.TopAnchor, padding.Top));
-            _constraints.Add(Label.LeftAnchor.ConstraintEqualTo(this.LeftAnchor, padding.Left));
             _constraints.Add(Label.RightAnchor.ConstraintEqualTo(this.RightAnchor, -padding.Right));
             _constraints.Add(Label.BottomAnchor.ConstraintEqualTo(this.BottomAnchor, -padding.Bottom));
 
@@ -49,6 +65,7 @@ namespace AiForms.Renderers.iOS
             });
 
             _curPadding = padding;
+            _tableView = tableView;
             _isInitialized = true;
         }
 
@@ -58,10 +75,13 @@ namespace AiForms.Renderers.iOS
             if (disposing)
             {
                 _constraints.ForEach(c => c.Dispose());
+                _leftConstraint?.Dispose();
+                _leftConstraint = null;
                 Label?.Dispose();
                 Label = null;
                 BackgroundView?.Dispose();
                 BackgroundView = null;
+                _tableView = null;
             }
         }
     }
