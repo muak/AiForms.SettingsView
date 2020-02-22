@@ -104,7 +104,7 @@ namespace AiForms.Renderers.iOS
             //This sets the content views frame.
             base.LayoutSubviews();
 
-            var contentFrame = ContentView.Frame;
+            var contentFrame = ContentView.Bounds;
             var view = FormsCell;
 
             Layout.LayoutChildIntoBoundingRegion(view, contentFrame.ToRectangle());

@@ -729,6 +729,8 @@ Xamarin.Forms.EntryCellとは別物です。
   > 有効にした場合、アイコンの設定は無効になります。
 * Command
 * CommandParameter
+* LongCommand
+  * 長押し時に発火するコマンド
 * KeepSelectedUntilBack
 	* タップして次のページに遷移した時、遷移先ページから戻ってくるまで選択状態をそのままにしておくかの設定
 	* trueの場合は選択状態をキープして、falseの場合は選択はすぐに解除されます。

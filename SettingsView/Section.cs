@@ -427,7 +427,7 @@ namespace AiForms.Renderers
 
                 RemoveAt(e.OldStartingIndex + TemplateStartIndex);
 
-                var item = e.NewItems[e.NewStartingIndex];
+                var item = e.NewItems[0];
                 var view = CreateChildViewFor(ItemTemplate, item, this);
 
                 Insert(e.NewStartingIndex + TemplateStartIndex, view);

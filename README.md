@@ -719,6 +719,8 @@ It is envisaged that makes use of subclass of CustomCell.
 * Command
     * Invoked action.
 * CommandParameter
+* LongCommand
+  * Long tap command action.
 * KeepSelectedUntilBack
     * When moving next page, whether keep the cell selected until being back to the page.
 
