@@ -37,9 +37,12 @@ namespace AiForms.Renderers.iOS
                 _leftConstraint.Dispose();
                 _leftConstraint = null;
             }
-            
-            _leftConstraint = Label.LeftAnchor.ConstraintEqualTo(LeftAnchor, _curPadding.Left + _tableView.SafeAreaInsets.Left);
-            _leftConstraint.Active = true;
+
+            if(Label != null)
+            {
+                _leftConstraint = Label.LeftAnchor.ConstraintEqualTo(LeftAnchor, _curPadding.Left + _tableView.SafeAreaInsets.Left);
+                _leftConstraint.Active = true;
+            }            
         }
 
         public void Initialzie(UIEdgeInsets padding, LayoutAlignment align, UITableView tableView)
