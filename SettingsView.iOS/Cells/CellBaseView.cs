@@ -229,12 +229,18 @@ namespace AiForms.Renderers.iOS
 
         void UpdateHintText()
         {
+            if (HintLabel is null)
+                return; // for HotReload
+
             HintLabel.Text = CellBase.HintText;
             HintLabel.Hidden = string.IsNullOrEmpty(CellBase.HintText);
         }
 
         void UpdateHintTextColor()
         {
+            if (HintLabel is null)
+                return; // for HotReload
+
             if (CellBase.HintTextColor != Xamarin.Forms.Color.Default) {
                 HintLabel.TextColor = CellBase.HintTextColor.ToUIColor();
             }
@@ -245,6 +251,9 @@ namespace AiForms.Renderers.iOS
 
         void UpdateHintFontSize()
         {
+            if (HintLabel is null)
+                return; // for HotReload
+
             if (CellBase.HintFontSize > 0) {
                 HintLabel.Font = HintLabel.Font.WithSize((nfloat)CellBase.HintFontSize);
             }
@@ -255,6 +264,9 @@ namespace AiForms.Renderers.iOS
 
         void UpdateTitleText()
         {
+            if (TitleLabel is null)
+                return; // for HotReload
+
             TitleLabel.Text = CellBase.Title;
             //Since Layout breaks when text empty, prevent Label height from resizing 0.
             if (string.IsNullOrEmpty(TitleLabel.Text)) {
@@ -269,6 +281,9 @@ namespace AiForms.Renderers.iOS
 
         void UpdateTitleColor()
         {
+            if (TitleLabel is null)
+                return; // for HotReload
+
             if (CellBase.TitleColor != Xamarin.Forms.Color.Default) {
                 TitleLabel.TextColor = CellBase.TitleColor.ToUIColor();
             }
@@ -279,6 +294,9 @@ namespace AiForms.Renderers.iOS
 
         void UpdateTitleFontSize()
         {
+            if (TitleLabel is null)
+                return; // for HotReload
+
             if (CellBase.TitleFontSize > 0) {
                 TitleLabel.Font = TitleLabel.Font.WithSize((nfloat)CellBase.TitleFontSize);
             }
@@ -289,6 +307,9 @@ namespace AiForms.Renderers.iOS
 
         void UpdateDescriptionText()
         {
+            if (DescriptionLabel is null)
+                return; // for HotReload
+
             DescriptionLabel.Text = CellBase.Description;
             //layout break because of StackView spacing.DescriptionLabel hidden to fix it. 
             DescriptionLabel.Hidden = string.IsNullOrEmpty(DescriptionLabel.Text);
@@ -296,6 +317,9 @@ namespace AiForms.Renderers.iOS
 
         void UpdateDescriptionFontSize()
         {
+            if (DescriptionLabel is null)
+                return; // for HotReload
+
             if (CellBase.DescriptionFontSize > 0) {
                 DescriptionLabel.Font = DescriptionLabel.Font.WithSize((nfloat)CellBase.DescriptionFontSize);
             }
@@ -306,6 +330,9 @@ namespace AiForms.Renderers.iOS
 
         void UpdateDescriptionColor()
         {
+            if (DescriptionLabel is null)
+                return; // for HotReload
+
             if (CellBase.DescriptionColor != Xamarin.Forms.Color.Default) {
                 DescriptionLabel.TextColor = CellBase.DescriptionColor.ToUIColor();
             }
@@ -328,6 +355,9 @@ namespace AiForms.Renderers.iOS
         /// <param name="isEnabled">If set to <c>true</c> is enabled.</param>
         protected virtual void SetEnabledAppearance(bool isEnabled)
         {
+            if (TitleLabel is null)
+                return; // for HotReload
+
             if (isEnabled)
             {
                 UserInteractionEnabled = true;
@@ -384,17 +414,21 @@ namespace AiForms.Renderers.iOS
 
         void UpdateIconRadius()
         {
+            if (IconView is null)
+                return; // for HotReload
+
             if (CellBase.IconRadius >= 0) {
                 IconView.Layer.CornerRadius = (float)CellBase.IconRadius;
             }
             else if (CellParent != null) {
                 IconView.Layer.CornerRadius = (float)CellParent.CellIconRadius;
             }
-
         }
 
         void UpdateIcon()
         {
+            if (IconView is null)
+                return; // for HotReload
 
             if (_iconTokenSource != null && !_iconTokenSource.IsCancellationRequested) {               
                 _iconTokenSource.Cancel();

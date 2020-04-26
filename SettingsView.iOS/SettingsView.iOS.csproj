@@ -106,7 +106,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SettingsView\SettingsView.csproj">
-      <Project>{48995BE2-3F30-4C88-8125-6902E98DD8F3}</Project>
+      <Project>{4516D320-B12A-4E8C-82D7-DF64D2D3A35D}</Project>
       <Name>SettingsView</Name>
     </ProjectReference>
   </ItemGroup>

@@ -38,6 +38,8 @@ namespace AiForms.Renderers.iOS
             _settingsView.ModelChanged += (sender, e) => {
                 if (_tableView != null) {
                     _tableView.ReloadData();
+                    // reflect a dynamic cell height
+                    _tableView.PerformBatchUpdates(null, null);
                 }
             };
 

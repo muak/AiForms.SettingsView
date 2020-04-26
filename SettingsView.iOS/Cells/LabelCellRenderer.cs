@@ -115,6 +115,9 @@ namespace AiForms.Renderers.iOS
 
         void UpdateValueTextFontSize()
         {
+            if (ValueLabel.Font is null)
+                return; // for HotReload
+
             if (_LabelCell.ValueTextFontSize > 0) {
                 ValueLabel.Font = ValueLabel.Font.WithSize((nfloat)_LabelCell.ValueTextFontSize);
             }

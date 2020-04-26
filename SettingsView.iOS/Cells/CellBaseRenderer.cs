@@ -83,6 +83,10 @@ namespace AiForms.Renderers.iOS
         void ClearPropertyChanged(CellBaseView nativeCell)
         {
             var formsCell = nativeCell.Cell as CellBase;
+            
+            if (formsCell is null)
+                return; // for HotReload
+
             var parentElement = formsCell.Parent as SettingsView;
 
             formsCell.PropertyChanged -= nativeCell.CellPropertyChanged;
