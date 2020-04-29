@@ -425,12 +425,13 @@ namespace AiForms.Renderers
             if (e.Action == NotifyCollectionChangedAction.Replace)
             {
 
-                RemoveAt(e.OldStartingIndex + TemplateStartIndex);
+                //RemoveAt(e.OldStartingIndex + TemplateStartIndex);
 
                 var item = e.NewItems[0];
                 var view = CreateChildViewFor(ItemTemplate, item, this);
 
-                Insert(e.NewStartingIndex + TemplateStartIndex, view);
+                //Insert(e.NewStartingIndex + TemplateStartIndex, view);
+                this[e.NewStartingIndex + TemplateStartIndex] = view;
             }
 
             else if (e.Action == NotifyCollectionChangedAction.Add)

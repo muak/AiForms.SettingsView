@@ -164,6 +164,11 @@ namespace AiForms.Renderers.iOS
 
 
             var headerView = _tableView.DequeueReusableHeaderFooterView(SettingsViewRenderer.TextHeaderId) as TextHeaderView;
+            if(headerView is null)
+            {
+                // for HotReload
+                return new UIView();
+            }
             headerView.Initialzie(_settingsView.HeaderPadding.ToUIEdgeInsets(),_settingsView.HeaderTextVerticalAlign,_tableView);
 
             headerView.Label.Text = _settingsView.Model.GetSectionTitle((int)section); 

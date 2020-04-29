@@ -835,12 +835,13 @@ namespace AiForms.Renderers
         {
             if (e.Action == NotifyCollectionChangedAction.Replace) {
 
-                Root.RemoveAt(e.OldStartingIndex + TemplateStartIndex);
+                //Root.RemoveAt(e.OldStartingIndex + TemplateStartIndex);
 
                 var item = e.NewItems[0];
                 var view = CreateChildViewFor(this.ItemTemplate, item, this);
 
-                Root.Insert(e.NewStartingIndex + TemplateStartIndex, view);
+                //Root.Insert(e.NewStartingIndex + TemplateStartIndex, view);
+                Root[e.NewStartingIndex + TemplateStartIndex] = view;
             }
 
             else if (e.Action == NotifyCollectionChangedAction.Add) {
