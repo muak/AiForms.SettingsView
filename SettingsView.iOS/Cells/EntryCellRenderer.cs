@@ -58,6 +58,10 @@ namespace AiForms.Renderers.iOS
         public override void UpdateCell()
         {
             base.UpdateCell();
+
+            if (ValueField is null)
+                return; // For HotReload
+
             UpdateValueText();
             UpdateValueTextColor();
             UpdateValueTextFontSize();

@@ -231,6 +231,14 @@ namespace AiForms.Renderers.iOS
             }
 
             var footerView = _tableView.DequeueReusableHeaderFooterView(SettingsViewRenderer.TextFooterId) as TextFooterView;
+
+            if (footerView is null)
+            {
+                // for HotReload
+                return new UIView();
+            }
+
+
             footerView.Initialzie(_settingsView.FooterPadding.ToUIEdgeInsets(), _tableView);
 
             footerView.Label.Text = text;

@@ -267,7 +267,7 @@ namespace AiForms.Renderers.iOS
                     }
                         
                     Control.BeginUpdates();
-                    Control.ReloadRows(GetPaths(section, e.OldStartingIndex, e.OldItems.Count), UITableViewRowAnimation.Automatic);
+                    Control.ReloadRows(GetPaths(section, e.OldStartingIndex, e.OldItems.Count), UITableViewRowAnimation.None);
                     Control.EndUpdates();
 
                     break;

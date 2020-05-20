@@ -71,6 +71,9 @@ namespace AiForms.Renderers.iOS
         public override void UpdateCell()
         {
             base.UpdateCell();
+            if (TitleLabel is null)
+                return; // For HotReload
+
             UpdateCommand();
             UpdateTitleAlignment();
         }

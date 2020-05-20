@@ -507,6 +507,9 @@ namespace AiForms.Renderers.iOS
         /// </summary>
         public virtual void UpdateCell()
         {
+            if (TitleLabel is null)
+                return; // For HotReload
+
             UpdateBackgroundColor();
             UpdateTitleText();
             UpdateTitleColor();

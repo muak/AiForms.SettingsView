@@ -131,6 +131,8 @@ namespace AiForms.Renderers
             if(e.NewItems != null)
             {
                 e.NewItems.Cast<Section>().ForEach(section => {
+                    section.Parent = this;
+
                     if (section.HeaderView != null)
                     {
                         section.HeaderView.Parent = this;
@@ -177,6 +179,7 @@ namespace AiForms.Renderers
 
             foreach(var section in Root)
             {
+                section.Parent = this;
                 if (section.HeaderView != null)
                 {
                     section.HeaderView.Parent = this;

@@ -797,7 +797,7 @@ namespace AiForms.Renderers
                 oldObservableCollection.CollectionChanged -= settingsView.OnItemsSourceCollectionChanged;
             }
 
-
+            // keep the platform from notifying itemchanged event.
             settingsView.Root.CollectionChanged -= settingsView.OnCollectionChanged;
 
             if (oldValueAsEnumerable != null)

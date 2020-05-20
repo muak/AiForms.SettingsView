@@ -170,6 +170,7 @@ namespace AiForms.Renderers
         /// </summary>
         public event PropertyChangedEventHandler SectionPropertyChanged;
 
+        public SettingsView Parent { get; set; }
 
         /// <summary>
         /// The is visible property.
@@ -391,23 +392,29 @@ namespace AiForms.Renderers
                 oldObservableCollection.CollectionChanged -= section.OnItemsSourceCollectionChanged;
             }
 
+            // keep the platform from notifying itemchanged event.
+            section.CollectionChanged -= section.OnCollectionChanged;
+
             if (oldValueAsEnumerable != null)
             {
                 for (var i = oldValueAsEnumerable.Count - 1; i >= 0; i--)
                 {
                     section.RemoveAt(section.TemplateStartIndex + i);
                 }
-            }
+            }            
 
             if (newValueAsEnumerable != null)
             {
                 for (var i = 0; i < newValueAsEnumerable.Count; i++)
                 {
                     var view = CreateChildViewFor(section.ItemTemplate, newValueAsEnumerable[i], section);
+                    view.Parent = section.Parent;
                     section.Insert(section.TemplateStartIndex + i, view);
                 }
                 section.templatedItemsCount = newValueAsEnumerable.Count;
             }
+
+            section.CollectionChanged += section.OnCollectionChanged;
 
             var newObservableCollection = newValue as INotifyCollectionChanged;
 

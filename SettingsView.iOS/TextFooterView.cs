@@ -37,6 +37,9 @@ namespace AiForms.Renderers.iOS
                 _leftConstraint = null;
             }
 
+            if (Label is null)
+                return; // For HotReload
+
             _leftConstraint = Label.LeftAnchor.ConstraintEqualTo(LeftAnchor, _curPadding.Left + _tableView.SafeAreaInsets.Left);
             _leftConstraint.Active = true;
         }
