@@ -156,7 +156,7 @@ namespace AiForms.Renderers.iOS
 
         void ItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (!CellBase.IsEnabled){
+            if (!_CellBase.IsEnabled){
                 return;
             }
 

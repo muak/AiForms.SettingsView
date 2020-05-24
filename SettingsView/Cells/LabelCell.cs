@@ -3,96 +3,99 @@ using Xamarin.Forms;
 
 namespace AiForms.Renderers
 {
-    /// <summary>
-    /// Label cell.
-    /// </summary>
-    public class LabelCell:CellBase
-    {
-        /// <summary>
-        /// The value text property.
-        /// </summary>
-        public static BindableProperty ValueTextProperty =
-            BindableProperty.Create(
-                nameof(ValueText),
-                typeof(string),
-                typeof(LabelCell),
-                default(string),
-                defaultBindingMode: BindingMode.OneWay
-            );
+	/// <summary>
+	/// Label cell.
+	/// </summary>
+	public class LabelCell : CellBase
+	{
+		/// <summary>
+		/// The value text property.
+		/// </summary>
+		public static BindableProperty ValueTextProperty =
+			BindableProperty.Create(
+				nameof(ValueText),
+				typeof(string),
+				typeof(LabelCell),
+				default(string),
+				defaultBindingMode: BindingMode.OneWay
+			);
 
-        /// <summary>
-        /// Gets or sets the value text.
-        /// </summary>
-        /// <value>The value text.</value>
-        public string ValueText {
-            get { return (string)GetValue(ValueTextProperty); }
-            set { SetValue(ValueTextProperty, value); }
-        }
+		/// <summary>
+		/// Gets or sets the value text.
+		/// </summary>
+		/// <value>The value text.</value>
+		public string ValueText
+		{
+			get { return (string) GetValue(ValueTextProperty); }
+			set { SetValue(ValueTextProperty, value); }
+		}
 
-        /// <summary>
-        /// The value text color property.
-        /// </summary>
-        public static BindableProperty ValueTextColorProperty =
-            BindableProperty.Create(
-                nameof(ValueTextColor),
-                typeof(Color),
-                typeof(LabelCell),
-                default(Color),
-                defaultBindingMode: BindingMode.OneWay
-            );
+		/// <summary>
+		/// The value text color property.
+		/// </summary>
+		public static BindableProperty ValueTextColorProperty =
+			BindableProperty.Create(
+				nameof(ValueTextColor),
+				typeof(Color),
+				typeof(LabelCell),
+				default(Color),
+				defaultBindingMode: BindingMode.OneWay
+			);
 
-        /// <summary>
-        /// Gets or sets the color of the value text.
-        /// </summary>
-        /// <value>The color of the value text.</value>
-        public Color ValueTextColor {
-            get { return (Color)GetValue(ValueTextColorProperty); }
-            set { SetValue(ValueTextColorProperty, value); }
-        }
+		/// <summary>
+		/// Gets or sets the color of the value text.
+		/// </summary>
+		/// <value>The color of the value text.</value>
+		public Color ValueTextColor
+		{
+			get { return (Color) GetValue(ValueTextColorProperty); }
+			set { SetValue(ValueTextColorProperty, value); }
+		}
 
-        /// <summary>
-        /// The value text font size property.
-        /// </summary>
-        public static BindableProperty ValueTextFontSizeProperty =
-            BindableProperty.Create(
-                nameof(ValueTextFontSize),
-                typeof(double),
-                typeof(LabelCell),
-                -1.0d,
-                defaultBindingMode: BindingMode.OneWay
-            );
+		/// <summary>
+		/// The value text font size property.
+		/// </summary>
+		public static BindableProperty ValueTextFontSizeProperty =
+			BindableProperty.Create(
+				nameof(ValueTextFontSize),
+				typeof(double),
+				typeof(LabelCell),
+				-1.0d,
+				defaultBindingMode: BindingMode.OneWay
+			);
 
-        /// <summary>
-        /// Gets or sets the size of the value text font.
-        /// </summary>
-        /// <value>The size of the value text font.</value>
-        [TypeConverter(typeof(FontSizeConverter))]
-        public double ValueTextFontSize {
-            get { return (double)GetValue(ValueTextFontSizeProperty); }
-            set { SetValue(ValueTextFontSizeProperty, value); }
-        }
+		/// <summary>
+		/// Gets or sets the size of the value text font.
+		/// </summary>
+		/// <value>The size of the value text font.</value>
+		[TypeConverter(typeof(FontSizeConverter))]
+		public double ValueTextFontSize
+		{
+			get { return (double) GetValue(ValueTextFontSizeProperty); }
+			set { SetValue(ValueTextFontSizeProperty, value); }
+		}
 
-        /// <summary>
-        /// The ignore use description as value property.
-        /// </summary>
-        public static BindableProperty IgnoreUseDescriptionAsValueProperty =
-            BindableProperty.Create(
-                nameof(IgnoreUseDescriptionAsValue),
-                typeof(bool),
-                typeof(LabelCell),
-                false,
-                defaultBindingMode: BindingMode.OneWay
-            );
+		/// <summary>
+		/// The ignore use description as value property.
+		/// </summary>
+		public static BindableProperty IgnoreUseDescriptionAsValueProperty =
+			BindableProperty.Create(
+				nameof(IgnoreUseDescriptionAsValue),
+				typeof(bool),
+				typeof(LabelCell),
+				false,
+				defaultBindingMode: BindingMode.OneWay
+			);
 
-        /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="T:AiForms.Renderers.LabelCell"/> ignore use
-        /// description as value.
-        /// </summary>
-        /// <value><c>true</c> if ignore use description as value; otherwise, <c>false</c>.</value>
-        public bool IgnoreUseDescriptionAsValue
-        {
-            get { return (bool)GetValue(IgnoreUseDescriptionAsValueProperty); }
-            set { SetValue(IgnoreUseDescriptionAsValueProperty, value); }
-        }
-    }
+		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="T:AiForms.Renderers.LabelCell"/> ignore use
+		/// description as value.
+		/// </summary>
+		/// <value><c>true</c> if ignore use description as value; otherwise, <c>false</c>.</value>
+		public bool IgnoreUseDescriptionAsValue
+		{
+			get { return (bool) GetValue(IgnoreUseDescriptionAsValueProperty); }
+			set { SetValue(IgnoreUseDescriptionAsValueProperty, value); }
+		}
+	}
 }

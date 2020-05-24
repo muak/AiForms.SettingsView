@@ -49,7 +49,7 @@ namespace AiForms.Renderers.iOS
             _FieldWrapper.SetContentCompressionResistancePriority(100f, UILayoutConstraintAxis.Horizontal);
 
             _FieldWrapper.AddSubview(ValueField);
-            ContentStack.AddArrangedSubview(_FieldWrapper);
+            _ContentStack.AddArrangedSubview(_FieldWrapper);
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace AiForms.Renderers.iOS
                 ValueField.Dispose();
                 ValueField = null;
 
-                ContentStack.RemoveArrangedSubview(_FieldWrapper);
+                _ContentStack.RemoveArrangedSubview(_FieldWrapper);
                 _FieldWrapper.Dispose();
                 _FieldWrapper = null;
             }

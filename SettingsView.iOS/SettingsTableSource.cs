@@ -11,338 +11,349 @@ using Xamarin.Forms.Platform.iOS;
 
 namespace AiForms.Renderers.iOS
 {
-    /// <summary>
-    /// Settings table source.
-    /// </summary>
-    [Foundation.Preserve(AllMembers = true)]
-    public class SettingsTableSource : UITableViewSource
-    {
-        /// <summary>
-        /// The table view.
-        /// </summary>
-        protected UITableView _tableView;
-        /// <summary>
-        /// The settings view.
-        /// </summary>
-        protected SettingsView _settingsView;
+	/// <summary>
+	/// Settings table source.
+	/// </summary>
+	[Foundation.Preserve(AllMembers = true)]
+	public class SettingsTableSource : UITableViewSource
+	{
+		/// <summary>
+		/// The table view.
+		/// </summary>
+		protected UITableView _tableView;
+		/// <summary>
+		/// The settings view.
+		/// </summary>
+		protected SettingsView _settingsView;
 
-        bool _disposed;
+		bool _disposed;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:AiForms.Renderers.iOS.SettingsTableSource"/> class.
-        /// </summary>
-        /// <param name="settingsView">Settings view.</param>
-        public SettingsTableSource(SettingsView settingsView)
-        {
-            _settingsView = settingsView;
-            _settingsView.ModelChanged += (sender, e) => {
-                if (_tableView != null) {
-                    _tableView.ReloadData();
-                }
-            };
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:AiForms.Renderers.iOS.SettingsTableSource"/> class.
+		/// </summary>
+		/// <param name="settingsView">Settings view.</param>
+		public SettingsTableSource(SettingsView settingsView)
+		{
+			_settingsView = settingsView;
+			_settingsView.ModelChanged += (sender, e) =>
+			{
+				if ( _tableView != null )
+				{
+					_tableView.ReloadData();
+				}
+			};
 
-        }
+		}
 
-        /// <summary>
-        /// Gets the cell.
-        /// </summary>
-        /// <returns>The cell.</returns>
-        /// <param name="tableView">Table view.</param>
-        /// <param name="indexPath">Index path.</param>
-        public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
-        {
+		/// <summary>
+		/// Gets the cell.
+		/// </summary>
+		/// <returns>The cell.</returns>
+		/// <param name="tableView">Table view.</param>
+		/// <param name="indexPath">Index path.</param>
+		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
+		{
 
-            //get forms cell
-            var cell = _settingsView.Model.GetCell(indexPath.Section, indexPath.Row);
+			//get forms cell
+			var cell = _settingsView.Model.GetCell(indexPath.Section, indexPath.Row);
 
-            var id = cell.GetType().FullName;
+			var id = cell.GetType().FullName;
 
-            var renderer = (CellRenderer)Xamarin.Forms.Internals.Registrar.Registered.GetHandler<IRegisterable>(cell.GetType());
+			var renderer = (CellRenderer) Xamarin.Forms.Internals.Registrar.Registered.GetHandler<IRegisterable>(cell.GetType());
 
-            //get recycle cell
-            var reusableCell = tableView.DequeueReusableCell(id);
-            //get native cell
-            var nativeCell = renderer.GetCell(cell, reusableCell, tableView);
+			//get recycle cell
+			var reusableCell = tableView.DequeueReusableCell(id);
+			//get native cell
+			var nativeCell = renderer.GetCell(cell, reusableCell, tableView);
 
-            var cellWithContent = nativeCell;
+			var cellWithContent = nativeCell;
 
-            // Sometimes iOS for returns a dequeued cell whose Layer is hidden. 
-            // This prevents it from showing up, so lets turn it back on!
-            if (cellWithContent.Layer.Hidden)
-                cellWithContent.Layer.Hidden = false;
+			// Sometimes iOS for returns a dequeued cell whose Layer is hidden. 
+			// This prevents it from showing up, so lets turn it back on!
+			if ( cellWithContent.Layer.Hidden )
+				cellWithContent.Layer.Hidden = false;
 
-            // Because the layer was hidden we need to layout the cell by hand
-            if (cellWithContent != null)
-                cellWithContent.LayoutSubviews();
+			// Because the layer was hidden we need to layout the cell by hand
+			if ( cellWithContent != null )
+				cellWithContent.LayoutSubviews();
 
-            //selected background
-            if (!(nativeCell is CellBaseView)) {
-                nativeCell.SelectionStyle = UITableViewCellSelectionStyle.None;
-            }
+			//selected background
+			if ( !( nativeCell is CellBaseView ) )
+			{
+				nativeCell.SelectionStyle = UITableViewCellSelectionStyle.None;
+			}
 
-            return nativeCell;
-        }
+			return nativeCell;
+		}
 
-        /// <summary>
-        /// Gets the height for row.
-        /// </summary>
-        /// <returns>The height for row.</returns>
-        /// <param name="tableView">Table view.</param>
-        /// <param name="indexPath">Index path.</param>
-        public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
-        {
-            if (!_settingsView.HasUnevenRows) {
-                return tableView.EstimatedRowHeight;
-            }
+		/// <summary>
+		/// Gets the height for row.
+		/// </summary>
+		/// <returns>The height for row.</returns>
+		/// <param name="tableView">Table view.</param>
+		/// <param name="indexPath">Index path.</param>
+		public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
+		{
+			if ( !_settingsView.HasUnevenRows )
+			{
+				return tableView.EstimatedRowHeight;
+			}
 
-            var cell = _settingsView.Model.GetCell(indexPath.Section, indexPath.Row);
-            var h = cell.Height;
+			var cell = _settingsView.Model.GetCell(indexPath.Section, indexPath.Row);
+			var h = cell.Height;
 
-            if (h == -1) {
-                //automatic height
-                return tableView.RowHeight;
-            }
+			if ( h == -1 )
+			{
+				//automatic height
+				return tableView.RowHeight;
+			}
 
-            //individual height
-            return (nfloat)h;
-        }
+			//individual height
+			return (nfloat) h;
+		}
 
-        /// <summary>
-        /// section header height
-        /// </summary>
-        /// <returns>The height for header.</returns>
-        /// <param name="tableView">Table view.</param>
-        /// <param name="section">Section.</param>
-        public override nfloat GetHeightForHeader(UITableView tableView, nint section)
-        {
-            var sec = _settingsView.Model.GetSection((int)section);
+		/// <summary>
+		/// section header height
+		/// </summary>
+		/// <returns>The height for header.</returns>
+		/// <param name="tableView">Table view.</param>
+		/// <param name="section">Section.</param>
+		public override nfloat GetHeightForHeader(UITableView tableView, nint section)
+		{
+			var sec = _settingsView.Model.GetSection((int) section);
 
-            if (!sec.IsVisible)
-            {
-                return nfloat.Epsilon;
-            }
+			if ( !sec.IsVisible )
+			{
+				return nfloat.Epsilon;
+			}
 
-            if(sec.HeaderView != null)
-            {
-                if(sec.HeaderView.Height < 0)
-                {
-                    // stop the cell layout from being broken.
-                    var measure = sec.HeaderView.Measure(tableView.Bounds.Width, double.PositiveInfinity, MeasureFlags.IncludeMargins);
-                    return (System.nfloat)measure.Request.Height;
-                }
+			if ( sec.HeaderView != null )
+			{
+				if ( sec.HeaderView.Height < 0 )
+				{
+					// stop the cell layout from being broken.
+					var measure = sec.HeaderView.Measure(tableView.Bounds.Width, double.PositiveInfinity, MeasureFlags.IncludeMargins);
+					return (System.nfloat) measure.Request.Height;
+				}
 
-                return -1; // automatic height
-            }
+				return -1; // automatic height
+			}
 
-            var individualHeight = sec.HeaderHeight;
+			var individualHeight = sec.HeaderHeight;
 
-            if(individualHeight > 0d){
-                return (nfloat)individualHeight;
-            }
-            if (_settingsView.HeaderHeight == -1d) {
-                return _tableView.EstimatedSectionHeaderHeight;
-            }
+			if ( individualHeight > 0d )
+			{
+				return (nfloat) individualHeight;
+			}
+			if ( _settingsView.HeaderHeight == -1d )
+			{
+				return _tableView.EstimatedSectionHeaderHeight;
+			}
 
-            return (nfloat)_settingsView.HeaderHeight;
-        }
+			return (nfloat) _settingsView.HeaderHeight;
+		}
 
-        /// <summary>
-        /// Gets the view for header.
-        /// </summary>
-        /// <returns>The view for header.</returns>
-        /// <param name="tableView">Table view.</param>
-        /// <param name="section">Section.</param>
-        public override UIView GetViewForHeader(UITableView tableView, nint section)
-        {
-            var formsView = _settingsView.Model.GetSectionHeaderView((int)section);
-            if (formsView != null)
-            {
-                return GetNativeSectionHeaderFooterView(formsView, tableView, true);
-            }
-
-
-            var headerView = _tableView.DequeueReusableHeaderFooterView(SettingsViewRenderer.TextHeaderId) as TextHeaderView;
-            headerView.Initialzie(_settingsView.HeaderPadding.ToUIEdgeInsets(),_settingsView.HeaderTextVerticalAlign,_tableView);
-
-            headerView.Label.Text = _settingsView.Model.GetSectionTitle((int)section); 
-            headerView.Label.TextColor = _settingsView.HeaderTextColor == Color.Default ?
-                UIColor.Gray : _settingsView.HeaderTextColor.ToUIColor();
-            headerView.Label.Font = UIFont.SystemFontOfSize((nfloat)_settingsView.HeaderFontSize);
-            headerView.BackgroundView.BackgroundColor = _settingsView.HeaderBackgroundColor.ToUIColor();
-
-            return headerView;
-        }
-
-        /// <summary>
-        /// section footer height
-        /// </summary>
-        /// <returns>The height for footer.</returns>
-        /// <param name="tableView">Table view.</param>
-        /// <param name="section">Section.</param>
-        public override nfloat GetHeightForFooter(UITableView tableView, nint section)
-        {
-            var sec = _settingsView.Model.GetSection((int)section);
-
-            if (!sec.IsVisible)
-            {
-                return nfloat.Epsilon;
-            }
-
-            if (sec.FooterView != null)
-            {
-                return -1; // automatic height
-            }
-
-            var footerText = sec.FooterText;
-
-            if (string.IsNullOrEmpty(footerText)) {
-                //hide footer
-                return nfloat.Epsilon; // must not zero
-            }
-
-            return UITableView.AutomaticDimension;
-        }
-
-        /// <summary>
-        /// Gets the view for footer.
-        /// </summary>
-        /// <returns>The view for footer.</returns>
-        /// <param name="tableView">Table view.</param>
-        /// <param name="section">Section.</param>
-        public override UIView GetViewForFooter(UITableView tableView, nint section)
-        {
-            var formsView = _settingsView.Model.GetSectionFooterView((int)section);
-            if (formsView != null)
-            {
-                return GetNativeSectionHeaderFooterView(formsView, tableView, false);
-            }
-
-            var text = _settingsView.Model.GetFooterText((int)section);
-
-            if (string.IsNullOrEmpty(text)) {
-                return new UIView(CGRect.Empty);
-            }
-
-            var footerView = _tableView.DequeueReusableHeaderFooterView(SettingsViewRenderer.TextFooterId) as TextFooterView;
-            footerView.Initialzie(_settingsView.FooterPadding.ToUIEdgeInsets(), _tableView);
-
-            footerView.Label.Text = text;
-            footerView.Label.TextColor = _settingsView.FooterTextColor == Color.Default ?
-                UIColor.Gray : _settingsView.FooterTextColor.ToUIColor();
-            footerView.Label.Font = UIFont.SystemFontOfSize((nfloat)_settingsView.FooterFontSize);
-            footerView.BackgroundView.BackgroundColor = _settingsView.FooterBackgroundColor.ToUIColor();
-
-            return footerView;
-        }
-
-        UIView GetNativeSectionHeaderFooterView(View formsView, UITableView tableView, bool isHeader)
-        {
-            var idString = isHeader ? SettingsViewRenderer.CustomHeaderId : SettingsViewRenderer.CustomFooterId;
-            var nativeView = tableView.DequeueReusableHeaderFooterView(idString) as CustomHeaderFooterView;
-            nativeView.FormsCell = formsView;
-
-            return nativeView;
-        }
-
-        /// <summary>
-        /// Numbers the of sections.
-        /// </summary>
-        /// <returns>The of sections.</returns>
-        /// <param name="tableView">Table view.</param>
-        public override nint NumberOfSections(UITableView tableView)
-        {
-            _tableView = tableView;
-            return _settingsView.Model.GetSectionCount();
-        }
-
-        /// <summary>
-        /// Rowses the in section.
-        /// </summary>
-        /// <returns>The in section.</returns>
-        /// <param name="tableview">Tableview.</param>
-        /// <param name="section">Section.</param>
-        public override nint RowsInSection(UITableView tableview, nint section)
-        {
-            var sec = _settingsView.Model.GetSection((int)section);
-            return sec.IsVisible ? sec.Count : 0;
-        }
+		/// <summary>
+		/// Gets the view for header.
+		/// </summary>
+		/// <returns>The view for header.</returns>
+		/// <param name="tableView">Table view.</param>
+		/// <param name="section">Section.</param>
+		public override UIView GetViewForHeader(UITableView tableView, nint section)
+		{
+			var formsView = _settingsView.Model.GetSectionHeaderView((int) section);
+			if ( formsView != null )
+			{
+				return GetNativeSectionHeaderFooterView(formsView, tableView, true);
+			}
 
 
-        public override bool ShouldShowMenu(UITableView tableView, NSIndexPath rowAtindexPath)
-        {
-            if(_settingsView.Model.GetSection(rowAtindexPath.Section).UseDragSort)
-            {
-                return false;
-            }
+			var headerView = _tableView.DequeueReusableHeaderFooterView(SettingsViewRenderer.TextHeaderId) as TextHeaderView;
+			headerView.Initialzie(_settingsView.HeaderPadding.ToUIEdgeInsets(), _settingsView.HeaderTextVerticalAlign, _tableView);
 
-            var ret = false;
-            if(tableView.CellAt(rowAtindexPath) is CellBaseView cell)
-            {
-                System.Diagnostics.Debug.WriteLine("LongTap");
-                ret = cell.RowLongPressed(tableView, rowAtindexPath);
-            }
+			headerView.UpdateTextAllignment(_settingsView.Model.GetSection((int) section));
+			headerView.Label.Text = _settingsView.Model.GetSectionTitle((int) section);
+			headerView.Label.TextColor = _settingsView.HeaderTextColor == Color.Default ? UIColor.Gray : _settingsView.HeaderTextColor.ToUIColor();
+			headerView.Label.Font = UIFont.SystemFontOfSize((nfloat) _settingsView.HeaderFontSize);
+			headerView.BackgroundView.BackgroundColor = _settingsView.HeaderBackgroundColor.ToUIColor();
 
-            if(ret)
-            {
-                _settingsView.Model.RowLongPressed(_settingsView.Model.GetCell(rowAtindexPath.Section, rowAtindexPath.Row));
-                BeginInvokeOnMainThread(async () => {
-                    await Task.Delay(250);
-                    tableView.CellAt(rowAtindexPath).SetSelected(false, true);
-                });
-            }
+			return headerView;
+		}
 
-            return ret;
-        }
+		/// <summary>
+		/// section footer height
+		/// </summary>
+		/// <returns>The height for footer.</returns>
+		/// <param name="tableView">Table view.</param>
+		/// <param name="section">Section.</param>
+		public override nfloat GetHeightForFooter(UITableView tableView, nint section)
+		{
+			var sec = _settingsView.Model.GetSection((int) section);
 
-        public override bool CanPerformAction(UITableView tableView, Selector action, NSIndexPath indexPath, NSObject sender)
-        {
-            return false;
-        }
+			if ( !sec.IsVisible )
+			{
+				return nfloat.Epsilon;
+			}
 
-        public override void PerformAction(UITableView tableView, Selector action, NSIndexPath indexPath, NSObject sender)
-        {
-        }
+			if ( sec.FooterView != null )
+			{
+				return -1; // automatic height
+			}
 
-        /// <summary>
-        /// Title text string array (unknown what to do ) 
-        /// </summary>
-        /// <returns>The index titles.</returns>
-        /// <param name="tableView">Table view.</param>
-        public override string[] SectionIndexTitles(UITableView tableView)
-        {
-            return _settingsView.Model.GetSectionIndexTitles();
-        }
+			var footerText = sec.FooterText;
 
-        /// <summary>
-        /// processing when row is selected.
-        /// </summary>
-        /// <param name="tableView">Table view.</param>
-        /// <param name="indexPath">Index path.</param>
-        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
-        {
-            _settingsView.Model.RowSelected(indexPath.Section, indexPath.Row);
+			if ( string.IsNullOrEmpty(footerText) )
+			{
+				//hide footer
+				return nfloat.Epsilon; // must not zero
+			}
 
-            if (tableView.CellAt(indexPath) is CellBaseView cell)
-            {
-                cell.RowSelected(tableView, indexPath);
-            }
-        }       
+			return UITableView.AutomaticDimension;
+		}
 
-        /// <summary>
-        /// Dispose the specified disposing.
-        /// </summary>
-        /// <returns>The dispose.</returns>
-        /// <param name="disposing">If set to <c>true</c> disposing.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (!_disposed){
-                _settingsView = null;
-                _tableView = null;               
-            }
+		/// <summary>
+		/// Gets the view for footer.
+		/// </summary>
+		/// <returns>The view for footer.</returns>
+		/// <param name="tableView">Table view.</param>
+		/// <param name="section">Section.</param>
+		public override UIView GetViewForFooter(UITableView tableView, nint section)
+		{
+			var formsView = _settingsView.Model.GetSectionFooterView((int) section);
+			if ( formsView != null )
+			{
+				return GetNativeSectionHeaderFooterView(formsView, tableView, false);
+			}
 
-            _disposed = true;
+			var text = _settingsView.Model.GetFooterText((int) section);
 
-            base.Dispose(disposing);
-        }
-    }
+			if ( string.IsNullOrEmpty(text) )
+			{
+				return new UIView(CGRect.Empty);
+			}
+
+			var footerView = _tableView.DequeueReusableHeaderFooterView(SettingsViewRenderer.TextFooterId) as TextFooterView;
+			footerView.Initialzie(_settingsView.FooterPadding.ToUIEdgeInsets(), _tableView);
+
+			footerView.UpdateTextAllignment(_settingsView.Model.GetSection((int) section));
+			footerView.Label.Text = text;
+			footerView.Label.TextColor = _settingsView.FooterTextColor == Color.Default ? UIColor.Gray : _settingsView.FooterTextColor.ToUIColor();
+			footerView.Label.Font = UIFont.SystemFontOfSize((nfloat) _settingsView.FooterFontSize);
+			footerView.BackgroundView.BackgroundColor = _settingsView.FooterBackgroundColor.ToUIColor();
+
+			return footerView;
+		}
+
+		UIView GetNativeSectionHeaderFooterView(View formsView, UITableView tableView, bool isHeader)
+		{
+			var idString = isHeader ? SettingsViewRenderer.CustomHeaderId : SettingsViewRenderer.CustomFooterId;
+			var nativeView = tableView.DequeueReusableHeaderFooterView(idString) as CustomHeaderFooterView;
+			nativeView.FormsCell = formsView;
+
+			return nativeView;
+		}
+
+		/// <summary>
+		/// Numbers the of sections.
+		/// </summary>
+		/// <returns>The of sections.</returns>
+		/// <param name="tableView">Table view.</param>
+		public override nint NumberOfSections(UITableView tableView)
+		{
+			_tableView = tableView;
+			return _settingsView.Model.GetSectionCount();
+		}
+
+		/// <summary>
+		/// Rowses the in section.
+		/// </summary>
+		/// <returns>The in section.</returns>
+		/// <param name="tableview">Tableview.</param>
+		/// <param name="section">Section.</param>
+		public override nint RowsInSection(UITableView tableview, nint section)
+		{
+			var sec = _settingsView.Model.GetSection((int) section);
+			return sec.IsVisible ? sec.Count : 0;
+		}
+
+
+		public override bool ShouldShowMenu(UITableView tableView, NSIndexPath rowAtindexPath)
+		{
+			if ( _settingsView.Model.GetSection(rowAtindexPath.Section).UseDragSort )
+			{
+				return false;
+			}
+
+			var ret = false;
+			if ( tableView.CellAt(rowAtindexPath) is CellBaseView cell )
+			{
+				System.Diagnostics.Debug.WriteLine("LongTap");
+				ret = cell.RowLongPressed(tableView, rowAtindexPath);
+			}
+
+			if ( ret )
+			{
+				_settingsView.Model.RowLongPressed(_settingsView.Model.GetCell(rowAtindexPath.Section, rowAtindexPath.Row));
+				BeginInvokeOnMainThread(async () =>
+				{
+					await Task.Delay(250);
+					tableView.CellAt(rowAtindexPath).SetSelected(false, true);
+				});
+			}
+
+			return ret;
+		}
+
+		public override bool CanPerformAction(UITableView tableView, Selector action, NSIndexPath indexPath, NSObject sender)
+		{
+			return false;
+		}
+
+		public override void PerformAction(UITableView tableView, Selector action, NSIndexPath indexPath, NSObject sender)
+		{
+		}
+
+		/// <summary>
+		/// Title text string array (unknown what to do ) 
+		/// </summary>
+		/// <returns>The index titles.</returns>
+		/// <param name="tableView">Table view.</param>
+		public override string[] SectionIndexTitles(UITableView tableView)
+		{
+			return _settingsView.Model.GetSectionIndexTitles();
+		}
+
+		/// <summary>
+		/// processing when row is selected.
+		/// </summary>
+		/// <param name="tableView">Table view.</param>
+		/// <param name="indexPath">Index path.</param>
+		public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+		{
+			_settingsView.Model.RowSelected(indexPath.Section, indexPath.Row);
+
+			if ( tableView.CellAt(indexPath) is CellBaseView cell )
+			{
+				cell.RowSelected(tableView, indexPath);
+			}
+		}
+
+		/// <summary>
+		/// Dispose the specified disposing.
+		/// </summary>
+		/// <returns>The dispose.</returns>
+		/// <param name="disposing">If set to <c>true</c> disposing.</param>
+		protected override void Dispose(bool disposing)
+		{
+			if ( !_disposed )
+			{
+				_settingsView = null;
+				_tableView = null;
+			}
+
+			_disposed = true;
+
+			base.Dispose(disposing);
+		}
+	}
 }

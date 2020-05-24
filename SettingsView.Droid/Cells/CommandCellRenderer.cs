@@ -144,7 +144,7 @@ namespace AiForms.Renderers.Droid
 
         void Command_CanExecuteChanged(object sender, EventArgs e)
         {
-            if (!CellBase.IsEnabled) {
+            if (!_CellBase.IsEnabled) {
                 return;
             }
 

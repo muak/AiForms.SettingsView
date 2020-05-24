@@ -9,168 +9,169 @@ using System.Linq;
 
 namespace AiForms.Renderers.iOS
 {
-    public class CustomHeaderView : CustomHeaderFooterView
-    {
-        public CustomHeaderView(IntPtr handle) : base(handle)
-        {
-        }
-    }
+	public class CustomHeaderView : CustomHeaderFooterView
+	{
+		public CustomHeaderView(IntPtr handle) : base(handle)
+		{
+		}
+	}
 
-    public class CustomFooterView : CustomHeaderFooterView
-    {
-        public CustomFooterView(IntPtr handle) : base(handle)
-        {
-        }
-    }
+	public class CustomFooterView : CustomHeaderFooterView
+	{
+		public CustomFooterView(IntPtr handle) : base(handle)
+		{
+		}
+	}
 
-    public class CustomHeaderFooterView:UITableViewHeaderFooterView
-    {
-        WeakReference<IVisualElementRenderer> _rendererRef;
-        bool _disposed;
+	public class CustomHeaderFooterView : UITableViewHeaderFooterView
+	{
+		WeakReference<IVisualElementRenderer> _rendererRef;
+		bool _disposed;
 
-        View _formsCell;
-        public View FormsCell
-        {
-            get { return _formsCell; }
-            set {
-                if (_formsCell == value)
-                    return;
-                UpdateCell(value);
-            }
-        }
+		View _formsCell;
+		public View FormsCell
+		{
+			get { return _formsCell; }
+			set
+			{
+				if ( _formsCell == value )
+					return;
+				UpdateCell(value);
+			}
+		}
 
-        public CustomHeaderFooterView(IntPtr handle):base(handle)
-        {
-        }
+		public CustomHeaderFooterView(IntPtr handle) : base(handle)
+		{
+		}
 
-        protected override void Dispose(bool disposing)
-        {
-            if (_disposed)
-            {
-                return;
-            }
+		protected override void Dispose(bool disposing)
+		{
+			if ( _disposed )
+			{
+				return;
+			}
 
-            if (disposing)
-            {
-                if (_formsCell != null)
-                {
-                    _formsCell.PropertyChanged -= CellPropertyChanged;
-                }
-
-
-                IVisualElementRenderer renderer = null;
-                if (_rendererRef != null && _rendererRef.TryGetTarget(out renderer) && renderer.Element != null)
-                {   
-                    FormsInternals.DisposeModelAndChildrenRenderers(renderer.Element);
-                    _rendererRef = null;
-                }
-
-                renderer?.Dispose();
+			if ( disposing )
+			{
+				if ( _formsCell != null )
+				{
+					_formsCell.PropertyChanged -= CellPropertyChanged;
+				}
 
 
-                _formsCell = null;
-            }
+				IVisualElementRenderer renderer = null;
+				if ( _rendererRef != null && _rendererRef.TryGetTarget(out renderer) && renderer.Element != null )
+				{
+					FormsInternals.DisposeModelAndChildrenRenderers(renderer.Element);
+					_rendererRef = null;
+				}
 
-            _disposed = true;
+				renderer?.Dispose();
 
-            base.Dispose(disposing);
-        }
 
-        public virtual void UpdateNativeCell()
-        {
-            UpdateIsEnabled();
-        }
+				_formsCell = null;
+			}
 
-        public virtual void CellPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == Cell.IsEnabledProperty.PropertyName)
-            {
-                UpdateIsEnabled();
-            }
-        }
+			_disposed = true;
 
-        protected virtual void UpdateIsEnabled()
-        {
-            UserInteractionEnabled = FormsCell.IsEnabled;
-        }
+			base.Dispose(disposing);
+		}
 
-        public override void LayoutSubviews()
-        {
-            if (FormsCell == null)
-            {
-                return;
-            }
+		public virtual void UpdateNativeCell()
+		{
+			UpdateIsEnabled();
+		}
 
-            //This sets the content views frame.
-            base.LayoutSubviews();
+		public virtual void CellPropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if ( e.PropertyName == Cell.IsEnabledProperty.PropertyName )
+			{
+				UpdateIsEnabled();
+			}
+		}
 
-            var contentFrame = ContentView.Bounds;
-            var view = FormsCell;
+		protected virtual void UpdateIsEnabled()
+		{
+			UserInteractionEnabled = FormsCell.IsEnabled;
+		}
 
-            Layout.LayoutChildIntoBoundingRegion(view, contentFrame.ToRectangle());
+		public override void LayoutSubviews()
+		{
+			if ( FormsCell == null )
+			{
+				return;
+			}
 
-            if (_rendererRef == null)
-                return;
+			//This sets the content views frame.
+			base.LayoutSubviews();
 
-            IVisualElementRenderer renderer;
-            if (_rendererRef.TryGetTarget(out renderer))
-                renderer.NativeView.Frame = view.Bounds.ToRectangleF();
-                
-        }
+			var contentFrame = ContentView.Bounds;
+			var view = FormsCell;
 
-        public override CGSize SizeThatFits(CGSize size)
-        {
-            IVisualElementRenderer renderer;
-            if (!_rendererRef.TryGetTarget(out renderer))
-                return base.SizeThatFits(size);
+			Layout.LayoutChildIntoBoundingRegion(view, contentFrame.ToRectangle());
 
-            if (renderer.Element == null)
-                return CGSize.Empty;
+			if ( _rendererRef == null )
+				return;
 
-            double width = size.Width;
-            var height = size.Height > 0 ? size.Height : double.PositiveInfinity;
-            var result = renderer.Element.Measure(width, height, MeasureFlags.IncludeMargins);
+			IVisualElementRenderer renderer;
+			if ( _rendererRef.TryGetTarget(out renderer) )
+				renderer.NativeView.Frame = view.Bounds.ToRectangleF();
 
-            return new CGSize(size.Width, (float)result.Request.Height);
-        }
+		}
 
-        protected virtual void UpdateCell(View cell)
-        {
-            if(_formsCell != null)
-            {
-                _formsCell.PropertyChanged -= CellPropertyChanged;
-            }
-            _formsCell = cell;
-            _formsCell.PropertyChanged += CellPropertyChanged;           
+		public override CGSize SizeThatFits(CGSize size)
+		{
+			IVisualElementRenderer renderer;
+			if ( !_rendererRef.TryGetTarget(out renderer) )
+				return base.SizeThatFits(size);
 
-            if(ContentView.Subviews.Any())
-            {
-                ContentView.Subviews[0].RemoveFromSuperview();
-            }
+			if ( renderer.Element == null )
+				return CGSize.Empty;
 
-            var renderer = CreateOrGetRenderer();
-            renderer.NativeView.RemoveFromSuperview();
-            ContentView.AddSubview(renderer.NativeView);
-           
+			double width = size.Width;
+			var height = size.Height > 0 ? size.Height : double.PositiveInfinity;
+			var result = renderer.Element.Measure(width, height, MeasureFlags.IncludeMargins);
 
-            UpdateNativeCell();      
-        }
+			return new CGSize(size.Width, (float) result.Request.Height);
+		}
 
-        protected virtual IVisualElementRenderer CreateOrGetRenderer()
-        {
-            var newRenderer = Platform.GetRenderer(_formsCell) ?? Platform.CreateRenderer(_formsCell);
-            Platform.SetRenderer(_formsCell, newRenderer);
+		protected virtual void UpdateCell(View cell)
+		{
+			if ( _formsCell != null )
+			{
+				_formsCell.PropertyChanged -= CellPropertyChanged;
+			}
+			_formsCell = cell;
+			_formsCell.PropertyChanged += CellPropertyChanged;
 
-            if(_rendererRef == null)
-            {
-                _rendererRef = new WeakReference<IVisualElementRenderer>(newRenderer);
-            }
-            else
-            {
-                _rendererRef.SetTarget(newRenderer);
-            }
+			if ( ContentView.Subviews.Any() )
+			{
+				ContentView.Subviews[0].RemoveFromSuperview();
+			}
 
-            return newRenderer;
-        }
-    }
+			var renderer = CreateOrGetRenderer();
+			renderer.NativeView.RemoveFromSuperview();
+			ContentView.AddSubview(renderer.NativeView);
+
+
+			UpdateNativeCell();
+		}
+
+		protected virtual IVisualElementRenderer CreateOrGetRenderer()
+		{
+			var newRenderer = Platform.GetRenderer(_formsCell) ?? Platform.CreateRenderer(_formsCell);
+			Platform.SetRenderer(_formsCell, newRenderer);
+
+			if ( _rendererRef == null )
+			{
+				_rendererRef = new WeakReference<IVisualElementRenderer>(newRenderer);
+			}
+			else
+			{
+				_rendererRef.SetTarget(newRenderer);
+			}
+
+			return newRenderer;
+		}
+	}
 }

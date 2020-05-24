@@ -172,6 +172,16 @@ namespace AiForms.Renderers
 
 
         /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="T:AiForms.Renderers.Section"/> is visible.
+        /// </summary>
+        /// <value><c>true</c> if is visible; otherwise, <c>false</c>.</value>
+        public bool IsVisible
+        {
+            get { return (bool)GetValue(IsVisibleProperty); }
+            set { SetValue(IsVisibleProperty, value); }
+        }
+
+        /// <summary>
         /// The is visible property.
         /// </summary>
         public static BindableProperty IsVisibleProperty =
@@ -183,14 +193,15 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
+
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="T:AiForms.Renderers.Section"/> is visible.
+        /// Gets or sets the footer text.
         /// </summary>
-        /// <value><c>true</c> if is visible; otherwise, <c>false</c>.</value>
-        public bool IsVisible
+        /// <value>The footer text.</value>
+        public string FooterText
         {
-            get { return (bool)GetValue(IsVisibleProperty); }
-            set { SetValue(IsVisibleProperty, value); }
+            get { return (string)GetValue(FooterTextProperty); }
+            set { SetValue(FooterTextProperty, value); }
         }
 
         /// <summary>
@@ -204,15 +215,16 @@ namespace AiForms.Renderers
                 default(string),
                 defaultBindingMode: BindingMode.OneWay
             );
+         
 
         /// <summary>
-        /// Gets or sets the footer text.
+        /// Gets or sets the item template.
         /// </summary>
-        /// <value>The footer text.</value>
-        public string FooterText
+        /// <value>The item template.</value>
+        public DataTemplate ItemTemplate
         {
-            get { return (string)GetValue(FooterTextProperty); }
-            set { SetValue(FooterTextProperty, value); }
+            get { return (DataTemplate)GetValue(ItemTemplateProperty); }
+            set { SetValue(ItemTemplateProperty, value); }
         }
 
         /// <summary>
@@ -227,14 +239,16 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
+
+
         /// <summary>
-        /// Gets or sets the item template.
+        /// Gets or sets the items source.
         /// </summary>
-        /// <value>The item template.</value>
-        public DataTemplate ItemTemplate
+        /// <value>The items source.</value>
+        public IList ItemsSource
         {
-            get { return (DataTemplate)GetValue(ItemTemplateProperty); }
-            set { SetValue(ItemTemplateProperty, value); }
+            get { return (IList)GetValue(ItemsSourceProperty); }
+            set { SetValue(ItemsSourceProperty, value); }
         }
 
         /// <summary>
@@ -250,14 +264,15 @@ namespace AiForms.Renderers
                 propertyChanged: ItemsChanged
             );
 
+
         /// <summary>
-        /// Gets or sets the items source.
+        /// Gets or sets the height of the header.
         /// </summary>
-        /// <value>The items source.</value>
-        public IList ItemsSource
+        /// <value>The height of the header.</value>
+        public double HeaderHeight
         {
-            get { return (IList)GetValue(ItemsSourceProperty); }
-            set { SetValue(ItemsSourceProperty, value); }
+            get { return (double)GetValue(HeaderHeightProperty); }
+            set { SetValue(HeaderHeightProperty, value); }
         }
 
         /// <summary>
@@ -272,14 +287,14 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
+
         /// <summary>
-        /// Gets or sets the height of the header.
+        /// Gets or sets the header view.
         /// </summary>
-        /// <value>The height of the header.</value>
-        public double HeaderHeight
-        {
-            get { return (double)GetValue(HeaderHeightProperty); }
-            set { SetValue(HeaderHeightProperty, value); }
+        /// <value>The header view.</value>
+        public View HeaderView {
+            get { return (View)GetValue(HeaderViewProperty); }
+            set { SetValue(HeaderViewProperty, value); }
         }
 
         /// <summary>
@@ -294,13 +309,14 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
+
         /// <summary>
-        /// Gets or sets the header view.
+        /// Gets or sets the footer view.
         /// </summary>
-        /// <value>The header view.</value>
-        public View HeaderView {
-            get { return (View)GetValue(HeaderViewProperty); }
-            set { SetValue(HeaderViewProperty, value); }
+        /// <value>The footer view.</value>
+        public View FooterView {
+            get { return (View)GetValue(FooterViewProperty); }
+            set { SetValue(FooterViewProperty, value); }
         }
 
         /// <summary>
@@ -315,13 +331,15 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
+
         /// <summary>
-        /// Gets or sets the footer view.
+        /// Gets or sets a value indicating whether this <see cref="T:AiForms.Renderers.Section"/> use drag sort.
         /// </summary>
-        /// <value>The footer view.</value>
-        public View FooterView {
-            get { return (View)GetValue(FooterViewProperty); }
-            set { SetValue(FooterViewProperty, value); }
+        /// <value><c>true</c> if use drag sort; otherwise, <c>false</c>.</value>
+        public bool UseDragSort
+        {
+            get { return (bool)GetValue(UseDragSortProperty); }
+            set { SetValue(UseDragSortProperty, value); }
         }
 
         /// <summary>
@@ -336,14 +354,11 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
-        /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="T:AiForms.Renderers.Section"/> use drag sort.
-        /// </summary>
-        /// <value><c>true</c> if use drag sort; otherwise, <c>false</c>.</value>
-        public bool UseDragSort
+
+        public int TemplateStartIndex
         {
-            get { return (bool)GetValue(UseDragSortProperty); }
-            set { SetValue(UseDragSortProperty, value); }
+            get { return (int)GetValue(TemplateStartIndexProperty); }
+            set { SetValue(TemplateStartIndexProperty, value); }
         }
 
         public static BindableProperty TemplateStartIndexProperty =
@@ -355,13 +370,27 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
-        public int TemplateStartIndex
+
+        public TextAlignment TextAlignment
         {
-            get { return (int)GetValue(TemplateStartIndexProperty); }
-            set { SetValue(TemplateStartIndexProperty, value); }
+            get { return (TextAlignment) GetValue(TextAlignmentProperty); }
+            set { SetValue(TextAlignmentProperty, value); }
         }
 
-        int templatedItemsCount;
+        /// <summary>
+        /// The title Text Alignment property.
+        /// </summary>
+        public static BindableProperty TextAlignmentProperty =
+            BindableProperty.Create(
+                nameof(TextAlignment),
+                typeof(TextAlignment),
+                typeof(CellBase),
+                TextAlignment.Center,
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+
+        int _templatedItemsCount;
 
         static void ItemsChanged(BindableObject bindable, object oldValue, object newValue)
         {
@@ -406,7 +435,7 @@ namespace AiForms.Renderers
                     var view = CreateChildViewFor(section.ItemTemplate, newValueAsEnumerable[i], section);
                     section.Insert(section.TemplateStartIndex + i, view);
                 }
-                section.templatedItemsCount = newValueAsEnumerable.Count;
+                section._templatedItemsCount = newValueAsEnumerable.Count;
             }
 
             var newObservableCollection = newValue as INotifyCollectionChanged;
@@ -443,7 +472,7 @@ namespace AiForms.Renderers
                         var view = CreateChildViewFor(ItemTemplate, item, this);
 
                         Insert(i + e.NewStartingIndex + TemplateStartIndex, view);
-                        templatedItemsCount++;
+                        _templatedItemsCount++;
                     }
                 }
             }
@@ -453,7 +482,7 @@ namespace AiForms.Renderers
                 if (e.OldItems != null)
                 {
                     RemoveAt(e.OldStartingIndex + TemplateStartIndex);
-                    templatedItemsCount--;
+                    _templatedItemsCount--;
                 }
             }
 
@@ -461,11 +490,11 @@ namespace AiForms.Renderers
             {
                 //this.Clear();
                 IList source = ItemsSource as IList;
-                for (var i = templatedItemsCount - 1; i >= 0; i--)
+                for (var i = _templatedItemsCount - 1; i >= 0; i--)
                 {
                     RemoveAt(TemplateStartIndex + i);
                 }
-                templatedItemsCount = 0;
+                _templatedItemsCount = 0;
             }
 
             else

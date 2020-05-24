@@ -10,6 +10,16 @@ namespace AiForms.Renderers
     public class EntryCell:CellBase,IEntryCellController
     {
         /// <summary>
+        /// Gets or sets the value text.
+        /// </summary>
+        /// <value>The value text.</value>
+        public string ValueText
+        {
+            get { return (string) GetValue(ValueTextProperty); }
+            set { SetValue(ValueTextProperty, value); }
+        }
+
+        /// <summary>
         /// The value text property.
         /// </summary>
         public static BindableProperty ValueTextProperty =
@@ -23,32 +33,14 @@ namespace AiForms.Renderers
 
             );
 
-        static void  ValueTextPropertyChanging(BindableObject bindable, object oldValue, object newValue)
-        {
-            var maxlength = (int)bindable.GetValue(MaxLengthProperty);
-            if (maxlength < 0) return;
-
-            var newString = newValue?.ToString() ?? string.Empty;
-            if (newString.Length > maxlength) {
-                var oldString = oldValue?.ToString() ?? string.Empty;
-                if(oldString.Length > maxlength){
-                    var trimStr = oldString.Substring(0, maxlength);
-                    bindable.SetValue(ValueTextProperty, trimStr);
-                }
-                else{
-                    bindable.SetValue(ValueTextProperty, oldString);
-                }
-               
-            }
-        }
-
         /// <summary>
-        /// Gets or sets the value text.
+        /// Gets or sets the length of the max.
         /// </summary>
-        /// <value>The value text.</value>
-        public string ValueText {
-            get { return (string)GetValue(ValueTextProperty); }
-            set { SetValue(ValueTextProperty, value); }
+        /// <value>The length of the max.</value>
+        public int MaxLength
+        {
+            get { return (int) GetValue(MaxLengthProperty); }
+            set { SetValue(MaxLengthProperty, value); }
         }
 
         /// <summary>
@@ -64,12 +56,13 @@ namespace AiForms.Renderers
             );
 
         /// <summary>
-        /// Gets or sets the length of the max.
+        /// Gets or sets the color of the value text.
         /// </summary>
-        /// <value>The length of the max.</value>
-        public int MaxLength {
-            get { return (int)GetValue(MaxLengthProperty); }
-            set { SetValue(MaxLengthProperty, value); }
+        /// <value>The color of the value text.</value>
+        public Color ValueTextColor
+        {
+            get { return (Color) GetValue(ValueTextColorProperty); }
+            set { SetValue(ValueTextColorProperty, value); }
         }
 
         /// <summary>
@@ -85,12 +78,14 @@ namespace AiForms.Renderers
             );
 
         /// <summary>
-        /// Gets or sets the color of the value text.
+        /// Gets or sets the size of the value text font.
         /// </summary>
-        /// <value>The color of the value text.</value>
-        public Color ValueTextColor {
-            get { return (Color)GetValue(ValueTextColorProperty); }
-            set { SetValue(ValueTextColorProperty, value); }
+        /// <value>The size of the value text font.</value>
+        [TypeConverter(typeof(FontSizeConverter))]
+        public double ValueTextFontSize
+        {
+            get { return (double) GetValue(ValueTextFontSizeProperty); }
+            set { SetValue(ValueTextFontSizeProperty, value); }
         }
 
         /// <summary>
@@ -106,13 +101,13 @@ namespace AiForms.Renderers
             );
 
         /// <summary>
-        /// Gets or sets the size of the value text font.
+        /// Gets or sets the keyboard.
         /// </summary>
-        /// <value>The size of the value text font.</value>
-        [TypeConverter(typeof(FontSizeConverter))]
-        public double ValueTextFontSize {
-            get { return (double)GetValue(ValueTextFontSizeProperty); }
-            set { SetValue(ValueTextFontSizeProperty, value); }
+        /// <value>The keyboard.</value>
+        public Keyboard Keyboard
+        {
+            get { return (Keyboard) GetValue(KeyboardProperty); }
+            set { SetValue(KeyboardProperty, value); }
         }
 
         /// <summary>
@@ -126,15 +121,6 @@ namespace AiForms.Renderers
                 Keyboard.Default,
                 defaultBindingMode: BindingMode.OneWay
             );
-
-        /// <summary>
-        /// Gets or sets the keyboard.
-        /// </summary>
-        /// <value>The keyboard.</value>
-        public Keyboard Keyboard {
-            get { return (Keyboard)GetValue(KeyboardProperty); }
-            set { SetValue(KeyboardProperty, value); }
-        }
 
         /// <summary>
         /// Occurs when completed.
@@ -156,6 +142,16 @@ namespace AiForms.Renderers
         }
 
         /// <summary>
+        /// Gets or sets the completed command.
+        /// </summary>
+        /// <value>The completed command.</value>
+        public ICommand CompletedCommand
+        {
+            get { return (ICommand) GetValue(CompletedCommandProperty); }
+            set { SetValue(CompletedCommandProperty, value); }
+        }
+
+        /// <summary>
         /// The completed command property.
         /// </summary>
         public static BindableProperty CompletedCommandProperty =
@@ -168,12 +164,13 @@ namespace AiForms.Renderers
             );
 
         /// <summary>
-        /// Gets or sets the completed command.
+        /// Gets or sets the placeholder.
         /// </summary>
-        /// <value>The completed command.</value>
-        public ICommand CompletedCommand {
-            get { return (ICommand)GetValue(CompletedCommandProperty); }
-            set { SetValue(CompletedCommandProperty, value); }
+        /// <value>The placeholder.</value>
+        public string Placeholder
+        {
+            get { return (string) GetValue(PlaceholderProperty); }
+            set { SetValue(PlaceholderProperty, value); }
         }
 
         /// <summary>
@@ -189,12 +186,13 @@ namespace AiForms.Renderers
             );
 
         /// <summary>
-        /// Gets or sets the placeholder.
+        /// Gets or sets the text alignment.
         /// </summary>
-        /// <value>The placeholder.</value>
-        public string Placeholder {
-            get { return (string)GetValue(PlaceholderProperty); }
-            set { SetValue(PlaceholderProperty, value); }
+        /// <value>The text alignment.</value>
+        public TextAlignment TextAlignment
+        {
+            get { return (TextAlignment) GetValue(TextAlignmentProperty); }
+            set { SetValue(TextAlignmentProperty, value); }
         }
 
         /// <summary>
@@ -210,13 +208,13 @@ namespace AiForms.Renderers
             );
 
         /// <summary>
-        /// Gets or sets the text alignment.
+        /// Gets or sets the color of the accent.
         /// </summary>
-        /// <value>The text alignment.</value>
-        public TextAlignment TextAlignment
+        /// <value>The color of the accent.</value>
+        public Color AccentColor
         {
-            get { return (TextAlignment)GetValue(TextAlignmentProperty); }
-            set { SetValue(TextAlignmentProperty, value); }
+            get { return (Color) GetValue(AccentColorProperty); }
+            set { SetValue(AccentColorProperty, value); }
         }
 
         /// <summary>
@@ -231,13 +229,14 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
+
         /// <summary>
-        /// Gets or sets the color of the accent.
+        /// Gets or sets a value indicating whether this <see cref="T:AiForms.Renderers.EntryCell"/> is password.
         /// </summary>
-        /// <value>The color of the accent.</value>
-        public Color AccentColor {
-            get { return (Color)GetValue(AccentColorProperty); }
-            set { SetValue(AccentColorProperty, value); }
+        /// <value><c>true</c> if is password; otherwise, <c>false</c>.</value>
+        public bool IsPassword {
+            get { return (bool)GetValue(IsPasswordProperty); }
+            set { SetValue(IsPasswordProperty, value); }
         }
 
         /// <summary>
@@ -251,15 +250,28 @@ namespace AiForms.Renderers
                 default(bool),
                 defaultBindingMode: BindingMode.OneWay
             );
+        
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="T:AiForms.Renderers.EntryCell"/> is password.
         /// </summary>
         /// <value><c>true</c> if is password; otherwise, <c>false</c>.</value>
-        public bool IsPassword {
-            get { return (bool)GetValue(IsPasswordProperty); }
-            set { SetValue(IsPasswordProperty, value); }
+        public bool SelectAllOnTap {
+            get { return (bool)GetValue(SelectAllOnTapProperty); }
+            set { SetValue(SelectAllOnTapProperty, value); }
         }
+
+        /// <summary>
+        /// The is password property.
+        /// </summary>
+        public static BindableProperty SelectAllOnTapProperty =
+            BindableProperty.Create(
+                nameof(SelectAllOnTap),
+                typeof(bool),
+                typeof(EntryCell),
+                default(bool),
+                defaultBindingMode: BindingMode.OneWay
+            );
 
 
 
@@ -271,5 +283,27 @@ namespace AiForms.Renderers
         {
             Focused?.Invoke(this,EventArgs.Empty);
         }
+        static void ValueTextPropertyChanging(BindableObject bindable, object oldValue, object newValue)
+        {
+            var maxlength = (int) bindable.GetValue(MaxLengthProperty);
+            if ( maxlength < 0 ) return;
+
+            var newString = newValue?.ToString() ?? string.Empty;
+            if ( newString.Length > maxlength )
+            {
+                var oldString = oldValue?.ToString() ?? string.Empty;
+                if ( oldString.Length > maxlength )
+                {
+                    var trimStr = oldString.Substring(0, maxlength);
+                    bindable.SetValue(ValueTextProperty, trimStr);
+                }
+                else
+                {
+                    bindable.SetValue(ValueTextProperty, oldString);
+                }
+
+            }
+        }
+
     }
 }

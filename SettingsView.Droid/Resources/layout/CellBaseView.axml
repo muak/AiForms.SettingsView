@@ -1,72 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/CellLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:minHeight="44dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="4dp"
-    android:paddingBottom="4dp">
-    <ImageView
-        android:id="@+id/CellIcon"
-        android:scaleType="fitXY"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="12dp" />
-    <LinearLayout
-        android:id="@+id/CellBody"
-        android:orientation="vertical"
-        android:layout_toRightOf="@+id/CellIcon"
-        android:layout_toLeftOf="@+id/CellAccessoryView"
-        android:layout_centerVertical="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="4dp">
-        <LinearLayout
-            android:id="@+id/CellContentStack"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:weightSum="1">
-            <TextView
-                android:id="@+id/CellTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:singleLine="true"
-                android:ellipsize="end"
-                android:gravity="left"
-                android:paddingRight="6dp"
-                android:layout_gravity="left|center_vertical" />
-        </LinearLayout>
-        <TextView
-            android:id="@+id/CellDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:layout_gravity="left"
-            android:layout_marginTop="2dp" />
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/CellAccessoryView"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical" />
-    <TextView
-        android:id="@+id/CellHintText"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="right"
-        android:textSize="10sp"
-        android:textColor="#FF0000"
-        android:visibility="gone" />
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/CellLayout"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:minHeight="44dp"
+	android:paddingLeft="10dp"
+	android:paddingRight="10dp"
+	android:paddingTop="4dp"
+	android:paddingBottom="4dp">
+	<ImageView
+		android:id="@+id/CellIcon"
+		android:scaleType="fitXY"
+		android:layout_centerVertical="true"
+		android:layout_alignParentLeft="true"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="2dp"
+		android:layout_marginRight="12dp" />
+	<LinearLayout
+		android:id="@+id/CellBody"
+		android:orientation="vertical"
+		android:layout_toRightOf="@+id/CellIcon"
+		android:layout_toLeftOf="@+id/CellAccessoryView"
+		android:layout_centerVertical="true"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:paddingLeft="4dp">
+		<LinearLayout
+			android:id="@+id/CellContentStack"
+			android:orientation="horizontal"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center_vertical"
+			android:weightSum="1">
+			<TextView
+				android:id="@+id/CellTitle"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:singleLine="true"
+				android:ellipsize="end"
+				android:gravity="left"
+				android:paddingRight="6dp"
+				android:layout_gravity="left|center_vertical" />
+		</LinearLayout>
+		<TextView
+			android:id="@+id/CellDescription"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="left"
+			android:layout_gravity="left"
+			android:layout_marginTop="2dp" />
+	</LinearLayout>
+	<LinearLayout
+		android:id="@+id/CellAccessoryView"
+		android:orientation="vertical"
+		android:layout_alignParentRight="true"
+		android:layout_centerVertical="true"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:gravity="center_vertical" />
+	<TextView
+		android:id="@+id/CellHintText"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentTop="true"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:gravity="right"
+		android:textSize="10sp"
+		android:textColor="#FF0000"
+		android:visibility="gone" />
 </RelativeLayout>

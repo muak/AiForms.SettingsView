@@ -37,7 +37,7 @@ namespace AiForms.Renderers.iOS
             ValueLabel = new UILabel();
             ValueLabel.TextAlignment = UITextAlignment.Right;
 
-            ContentStack.AddArrangedSubview(ValueLabel);
+            _ContentStack.AddArrangedSubview(ValueLabel);
             ValueLabel.SetContentHuggingPriority(100f, UILayoutConstraintAxis.Horizontal);
             ValueLabel.SetContentCompressionResistancePriority(100f, UILayoutConstraintAxis.Horizontal);
         }
@@ -141,7 +141,7 @@ namespace AiForms.Renderers.iOS
         protected override void Dispose(bool disposing)
         {
             if (disposing) {
-                ContentStack.RemoveArrangedSubview(ValueLabel);
+                _ContentStack.RemoveArrangedSubview(ValueLabel);
                 ValueLabel.Dispose();
             }
             base.Dispose(disposing);
