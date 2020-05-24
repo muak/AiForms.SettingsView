@@ -5,6 +5,7 @@ using UIKit;
 using Xamarin.Forms.Platform.iOS;
 using AiForms.Renderers.iOS.Extensions;
 using Foundation;
+using ObjCRuntime;
 
 [assembly: ExportRenderer(typeof(AiEntryCell), typeof(AiForms.Renderers.iOS.EntryCellRenderer))]
 namespace AiForms.Renderers.iOS
@@ -35,7 +36,7 @@ namespace AiForms.Renderers.iOS
             ValueField = new UITextField() { BorderStyle = UITextBorderStyle.None };
             ValueField.AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
 
-            ValueField.EditingChanged += _textField_EditingChanged;
+            ValueField.EditingChanged += TextField_EditingChanged;
             ValueField.EditingDidBegin += ValueField_EditingDidBegin;
             ValueField.EditingDidEnd += ValueField_EditingDidEnd;
             ValueField.ShouldReturn = OnShouldReturn;
@@ -65,6 +66,7 @@ namespace AiForms.Renderers.iOS
             UpdateKeyboard();
             UpdateIsPassword();
             UpdateTextAlignment();
+            UpdateValueTextAlignment();
         }
 
         /// <summary>
@@ -95,6 +97,10 @@ namespace AiForms.Renderers.iOS
             }
             else if (e.PropertyName == AiEntryCell.IsPasswordProperty.PropertyName) {
                 UpdateIsPassword();
+            }
+            else if ( e.PropertyName == CellBase.ValueTextAlignmentProperty.PropertyName )
+            {
+                UpdateValueTextAlignment();
             }
         }
 
@@ -133,7 +139,7 @@ namespace AiForms.Renderers.iOS
         protected override void Dispose(bool disposing)
         {
             if (disposing) {
-                ValueField.EditingChanged -= _textField_EditingChanged;
+                ValueField.EditingChanged -= TextField_EditingChanged;
                 ValueField.EditingDidBegin -= ValueField_EditingDidBegin;
                 ValueField.EditingDidEnd -= ValueField_EditingDidEnd;
                 _EntryCell.Focused -= EntryCell_Focused;
@@ -220,19 +226,31 @@ namespace AiForms.Renderers.iOS
             ValueField.SecureTextEntry = _EntryCell.IsPassword;
         }
 
+        //protected override void UpdateAllowMultiLine()
+        //{
+        //    base.UpdateAllowMultiLine();
+        //    ValueField.Lines = _CellBase.AllowMultiLine ? 1 : _CellBase.MaxLines;
+        //}
+        void UpdateValueTextAlignment()
+        {
+            ValueField.TextAlignment = GetTextAllignment(_CellBase.ValueTextAlignment);
+        }
 
-        void _textField_EditingChanged(object sender, EventArgs e)
+        void TextField_EditingChanged(object sender, EventArgs e)
         {
             _EntryCell.ValueText = ValueField.Text;
         }
-
-
         void ValueField_EditingDidBegin(object sender, EventArgs e)
         {
+            //if ( _EntryCell.SelectAllOnTap ) ValueField.PerformSelector(new Selector("SelectAll"), null, 0.0f);
+            if ( _EntryCell.SelectAllOnTap )
+            {
+                if ( sender is NSObject obj ) ValueField.SelectAll(obj);
+                else ValueField.SelectAll(null);
+            }
+
             _hasFocus = true;
         }
-
-
         void ValueField_EditingDidEnd(object sender, EventArgs e)
         {           
             if(!_hasFocus)
@@ -243,7 +261,6 @@ namespace AiForms.Renderers.iOS
             _EntryCell.SendCompleted();
             _hasFocus = false;
         }
-
         void EntryCell_Focused(object sender, EventArgs e)
         {
             ValueField.BecomeFirstResponder();

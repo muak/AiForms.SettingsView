@@ -131,7 +131,7 @@ namespace AiForms.Renderers.Droid
 			{
 				UpdateIsPassword();
 			}
-			else if ( e.PropertyName == AiEntryCell.ValueTextAlignmentProperty.PropertyName )
+			else if ( e.PropertyName == CellBase.ValueTextAlignmentProperty.PropertyName )
 			{
 				UpdateValueTextAlignment();
 			}

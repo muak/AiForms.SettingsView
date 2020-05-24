@@ -240,7 +240,6 @@ namespace AiForms.Renderers.iOS
 			HintLabel.Lines = _CellBase.MaxLines;
 			DescriptionLabel.Lines = _CellBase.MaxLines;
 		}
-
 		void UpdateHintTextAlignment()
 		{
 			HintLabel.TextAlignment = GetTextAllignment(_CellBase.HintTextAlignment);
@@ -249,6 +248,7 @@ namespace AiForms.Renderers.iOS
 		{
 			TitleLabel.TextAlignment = GetTextAllignment(_CellBase.TitleTextAlignment);
 		}
+
 		void UpdateDescriptionTextAlignment()
 		{
 			DescriptionLabel.TextAlignment = GetTextAllignment(_CellBase.DescriptionTextAlignment);

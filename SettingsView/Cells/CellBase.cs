@@ -65,6 +65,16 @@ namespace AiForms.Renderers
 
 
 		/// <summary>
+		/// Gets or sets the color of the title.
+		/// </summary>
+		/// <value>The color of the title.</value>
+		public Color TitleColor
+		{
+			get { return (Color) GetValue(TitleColorProperty); }
+			set { SetValue(TitleColorProperty, value); }
+		}
+
+		/// <summary>
 		/// The title color property.
 		/// </summary>
 		public static BindableProperty TitleColorProperty =
@@ -76,14 +86,16 @@ namespace AiForms.Renderers
 				defaultBindingMode: BindingMode.OneWay
 			);
 
+
 		/// <summary>
-		/// Gets or sets the color of the title.
+		/// Gets or sets the size of the title font.
 		/// </summary>
-		/// <value>The color of the title.</value>
-		public Color TitleColor
+		/// <value>The size of the title font.</value>
+		[TypeConverter(typeof(FontSizeConverter))]
+		public double TitleFontSize
 		{
-			get { return (Color) GetValue(TitleColorProperty); }
-			set { SetValue(TitleColorProperty, value); }
+			get { return (double) GetValue(TitleFontSizeProperty); }
+			set { SetValue(TitleFontSizeProperty, value); }
 		}
 
 		/// <summary>
@@ -98,15 +110,15 @@ namespace AiForms.Renderers
 				defaultBindingMode: BindingMode.OneWay
 			);
 
+
 		/// <summary>
-		/// Gets or sets the size of the title font.
+		/// Gets or sets the description.
 		/// </summary>
-		/// <value>The size of the title font.</value>
-		[TypeConverter(typeof(FontSizeConverter))]
-		public double TitleFontSize
+		/// <value>The description.</value>
+		public string Description
 		{
-			get { return (double) GetValue(TitleFontSizeProperty); }
-			set { SetValue(TitleFontSizeProperty, value); }
+			get { return (string) GetValue(DescriptionProperty); }
+			set { SetValue(DescriptionProperty, value); }
 		}
 
 		/// <summary>
@@ -121,14 +133,15 @@ namespace AiForms.Renderers
 				defaultBindingMode: BindingMode.OneWay
 			);
 
+
 		/// <summary>
-		/// Gets or sets the description.
+		/// Gets or sets the Description Text Alignment.
 		/// </summary>
-		/// <value>The description.</value>
-		public string Description
+		/// <value>The title.</value>
+		public TextAlignment DescriptionTextAlignment
 		{
-			get { return (string) GetValue(DescriptionProperty); }
-			set { SetValue(DescriptionProperty, value); }
+			get { return (TextAlignment) GetValue(DescriptionTextAlignmentProperty); }
+			set { SetValue(DescriptionTextAlignmentProperty, value); }
 		}
 
 		/// <summary>
@@ -143,14 +156,15 @@ namespace AiForms.Renderers
 				defaultBindingMode: BindingMode.OneWay
 			);
 
+
 		/// <summary>
-		/// Gets or sets the Description Text Alignment.
+		/// Gets or sets the color of the description.
 		/// </summary>
-		/// <value>The title.</value>
-		public TextAlignment DescriptionTextAlignment
+		/// <value>The color of the description.</value>
+		public Color DescriptionColor
 		{
-			get { return (TextAlignment) GetValue(DescriptionTextAlignmentProperty); }
-			set { SetValue(DescriptionTextAlignmentProperty, value); }
+			get { return (Color) GetValue(DescriptionColorProperty); }
+			set { SetValue(DescriptionColorProperty, value); }
 		}
 
 		/// <summary>
@@ -165,14 +179,16 @@ namespace AiForms.Renderers
 				defaultBindingMode: BindingMode.OneWay
 			);
 
+
 		/// <summary>
-		/// Gets or sets the color of the description.
+		/// Gets or sets the size of the description font.
 		/// </summary>
-		/// <value>The color of the description.</value>
-		public Color DescriptionColor
+		/// <value>The size of the description font.</value>
+		[TypeConverter(typeof(FontSizeConverter))]
+		public double DescriptionFontSize
 		{
-			get { return (Color) GetValue(DescriptionColorProperty); }
-			set { SetValue(DescriptionColorProperty, value); }
+			get { return (double) GetValue(DescriptionFontSizeProperty); }
+			set { SetValue(DescriptionFontSizeProperty, value); }
 		}
 
 		/// <summary>
@@ -187,15 +203,15 @@ namespace AiForms.Renderers
 				defaultBindingMode: BindingMode.OneWay
 			);
 
+
 		/// <summary>
-		/// Gets or sets the size of the description font.
+		/// Gets or sets the hint text.
 		/// </summary>
-		/// <value>The size of the description font.</value>
-		[TypeConverter(typeof(FontSizeConverter))]
-		public double DescriptionFontSize
+		/// <value>The hint text.</value>
+		public string HintText
 		{
-			get { return (double) GetValue(DescriptionFontSizeProperty); }
-			set { SetValue(DescriptionFontSizeProperty, value); }
+			get { return (string) GetValue(HintTextProperty); }
+			set { SetValue(HintTextProperty, value); }
 		}
 
 		/// <summary>
@@ -210,14 +226,15 @@ namespace AiForms.Renderers
 				defaultBindingMode: BindingMode.OneWay
 			);
 
+
 		/// <summary>
-		/// Gets or sets the hint text.
+		/// Gets or sets the Hint Text Alignment.
 		/// </summary>
-		/// <value>The hint text.</value>
-		public string HintText
+		/// <value>The title.</value>
+		public TextAlignment HintTextAlignment
 		{
-			get { return (string) GetValue(HintTextProperty); }
-			set { SetValue(HintTextProperty, value); }
+			get { return (TextAlignment) GetValue(HintTextAlignmentProperty); }
+			set { SetValue(HintTextAlignmentProperty, value); }
 		}
 
 		/// <summary>
@@ -232,14 +249,15 @@ namespace AiForms.Renderers
 				defaultBindingMode: BindingMode.OneWay
 			);
 
+
 		/// <summary>
-		/// Gets or sets the Hint Text Alignment.
+		/// Gets or sets the color of the hint text.
 		/// </summary>
-		/// <value>The title.</value>
-		public TextAlignment HintTextAlignment
+		/// <value>The color of the hint text.</value>
+		public Color HintTextColor
 		{
-			get { return (TextAlignment) GetValue(HintTextAlignmentProperty); }
-			set { SetValue(HintTextAlignmentProperty, value); }
+			get { return (Color) GetValue(HintTextColorProperty); }
+			set { SetValue(HintTextColorProperty, value); }
 		}
 
 		/// <summary>
@@ -254,14 +272,16 @@ namespace AiForms.Renderers
 				defaultBindingMode: BindingMode.OneWay
 			);
 
+
 		/// <summary>
-		/// Gets or sets the color of the hint text.
+		/// Gets or sets the size of the hint font.
 		/// </summary>
-		/// <value>The color of the hint text.</value>
-		public Color HintTextColor
+		/// <value>The size of the hint font.</value>
+		[TypeConverter(typeof(FontSizeConverter))]
+		public double HintFontSize
 		{
-			get { return (Color) GetValue(HintTextColorProperty); }
-			set { SetValue(HintTextColorProperty, value); }
+			get { return (double) GetValue(HintFontSizeProperty); }
+			set { SetValue(HintFontSizeProperty, value); }
 		}
 
 		/// <summary>
@@ -276,15 +296,15 @@ namespace AiForms.Renderers
 				defaultBindingMode: BindingMode.OneWay
 			);
 
+
 		/// <summary>
-		/// Gets or sets the size of the hint font.
+		/// Gets or sets the color of the background.
 		/// </summary>
-		/// <value>The size of the hint font.</value>
-		[TypeConverter(typeof(FontSizeConverter))]
-		public double HintFontSize
+		/// <value>The color of the background.</value>
+		public Color BackgroundColor
 		{
-			get { return (double) GetValue(HintFontSizeProperty); }
-			set { SetValue(HintFontSizeProperty, value); }
+			get { return (Color) GetValue(BackgroundColorProperty); }
+			set { SetValue(BackgroundColorProperty, value); }
 		}
 
 		/// <summary>
@@ -299,14 +319,16 @@ namespace AiForms.Renderers
 				defaultBindingMode: BindingMode.OneWay
 			);
 
+
 		/// <summary>
-		/// Gets or sets the color of the background.
+		/// Gets or sets the icon source.
 		/// </summary>
-		/// <value>The color of the background.</value>
-		public Color BackgroundColor
+		/// <value>The icon source.</value>
+		[TypeConverter(typeof(ImageSourceConverter))]
+		public ImageSource IconSource
 		{
-			get { return (Color) GetValue(BackgroundColorProperty); }
-			set { SetValue(BackgroundColorProperty, value); }
+			get { return (ImageSource) GetValue(IconSourceProperty); }
+			set { SetValue(IconSourceProperty, value); }
 		}
 
 		/// <summary>
@@ -321,15 +343,16 @@ namespace AiForms.Renderers
 				defaultBindingMode: BindingMode.OneWay
 			);
 
+
 		/// <summary>
-		/// Gets or sets the icon source.
+		/// Gets or sets the size of the icon.
 		/// </summary>
-		/// <value>The icon source.</value>
-		[TypeConverter(typeof(ImageSourceConverter))]
-		public ImageSource IconSource
+		/// <value>The size of the icon.</value>
+		[TypeConverter(typeof(SizeConverter))]
+		public Size IconSize
 		{
-			get { return (ImageSource) GetValue(IconSourceProperty); }
-			set { SetValue(IconSourceProperty, value); }
+			get { return (Size) GetValue(IconSizeProperty); }
+			set { SetValue(IconSizeProperty, value); }
 		}
 
 		/// <summary>
@@ -344,15 +367,15 @@ namespace AiForms.Renderers
 				defaultBindingMode: BindingMode.OneWay
 			);
 
+
 		/// <summary>
-		/// Gets or sets the size of the icon.
+		/// Gets or sets the icon radius.
 		/// </summary>
-		/// <value>The size of the icon.</value>
-		[TypeConverter(typeof(SizeConverter))]
-		public Size IconSize
+		/// <value>The icon radius.</value>
+		public double IconRadius
 		{
-			get { return (Size) GetValue(IconSizeProperty); }
-			set { SetValue(IconSizeProperty, value); }
+			get { return (double) GetValue(IconRadiusProperty); }
+			set { SetValue(IconRadiusProperty, value); }
 		}
 
 		/// <summary>
@@ -366,6 +389,7 @@ namespace AiForms.Renderers
 				-1.0d,
 				defaultBindingMode: BindingMode.OneWay
 			);
+
 
 		/// <summary>
 		/// Gets or sets the ValueText Text Alignment.
@@ -388,6 +412,7 @@ namespace AiForms.Renderers
 				default(TextAlignment),
 				defaultBindingMode: BindingMode.OneWay
 			);
+
 
 		public bool AllowMultiLine
 		{
@@ -412,6 +437,7 @@ namespace AiForms.Renderers
 				defaultBindingMode: BindingMode.OneWay
 			);
 
+
 		public int MaxLines
 		{
 			get { return (int) GetValue(MaxLinesProperty); }
@@ -427,7 +453,7 @@ namespace AiForms.Renderers
 				defaultBindingMode: BindingMode.OneWay
 			);
 
-		
+
 		/// <summary>
 		/// Android Only.
 		/// </summary>
@@ -446,15 +472,6 @@ namespace AiForms.Renderers
 				defaultBindingMode: BindingMode.OneWay
 			);
 
-		/// <summary>
-		/// Gets or sets the icon radius.
-		/// </summary>
-		/// <value>The icon radius.</value>
-		public double IconRadius
-		{
-			get { return (double) GetValue(IconRadiusProperty); }
-			set { SetValue(IconRadiusProperty, value); }
-		}
 
 		/// <summary>
 		/// Gets or sets the section.

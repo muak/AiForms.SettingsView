@@ -343,7 +343,7 @@ namespace AiForms.Renderers.Droid
 		{
 			//TitleLabel.LineCount
 			//TitleLabel.Length
-			
+
 			TitleLabel.SetMinLines(_CellBase.MinLines);
 			HintLabel.SetMinLines(_CellBase.MinLines);
 			DescriptionLabel.SetMinLines(_CellBase.MinLines);
