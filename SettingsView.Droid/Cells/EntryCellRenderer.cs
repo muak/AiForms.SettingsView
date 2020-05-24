@@ -85,7 +85,6 @@ namespace AiForms.Renderers.Droid
 			UpdateKeyboard();
 			UpdatePlaceholder();
 			UpdateAccentColor();
-			UpdateTextAlignment();
 			UpdateIsPassword();
 			UpdateValueTextAlignment();
 			base.UpdateCell();
@@ -123,17 +122,13 @@ namespace AiForms.Renderers.Droid
 			{
 				UpdateAccentColor();
 			}
-			else if ( e.PropertyName == AiEntryCell.TextAlignmentProperty.PropertyName )
+			else if ( e.PropertyName == AiEntryCell.ValueTextAlignmentProperty.PropertyName )
 			{
-				UpdateTextAlignment();
+				UpdateValueTextAlignment();
 			}
 			else if ( e.PropertyName == AiEntryCell.IsPasswordProperty.PropertyName )
 			{
 				UpdateIsPassword();
-			}
-			else if ( e.PropertyName == CellBase.ValueTextAlignmentProperty.PropertyName )
-			{
-				UpdateValueTextAlignment();
 			}
 		}
 
@@ -215,6 +210,7 @@ namespace AiForms.Renderers.Droid
 
 		void UpdateValueTextAlignment()
 		{
+			_editText.Gravity = _EntryCell.ValueTextAlignment.ToGravityFlags();
 			_editText.TextAlignment = GetTextAllignment(_CellBase.ValueTextAlignment);
 		}
 
@@ -270,10 +266,6 @@ namespace AiForms.Renderers.Droid
 			_editText.SetHintTextColor(Android.Graphics.Color.Rgb(210, 210, 210));
 		}
 
-		void UpdateTextAlignment()
-		{
-			_editText.Gravity = _EntryCell.TextAlignment.ToGravityFlags();
-		}
 
 		void UpdateAccentColor()
 		{

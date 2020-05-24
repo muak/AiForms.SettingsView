@@ -185,27 +185,6 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
-        /// <summary>
-        /// Gets or sets the text alignment.
-        /// </summary>
-        /// <value>The text alignment.</value>
-        public TextAlignment TextAlignment
-        {
-            get { return (TextAlignment) GetValue(TextAlignmentProperty); }
-            set { SetValue(TextAlignmentProperty, value); }
-        }
-
-        /// <summary>
-        /// The text alignment property.
-        /// </summary>
-        public static BindableProperty TextAlignmentProperty =
-            BindableProperty.Create(
-                nameof(TextAlignment),
-                typeof(TextAlignment),
-                typeof(EntryCell),
-                TextAlignment.End,
-                defaultBindingMode: BindingMode.OneWay
-            );
 
         /// <summary>
         /// Gets or sets the color of the accent.
@@ -273,7 +252,7 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
-
+        
 
         internal event EventHandler Focused;
         /// <summary>
