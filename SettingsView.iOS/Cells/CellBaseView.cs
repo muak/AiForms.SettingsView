@@ -604,7 +604,7 @@ namespace AiForms.Renderers.iOS
             HintLabel.TranslatesAutoresizingMaskIntoConstraints = false;
             HintLabel.TopAnchor.ConstraintEqualTo(this.TopAnchor, 2).Active = true;
             HintLabel.LeftAnchor.ConstraintEqualTo(this.LeftAnchor, 16).Active = true;
-            HintLabel.RightAnchor.ConstraintEqualTo(this.RightAnchor, -10).Active = true;
+            HintLabel.RightAnchor.ConstraintEqualTo(ContentView.RightAnchor, -10).Active = true;
             HintLabel.BottomAnchor.ConstraintLessThanOrEqualTo(this.BottomAnchor, -12).Active = true;
 
             HintLabel.SizeToFit();

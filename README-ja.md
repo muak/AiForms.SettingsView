@@ -180,6 +180,7 @@ SettingsViewのプロパティ設定はApp.xamlに記述した方が良いかも
 * HeaderTextColor
 * HeaderFontSize
 * HeaderTextVerticalAlign
+  > HeaderHeightを設定した場合のみ有効です。
 * HeaderBackgroundColor
 * HeaderHeight
     * ヘッダーに関する設定
@@ -632,6 +633,8 @@ ValueTextは使用できません。
 セルタップ時に複数選択可能なピッカーを呼び出すことができるLabelCellです。
 iOSではタップ時にページ遷移し遷移先ページでピッカーが表示されます。
 Androidではタップ時にダイアログでピッカーが表示されます。
+
+> PickerCellは、iOSのShell上では動作しません。
 
 ### Properties
 

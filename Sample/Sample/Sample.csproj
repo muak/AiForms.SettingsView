@@ -11,7 +11,7 @@
     <PackageReference Include="Prism.Unity.Forms" Version="7.0.0.396" />
     <PackageReference Include="ReactiveProperty" Version="4.2.2" />
 
-    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991477" />
+    <PackageReference Include="Xamarin.Forms" Version="4.6.0.800" />
     <PackageReference Include="AiForms.Effects" Version="1.5.5" />
   </ItemGroup>
   <ItemGroup>

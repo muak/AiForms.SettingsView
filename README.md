@@ -181,6 +181,7 @@ Whereby any SettingsView in App will become the same property setttings.
 * HeaderTextColor
 * HeaderFontSize
 * HeaderTextVerticalAlign
+  > Note that this property is enabled only when specifying HeaderHeight.
 * HeaderBackgroundColor
 * HeaderHeight
     * They are section header options.
@@ -624,6 +625,8 @@ This cell can't use ValueText property.
 This is a LabelCell calling a multiple select picker.
 When tapped on iOS, move next page and show picker there.
 When tapped on Android, show the picker on a dialog. 
+
+> Note that the PickerCell is not supported in Shell on iOS.
 
 ### Properties
 

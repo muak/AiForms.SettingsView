@@ -81,7 +81,6 @@ namespace AiForms.Renderers.iOS
                 _tableview.SectionHeaderHeight = UITableView.AutomaticDimension;
                 _tableview.EstimatedSectionHeaderHeight = UITableView.AutomaticDimension;
 
-                //need the following two because of make footer height variable.
                 _tableview.SectionFooterHeight = UITableView.AutomaticDimension;
                 _tableview.EstimatedSectionFooterHeight = UITableView.AutomaticDimension;
 

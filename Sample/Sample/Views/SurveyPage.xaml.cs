@@ -5,9 +5,9 @@ using Xamarin.Forms;
 
 namespace Sample.Views
 {
-    public partial class PickerSurvey : ContentPage
+    public partial class SurveyPage : ContentPage
     {
-        public PickerSurvey()
+        public SurveyPage()
         {
             InitializeComponent();
         }
