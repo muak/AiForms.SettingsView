@@ -133,7 +133,7 @@ namespace AiForms.Renderers.iOS
                     return (System.nfloat)measure.Request.Height;
                 }
 
-                return -1; // automatic height
+                return UITableView.AutomaticDimension; // automatic height
             }
 
             var individualHeight = sec.HeaderHeight;
@@ -142,7 +142,7 @@ namespace AiForms.Renderers.iOS
                 return (nfloat)individualHeight;
             }
             if (_settingsView.HeaderHeight == -1d) {
-                return _tableView.EstimatedSectionHeaderHeight;
+                return UITableView.AutomaticDimension;
             }
 
             return (nfloat)_settingsView.HeaderHeight;
@@ -169,13 +169,19 @@ namespace AiForms.Renderers.iOS
                 // for HotReload
                 return new UIView();
             }
-            headerView.Initialzie(_settingsView.HeaderPadding.ToUIEdgeInsets(),_settingsView.HeaderTextVerticalAlign,_tableView);
 
-            headerView.Label.Text = _settingsView.Model.GetSectionTitle((int)section); 
+            headerView.Label.Text = _settingsView.Model.GetSectionTitle((int)section);
             headerView.Label.TextColor = _settingsView.HeaderTextColor == Color.Default ?
                 UIColor.Gray : _settingsView.HeaderTextColor.ToUIColor();
             headerView.Label.Font = UIFont.SystemFontOfSize((nfloat)_settingsView.HeaderFontSize);
             headerView.BackgroundView.BackgroundColor = _settingsView.HeaderBackgroundColor.ToUIColor();
+            headerView.Label.Padding = _settingsView.HeaderPadding.ToUIEdgeInsets();
+
+            var sec = _settingsView.Model.GetSection((int)section);
+            if(sec.HeaderHeight != -1 || _settingsView.HeaderHeight != -1)
+            {
+                headerView.SetVerticalAlignment(_settingsView.HeaderTextVerticalAlign);
+            }
 
             return headerView;
         }
@@ -197,7 +203,7 @@ namespace AiForms.Renderers.iOS
 
             if (sec.FooterView != null)
             {
-                return -1; // automatic height
+                return UITableView.AutomaticDimension; // automatic height
             }
 
             var footerText = sec.FooterText;
@@ -236,16 +242,14 @@ namespace AiForms.Renderers.iOS
             {
                 // for HotReload
                 return new UIView();
-            }
-
-
-            footerView.Initialzie(_settingsView.FooterPadding.ToUIEdgeInsets(), _tableView);
+            }            
 
             footerView.Label.Text = text;
             footerView.Label.TextColor = _settingsView.FooterTextColor == Color.Default ?
                 UIColor.Gray : _settingsView.FooterTextColor.ToUIColor();
             footerView.Label.Font = UIFont.SystemFontOfSize((nfloat)_settingsView.FooterFontSize);
             footerView.BackgroundView.BackgroundColor = _settingsView.FooterBackgroundColor.ToUIColor();
+            footerView.Label.Padding = _settingsView.FooterPadding.ToUIEdgeInsets();
 
             return footerView;
         }
