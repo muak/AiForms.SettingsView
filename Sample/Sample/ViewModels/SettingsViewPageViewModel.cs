@@ -64,7 +64,6 @@ namespace Sample.ViewModels
             SelectedItems.Add(ItemsSource[1]);
             SelectedItems.Add(ItemsSource[2]);
             SelectedItems.Add(ItemsSource[3]);
-
         }
 
         public class Person{

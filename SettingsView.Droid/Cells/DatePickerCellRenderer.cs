@@ -137,7 +137,7 @@ namespace AiForms.Renderers.Droid
         {
             if (_dialog != null) {
                 //when not to specify 23:59:59,last day can't be selected. 
-                _dialog.DatePicker.MaxDate = (long)_datePickerCell.MaximumDate.AddHours(23).AddMinutes(59).AddSeconds(59).ToUniversalTime().Subtract(DateTime.MinValue.AddYears(1969)).TotalMilliseconds;
+                _dialog.DatePicker.MaxDate = (long)_datePickerCell.MaximumDate.Date.AddHours(23).AddMinutes(59).AddSeconds(59).ToUniversalTime().Subtract(DateTime.MinValue.AddYears(1969)).TotalMilliseconds;
             }
         }
 
