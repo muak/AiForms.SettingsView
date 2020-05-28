@@ -3,6 +3,7 @@
   <Import Project="..\packages\Xamarin.Forms.4.6.0.800\build\Xamarin.Forms.props" Condition="Exists('..\packages\Xamarin.Forms.4.6.0.800\build\Xamarin.Forms.props')" />
   <PropertyGroup>
     <AndroidEnablePreloadAssemblies>false</AndroidEnablePreloadAssemblies>
+    <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>

@@ -5,6 +5,7 @@
 	xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
     xmlns:ef="clr-namespace:AiForms.Effects;assembly=AiForms.Effects"
     xmlns:cell="clr-namespace:Sample.Views.Cells"
+    xmlns:sys="clr-namespace:System;assembly=netstandard"
 	x:Class="Sample.Views.SettingsViewPage"
     Title="Settings">
 
@@ -88,7 +89,7 @@
         <sv:Section Title="Picker 4 Brothers">
             <sv:NumberPickerCell Title="NumberPicker" Min="0" Max="99" Number="15" PickerTitle="Select number" />
             <sv:TimePickerCell Title="TimePicker" Format="HH:mm" Time="15:30" PickerTitle="Select time" />
-            <sv:DatePickerCell Title="DatePicker" Format="yyyy/MM/dd (ddd)" Date="2017/11/11" MinimumDate="2015/1/1" MaximumDate="2025/12/15" TodayText="Today's date"/>
+            <sv:DatePickerCell Title="DatePicker" Format="yyyy/MM/dd (ddd)" Date="2017/11/11" MinimumDate="2015/11/10" MaximumDate="2025/12/31" TodayText="Today's date"/>
             <sv:TextPickerCell Title="TextPicker" Items="{Binding TextItems}" SelectedItem="{Binding SelectedText.Value}" />
         </sv:Section>  
         
