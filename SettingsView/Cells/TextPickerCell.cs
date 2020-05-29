@@ -137,6 +137,24 @@ namespace AiForms.Renderers
             set { SetValue(SelectedCommandProperty, value); }
         }
 
+        /// <summary>
+        /// Whether the picker is circular. (only Android)
+        /// </summary>
+        public static BindableProperty IsCircularPickerProperty = BindableProperty.Create(
+            nameof(IsCircularPicker),
+            typeof(bool),
+            typeof(TextPickerCell),
+            true,
+            defaultBindingMode: BindingMode.OneWay
+        );
+        /// <summary>
+        /// Whether the picker is circular. (only Android)
+        /// </summary>
+        public bool IsCircularPicker {
+            get { return (bool)GetValue(IsCircularPickerProperty); }
+            set { SetValue(IsCircularPickerProperty, value); }
+        }
+
         private new string ValueText { get; set; }
     }
 }

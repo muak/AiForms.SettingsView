@@ -617,6 +617,9 @@ This is a LabelCell calling a text picker.
 	* Selected item is set. (two-way binding)
 * SelectedCommand
     * A command invoked when an item is selected.
+* IsCircularPicker
+    * Whether the picker items are circulated. (for Android) 
+    * Default true
 
 This cell can't use ValueText property.
 
