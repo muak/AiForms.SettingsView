@@ -625,6 +625,9 @@ NumberPickerCellをNumber以外に対応させたもので、データソース�
 	* 選択したアイテム。 (two-way binding)
 * SelectedCommand
     * アイテム選択時に発火するコマンド。
+* IsCircularPicker
+    * ピッカーのアイテムを循環させるかどうか。(Android のみ)
+    * デフォルト true
 
 ValueTextは使用できません。
 
