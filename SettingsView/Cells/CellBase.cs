@@ -83,6 +83,32 @@ namespace AiForms.Renderers
             set { SetValue(TitleFontSizeProperty, value); }
         }
 
+        public static BindableProperty TitleFontFamilyProperty = BindableProperty.Create(
+            nameof(TitleFontFamily),
+            typeof(string),
+            typeof(CellBase),
+            default(string),
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public string TitleFontFamily {
+            get { return (string)GetValue(TitleFontFamilyProperty); }
+            set { SetValue(TitleFontFamilyProperty, value); }
+        }
+
+        public static BindableProperty TitleFontAttributesProperty = BindableProperty.Create(
+            nameof(TitleFontAttributes),
+            typeof(FontAttributes?),
+            typeof(CellBase),
+            null,
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public FontAttributes? TitleFontAttributes {
+            get { return (FontAttributes?)GetValue(TitleFontAttributesProperty); }
+            set { SetValue(TitleFontAttributesProperty, value); }
+        }
+
         /// <summary>
         /// The description property.
         /// </summary>
@@ -145,6 +171,32 @@ namespace AiForms.Renderers
         public double DescriptionFontSize {
             get { return (double)GetValue(DescriptionFontSizeProperty); }
             set { SetValue(DescriptionFontSizeProperty, value); }
+        }
+
+        public static BindableProperty DescriptionFontFamilyProperty = BindableProperty.Create(
+            nameof(DescriptionFontFamily),
+            typeof(string),
+            typeof(CellBase),
+            default(string),
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public string DescriptionFontFamily {
+            get { return (string)GetValue(DescriptionFontFamilyProperty); }
+            set { SetValue(DescriptionFontFamilyProperty, value); }
+        }
+
+        public static BindableProperty DescriptionFontAttributesProperty = BindableProperty.Create(
+            nameof(DescriptionFontAttributes),
+            typeof(FontAttributes?),
+            typeof(CellBase),
+            null,
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public FontAttributes? DescriptionFontAttributes {
+            get { return (FontAttributes?)GetValue(DescriptionFontAttributesProperty); }
+            set { SetValue(DescriptionFontAttributesProperty, value); }
         }
 
         /// <summary>
@@ -211,6 +263,32 @@ namespace AiForms.Renderers
         {
             get { return (double)GetValue(HintFontSizeProperty); }
             set { SetValue(HintFontSizeProperty, value); }
+        }
+
+        public static BindableProperty HintFontFamilyProperty = BindableProperty.Create(
+            nameof(HintFontFamily),
+            typeof(string),
+            typeof(CellBase),
+            default(string),
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public string HintFontFamily {
+            get { return (string)GetValue(HintFontFamilyProperty); }
+            set { SetValue(HintFontFamilyProperty, value); }
+        }
+
+        public static BindableProperty HintFontAttributesProperty = BindableProperty.Create(
+            nameof(HintFontAttributes),
+            typeof(FontAttributes?),
+            typeof(CellBase),
+            null,
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public FontAttributes? HintFontAttributes {
+            get { return (FontAttributes?)GetValue(HintFontAttributesProperty); }
+            set { SetValue(HintFontAttributesProperty, value); }
         }
 
         /// <summary>

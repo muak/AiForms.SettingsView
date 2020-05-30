@@ -70,16 +70,25 @@ namespace AiForms.Renderers.Droid
         {
             base.CellPropertyChanged(sender, e);
 
-            if (e.PropertyName == LabelCell.ValueTextProperty.PropertyName) {
+            if (e.PropertyName == LabelCell.ValueTextProperty.PropertyName)
+            {
                 UpdateValueText();
             }
-            else if (e.PropertyName == LabelCell.ValueTextFontSizeProperty.PropertyName) {
+            else if (e.PropertyName == LabelCell.ValueTextFontSizeProperty.PropertyName)
+            {
                 UpdateValueTextFontSize();
             }
-            else if (e.PropertyName == LabelCell.ValueTextColorProperty.PropertyName) {
+            else if (e.PropertyName == LabelCell.ValueTextFontFamilyProperty.PropertyName ||
+                     e.PropertyName == LabelCell.ValueTextFontAttributesProperty.PropertyName)
+            {
+                UpdateValueTextFont();
+            }
+            else if (e.PropertyName == LabelCell.ValueTextColorProperty.PropertyName)
+            {
                 UpdateValueTextColor();
             }
-            else if(e.PropertyName == LabelCell.IgnoreUseDescriptionAsValueProperty.PropertyName){
+            else if (e.PropertyName == LabelCell.IgnoreUseDescriptionAsValueProperty.PropertyName)
+            {
                 UpdateUseDescriptionAsValue();
             }
         }
@@ -93,11 +102,18 @@ namespace AiForms.Renderers.Droid
         {
             base.ParentPropertyChanged(sender, e);
 
-            if (e.PropertyName == SettingsView.CellValueTextColorProperty.PropertyName) {
+            if (e.PropertyName == SettingsView.CellValueTextColorProperty.PropertyName)
+            {
                 UpdateValueTextColor();
             }
-            else if (e.PropertyName == SettingsView.CellValueTextFontSizeProperty.PropertyName) {
+            else if (e.PropertyName == SettingsView.CellValueTextFontSizeProperty.PropertyName)
+            {
                 UpdateValueTextFontSize();
+            }
+            else if (e.PropertyName == SettingsView.CellValueTextFontFamilyProperty.PropertyName ||
+                     e.PropertyName == SettingsView.CellValueTextFontAttributesProperty.PropertyName)
+            {                                       
+                UpdateValueTextFont();
             }
         }
 
@@ -111,7 +127,7 @@ namespace AiForms.Renderers.Droid
             UpdateValueText();
             UpdateValueTextColor();
             UpdateValueTextFontSize();
-
+            UpdateValueTextFont();
         }
 
         /// <summary>
@@ -158,6 +174,15 @@ namespace AiForms.Renderers.Droid
             else if (CellParent != null) {
                 ValueLabel.SetTextSize(Android.Util.ComplexUnitType.Sp, (float)CellParent.CellValueTextFontSize);
             }
+            Invalidate();
+        }
+
+        void UpdateValueTextFont()
+        {
+            var family = _LabelCell.ValueTextFontFamily ?? CellParent?.CellValueTextFontFamily;
+            var attr = _LabelCell.ValueTextFontAttributes ?? CellParent.CellValueTextFontAttributes;
+
+            ValueLabel.Typeface = FontUtility.CreateTypeface(family, attr);
             Invalidate();
         }
 

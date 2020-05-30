@@ -179,6 +179,8 @@ SettingsViewのプロパティ設定はApp.xamlに記述した方が良いかも
 * HeaderPadding
 * HeaderTextColor
 * HeaderFontSize
+* HeaderFontFamily
+* HeaderFontAttributes
 * HeaderTextVerticalAlign
   > HeaderHeightを設定した場合のみ有効です。
 * HeaderBackgroundColor
@@ -186,6 +188,8 @@ SettingsViewのプロパティ設定はApp.xamlに記述した方が良いかも
     * ヘッダーに関する設定
 * FooterTextColor
 * FooterFontSize
+* FooterFontFamily
+* FooterFontAttributes
 * FooterBackgroundColor
 * FooterPadding
     * フッターに関する設定
@@ -196,16 +200,24 @@ SettingsViewのプロパティ設定はApp.xamlに記述した方が良いかも
 	* 行の高さを固定にするかどうか。デフォルトはfalse。true推奨。
 * CellTitleColor
 * CellTitleFontSize
+* CellTitleFontFamily
+* CellTitleFontAttributes
 * CellValueTextColor
 * CellValueTextFontSize
+* CellValueTextFontFamily
+* CellValueTextFontAttributes
 * CellDescriptionColor
 * CellDescriptionFontSize
+* CellDescriptionFontFamily
+* CellDescriptionFontAttributes
 * CellBackgroundColor
 * CellIconSize
 * CellIconRadius
 * CellAccentColor
 * CellHintTextColor
 * CellHintFontSize
+* CellHintFontFamily
+* CellHintFontAttributes
     * 一括セル設定。どこがどのパーツかは後述のLayoutを参照。
 * UseDescriptionAsValue (Androidのみ有効)
 	* Description項目をValue項目として使用するかどうか。
@@ -408,19 +420,25 @@ public class Option
 * TitleColor
     * Title部分の文字色
 * TitleFontSize
-    * Title部分のフォントサイズ
+* TitleFontFamily
+* TitleFontAttributes
+    * Title部分のフォント設定
 * Description
     * Description部分の文字列
 * DescriptionColor
     * Description部分の文字色
 * DescriptionFontSize
-    * Description部分のフォントサイズ
+* DescriptionFontFamily
+* DescriptionFontAttributes
+    * Description部分のフォント設定
 * HintText
     * Hint部分の文字列（何らかの情報やバリデーションのエラーなど、右上に表示）
 * HintTextColor
     * Hint部分の文字色
 * HintFontSize
-    * Hint部分のフォントサイズ
+* HintFontFamily
+* HintFontAttributes
+    * Hint部分のフォント設定
 * BackgroundColor
     * セルの背景色
 * IconSource
@@ -454,7 +472,9 @@ Install-Package Xamain.Forms.Svg -pre
 * ValueTextColor
     * ValueText部分の文字色
 * ValueTextFontSize
-    * ValueText部分のフォントサイズ
+* ValueTextFontFamily
+* ValueTextFontAttributes
+    * ValueText部分のフォント設定
 * IgnoreUseDescriptionAsValue
 	* UseDescriptionAsValueの値がtrueだった場合、その設定を無視するかどうか。
 	* 例えば全体としてはValueは下に置きたいが、あるセルだけは通常のレイアウトで使用したい時などに使います。
@@ -694,13 +714,17 @@ Xamarin.Forms.EntryCellとは別物です。
 * ValueTextColor
     * 入力文字色
 * ValueTextFontSize
-    * 入力文字列のフォントサイズ
+* ValueTextFontFamily
+* ValueTextFontAttributes
+    * 入力文字列のフォント設定
 * MaxLength
     * 最大文字列長
 * Keyboard
     * キーボードの種類
 * Placeholder
     * Placeholderの文字列
+* PlaceholderColor
+    * Placeholderの文字色
 * TextAlignment
     * 入力文字列の水平位置属性
 * AccentColor

@@ -61,18 +61,18 @@
     </ContentPage.Resources>
 	
 	<sv:SettingsView HasUnevenRows="true" HeaderHeight="36" HeaderPadding="14,0,0,6" HeaderTextVerticalAlign="End" FooterPadding="14,4,4,6"
-                  ShowArrowIndicatorForAndroid="True"
+                  ShowArrowIndicatorForAndroid="True" CellTitleFontFamily="Anzu"
         >
      
 		<sv:Section FooterText="This is a footer. optionaly you can write here.">
             <sv:CommandCell IconSource="icon.png" IconSize="60,60" IconRadius="30" Title="Xam Xamarin" Height="80"
                 Description="hoge@fuga.com" Command="{Binding ToProfileCommand}" KeepSelectedUntilBack="true"
-                IgnoreUseDescriptionAsValue="true"
+                IgnoreUseDescriptionAsValue="true" 
             />
 		</sv:Section>
 
         <sv:Section Title="LabelCell">
-            <sv:LabelCell Title="Storage" ValueText="3,065MB" />
+            <sv:LabelCell Title="Storage" ValueText="3,065MB" TitleFontFamily="" />
         </sv:Section>
 
         <sv:Section Title="CheckableCell">

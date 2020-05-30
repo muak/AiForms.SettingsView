@@ -81,6 +81,7 @@ namespace AiForms.Renderers.Droid
             UpdateValueText();
             UpdateValueTextColor();
             UpdateValueTextFontSize();
+            UpdateValueTextFont();
             UpdateKeyboard();
             UpdatePlaceholder();
             UpdateAccentColor();
@@ -97,28 +98,42 @@ namespace AiForms.Renderers.Droid
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
-            if (e.PropertyName == AiEntryCell.ValueTextProperty.PropertyName) {
+            if (e.PropertyName == AiEntryCell.ValueTextProperty.PropertyName)
+            {
                 UpdateValueText();
             }
-            else if (e.PropertyName == AiEntryCell.ValueTextFontSizeProperty.PropertyName) {
+            else if (e.PropertyName == AiEntryCell.ValueTextFontSizeProperty.PropertyName)
+            {
                 UpdateWithForceLayout(UpdateValueTextFontSize);
             }
-            else if (e.PropertyName == AiEntryCell.ValueTextColorProperty.PropertyName) {
+            else if (e.PropertyName == AiEntryCell.ValueTextFontFamilyProperty.PropertyName ||
+                     e.PropertyName == AiEntryCell.ValueTextFontAttributesProperty.PropertyName)
+            {
+                UpdateWithForceLayout(UpdateValueTextFont);
+            }
+            else if (e.PropertyName == AiEntryCell.ValueTextColorProperty.PropertyName)
+            {
                 UpdateWithForceLayout(UpdateValueTextColor);
             }
-            else if (e.PropertyName == AiEntryCell.KeyboardProperty.PropertyName) {
+            else if (e.PropertyName == AiEntryCell.KeyboardProperty.PropertyName)
+            {
                 UpdateKeyboard();
             }
-            else if (e.PropertyName == AiEntryCell.PlaceholderProperty.PropertyName) {
+            else if (e.PropertyName == AiEntryCell.PlaceholderProperty.PropertyName ||
+                     e.PropertyName == AiEntryCell.PlaceholderColorProperty.PropertyName)
+            {
                 UpdatePlaceholder();
             }
-            else if (e.PropertyName == AiEntryCell.AccentColorProperty.PropertyName) {
+            else if (e.PropertyName == AiEntryCell.AccentColorProperty.PropertyName)
+            {
                 UpdateAccentColor();
             }
-            else if (e.PropertyName == AiEntryCell.TextAlignmentProperty.PropertyName) {
+            else if (e.PropertyName == AiEntryCell.TextAlignmentProperty.PropertyName)
+            {
                 UpdateTextAlignment();
             }
-            else if (e.PropertyName == AiEntryCell.IsPasswordProperty.PropertyName) {
+            else if (e.PropertyName == AiEntryCell.IsPasswordProperty.PropertyName)
+            {
                 UpdateIsPassword();
             }
         }
@@ -131,13 +146,21 @@ namespace AiForms.Renderers.Droid
         public override void ParentPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.ParentPropertyChanged(sender, e);
-            if (e.PropertyName == SettingsView.CellValueTextColorProperty.PropertyName) {
+            if (e.PropertyName == SettingsView.CellValueTextColorProperty.PropertyName)
+            {
                 UpdateValueTextColor();
             }
-            else if (e.PropertyName == SettingsView.CellValueTextFontSizeProperty.PropertyName) {
+            else if (e.PropertyName == SettingsView.CellValueTextFontSizeProperty.PropertyName)
+            {
                 UpdateWithForceLayout(UpdateValueTextFontSize);
             }
-            else if (e.PropertyName == SettingsView.CellAccentColorProperty.PropertyName) {
+            else if (e.PropertyName == SettingsView.CellValueTextFontFamilyProperty.PropertyName ||
+                     e.PropertyName == SettingsView.CellValueTextFontAttributesProperty.PropertyName)
+            {
+                UpdateWithForceLayout(UpdateValueTextFont);
+            }
+            else if (e.PropertyName == SettingsView.CellAccentColorProperty.PropertyName)
+            {
                 UpdateAccentColor();
             }
         }
@@ -205,6 +228,14 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        void UpdateValueTextFont()
+        {
+            var family = _EntryCell.ValueTextFontFamily ?? CellParent?.CellValueTextFontFamily;
+            var attr = _EntryCell.ValueTextFontAttributes ?? CellParent.CellValueTextFontAttributes;
+
+            _EditText.Typeface = FontUtility.CreateTypeface(family, attr);
+        }
+
         void UpdateValueTextColor()
         {
             if (_EntryCell.ValueTextColor != Xamarin.Forms.Color.Default) {
@@ -229,7 +260,11 @@ namespace AiForms.Renderers.Droid
         void UpdatePlaceholder()
         {
             _EditText.Hint = _EntryCell.Placeholder;
-            _EditText.SetHintTextColor(Android.Graphics.Color.Rgb(210, 210, 210));
+
+            var placeholderColor = _EntryCell.PlaceholderColor.IsDefault ?
+                                        Android.Graphics.Color.Rgb(210, 210, 210) :
+                                        _EntryCell.PlaceholderColor.ToAndroid();
+            _EditText.SetHintTextColor(placeholderColor);
         }
 
         void UpdateTextAlignment()

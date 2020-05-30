@@ -72,6 +72,32 @@ namespace AiForms.Renderers
             set { SetValue(ValueTextFontSizeProperty, value); }
         }
 
+        public static BindableProperty ValueTextFontFamilyProperty = BindableProperty.Create(
+            nameof(ValueTextFontFamily),
+            typeof(string),
+            typeof(LabelCell),
+            default(string),
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public string ValueTextFontFamily {
+            get { return (string)GetValue(ValueTextFontFamilyProperty); }
+            set { SetValue(ValueTextFontFamilyProperty, value); }
+        }
+
+        public static BindableProperty ValueTextFontAttributesProperty = BindableProperty.Create(
+            nameof(ValueTextFontAttributes),
+            typeof(FontAttributes?),
+            typeof(LabelCell),
+            null,
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public FontAttributes? ValueTextFontAttributes {
+            get { return (FontAttributes?)GetValue(ValueTextFontAttributesProperty); }
+            set { SetValue(ValueTextFontAttributesProperty, value); }
+        }
+
         /// <summary>
         /// The ignore use description as value property.
         /// </summary>

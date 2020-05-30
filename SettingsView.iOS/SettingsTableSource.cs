@@ -173,7 +173,8 @@ namespace AiForms.Renderers.iOS
             headerView.Label.Text = _settingsView.Model.GetSectionTitle((int)section);
             headerView.Label.TextColor = _settingsView.HeaderTextColor == Color.Default ?
                 UIColor.Gray : _settingsView.HeaderTextColor.ToUIColor();
-            headerView.Label.Font = UIFont.SystemFontOfSize((nfloat)_settingsView.HeaderFontSize);
+            headerView.Label.Font = FontUtility.CreateNativeFont(_settingsView.HeaderFontFamily, (float)_settingsView.HeaderFontSize, _settingsView.HeaderFontAttributes);
+            //UIFont.SystemFontOfSize((nfloat)_settingsView.HeaderFontSize);
             headerView.BackgroundView.BackgroundColor = _settingsView.HeaderBackgroundColor.ToUIColor();
             headerView.Label.Padding = _settingsView.HeaderPadding.ToUIEdgeInsets();
 
@@ -247,7 +248,8 @@ namespace AiForms.Renderers.iOS
             footerView.Label.Text = text;
             footerView.Label.TextColor = _settingsView.FooterTextColor == Color.Default ?
                 UIColor.Gray : _settingsView.FooterTextColor.ToUIColor();
-            footerView.Label.Font = UIFont.SystemFontOfSize((nfloat)_settingsView.FooterFontSize);
+            footerView.Label.Font = FontUtility.CreateNativeFont(_settingsView.FooterFontFamily, (float)_settingsView.FooterFontSize, _settingsView.FooterFontAttributes);
+                //UIFont.SystemFontOfSize((nfloat)_settingsView.FooterFontSize);
             footerView.BackgroundView.BackgroundColor = _settingsView.FooterBackgroundColor.ToUIColor();
             footerView.Label.Padding = _settingsView.FooterPadding.ToUIEdgeInsets();
 

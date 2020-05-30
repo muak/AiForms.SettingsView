@@ -115,6 +115,32 @@ namespace AiForms.Renderers
             set { SetValue(ValueTextFontSizeProperty, value); }
         }
 
+        public static BindableProperty ValueTextFontFamilyProperty = BindableProperty.Create(
+            nameof(ValueTextFontFamily),
+            typeof(string),
+            typeof(EntryCell),
+            default(string),
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public string ValueTextFontFamily {
+            get { return (string)GetValue(ValueTextFontFamilyProperty); }
+            set { SetValue(ValueTextFontFamilyProperty, value); }
+        }
+
+        public static BindableProperty ValueTextFontAttributesProperty = BindableProperty.Create(
+            nameof(ValueTextFontAttributes),
+            typeof(FontAttributes?),
+            typeof(EntryCell),
+            null,
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public FontAttributes? ValueTextFontAttributes {
+            get { return (FontAttributes?)GetValue(ValueTextFontAttributesProperty); }
+            set { SetValue(ValueTextFontAttributesProperty, value); }
+        }
+
         /// <summary>
         /// The keyboard property.
         /// </summary>
@@ -195,6 +221,19 @@ namespace AiForms.Renderers
         public string Placeholder {
             get { return (string)GetValue(PlaceholderProperty); }
             set { SetValue(PlaceholderProperty, value); }
+        }
+
+        public static BindableProperty PlaceholderColorProperty = BindableProperty.Create(
+            nameof(PlaceholderColor),
+            typeof(Color),
+            typeof(EntryCell),
+            default(Color),
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public Color PlaceholderColor {
+            get { return (Color)GetValue(PlaceholderColorProperty); }
+            set { SetValue(PlaceholderColorProperty, value); }
         }
 
         /// <summary>

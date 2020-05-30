@@ -8,6 +8,7 @@
     <ai:SettingsView>
         <ai:Section HeaderHeight="10">
             <ai:ButtonCell Title="SurveyPage" Command="{Binding GoToTest}"  CommandParameter="SurveyPage" />
+            <ai:ButtonCell Title="CustomFontTest" Command="{Binding GoToTest}"  CommandParameter="CustomFontTest" />
             <ai:ButtonCell Title="RowManipulation" Command="{Binding GoToTest}"  CommandParameter="RowManipulation" />
             <ai:ButtonCell Title="RowManipulationTemplate" Command="{Binding GoToTest}"  CommandParameter="RowManipulationTemplate" />
             <ai:ButtonCell Title="ReorderTest" Command="{Binding GoToTest}"  CommandParameter="ReorderTest" />
