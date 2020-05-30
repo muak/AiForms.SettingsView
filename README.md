@@ -180,12 +180,17 @@ Whereby any SettingsView in App will become the same property setttings.
 * HeaderPadding
 * HeaderTextColor
 * HeaderFontSize
+* HeaderFontFamily
+* HeaderFontAttributes
 * HeaderTextVerticalAlign
+  > Note that this property is enabled only when specifying HeaderHeight.
 * HeaderBackgroundColor
 * HeaderHeight
     * They are section header options.
 * FooterTextColor
 * FooterFontSize
+* FooterFontFamily
+* FooterFontAttributes
 * FooterBackgroundColor
 * FooterPadding
     * They are section footer options.
@@ -196,16 +201,24 @@ Whereby any SettingsView in App will become the same property setttings.
 	* Whether row height is fixed. Default false.(recomend true)
 * CellTitleColor
 * CellTitleFontSize
+* CellTitleFontFamily
+* CellTitleFontAttributes
 * CellValueTextColor
 * CellValueTextFontSize
+* CellValueTextFontFamily
+* CellValueTextFontAttributes
 * CellDescriptionColor
 * CellDescriptionFontSize
+* CellDescriptionFontFamily
+* CellDescriptionFontAttributes
 * CellBackgroundColor
 * CellIconSize
 * CellIconRadius
 * CellAccentColor
 * CellHintTextColor
 * CellHintFontSize
+* CellHintFontFamily
+* CellHintFontAttributes
     * They are bulk cell options.
 * UseDescriptionAsValue (for Android)
 	* Whether description field  is used as value field. (like general android app)
@@ -404,19 +417,25 @@ public class Option
 * TitleColor
     * Title text color.
 * TitleFontSize
-    * Title text font size.
+* TitleFontFamily
+* TitleFontAttributes
+    * Title text font size, family, attributes.
 * Description
     * Description text.
 * DescriptionColor
     * Description text color.
 * DescriptionFontSize
-    * Description text font size.
+* DescriptionFontSize
+* DescriptionFontFamily
+    * Description text font size, family, attributes.
 * HintText
     * Hint text.(for some information, validation error and so on)
 * HintTextColor
     * Hint text color.
 * HintFontSize
-    * Hint text font size.
+* HintFontFamily
+* HintFontAttributes
+    * Hint text font size, family, attributes.
 * BackgroundColor
     * Cell background color.
 * IconSource
@@ -451,7 +470,9 @@ This is a cell showing read only text.
 * ValueTextColor
     * Value text color.
 * ValueTextFontSize
-    * Value text font size.
+* ValueTextFontFamily
+* ValueTextFontAttributes
+    * Value text font size, family, attributes.
 * IgnoreUseDescriptionAsValue
     * Whether ignore the setting that SettingsView property of UseDescriptionAsValue.
 
@@ -616,6 +637,9 @@ This is a LabelCell calling a text picker.
 	* Selected item is set. (two-way binding)
 * SelectedCommand
     * A command invoked when an item is selected.
+* IsCircularPicker
+    * Whether the picker items are circulated. (for Android) 
+    * Default true
 
 This cell can't use ValueText property.
 
@@ -624,6 +648,8 @@ This cell can't use ValueText property.
 This is a LabelCell calling a multiple select picker.
 When tapped on iOS, move next page and show picker there.
 When tapped on Android, show the picker on a dialog. 
+
+> Note that the PickerCell is not supported in Shell on iOS.
 
 ### Properties
 
@@ -675,13 +701,17 @@ This is a cell inputing some text.
 * ValueTextColor
     * Input text color.
 * ValueTextFontSize
-    * Input text font size.
+* ValueTextFontFamily
+* ValueTextFontAttributes
+    * Input text font size, family, attributes.
 * MaxLength
     * Input text maximum length.
 * Keyboard
     * Keyboard type.
 * Placeholder
     * Placeholder text.
+* PlaceholderColor
+    * Placeholder color.
 * TextAlignment
     * Input text horizontal alignment.
 * AccentColor

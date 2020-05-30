@@ -107,11 +107,15 @@ namespace AiForms.Renderers
             if (propertyName == HasUnevenRowsProperty.PropertyName ||
                 propertyName == HeaderHeightProperty.PropertyName ||
                 propertyName == HeaderFontSizeProperty.PropertyName ||
+                propertyName == HeaderFontFamilyProperty.PropertyName ||
+                propertyName == HeaderFontAttributesProperty.PropertyName ||
                 propertyName == HeaderTextColorProperty.PropertyName ||
                 propertyName == HeaderBackgroundColorProperty.PropertyName ||
                 propertyName == HeaderTextVerticalAlignProperty.PropertyName ||
                 propertyName == HeaderPaddingProperty.PropertyName ||
                 propertyName == FooterFontSizeProperty.PropertyName ||
+                propertyName == FooterFontFamilyProperty.PropertyName ||
+                propertyName == FooterFontAttributesProperty.PropertyName ||
                 propertyName == FooterTextColorProperty.PropertyName ||
                 propertyName == FooterBackgroundColorProperty.PropertyName ||
                 propertyName == FooterPaddingProperty.PropertyName
@@ -131,6 +135,8 @@ namespace AiForms.Renderers
             if(e.NewItems != null)
             {
                 e.NewItems.Cast<Section>().ForEach(section => {
+                    section.Parent = this;
+
                     if (section.HeaderView != null)
                     {
                         section.HeaderView.Parent = this;
@@ -177,6 +183,7 @@ namespace AiForms.Renderers
 
             foreach(var section in Root)
             {
+                section.Parent = this;
                 if (section.HeaderView != null)
                 {
                     section.HeaderView.Parent = this;

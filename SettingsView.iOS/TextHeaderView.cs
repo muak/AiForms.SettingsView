@@ -2,49 +2,46 @@
 using UIKit;
 using Xamarin.Forms;
 using System.Collections.Generic;
+using Xamarin.Forms.Internals;
+using CoreGraphics;
 
 namespace AiForms.Renderers.iOS
 {
     public class TextHeaderView : UITableViewHeaderFooterView
     {
-        public UILabel Label { get; set; }
+        public PaddingLabel Label { get; set; }
         List<NSLayoutConstraint> _constraints = new List<NSLayoutConstraint>();
-        NSLayoutConstraint _leftConstraint;
-        UIEdgeInsets _curPadding;
-        UITableView _tableView;
         LayoutAlignment _curAlignment;
         bool _isInitialized;
 
         public TextHeaderView(IntPtr handle): base(handle) 
-        {            
-            Label = new UILabel();
-            Label.Lines = 1;
-            Label.LineBreakMode = UILineBreakMode.TailTruncation;
+        {
+
+            Label = new PaddingLabel();
+            Label.Lines = 0;
+            Label.LineBreakMode = UILineBreakMode.CharacterWrap;
             Label.TranslatesAutoresizingMaskIntoConstraints = false;
 
-            this.AddSubview(Label);
+            ContentView.AddSubview(Label);
+
+            _constraints.Add(Label.TopAnchor.ConstraintEqualTo(ContentView.TopAnchor, 0));
+            _constraints.Add(Label.BottomAnchor.ConstraintEqualTo(ContentView.BottomAnchor, 0));
+            _constraints.Add(Label.LeftAnchor.ConstraintEqualTo(ContentView.LeftAnchor, 0));
+            _constraints.Add(Label.RightAnchor.ConstraintEqualTo(ContentView.RightAnchor, 0));
+
+            _constraints.ForEach(c => {
+                c.Priority = 999f; // fix warning-log:Unable to simultaneously satisfy constraints.
+                c.Active = true;
+            });
+            
 
             this.BackgroundView = new UIView();
         }
 
-        public override void LayoutSubviews()
-        {
-            base.LayoutSubviews();
 
-            if(_leftConstraint != null)
-            {
-                _leftConstraint.Active = false;
-                _leftConstraint.Dispose();
-                _leftConstraint = null;
-            }
-            
-            _leftConstraint = Label.LeftAnchor.ConstraintEqualTo(LeftAnchor, _curPadding.Left + _tableView.SafeAreaInsets.Left);
-            _leftConstraint.Active = true;
-        }
-
-        public void Initialzie(UIEdgeInsets padding, LayoutAlignment align, UITableView tableView)
+        public void SetVerticalAlignment(LayoutAlignment align)
         {
-            if(_isInitialized && _curPadding == padding && align == _curAlignment)
+            if(_isInitialized && align == _curAlignment)
             {
                 return;
             }
@@ -55,21 +52,21 @@ namespace AiForms.Renderers.iOS
                 c.Dispose();
             }
             _constraints.Clear();
-            
-            //_constraints.Add(Label.LeftAnchor.ConstraintEqualTo(this.LeftAnchor, padding.Left + safeAreaInsets.Left));
-            _constraints.Add(Label.RightAnchor.ConstraintEqualTo(this.RightAnchor, -padding.Right));
+
+            _constraints.Add(Label.LeftAnchor.ConstraintEqualTo(ContentView.LeftAnchor, 0));
+            _constraints.Add(Label.RightAnchor.ConstraintEqualTo(ContentView.RightAnchor, 0));
 
             if (align == LayoutAlignment.Start)
             {
-                _constraints.Add(Label.TopAnchor.ConstraintEqualTo(this.TopAnchor, padding.Top));
+                _constraints.Add(Label.TopAnchor.ConstraintEqualTo(ContentView.TopAnchor, 0));
             }
             else if (align == LayoutAlignment.End)
             {
-                _constraints.Add(Label.BottomAnchor.ConstraintEqualTo(this.BottomAnchor, -padding.Bottom));
+                _constraints.Add(Label.BottomAnchor.ConstraintEqualTo(ContentView.BottomAnchor, 0));
             }
             else
             {
-                _constraints.Add(Label.CenterYAnchor.ConstraintEqualTo(this.CenterYAnchor, 0));
+                _constraints.Add(Label.CenterYAnchor.ConstraintEqualTo(ContentView.CenterYAnchor, 0));
             }
 
             _constraints.ForEach(c => {
@@ -77,10 +74,8 @@ namespace AiForms.Renderers.iOS
                 c.Active = true;
             });
 
-            _curPadding = padding;
             _curAlignment = align;
-            _tableView = tableView;
-            _isInitialized = true;         
+            _isInitialized = true;
         }
 
         protected override void Dispose(bool disposing)
@@ -89,13 +84,10 @@ namespace AiForms.Renderers.iOS
             if(disposing)
             {
                 _constraints.ForEach(c => c.Dispose());
-                _leftConstraint?.Dispose();
-                _leftConstraint = null;
                 Label?.Dispose();
                 Label = null;
                 BackgroundView?.Dispose();
                 BackgroundView = null;
-                _tableView = null;
             }
         }
     }

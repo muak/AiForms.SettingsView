@@ -73,6 +73,9 @@ namespace AiForms.Renderers.iOS
         public override void UpdateCell()
         {
             base.UpdateCell();
+            if (_switch is null)
+                return; // for HotReload
+
             UpdateAccentColor();
             UpdateOn();
         }

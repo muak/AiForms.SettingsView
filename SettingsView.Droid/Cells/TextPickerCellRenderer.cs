@@ -130,7 +130,8 @@ namespace AiForms.Renderers.Droid
             _picker.MinValue = 0;
             _picker.MaxValue = _TextPickerCell.Items.Count - 1;
             _picker.SetDisplayedValues(displayValues);
-            _picker.Value = _TextPickerCell.Items.IndexOf(_TextPickerCell.SelectedItem);
+            _picker.Value = Math.Max(_TextPickerCell.Items.IndexOf(_TextPickerCell.SelectedItem),0);
+            _picker.WrapSelectorWheel = _TextPickerCell.IsCircularPicker;
 
             if (_dialog == null) {
                 using (var builder = new AlertDialog.Builder(_context)) {

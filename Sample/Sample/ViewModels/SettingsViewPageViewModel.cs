@@ -31,7 +31,7 @@ namespace Sample.ViewModels
         public ObservableCollection<Person> ItemsSource { get; } = new ObservableCollection<Person>();
         public ObservableCollection<Person> SelectedItems { get; } = new ObservableCollection<Person>();
 
-        public ObservableCollection<string> TextItems { get; } = new ObservableCollection<string>(new List<string>{"Red","Blue","Green"});
+        public ObservableCollection<string> TextItems { get; } = new ObservableCollection<string>(new List<string>{"Red","Blue","Green","Pink","Black","White"});
         public ReactiveProperty<string> SelectedText { get; } = new ReactiveProperty<string>("Green");
 
         string[] languages = { "Java", "C#", "JavaScript", "PHP", "Perl", "C++",  "Swift", "Kotlin", "Python", "Ruby", "Scala", "F#" };
@@ -64,7 +64,6 @@ namespace Sample.ViewModels
             SelectedItems.Add(ItemsSource[1]);
             SelectedItems.Add(ItemsSource[2]);
             SelectedItems.Add(ItemsSource[3]);
-
         }
 
         public class Person{

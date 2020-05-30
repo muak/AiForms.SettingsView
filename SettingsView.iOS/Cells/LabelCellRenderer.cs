@@ -51,13 +51,18 @@ namespace AiForms.Renderers.iOS
         {
             base.CellPropertyChanged(sender, e);
 
-            if (e.PropertyName == LabelCell.ValueTextProperty.PropertyName) {
+            if (e.PropertyName == LabelCell.ValueTextProperty.PropertyName)
+            {
                 UpdateValueText();
             }
-            else if (e.PropertyName == LabelCell.ValueTextFontSizeProperty.PropertyName) {
-                UpdateWithForceLayout(UpdateValueTextFontSize);
+            else if (e.PropertyName == LabelCell.ValueTextFontSizeProperty.PropertyName ||
+                     e.PropertyName == LabelCell.ValueTextFontFamilyProperty.PropertyName ||
+                     e.PropertyName == LabelCell.ValueTextFontAttributesProperty.PropertyName)
+            {
+                UpdateWithForceLayout(UpdateValueTextFont);
             }
-            else if (e.PropertyName == LabelCell.ValueTextColorProperty.PropertyName) {
+            else if (e.PropertyName == LabelCell.ValueTextColorProperty.PropertyName)
+            {
                 UpdateValueTextColor();
             }
         }
@@ -71,11 +76,15 @@ namespace AiForms.Renderers.iOS
         {
             base.ParentPropertyChanged(sender, e);
 
-            if (e.PropertyName == SettingsView.CellValueTextColorProperty.PropertyName) {
+            if (e.PropertyName == SettingsView.CellValueTextColorProperty.PropertyName)
+            {
                 UpdateValueTextColor();
             }
-            else if (e.PropertyName == SettingsView.CellValueTextFontSizeProperty.PropertyName) {
-                UpdateWithForceLayout(UpdateValueTextFontSize);
+            else if (e.PropertyName == SettingsView.CellValueTextFontSizeProperty.PropertyName ||
+                     e.PropertyName == SettingsView.CellValueTextFontFamilyProperty.PropertyName ||
+                     e.PropertyName == SettingsView.CellValueTextFontAttributesProperty.PropertyName)
+            {
+                UpdateWithForceLayout(UpdateValueTextFont);
             }
         }
 
@@ -86,7 +95,7 @@ namespace AiForms.Renderers.iOS
         {
             UpdateValueText();
             UpdateValueTextColor();
-            UpdateValueTextFontSize();
+            UpdateValueTextFont();
             base.UpdateCell();
         }
 
@@ -113,13 +122,19 @@ namespace AiForms.Renderers.iOS
             ValueLabel.Text = _LabelCell.ValueText;
         }
 
-        void UpdateValueTextFontSize()
+        void UpdateValueTextFont()
         {
+            if (ValueLabel.Font is null)
+                return; // for HotReload
+
+            var family = _LabelCell.ValueTextFontFamily ?? CellParent.CellValueTextFontFamily;
+            var attr = _LabelCell.ValueTextFontAttributes ?? CellParent.CellValueTextFontAttributes;
+
             if (_LabelCell.ValueTextFontSize > 0) {
-                ValueLabel.Font = ValueLabel.Font.WithSize((nfloat)_LabelCell.ValueTextFontSize);
+                ValueLabel.Font = FontUtility.CreateNativeFont(family, (float)_LabelCell.ValueTextFontSize, attr);
             }
             else if (CellParent != null) {
-                ValueLabel.Font = ValueLabel.Font.WithSize((nfloat)CellParent.CellValueTextFontSize);
+                ValueLabel.Font = FontUtility.CreateNativeFont(family, (float)CellParent.CellValueTextFontSize, attr);
             }
         }
 

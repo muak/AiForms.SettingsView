@@ -7,6 +7,8 @@
 	x:Class="Sample.Views.MainPage" Title="MainPage">
     <ai:SettingsView>
         <ai:Section HeaderHeight="10">
+            <ai:ButtonCell Title="SurveyPage" Command="{Binding GoToTest}"  CommandParameter="SurveyPage" />
+            <ai:ButtonCell Title="CustomFontTest" Command="{Binding GoToTest}"  CommandParameter="CustomFontTest" />
             <ai:ButtonCell Title="RowManipulation" Command="{Binding GoToTest}"  CommandParameter="RowManipulation" />
             <ai:ButtonCell Title="RowManipulationTemplate" Command="{Binding GoToTest}"  CommandParameter="RowManipulationTemplate" />
             <ai:ButtonCell Title="ReorderTest" Command="{Binding GoToTest}"  CommandParameter="ReorderTest" />
@@ -25,8 +27,7 @@
             <ai:ButtonCell Title="RadioCellTemplateTest" Command="{Binding GoToTest}"  CommandParameter="RadioCellTemplateTest" />
             <ai:ButtonCell Title="GlobalDataTemplate" Command="{Binding GoToTest}"  CommandParameter="GlobalDataTemplate" />
             <ai:ButtonCell Title="FormsCellTest" Command="{Binding GoToTest}"  CommandParameter="FormsCellTest" />
-            <ai:ButtonCell Title="OnTableViewTest" Command="{Binding GoToTest}"  CommandParameter="OnTableViewTest" />
-            <ai:ButtonCell Title="PickerSurvey" Command="{Binding GoToTest}"  CommandParameter="PickerSurvey" />
+            <ai:ButtonCell Title="OnTableViewTest" Command="{Binding GoToTest}"  CommandParameter="OnTableViewTest" />            
         </ai:Section>
     </ai:SettingsView>
 </ContentPage>

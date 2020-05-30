@@ -142,6 +142,32 @@ namespace AiForms.Renderers
             set { SetValue(HeaderFontSizeProperty, value); }
         }
 
+        public static BindableProperty HeaderFontFamilyProperty = BindableProperty.Create(
+            nameof(HeaderFontFamily),
+            typeof(string),
+            typeof(SettingsView),
+            default(string),
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public string HeaderFontFamily {
+            get { return (string)GetValue(HeaderFontFamilyProperty); }
+            set { SetValue(HeaderFontFamilyProperty, value); }
+        }
+
+        public static BindableProperty HeaderFontAttributesProperty = BindableProperty.Create(
+            nameof(HeaderFontAttributes),
+            typeof(FontAttributes),
+            typeof(SettingsView),
+            FontAttributes.None,
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public FontAttributes HeaderFontAttributes {
+            get { return (FontAttributes)GetValue(HeaderFontAttributesProperty); }
+            set { SetValue(HeaderFontAttributesProperty, value); }
+        }
+
         /// <summary>
         /// The header text vertical align property.
         /// </summary>
@@ -254,6 +280,32 @@ namespace AiForms.Renderers
             set { SetValue(FooterFontSizeProperty, value); }
         }
 
+        public static BindableProperty FooterFontFamilyProperty = BindableProperty.Create(
+            nameof(FooterFontFamily),
+            typeof(string),
+            typeof(SettingsView),
+            default(string),
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public string FooterFontFamily {
+            get { return (string)GetValue(FooterFontFamilyProperty); }
+            set { SetValue(FooterFontFamilyProperty, value); }
+        }
+
+        public static BindableProperty FooterFontAttributesProperty = BindableProperty.Create(
+            nameof(FooterFontAttributes),
+            typeof(FontAttributes),
+            typeof(SettingsView),
+            FontAttributes.None,
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public FontAttributes FooterFontAttributes {
+            get { return (FontAttributes)GetValue(FooterFontAttributesProperty); }
+            set { SetValue(FooterFontAttributesProperty, value); }
+        }
+
         /// <summary>
         /// The footer background color property.
         /// </summary>
@@ -345,6 +397,37 @@ namespace AiForms.Renderers
         }
 
         /// <summary>
+        /// The cell title font family.
+        /// </summary>
+        public static BindableProperty CellTitleFontFamilyProperty = BindableProperty.Create(
+            nameof(CellTitleFontFamily),
+            typeof(string),
+            typeof(SettingsView),
+            default(string),
+            defaultBindingMode: BindingMode.OneWay
+        );
+        /// <summary>
+        /// The cell title font family.
+        /// </summary>
+        public string CellTitleFontFamily {
+            get { return (string)GetValue(CellTitleFontFamilyProperty); }
+            set { SetValue(CellTitleFontFamilyProperty, value); }
+        }
+
+        public static BindableProperty CellTitleFontAttributesProperty = BindableProperty.Create(
+            nameof(CellTitleFontAttributes),
+            typeof(FontAttributes),
+            typeof(SettingsView),
+            FontAttributes.None,
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public FontAttributes CellTitleFontAttributes {
+            get { return (FontAttributes)GetValue(CellTitleFontAttributesProperty); }
+            set { SetValue(CellTitleFontAttributesProperty, value); }
+        }
+
+        /// <summary>
         /// The cell value text color property.
         /// </summary>
         public static BindableProperty CellValueTextColorProperty =
@@ -387,6 +470,32 @@ namespace AiForms.Renderers
         {
             get { return (double)GetValue(CellValueTextFontSizeProperty); }
             set { SetValue(CellValueTextFontSizeProperty, value); }
+        }
+
+        public static BindableProperty CellValueTextFontFamilyProperty = BindableProperty.Create(
+            nameof(CellValueTextFontFamily),
+            typeof(string),
+            typeof(SettingsView),
+            default(string),
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public string CellValueTextFontFamily {
+            get { return (string)GetValue(CellValueTextFontFamilyProperty); }
+            set { SetValue(CellValueTextFontFamilyProperty, value); }
+        }
+
+        public static BindableProperty CellValueTextFontAttributesProperty = BindableProperty.Create(
+            nameof(CellValueTextFontAttributes),
+            typeof(FontAttributes),
+            typeof(SettingsView),
+            FontAttributes.None,
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public FontAttributes CellValueTextFontAttributes {
+            get { return (FontAttributes)GetValue(CellValueTextFontAttributesProperty); }
+            set { SetValue(CellValueTextFontAttributesProperty, value); }
         }
 
         /// <summary>
@@ -432,6 +541,32 @@ namespace AiForms.Renderers
         {
             get { return (double)GetValue(CellDescriptionFontSizeProperty); }
             set { SetValue(CellDescriptionFontSizeProperty, value); }
+        }
+
+        public static BindableProperty CellDescriptionFontFamilyProperty = BindableProperty.Create(
+            nameof(CellDescriptionFontFamily),
+            typeof(string),
+            typeof(SettingsView),
+            default(string),
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public string CellDescriptionFontFamily {
+            get { return (string)GetValue(CellDescriptionFontFamilyProperty); }
+            set { SetValue(CellDescriptionFontFamilyProperty, value); }
+        }
+
+        public static BindableProperty CellDescriptionFontAttributesProperty = BindableProperty.Create(
+            nameof(CellDescriptionFontAttributes),
+            typeof(FontAttributes),
+            typeof(SettingsView),
+            FontAttributes.None,
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public FontAttributes CellDescriptionFontAttributes {
+            get { return (FontAttributes)GetValue(CellDescriptionFontAttributesProperty); }
+            set { SetValue(CellDescriptionFontAttributesProperty, value); }
         }
 
         /// <summary>
@@ -566,6 +701,32 @@ namespace AiForms.Renderers
         {
             get { return (double)GetValue(CellHintFontSizeProperty); }
             set { SetValue(CellHintFontSizeProperty, value); }
+        }
+
+        public static BindableProperty CellHintFontFamilyProperty = BindableProperty.Create(
+            nameof(CellHintFontFamily),
+            typeof(string),
+            typeof(SettingsView),
+            default(string),
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public string CellHintFontFamily {
+            get { return (string)GetValue(CellHintFontFamilyProperty); }
+            set { SetValue(CellHintFontFamilyProperty, value); }
+        }
+
+        public static BindableProperty CellHintFontAttributesProperty = BindableProperty.Create(
+            nameof(CellHintFontAttributes),
+            typeof(FontAttributes),
+            typeof(SettingsView),
+            FontAttributes.None,
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public FontAttributes CellHintFontAttributes {
+            get { return (FontAttributes)GetValue(CellHintFontAttributesProperty); }
+            set { SetValue(CellHintFontAttributesProperty, value); }
         }
 
         //Only Android 
@@ -797,7 +958,7 @@ namespace AiForms.Renderers
                 oldObservableCollection.CollectionChanged -= settingsView.OnItemsSourceCollectionChanged;
             }
 
-
+            // keep the platform from notifying itemchanged event.
             settingsView.Root.CollectionChanged -= settingsView.OnCollectionChanged;
 
             if (oldValueAsEnumerable != null)
@@ -835,12 +996,13 @@ namespace AiForms.Renderers
         {
             if (e.Action == NotifyCollectionChangedAction.Replace) {
 
-                Root.RemoveAt(e.OldStartingIndex + TemplateStartIndex);
+                //Root.RemoveAt(e.OldStartingIndex + TemplateStartIndex);
 
                 var item = e.NewItems[0];
                 var view = CreateChildViewFor(this.ItemTemplate, item, this);
 
-                Root.Insert(e.NewStartingIndex + TemplateStartIndex, view);
+                //Root.Insert(e.NewStartingIndex + TemplateStartIndex, view);
+                Root[e.NewStartingIndex + TemplateStartIndex] = view;
             }
 
             else if (e.Action == NotifyCollectionChangedAction.Add) {

@@ -93,6 +93,9 @@ namespace AiForms.Renderers.iOS
         public override void UpdateCell()
         {
             base.UpdateCell();
+            if (DummyField is null)
+                return; // For HotReload
+
             UpdateNumberList();
             UpdateNumber();
             UpdateTitle();
@@ -195,6 +198,8 @@ namespace AiForms.Renderers.iOS
         public override void LayoutSubviews()
         {
             base.LayoutSubviews();
+            if (DummyField is null)
+                return; // For HotReload
 
             DummyField.Frame = new CGRect(0, 0, Frame.Width, Frame.Height);
         }

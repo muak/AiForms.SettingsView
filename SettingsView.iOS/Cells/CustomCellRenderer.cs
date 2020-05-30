@@ -70,6 +70,9 @@ namespace AiForms.Renderers.iOS
 
         protected virtual void UpdateContent()
         {
+            if (_coreView is null)
+                return; // for HotReload;
+
             _coreView.CustomCell = CustomCell;
             _coreView.FormsCell = CustomCell.Content;           
         }

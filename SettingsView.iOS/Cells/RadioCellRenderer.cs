@@ -123,6 +123,9 @@ namespace AiForms.Renderers.iOS
 
         void UpdateSelectedValue()
         {
+            if (_radioCell.Value is null)
+                return; // for HotReload
+
             bool result;
             if(_radioCell.Value.GetType().IsValueType)
             {

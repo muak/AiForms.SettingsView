@@ -143,47 +143,76 @@ namespace AiForms.Renderers.Droid
         /// <param name="e">E.</param>
         public virtual void CellPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == CellBase.TitleProperty.PropertyName) {
+            if (e.PropertyName == CellBase.TitleProperty.PropertyName)
+            {
                 UpdateTitleText();
             }
-            else if (e.PropertyName == CellBase.TitleColorProperty.PropertyName) {
+            else if (e.PropertyName == CellBase.TitleColorProperty.PropertyName)
+            {
                 UpdateTitleColor();
             }
-            else if (e.PropertyName == CellBase.TitleFontSizeProperty.PropertyName) {
+            else if (e.PropertyName == CellBase.TitleFontSizeProperty.PropertyName)
+            {
                 UpdateTitleFontSize();
             }
-            else if (e.PropertyName == CellBase.DescriptionProperty.PropertyName) {
+            else if( e.PropertyName == CellBase.TitleFontFamilyProperty.PropertyName ||
+                     e.PropertyName == CellBase.TitleFontAttributesProperty.PropertyName)
+            {
+                UpdateTitleFont();
+            }
+            else if (e.PropertyName == CellBase.DescriptionProperty.PropertyName)
+            {
                 UpdateDescriptionText();
             }
-            else if (e.PropertyName == CellBase.DescriptionFontSizeProperty.PropertyName) {
+            else if (e.PropertyName == CellBase.DescriptionFontSizeProperty.PropertyName)
+            {
                 UpdateDescriptionFontSize();
             }
-            else if (e.PropertyName == CellBase.DescriptionColorProperty.PropertyName) {
+            else if (e.PropertyName == CellBase.DescriptionFontFamilyProperty.PropertyName ||
+                     e.PropertyName == CellBase.DescriptionFontAttributesProperty.PropertyName)
+            {
+                UpdateDescriptionFont();
+            }
+            else if (e.PropertyName == CellBase.DescriptionColorProperty.PropertyName)
+            {
                 UpdateDescriptionColor();
             }
-            else if (e.PropertyName == CellBase.IconSourceProperty.PropertyName) {
+            else if (e.PropertyName == CellBase.IconSourceProperty.PropertyName)
+            {
                 UpdateIcon();
             }
-            else if (e.PropertyName == CellBase.BackgroundColorProperty.PropertyName) {
+            else if (e.PropertyName == CellBase.BackgroundColorProperty.PropertyName)
+            {
                 UpdateBackgroundColor();
             }
-            else if (e.PropertyName == CellBase.HintTextProperty.PropertyName) {
+            else if (e.PropertyName == CellBase.HintTextProperty.PropertyName)
+            {
                 UpdateWithForceLayout(UpdateHintText);
             }
-            else if (e.PropertyName == CellBase.HintTextColorProperty.PropertyName) {
+            else if (e.PropertyName == CellBase.HintTextColorProperty.PropertyName)
+            {
                 UpdateHintTextColor();
             }
-            else if (e.PropertyName == CellBase.HintFontSizeProperty.PropertyName) {
+            else if (e.PropertyName == CellBase.HintFontSizeProperty.PropertyName)
+            {
                 UpdateWithForceLayout(UpdateHintFontSize);
             }
-            else if (e.PropertyName == CellBase.IconSizeProperty.PropertyName) {
+            else if (e.PropertyName == CellBase.HintFontFamilyProperty.PropertyName ||
+                     e.PropertyName == CellBase.HintFontAttributesProperty.PropertyName)
+            {
+                UpdateWithForceLayout(UpdateHintFont);
+            }
+            else if (e.PropertyName == CellBase.IconSizeProperty.PropertyName)
+            {
                 UpdateIcon();
             }
-            else if (e.PropertyName == CellBase.IconRadiusProperty.PropertyName) {
+            else if (e.PropertyName == CellBase.IconRadiusProperty.PropertyName)
+            {
                 UpdateIconRadius();
                 UpdateIcon(true);
             }
-            else if (e.PropertyName == Cell.IsEnabledProperty.PropertyName) {
+            else if (e.PropertyName == Cell.IsEnabledProperty.PropertyName)
+            {
                 UpdateIsEnabled();
             }
         }
@@ -200,35 +229,60 @@ namespace AiForms.Renderers.Droid
                 return;
             }
 
-            if (e.PropertyName == SettingsView.CellTitleColorProperty.PropertyName) {
+            if (e.PropertyName == SettingsView.CellTitleColorProperty.PropertyName)
+            {
                 UpdateTitleColor();
             }
-            else if (e.PropertyName == SettingsView.CellTitleFontSizeProperty.PropertyName) {
+            else if (e.PropertyName == SettingsView.CellTitleFontSizeProperty.PropertyName)
+            {
                 UpdateWithForceLayout(UpdateTitleFontSize);
             }
-            else if (e.PropertyName == SettingsView.CellDescriptionColorProperty.PropertyName) {
+            else if (e.PropertyName == SettingsView.CellTitleFontFamilyProperty.PropertyName ||
+                     e.PropertyName == SettingsView.CellTitleFontAttributesProperty.PropertyName)
+            {
+                UpdateWithForceLayout(UpdateTitleFont);
+            }
+            else if (e.PropertyName == SettingsView.CellDescriptionColorProperty.PropertyName)
+            {
                 UpdateDescriptionColor();
             }
-            else if (e.PropertyName == SettingsView.CellDescriptionFontSizeProperty.PropertyName) {
+            else if (e.PropertyName == SettingsView.CellDescriptionFontSizeProperty.PropertyName)
+            {
                 UpdateWithForceLayout(UpdateDescriptionFontSize);
             }
-            else if (e.PropertyName == SettingsView.CellBackgroundColorProperty.PropertyName) {
+            else if (e.PropertyName == SettingsView.CellDescriptionFontFamilyProperty.PropertyName ||
+                     e.PropertyName == SettingsView.CellDescriptionFontAttributesProperty.PropertyName)
+            {
+                UpdateWithForceLayout(UpdateDescriptionFont);
+            }
+            else if (e.PropertyName == SettingsView.CellBackgroundColorProperty.PropertyName)
+            {
                 UpdateBackgroundColor();
             }
-            else if (e.PropertyName == SettingsView.CellHintTextColorProperty.PropertyName) {
+            else if (e.PropertyName == SettingsView.CellHintTextColorProperty.PropertyName)
+            {
                 UpdateHintTextColor();
             }
-            else if (e.PropertyName == SettingsView.CellHintFontSizeProperty.PropertyName) {
+            else if (e.PropertyName == SettingsView.CellHintFontSizeProperty.PropertyName)
+            {
                 UpdateWithForceLayout(UpdateHintFontSize);
             }
-            else if (e.PropertyName == SettingsView.CellIconSizeProperty.PropertyName) {
+            else if (e.PropertyName == SettingsView.CellHintFontFamilyProperty.PropertyName ||
+                     e.PropertyName == SettingsView.CellHintFontAttributesProperty.PropertyName)
+            {
+                UpdateWithForceLayout(UpdateHintFont);
+            }
+            else if (e.PropertyName == SettingsView.CellIconSizeProperty.PropertyName)
+            {
                 UpdateIcon();
             }
-            else if (e.PropertyName == SettingsView.CellIconRadiusProperty.PropertyName) {
+            else if (e.PropertyName == SettingsView.CellIconRadiusProperty.PropertyName)
+            {
                 UpdateIconRadius();
                 UpdateIcon(true);
             }
-            else if (e.PropertyName == SettingsView.SelectedColorProperty.PropertyName) {
+            else if (e.PropertyName == SettingsView.SelectedColorProperty.PropertyName)
+            {
                 UpdateWithForceLayout(UpdateSelectedColor);
             }
 
@@ -283,12 +337,15 @@ namespace AiForms.Renderers.Droid
             UpdateTitleText();
             UpdateTitleColor();
             UpdateTitleFontSize();
+            UpdateTitleFont();
             UpdateDescriptionText();
             UpdateDescriptionColor();
             UpdateDescriptionFontSize();
+            UpdateDescriptionFont();
             UpdateHintText();
             UpdateHintTextColor();
             UpdateHintFontSize();
+            UpdateHintFont();
 
             UpdateIcon();
             UpdateIconRadius();
@@ -347,15 +404,26 @@ namespace AiForms.Renderers.Droid
 
         void UpdateTitleFontSize()
         {
-            if (CellBase.TitleFontSize > 0) {
+            if (CellBase.TitleFontSize > 0)
+            {
                 TitleLabel.SetTextSize(ComplexUnitType.Sp, (float)CellBase.TitleFontSize);
             }
-            else if (CellParent != null) {
+            else if (CellParent != null)
+            {
                 TitleLabel.SetTextSize(ComplexUnitType.Sp, (float)CellParent.CellTitleFontSize);
             }
-            else {
+            else
+            {
                 TitleLabel.SetTextSize(ComplexUnitType.Sp, _defaultFontSize);
             }
+        }
+
+        void UpdateTitleFont()
+        {
+            var family = CellBase.TitleFontFamily ?? CellParent?.CellTitleFontFamily;
+            var attr = CellBase.TitleFontAttributes ?? CellParent.CellTitleFontAttributes;
+
+            TitleLabel.Typeface = FontUtility.CreateTypeface(family,attr);
         }
 
         void UpdateDescriptionText()
@@ -376,6 +444,14 @@ namespace AiForms.Renderers.Droid
             else {
                 DescriptionLabel.SetTextSize(ComplexUnitType.Sp, _defaultFontSize);
             }
+        }
+
+        void UpdateDescriptionFont()
+        {
+            var family = CellBase.DescriptionFontFamily ?? CellParent?.CellDescriptionFontFamily;
+            var attr = CellBase.DescriptionFontAttributes ?? CellParent.CellDescriptionFontAttributes;
+
+            DescriptionLabel.Typeface = FontUtility.CreateTypeface(family, attr);
         }
 
         void UpdateDescriptionColor()
@@ -427,6 +503,14 @@ namespace AiForms.Renderers.Droid
             else {
                 HintLabel.SetTextSize(ComplexUnitType.Sp, _defaultFontSize);
             }
+        }
+
+        void UpdateHintFont()
+        {
+            var family = CellBase.HintFontFamily ?? CellParent?.CellHintFontFamily;
+            var attr = CellBase.HintFontAttributes ?? CellParent.CellHintFontAttributes;
+
+            HintLabel.Typeface = FontUtility.CreateTypeface(family, attr);
         }
 
         /// <summary>

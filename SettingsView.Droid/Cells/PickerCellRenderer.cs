@@ -268,6 +268,11 @@ namespace AiForms.Renderers.Droid
                 _dialog.SetOnDismissListener(this);
                 _dialog.SetOnShowListener(this);
                 _dialog.Show();
+
+                // Pending
+                //var buttonTextColor = _PickerCell.AccentColor.IsDefault ? Xamarin.Forms.Color.Accent.ToAndroid() : _PickerCell.AccentColor.ToAndroid();
+                //_dialog.GetButton((int)DialogButtonType.Positive).SetTextColor(buttonTextColor);
+                //_dialog.GetButton((int)DialogButtonType.Negative).SetTextColor(buttonTextColor);
             }
         }
 

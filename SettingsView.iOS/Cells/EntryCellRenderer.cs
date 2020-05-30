@@ -58,9 +58,13 @@ namespace AiForms.Renderers.iOS
         public override void UpdateCell()
         {
             base.UpdateCell();
+
+            if (ValueField is null)
+                return; // For HotReload
+
             UpdateValueText();
             UpdateValueTextColor();
-            UpdateValueTextFontSize();
+            UpdateValueTextFont();
             UpdatePlaceholder();
             UpdateKeyboard();
             UpdateIsPassword();
@@ -75,25 +79,35 @@ namespace AiForms.Renderers.iOS
         public override void CellPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.CellPropertyChanged(sender, e);
-            if (e.PropertyName == AiEntryCell.ValueTextProperty.PropertyName) {
+            if (e.PropertyName == AiEntryCell.ValueTextProperty.PropertyName)
+            {
                 UpdateValueText();
             }
-            else if (e.PropertyName == AiEntryCell.ValueTextFontSizeProperty.PropertyName) {
-                UpdateWithForceLayout(UpdateValueTextFontSize);
+            else if (e.PropertyName == AiEntryCell.ValueTextFontSizeProperty.PropertyName ||
+                     e.PropertyName == AiEntryCell.ValueTextFontFamilyProperty.PropertyName ||
+                     e.PropertyName == AiEntryCell.ValueTextFontAttributesProperty.PropertyName)
+            {
+                UpdateWithForceLayout(UpdateValueTextFont);
             }
-            else if (e.PropertyName == AiEntryCell.ValueTextColorProperty.PropertyName) {
+            else if (e.PropertyName == AiEntryCell.ValueTextColorProperty.PropertyName)
+            {
                 UpdateValueTextColor();
             }
-            else if (e.PropertyName == AiEntryCell.KeyboardProperty.PropertyName) {
+            else if (e.PropertyName == AiEntryCell.KeyboardProperty.PropertyName)
+            {
                 UpdateKeyboard();
             }
-            else if (e.PropertyName == AiEntryCell.PlaceholderProperty.PropertyName) {
+            else if (e.PropertyName == AiEntryCell.PlaceholderProperty.PropertyName ||
+                     e.PropertyName == AiEntryCell.PlaceholderColorProperty.PropertyName)
+            {
                 UpdatePlaceholder();
             }
-            else if (e.PropertyName == AiEntryCell.TextAlignmentProperty.PropertyName) {
+            else if (e.PropertyName == AiEntryCell.TextAlignmentProperty.PropertyName)
+            {
                 UpdateTextAlignment();
             }
-            else if (e.PropertyName == AiEntryCell.IsPasswordProperty.PropertyName) {
+            else if (e.PropertyName == AiEntryCell.IsPasswordProperty.PropertyName)
+            {
                 UpdateIsPassword();
             }
         }
@@ -106,12 +120,16 @@ namespace AiForms.Renderers.iOS
         public override void ParentPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.ParentPropertyChanged(sender, e);
-            if (e.PropertyName == SettingsView.CellValueTextColorProperty.PropertyName) {
+            if (e.PropertyName == SettingsView.CellValueTextColorProperty.PropertyName)
+            {
                 UpdateValueTextColor();
                 ValueField.SetNeedsLayout();    // immediately reflect
             }
-            else if (e.PropertyName == SettingsView.CellValueTextFontSizeProperty.PropertyName) {
-                UpdateWithForceLayout(UpdateValueTextFontSize);
+            else if (e.PropertyName == SettingsView.CellValueTextFontSizeProperty.PropertyName ||
+                     e.PropertyName == SettingsView.CellValueTextFontFamilyProperty.PropertyName ||
+                     e.PropertyName == SettingsView.CellValueTextFontAttributesProperty.PropertyName)
+            {
+                UpdateWithForceLayout(UpdateValueTextFont);
             }
         }
 
@@ -173,13 +191,18 @@ namespace AiForms.Renderers.iOS
             }
         }
 
-        void UpdateValueTextFontSize()
+        void UpdateValueTextFont()
         {
-            if (_EntryCell.ValueTextFontSize > 0) {
-                ValueField.Font = ValueField.Font.WithSize((nfloat)_EntryCell.ValueTextFontSize);
+            var family = _EntryCell.ValueTextFontFamily ?? CellParent.CellValueTextFontFamily;
+            var attr = _EntryCell.ValueTextFontAttributes ?? CellParent.CellValueTextFontAttributes;
+
+            if (_EntryCell.ValueTextFontSize > 0)
+            {
+                ValueField.Font = FontUtility.CreateNativeFont(family, (float)_EntryCell.ValueTextFontSize, attr);
             }
-            else if (CellParent != null) {
-                ValueField.Font = ValueField.Font.WithSize((nfloat)CellParent.CellValueTextFontSize);
+            else if (CellParent != null)
+            {
+                ValueField.Font = FontUtility.CreateNativeFont(family, (float)CellParent.CellValueTextFontSize, attr);
             }
             //make the view height fit font size
             var contentH = ValueField.IntrinsicContentSize.Height;
@@ -206,7 +229,16 @@ namespace AiForms.Renderers.iOS
 
         void UpdatePlaceholder()
         {
-            ValueField.Placeholder = _EntryCell.Placeholder;
+            if (!_EntryCell.PlaceholderColor.IsDefault)
+            {
+                ValueField.Placeholder = null;
+                ValueField.AttributedPlaceholder = new NSAttributedString(_EntryCell.Placeholder, ValueField.Font, _EntryCell.PlaceholderColor.ToUIColor());
+            }
+            else
+            {
+                ValueField.AttributedPlaceholder = null;
+                ValueField.Placeholder = _EntryCell.Placeholder;
+            }
         }
 
         void UpdateTextAlignment()

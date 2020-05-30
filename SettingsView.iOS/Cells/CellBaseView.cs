@@ -86,46 +86,66 @@ namespace AiForms.Renderers.iOS
         /// <param name="e">E.</param>
         public virtual void CellPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == CellBase.TitleProperty.PropertyName) {
+            if (e.PropertyName == CellBase.TitleProperty.PropertyName)
+            {
                 UpdateTitleText();
             }
-            else if (e.PropertyName == CellBase.TitleColorProperty.PropertyName) {
+            else if (e.PropertyName == CellBase.TitleColorProperty.PropertyName)
+            {
                 UpdateTitleColor();
             }
-            else if (e.PropertyName == CellBase.TitleFontSizeProperty.PropertyName) {
-                UpdateWithForceLayout(UpdateTitleFontSize);
+            else if (e.PropertyName == CellBase.TitleFontSizeProperty.PropertyName ||
+                     e.PropertyName == CellBase.TitleFontFamilyProperty.PropertyName ||
+                     e.PropertyName == CellBase.TitleFontAttributesProperty.PropertyName)
+            {
+                UpdateWithForceLayout(UpdateTitleFont);
             }
-            else if (e.PropertyName == CellBase.DescriptionProperty.PropertyName) {
+            else if (e.PropertyName == CellBase.DescriptionProperty.PropertyName)
+            {
                 UpdateWithForceLayout(UpdateDescriptionText);
             }
-            else if (e.PropertyName == CellBase.DescriptionFontSizeProperty.PropertyName) {
-                UpdateWithForceLayout(UpdateDescriptionFontSize);
+            else if (e.PropertyName == CellBase.DescriptionFontSizeProperty.PropertyName ||
+                     e.PropertyName == CellBase.DescriptionFontFamilyProperty.PropertyName ||
+                     e.PropertyName == CellBase.DescriptionFontAttributesProperty.PropertyName)
+            {
+                UpdateWithForceLayout(UpdateDescriptionFont);
             }
-            else if (e.PropertyName == CellBase.DescriptionColorProperty.PropertyName) {
+            else if (e.PropertyName == CellBase.DescriptionColorProperty.PropertyName)
+            {
                 UpdateDescriptionColor();
             }
-            else if (e.PropertyName == CellBase.IconSourceProperty.PropertyName) {
+            else if (e.PropertyName == CellBase.IconSourceProperty.PropertyName)
+            {
                 UpdateIcon();
             }
-            else if (e.PropertyName == CellBase.BackgroundColorProperty.PropertyName) {
+            else if (e.PropertyName == CellBase.BackgroundColorProperty.PropertyName)
+            {
                 UpdateBackgroundColor();
             }
-            else if (e.PropertyName == CellBase.HintTextProperty.PropertyName) {
+            else if (e.PropertyName == CellBase.HintTextProperty.PropertyName)
+            {
                 UpdateWithForceLayout(UpdateHintText);
             }
-            else if (e.PropertyName == CellBase.HintTextColorProperty.PropertyName) {
+            else if (e.PropertyName == CellBase.HintTextColorProperty.PropertyName)
+            {
                 UpdateHintTextColor();
             }
-            else if (e.PropertyName == CellBase.HintFontSizeProperty.PropertyName) {
-                UpdateWithForceLayout(UpdateHintFontSize);
+            else if (e.PropertyName == CellBase.HintFontSizeProperty.PropertyName ||
+                     e.PropertyName == CellBase.HintFontFamilyProperty.PropertyName ||
+                     e.PropertyName == CellBase.HintFontAttributesProperty.PropertyName)
+            {
+                UpdateWithForceLayout(UpdateHintFont);
             }
-            else if (e.PropertyName == CellBase.IconSizeProperty.PropertyName) {
+            else if (e.PropertyName == CellBase.IconSizeProperty.PropertyName)
+            {
                 UpdateWithForceLayout(UpdateIconSize);
             }
-            else if (e.PropertyName == CellBase.IconRadiusProperty.PropertyName) {
+            else if (e.PropertyName == CellBase.IconRadiusProperty.PropertyName)
+            {
                 UpdateWithForceLayout(UpdateIconRadius);
             }
-            else if(e.PropertyName == Cell.IsEnabledProperty.PropertyName){
+            else if (e.PropertyName == Cell.IsEnabledProperty.PropertyName)
+            {
                 UpdateIsEnabled();
             }
         }
@@ -137,37 +157,54 @@ namespace AiForms.Renderers.iOS
         /// <param name="e">E.</param>
         public virtual void ParentPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == SettingsView.CellTitleColorProperty.PropertyName) {
+            if (e.PropertyName == SettingsView.CellTitleColorProperty.PropertyName)
+            {
                 UpdateTitleColor();
             }
-            else if (e.PropertyName == SettingsView.CellTitleFontSizeProperty.PropertyName) {
-                UpdateWithForceLayout(UpdateTitleFontSize);
+            else if (e.PropertyName == SettingsView.CellTitleFontSizeProperty.PropertyName ||
+                     e.PropertyName == SettingsView.CellTitleFontFamilyProperty.PropertyName ||
+                     e.PropertyName == SettingsView.CellTitleFontAttributesProperty.PropertyName)
+            {
+                UpdateWithForceLayout(UpdateTitleFont);
             }
-            else if (e.PropertyName == SettingsView.CellDescriptionColorProperty.PropertyName) {
+            else if (e.PropertyName == SettingsView.CellDescriptionColorProperty.PropertyName)
+            {
                 UpdateDescriptionColor();
             }
-            else if (e.PropertyName == SettingsView.CellDescriptionFontSizeProperty.PropertyName) {
-                UpdateWithForceLayout(UpdateDescriptionFontSize);
+            else if (e.PropertyName == SettingsView.CellDescriptionFontSizeProperty.PropertyName ||
+                     e.PropertyName == SettingsView.CellDescriptionFontFamilyProperty.PropertyName ||
+                     e.PropertyName == SettingsView.CellDescriptionFontAttributesProperty.PropertyName)
+            {
+                UpdateWithForceLayout(UpdateDescriptionFont);
             }
-            else if (e.PropertyName == SettingsView.CellBackgroundColorProperty.PropertyName) {
+            else if (e.PropertyName == SettingsView.CellBackgroundColorProperty.PropertyName)
+            {
                 UpdateBackgroundColor();
             }
-            else if (e.PropertyName == SettingsView.CellHintTextColorProperty.PropertyName) {
+            else if (e.PropertyName == SettingsView.CellHintTextColorProperty.PropertyName)
+            {
                 UpdateHintTextColor();
             }
-            else if (e.PropertyName == SettingsView.CellHintFontSizeProperty.PropertyName) {
-                UpdateWithForceLayout(UpdateHintFontSize);
+            else if (e.PropertyName == SettingsView.CellHintFontSizeProperty.PropertyName ||
+                     e.PropertyName == SettingsView.CellHintFontFamilyProperty.PropertyName ||
+                     e.PropertyName == SettingsView.CellHintFontAttributesProperty.PropertyName)
+            {
+                UpdateWithForceLayout(UpdateHintFont);
             }
-            else if (e.PropertyName == SettingsView.CellIconSizeProperty.PropertyName) {
+            else if (e.PropertyName == SettingsView.CellIconSizeProperty.PropertyName)
+            {
                 UpdateWithForceLayout(UpdateIconSize);
             }
-            else if (e.PropertyName == SettingsView.CellIconRadiusProperty.PropertyName) {
+            else if (e.PropertyName == SettingsView.CellIconRadiusProperty.PropertyName)
+            {
                 UpdateWithForceLayout(UpdateIconRadius);
             }
-            else if (e.PropertyName == SettingsView.SelectedColorProperty.PropertyName) {
+            else if (e.PropertyName == SettingsView.SelectedColorProperty.PropertyName)
+            {
                 UpdateSelectedColor();
             }
-            else if (e.PropertyName == TableView.RowHeightProperty.PropertyName) {
+            else if (e.PropertyName == TableView.RowHeightProperty.PropertyName)
+            {
                 UpdateMinRowHeight();
             }
         }
@@ -229,12 +266,18 @@ namespace AiForms.Renderers.iOS
 
         void UpdateHintText()
         {
+            if (HintLabel is null)
+                return; // for HotReload
+
             HintLabel.Text = CellBase.HintText;
             HintLabel.Hidden = string.IsNullOrEmpty(CellBase.HintText);
         }
 
         void UpdateHintTextColor()
         {
+            if (HintLabel is null)
+                return; // for HotReload
+
             if (CellBase.HintTextColor != Xamarin.Forms.Color.Default) {
                 HintLabel.TextColor = CellBase.HintTextColor.ToUIColor();
             }
@@ -243,18 +286,27 @@ namespace AiForms.Renderers.iOS
             }
         }
 
-        void UpdateHintFontSize()
+        void UpdateHintFont()
         {
+            if (HintLabel is null)
+                return; // for HotReload
+
+            var family = CellBase.HintFontFamily ?? CellParent.CellHintFontFamily;
+            var attr = CellBase.HintFontAttributes ?? CellParent.CellHintFontAttributes;
+
             if (CellBase.HintFontSize > 0) {
-                HintLabel.Font = HintLabel.Font.WithSize((nfloat)CellBase.HintFontSize);
+                HintLabel.Font = FontUtility.CreateNativeFont(family, (float)CellBase.HintFontSize, attr);
             }
             else if (CellParent != null) {
-                HintLabel.Font = HintLabel.Font.WithSize((nfloat)CellParent.CellHintFontSize);
+                HintLabel.Font = FontUtility.CreateNativeFont(family, (float)CellParent.CellHintFontSize, attr);
             }
         }
 
         void UpdateTitleText()
         {
+            if (TitleLabel is null)
+                return; // for HotReload
+
             TitleLabel.Text = CellBase.Title;
             //Since Layout breaks when text empty, prevent Label height from resizing 0.
             if (string.IsNullOrEmpty(TitleLabel.Text)) {
@@ -269,6 +321,9 @@ namespace AiForms.Renderers.iOS
 
         void UpdateTitleColor()
         {
+            if (TitleLabel is null)
+                return; // for HotReload
+
             if (CellBase.TitleColor != Xamarin.Forms.Color.Default) {
                 TitleLabel.TextColor = CellBase.TitleColor.ToUIColor();
             }
@@ -277,35 +332,53 @@ namespace AiForms.Renderers.iOS
             }
         }
 
-        void UpdateTitleFontSize()
+        void UpdateTitleFont()
         {
+            if (TitleLabel is null)
+                return; // for HotReload
+
+            var family = CellBase.TitleFontFamily ?? CellParent.CellTitleFontFamily;
+            var attr = CellBase.TitleFontAttributes ?? CellParent.CellTitleFontAttributes;
+
             if (CellBase.TitleFontSize > 0) {
-                TitleLabel.Font = TitleLabel.Font.WithSize((nfloat)CellBase.TitleFontSize);
+                TitleLabel.Font = FontUtility.CreateNativeFont(family, (float)CellBase.TitleFontSize,attr);
             }
             else if (CellParent != null) {
-                TitleLabel.Font = TitleLabel.Font.WithSize((nfloat)CellParent.CellTitleFontSize);
+                TitleLabel.Font = FontUtility.CreateNativeFont(family, (float)CellParent.CellTitleFontSize,attr);
             }
         }
 
         void UpdateDescriptionText()
         {
+            if (DescriptionLabel is null)
+                return; // for HotReload
+
             DescriptionLabel.Text = CellBase.Description;
             //layout break because of StackView spacing.DescriptionLabel hidden to fix it. 
             DescriptionLabel.Hidden = string.IsNullOrEmpty(DescriptionLabel.Text);
         }
 
-        void UpdateDescriptionFontSize()
+        void UpdateDescriptionFont()
         {
+            if (DescriptionLabel is null)
+                return; // for HotReload
+
+            var family = CellBase.DescriptionFontFamily ?? CellParent.CellDescriptionFontFamily;
+            var attr = CellBase.DescriptionFontAttributes ?? CellParent.CellDescriptionFontAttributes;
+
             if (CellBase.DescriptionFontSize > 0) {
-                DescriptionLabel.Font = DescriptionLabel.Font.WithSize((nfloat)CellBase.DescriptionFontSize);
+                DescriptionLabel.Font = FontUtility.CreateNativeFont(family, (float)CellBase.DescriptionFontSize, attr);
             }
             else if (CellParent != null) {
-                DescriptionLabel.Font = DescriptionLabel.Font.WithSize((nfloat)CellParent.CellDescriptionFontSize);
+                DescriptionLabel.Font = FontUtility.CreateNativeFont(family, (float)CellParent.CellDescriptionFontSize, attr);
             }
         }
 
         void UpdateDescriptionColor()
         {
+            if (DescriptionLabel is null)
+                return; // for HotReload
+
             if (CellBase.DescriptionColor != Xamarin.Forms.Color.Default) {
                 DescriptionLabel.TextColor = CellBase.DescriptionColor.ToUIColor();
             }
@@ -328,6 +401,9 @@ namespace AiForms.Renderers.iOS
         /// <param name="isEnabled">If set to <c>true</c> is enabled.</param>
         protected virtual void SetEnabledAppearance(bool isEnabled)
         {
+            if (TitleLabel is null)
+                return; // for HotReload
+
             if (isEnabled)
             {
                 UserInteractionEnabled = true;
@@ -384,17 +460,21 @@ namespace AiForms.Renderers.iOS
 
         void UpdateIconRadius()
         {
+            if (IconView is null)
+                return; // for HotReload
+
             if (CellBase.IconRadius >= 0) {
                 IconView.Layer.CornerRadius = (float)CellBase.IconRadius;
             }
             else if (CellParent != null) {
                 IconView.Layer.CornerRadius = (float)CellParent.CellIconRadius;
             }
-
         }
 
         void UpdateIcon()
         {
+            if (IconView is null)
+                return; // for HotReload
 
             if (_iconTokenSource != null && !_iconTokenSource.IsCancellationRequested) {               
                 _iconTokenSource.Cancel();
@@ -473,16 +553,19 @@ namespace AiForms.Renderers.iOS
         /// </summary>
         public virtual void UpdateCell()
         {
+            if (TitleLabel is null)
+                return; // For HotReload
+
             UpdateBackgroundColor();
             UpdateTitleText();
             UpdateTitleColor();
-            UpdateTitleFontSize();
+            UpdateTitleFont();
             UpdateDescriptionText();
             UpdateDescriptionColor();
-            UpdateDescriptionFontSize();
+            UpdateDescriptionFont();
             UpdateHintText();
             UpdateHintTextColor();
-            UpdateHintFontSize();
+            UpdateHintFont();
 
             UpdateIcon();
             UpdateIconRadius();
@@ -567,7 +650,7 @@ namespace AiForms.Renderers.iOS
             HintLabel.TranslatesAutoresizingMaskIntoConstraints = false;
             HintLabel.TopAnchor.ConstraintEqualTo(this.TopAnchor, 2).Active = true;
             HintLabel.LeftAnchor.ConstraintEqualTo(this.LeftAnchor, 16).Active = true;
-            HintLabel.RightAnchor.ConstraintEqualTo(this.RightAnchor, -10).Active = true;
+            HintLabel.RightAnchor.ConstraintEqualTo(ContentView.RightAnchor, -10).Active = true;
             HintLabel.BottomAnchor.ConstraintLessThanOrEqualTo(this.BottomAnchor, -12).Active = true;
 
             HintLabel.SizeToFit();

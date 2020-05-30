@@ -11,7 +11,7 @@
     <PackageReference Include="Prism.Unity.Forms" Version="7.0.0.396" />
     <PackageReference Include="ReactiveProperty" Version="4.2.2" />
 
-    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991477" />
+    <PackageReference Include="Xamarin.Forms" Version="4.6.0.800" />
     <PackageReference Include="AiForms.Effects" Version="1.5.5" />
   </ItemGroup>
   <ItemGroup>
@@ -19,6 +19,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SettingsView\SettingsView.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Resources\APJapanesefont.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\APJapanesefont.ttf" />
   </ItemGroup>
   <Import Project="..\packages\Xamarin.Android.Support.Animated.Vector.Drawable.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.Animated.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Animated.Vector.Drawable.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.Animated.Vector.Drawable.targets')" />
 </Project>
