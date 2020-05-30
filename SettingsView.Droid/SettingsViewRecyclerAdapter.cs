@@ -339,6 +339,7 @@ namespace AiForms.Renderers.Droid
 
             holder.TextView.Gravity = _settingsView.HeaderTextVerticalAlign.ToNativeVertical() | GravityFlags.Left;
             holder.TextView.TextAlignment = Android.Views.TextAlignment.Gravity;
+            holder.TextView.Typeface = FontUtility.CreateTypeface(_settingsView.HeaderFontFamily, _settingsView.HeaderFontAttributes);
             holder.TextView.SetTextSize(Android.Util.ComplexUnitType.Sp, (float)_settingsView.HeaderFontSize);
             holder.TextView.SetBackgroundColor(_settingsView.HeaderBackgroundColor.ToAndroid());
             holder.TextView.SetMaxLines(1);
@@ -380,6 +381,7 @@ namespace AiForms.Renderers.Droid
                 (int)view.Context.ToPixels(_settingsView.FooterPadding.Bottom)
             );
 
+            holder.TextView.Typeface = FontUtility.CreateTypeface(_settingsView.FooterFontFamily, _settingsView.FooterFontAttributes);
             holder.TextView.SetTextSize(Android.Util.ComplexUnitType.Sp, (float)_settingsView.FooterFontSize);
             holder.TextView.SetBackgroundColor(_settingsView.FooterBackgroundColor.ToAndroid());
             if (_settingsView.FooterTextColor != Xamarin.Forms.Color.Default)

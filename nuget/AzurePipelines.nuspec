@@ -15,12 +15,19 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
         </description>
         <summary></summary>
         <releaseNotes>
+## New Features
+
+* [TextPickerCell] IsCircularPicker property. #72
+* [EntryCell] PlaceholderColor property #94
+* Custom Font is now Supported. (required Xamarin.Forms 4.5.530 later) #30
+
 ## Changes
 
 * [Header/Footer] Section header/footer does not respect SafeAreaInsets #83
 
 ## Bug fixes
 
+* [TextPickerCell] The last item is selected by default #93
 * [HintText] HintText does not respect SafeAreaInsets. #90
 * [Header/Footer] Header / Footer is broken the layout #87 #88 #89
 * [SettingsView][Section] Crash when ItemsSource element is replaced.

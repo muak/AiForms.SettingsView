@@ -27,6 +27,7 @@
     <DeviceSpecificBuild>false</DeviceSpecificBuild>
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,6 +42,7 @@
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -98,6 +100,7 @@
     <Compile Include="FormsInternals.cs" />
     <Compile Include="Cells\CustomCellContent.cs" />
     <Compile Include="PaddingLabel.cs" />
+    <Compile Include="FontUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SettingsView\SettingsView.csproj">
