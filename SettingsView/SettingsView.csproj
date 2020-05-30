@@ -15,6 +15,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="4.6.0.800" />
+	<Reference Include="netstandard" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="project.json" />
