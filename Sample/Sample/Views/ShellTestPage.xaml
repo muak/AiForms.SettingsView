@@ -3,11 +3,14 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ai="clr-namespace:AiForms.Renderers;assembly=SettingsView"
-    x:Class="Sample.Views.ShellTestPage">
-    <ai:SettingsView BackgroundColor="White" >
+    x:Class="Sample.Views.ShellTestPage"
+    NavigationPage.BackButtonTitle=""
+    Title="ShellTest"
+    >
+    <ai:SettingsView BackgroundColor="AliceBlue" SeparatorColor="Brown" >
         <ai:Section Title="Section1" FooterText="Footer1"   >                
 
-            <ai:PickerCell ItemsSource="{Binding ItemsSource}" BackgroundColor="White"  />
+            <ai:PickerCell PageTitle="Hoge" ItemsSource="{Binding ItemsSource}" BackgroundColor="Beige" DisplayMember="Name" SubDisplayMember="Age" UsePickToClose="True" SelectionMode="Single" AccentColor="Red" TitleColor="Chocolate" DescriptionColor="BlueViolet" ValueTextColor="MediumSeaGreen"  />
         </ai:Section>
     </ai:SettingsView>
 </ContentPage>
