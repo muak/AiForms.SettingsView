@@ -5,15 +5,7 @@
     xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
     x:Class="Sample.Views.SurveyPage">
 
-
-    <sv:SettingsView  HeaderPadding="14" HeaderFontSize="30" HeaderTextVerticalAlign="End">
-        <!--<sv:SettingsView.ItemTemplate>
-            <DataTemplate>
-                <sv:Section>
-                    <sv:LabelCell Title="{Binding Name}" ValueText="{Binding Value}"/>
-                </sv:Section>
-            </DataTemplate>
-        </sv:SettingsView.ItemTemplate>-->
+    <sv:SettingsView  HeaderPadding="10" HeaderFontSize="16" HeaderTextVerticalAlign="Center">
         <sv:Section ItemsSource="{Binding ItemsSource}" Title="headerd fsdfjslkdfjlさkjdflさjflさkjfafsadfsadfjs;dlfjslakdfj;sadjf;lsadjfkasdfjeiofjaw" FooterText="footer">
             <sv:Section.ItemTemplate>
                 <DataTemplate>
