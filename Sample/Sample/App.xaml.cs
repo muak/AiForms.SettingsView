@@ -22,7 +22,7 @@ namespace Sample
 
             NavigationService.NavigateAsync("MyNavigationPage/MainPage");
             //MainPage = new AppShell();
-		}
+        }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {

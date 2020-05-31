@@ -7,6 +7,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 using Foundation;
 using CoreGraphics;
+using CoreFoundation;
 
 namespace AiForms.Renderers.iOS
 {
@@ -514,7 +515,16 @@ namespace AiForms.Renderers.iOS
             var scale = (float)UIScreen.MainScreen.Scale;
             Task.Run(async () =>
             {
-                image = await handler.LoadImageAsync(source, token, scale: scale);
+                if(source is FontImageSource)
+                {
+                    DispatchQueue.MainQueue.DispatchSync(async () => {
+                        image = await handler.LoadImageAsync(source, token, scale: scale);
+                    });
+                }
+                else
+                {
+                    image = await handler.LoadImageAsync(source, token, scale: scale);
+                }                
                 token.ThrowIfCancellationRequested();
             }, token).ContinueWith(t =>
             {

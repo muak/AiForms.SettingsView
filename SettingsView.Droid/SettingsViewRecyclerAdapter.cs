@@ -325,9 +325,16 @@ namespace AiForms.Renderers.Droid
             {
                 cellHeight = (int)_context.ToPixels(_settingsView.HeaderHeight);
             }
+            else
+            {
+                cellHeight = -1; // Height Auto
+            }
 
-            view.SetMinimumHeight(cellHeight);
-            view.LayoutParameters.Height = cellHeight;
+            if (cellHeight >= 0)
+            {
+                view.SetMinimumHeight(cellHeight);
+                view.LayoutParameters.Height = cellHeight;
+            }
 
             //textview setting
             holder.TextView.SetPadding(
@@ -342,9 +349,11 @@ namespace AiForms.Renderers.Droid
             holder.TextView.Typeface = FontUtility.CreateTypeface(_settingsView.HeaderFontFamily, _settingsView.HeaderFontAttributes);
             holder.TextView.SetTextSize(Android.Util.ComplexUnitType.Sp, (float)_settingsView.HeaderFontSize);
             holder.TextView.SetBackgroundColor(_settingsView.HeaderBackgroundColor.ToAndroid());
-            holder.TextView.SetMaxLines(1);
-            holder.TextView.SetMinLines(1);
-            holder.TextView.Ellipsize = TextUtils.TruncateAt.End;
+
+            // Single line was done away with.
+            //holder.TextView.SetMaxLines(1);
+            //holder.TextView.SetMinLines(1);
+            //holder.TextView.Ellipsize = TextUtils.TruncateAt.End;
 
             if (_settingsView.HeaderTextColor != Xamarin.Forms.Color.Default)
             {

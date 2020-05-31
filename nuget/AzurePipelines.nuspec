@@ -24,9 +24,14 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
 ## Changes
 
 * [Header/Footer] Section header/footer does not respect SafeAreaInsets #83
+* Support .NETStandard2.1
+* Minimum Xamarin.Forms version >= 4.6.0.800
+
 
 ## Bug fixes
 
+* [PickerCell] PickerCell is now supported on Shell. #67
+* FontImageSource is not displayed. #95
 * [TextPickerCell] The last item is selected by default #93
 * [HintText] HintText does not respect SafeAreaInsets. #90
 * [Header/Footer] Header / Footer is broken the layout #87 #88 #89
@@ -36,21 +41,29 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
         <tags>Xamarin.Forms TableView Cell Setting Configuration Option ListView UITableView RecyclerView ReOrder DragDrop</tags>
         <language>en-US</language>
         <dependencies>
+            <group targetFramework="netstandard2.1">
+                <dependency id="Xamarin.Forms" version="4.6.0.800" />
+            </group>
             <group targetFramework="netstandard2.0">
-                <dependency id="Xamarin.Forms" version="3.0.0.482510" />
+                <dependency id="Xamarin.Forms" version="4.6.0.800" />
             </group>
             <group targetFramework="portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10">
-                <dependency id="Xamarin.Forms" version="3.0.0.482510" />
+                <dependency id="Xamarin.Forms" version="4.6.0.800" />
             </group>
             <group targetFramework="MonoAndroid">
-                <dependency id="Xamarin.Forms" version="3.0.0.482510" />
+                <dependency id="Xamarin.Forms" version="4.6.0.800" />
             </group>
             <group targetFramework="MonoTouch">
-                <dependency id="Xamarin.Forms" version="3.0.0.482510" />
+                <dependency id="Xamarin.Forms" version="4.6.0.800" />
             </group>
         </dependencies>
     </metadata>
     <files>
+        <!-- .net standard 2.1 -->
+        <file src="SettingsView.dll" target="lib/netstandard2.1" />
+        <file src="SettingsView.xml" target="lib/netstandard2.1" />
+        <file src="SettingsView.pdb" target="lib/netstandard2.1" />
+
         <!-- .net standard 2.0 -->
         <file src="SettingsView.dll" target="lib/netstandard2.0" />
         <file src="SettingsView.xml" target="lib/netstandard2.0" />
