@@ -1,12 +1,12 @@
-﻿using AiForms.Renderers;
+﻿using System.Collections.Specialized;
+using System.Linq;
+using AiForms.Renderers;
 using AiForms.Renderers.iOS;
+using Foundation;
+using ObjCRuntime;
 using UIKit;
 using Xamarin.Forms;
-using System.Collections.Specialized;
-using System;
-using Foundation;
-using System.Linq;
-using System.ComponentModel;
+using Xamarin.Forms.Platform.iOS;
 
 [assembly: ExportRenderer(typeof(PickerCell), typeof(PickerCellRenderer))]
 namespace AiForms.Renderers.iOS
@@ -82,14 +82,57 @@ namespace AiForms.Renderers.iOS
                 return;
             }
 
-            var naviCtrl = GetUINavigationController(UIApplication.SharedApplication.KeyWindow.RootViewController);
             _pickerVC?.Dispose();
-            _pickerVC = new PickerTableViewController(this, tableView);
-            BeginInvokeOnMainThread(() => naviCtrl.PushViewController(_pickerVC, true));
+
+            var naviCtrl = GetUINavigationController(UIApplication.SharedApplication.KeyWindow.RootViewController);
+            if(naviCtrl is ShellSectionRenderer shell)
+            {
+                // When use Shell, the NativeView is wrapped in a Forms.ContentPage.
+                _pickerVC = new PickerTableViewController(this, tableView, shell.ShellSection.Navigation);
+                // Fix height broken. For some reason, TableView ContentSize is broken.
+                _pickerVC.TableView.ContentInset = new UIEdgeInsets(44, 0, 44, 0);
+                var page = new ContentPage();               
+                page.Content = _pickerVC.TableView.ToView(); ;
+                page.Title = _PickerCell.PageTitle;
+
+                // Fire manually because INavigation.PushAsync does not work ViewDidAppear and ViewWillAppear.
+                _pickerVC.ViewDidAppear(false);
+                _pickerVC.InitializeView();
+                BeginInvokeOnMainThread(async () => {
+                    await shell.ShellSection.Navigation.PushAsync(page, true);
+                    _pickerVC.InitializeScroll();
+                });
+            }
+            else
+            {
+                // When use traditional navigation.
+                _pickerVC = new PickerTableViewController(this, tableView);
+                BeginInvokeOnMainThread(() => naviCtrl.PushViewController(_pickerVC, true));
+            }
+
 
             if (!_PickerCell.KeepSelectedUntilBack) 
             {
                 tableView.DeselectRow(indexPath, true);
+            }
+        }
+
+        class NavDelegate : UINavigationControllerDelegate
+        {
+            readonly ShellSectionRenderer _self;
+
+            public NavDelegate(ShellSectionRenderer renderer)
+            {
+                _self = renderer;
+            }
+
+            public override void DidShowViewController(UINavigationController navigationController, [Transient] UIViewController viewController, bool animated)
+            {
+            }
+
+            public override void WillShowViewController(UINavigationController navigationController, [Transient] UIViewController viewController, bool animated)
+            {
+                navigationController.SetNavigationBarHidden(false, true);
             }
         }
 

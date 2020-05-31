@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Foundation;
 using UIKit;
+using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
 namespace AiForms.Renderers.iOS
@@ -24,25 +25,27 @@ namespace AiForms.Renderers.iOS
         nfloat _detailFontSize;
         UIColor _background;
         UITableView _tableView;
+        INavigation _shellNavigation;
 
-        internal PickerTableViewController(PickerCellView pickerCellView, UITableView tableView):base(UITableViewStyle.Grouped)
+        internal PickerTableViewController(PickerCellView pickerCellView, UITableView tableView,INavigation shellNavigation = null):base(UITableViewStyle.Grouped)
         {
             _pickerCell = pickerCellView.Cell as PickerCell;
             _pickerCellNative = pickerCellView;
             _parent = pickerCellView.CellParent;
             _source = _pickerCell.ItemsSource as IList;
             _tableView = tableView;
+            _shellNavigation = shellNavigation;
 
             if (_pickerCell.SelectedItems == null) {
                 _pickerCell.SelectedItems = new List<object>();
-            }
+            }            
 
             SetUpProperties();
         }
 
 
         void SetUpProperties()
-        {
+        {            
             if (_pickerCell.AccentColor != Xamarin.Forms.Color.Default) {
                 _accentColor = _pickerCell.AccentColor.ToUIColor();
             }
@@ -203,7 +206,14 @@ namespace AiForms.Renderers.iOS
         {
             if (_pickerCell.UsePickToClose && _selectedCache.Count == _pickerCell.MaxSelectedNumber)
             {
-                this.NavigationController.PopViewController(true);
+                if(_shellNavigation != null)
+                {
+                    _shellNavigation.PopAsync(true);
+                }
+                else
+                {
+                    this.NavigationController.PopViewController(true);
+                }                
             }
         }
 
@@ -215,35 +225,49 @@ namespace AiForms.Renderers.iOS
         {
             base.ViewWillAppear(animated);
 
+            InitializeView();
+            InitializeScroll();
+        }
+
+        public void InitializeView()
+        {
             Title = _pickerCell.PageTitle;
 
             var parent = _pickerCell.Parent as SettingsView;
-            if (parent != null) {
+            if (parent != null)
+            {
                 TableView.SeparatorColor = parent.SeparatorColor.ToUIColor();
                 TableView.BackgroundColor = parent.BackgroundColor.ToUIColor();
             }
+        }
 
+        public void InitializeScroll()
+        { 
             IList selectedList = _pickerCell.MergedSelectedList;
 
-            foreach (var item in selectedList) {
+            foreach (var item in selectedList)
+            {
                 var idx = _source.IndexOf(item);
-                if (idx < 0) {
+                if (idx < 0)
+                {
                     continue;
                 }
                 _selectedCache[idx] = _source[idx];
-                if (_pickerCell.MaxSelectedNumber >= 1 && _selectedCache.Count >= _pickerCell.MaxSelectedNumber) {
+                if (_pickerCell.MaxSelectedNumber >= 1 && _selectedCache.Count >= _pickerCell.MaxSelectedNumber)
+                {
                     break;
                 }
             }
 
-            if (selectedList.Count > 0) {
+            if (selectedList.Count > 0)
+            {
                 var idx = _source.IndexOf(selectedList[0]);
-                if(idx < 0){
+                if (idx < 0)
+                {
                     return;
                 }
 
-                BeginInvokeOnMainThread(() =>
-                {
+                BeginInvokeOnMainThread(() => {
                     TableView.ScrollToRow(NSIndexPath.Create(new nint[] { 0, idx }), UITableViewScrollPosition.Middle, false);
                 });
             }
@@ -272,11 +296,6 @@ namespace AiForms.Renderers.iOS
             }
 
             _pickerCell.InvokeCommand();
-        }
-
-        public override void ViewDidDisappear(bool animated)
-        {
-
         }
 
         /// <summary>

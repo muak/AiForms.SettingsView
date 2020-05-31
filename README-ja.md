@@ -657,8 +657,6 @@ ValueTextは使用できません。
 iOSではタップ時にページ遷移し遷移先ページでピッカーが表示されます。
 Androidではタップ時にダイアログでピッカーが表示されます。
 
-> PickerCellは、iOSのShell上では動作しません。
-
 ### Properties
 
 * PageTitle
