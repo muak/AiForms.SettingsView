@@ -61,7 +61,7 @@
     </ContentPage.Resources>
 	
 	<sv:SettingsView HasUnevenRows="true" HeaderHeight="36" HeaderPadding="14,0,0,6" HeaderTextVerticalAlign="End" FooterPadding="14,4,4,6"
-                  ShowArrowIndicatorForAndroid="True" CellTitleFontFamily="Anzu"
+                  ShowArrowIndicatorForAndroid="True" 
         >
      
 		<sv:Section FooterText="This is a footer. optionaly you can write here.">
@@ -72,7 +72,14 @@
 		</sv:Section>
 
         <sv:Section Title="LabelCell">
-            <sv:LabelCell Title="Storage" ValueText="3,065MB" TitleFontFamily="" />
+            <sv:LabelCell Title="Storage" ValueText="3,065MB">
+                <sv:LabelCell.IconSource>
+                    <FontImageSource Glyph="&#xe901;"
+                                     Color="Blue"
+                                     FontFamily="Moon"
+                                     Size="30" />
+                </sv:LabelCell.IconSource>
+            </sv:LabelCell>
         </sv:Section>
 
         <sv:Section Title="CheckableCell">
