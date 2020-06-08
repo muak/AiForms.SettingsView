@@ -84,6 +84,7 @@ namespace AiForms.Renderers.Droid
         {
             UpdateAccentColor();
             UpdateSelectedValue();
+            UpdateValueTextAlignment();
             base.UpdateCell();
         }
 
@@ -129,6 +130,10 @@ namespace AiForms.Renderers.Droid
             if (e.PropertyName == RadioCell.SelectedValueProperty.PropertyName) {
                 UpdateSelectedValue();
             }
+            else if ( e.PropertyName == CellBase.ValueTextAlignmentProperty.PropertyName )
+            {
+	            UpdateValueTextAlignment();
+            }
         }
 
         /// <summary>
@@ -157,6 +162,10 @@ namespace AiForms.Renderers.Droid
             _simpleCheck.Selected = result;
         }
 
+        void UpdateValueTextAlignment()
+        {
+	        _simpleCheck.TextAlignment = GetTextAlignment(CellBase.ValueTextAlignment);
+        }
         void UpdateAccentColor()
         {
             if (!_radioCell.AccentColor.IsDefault) {

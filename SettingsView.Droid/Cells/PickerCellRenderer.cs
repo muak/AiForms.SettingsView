@@ -90,6 +90,10 @@ namespace AiForms.Renderers.Droid
                 UpdateCollectionChanged();
                 UpdateSelectedItems(true);
             }
+            else if ( e.PropertyName == CellBase.ValueTextAlignmentProperty.PropertyName )
+            {
+	            UpdateValueTextAlignment();
+            }
         }
 
         /// <summary>
@@ -120,6 +124,7 @@ namespace AiForms.Renderers.Droid
         {
             base.UpdateCell();
             UpdateSelectedItems();
+            UpdateValueTextAlignment();
             UpdateCollectionChanged();
         }
 
@@ -179,7 +184,11 @@ namespace AiForms.Renderers.Droid
             }
             base.Dispose(disposing);
         }
-
+        
+		void UpdateValueTextAlignment()
+		{
+			vValueLabel.TextAlignment = GetTextAlignment(CellBase.ValueTextAlignment);
+		}
         void UpdateCollectionChanged()
         {
             if (_notifyCollection != null) {

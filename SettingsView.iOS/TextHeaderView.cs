@@ -38,6 +38,15 @@ namespace AiForms.Renderers.iOS
             this.BackgroundView = new UIView();
         }
 
+        public void UpdateTextAlignment(Section section)
+        {
+	        if ( section is null ) return;
+	        UpdateTextAlignment(section.TextAlignment);
+        }
+        public void UpdateTextAlignment(TextAlignment alignment)
+        {
+	        Label.TextAlignment = CellBaseView.GetTextAlignment(alignment);
+        }
 
         public void SetVerticalAlignment(LayoutAlignment align)
         {

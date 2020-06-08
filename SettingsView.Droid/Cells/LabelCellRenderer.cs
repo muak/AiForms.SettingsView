@@ -91,6 +91,10 @@ namespace AiForms.Renderers.Droid
             {
                 UpdateUseDescriptionAsValue();
             }
+            else if ( e.PropertyName == CellBase.ValueTextAlignmentProperty.PropertyName )
+            {
+	            UpdateValueTextAlignment();
+            }
         }
 
         /// <summary>
@@ -128,6 +132,7 @@ namespace AiForms.Renderers.Droid
             UpdateValueTextColor();
             UpdateValueTextFontSize();
             UpdateValueTextFont();
+            UpdateValueTextAlignment();
         }
 
         /// <summary>
@@ -166,6 +171,10 @@ namespace AiForms.Renderers.Droid
             vValueLabel.Text = _LabelCell.ValueText;
         }
 
+        void UpdateValueTextAlignment()
+        {
+	        ValueLabel.TextAlignment = GetTextAlignment(CellBase.ValueTextAlignment);
+        }
         void UpdateValueTextFontSize()
         {
             if (_LabelCell.ValueTextFontSize > 0) {

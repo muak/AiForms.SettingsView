@@ -171,6 +171,7 @@ namespace AiForms.Renderers.iOS
             }
 
             headerView.Label.Text = _settingsView.Model.GetSectionTitle((int)section);
+            headerView.UpdateTextAlignment(_settingsView.Model.GetSection((int) section));
             headerView.Label.TextColor = _settingsView.HeaderTextColor == Color.Default ?
                 UIColor.Gray : _settingsView.HeaderTextColor.ToUIColor();
             headerView.Label.Font = FontUtility.CreateNativeFont(_settingsView.HeaderFontFamily, (float)_settingsView.HeaderFontSize, _settingsView.HeaderFontAttributes);
@@ -246,6 +247,7 @@ namespace AiForms.Renderers.iOS
             }            
 
             footerView.Label.Text = text;
+            footerView.UpdateTextAlignment(_settingsView.Model.GetSection((int) section));
             footerView.Label.TextColor = _settingsView.FooterTextColor == Color.Default ?
                 UIColor.Gray : _settingsView.FooterTextColor.ToUIColor();
             footerView.Label.Font = FontUtility.CreateNativeFont(_settingsView.FooterFontFamily, (float)_settingsView.FooterFontSize, _settingsView.FooterFontAttributes);

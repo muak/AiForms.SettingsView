@@ -91,7 +91,9 @@ namespace AiForms.Renderers.Droid
 
         void UpdateTitleAlignment()
         {
+            //TitleLabel.Gravity = _ButtonCell.TitleAlignment.ToGravityFlags();
             TitleLabel.Gravity = _ButtonCell.TitleAlignment.ToGravityFlags();
+            TitleLabel.TextAlignment = GetTextAlignment(_ButtonCell.TitleAlignment);
         }
 
         void UpdateCommand()

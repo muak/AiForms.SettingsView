@@ -56,6 +56,7 @@ namespace AiForms.Renderers.iOS
             base.UpdateCell();
             UpdateMaximumDate();
             UpdateMinimumDate();
+            UpdateValueTextAlignment();
             UpdateDate();
         }
 
@@ -79,6 +80,10 @@ namespace AiForms.Renderers.iOS
             }
             else if (e.PropertyName == DatePickerCell.MinimumDateProperty.PropertyName) {
                 UpdateMinimumDate();
+            }
+            else if ( e.PropertyName == CellBase.ValueTextAlignmentProperty.PropertyName )
+            {
+	            UpdateValueTextAlignment();
             }
         }
 
@@ -120,6 +125,10 @@ namespace AiForms.Renderers.iOS
             DummyField.Frame = new CGRect(0, 0, Frame.Width, Frame.Height);
         }
 
+        void UpdateValueTextAlignment()
+        {
+	        ValueLabel.TextAlignment = GetTextAlignment(CellBase.ValueTextAlignment);
+        }
         void SetUpDatePicker()
         {
             _picker = new UIDatePicker { Mode = UIDatePickerMode.Date, TimeZone = new Foundation.NSTimeZone("UTC") };

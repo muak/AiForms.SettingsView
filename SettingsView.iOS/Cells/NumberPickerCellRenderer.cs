@@ -74,6 +74,10 @@ namespace AiForms.Renderers.iOS
             else if (e.PropertyName == NumberPickerCell.SelectedCommandProperty.PropertyName) {
                 UpdateCommand();
             }
+            else if ( e.PropertyName == CellBase.ValueTextAlignmentProperty.PropertyName )
+            {
+	            UpdateValueTextAlignment();
+            }
         }
 
         /// <summary>
@@ -100,6 +104,7 @@ namespace AiForms.Renderers.iOS
             UpdateNumber();
             UpdateTitle();
             UpdateCommand();
+            UpdateValueTextAlignment();
         }
 
         /// <summary>
@@ -126,6 +131,15 @@ namespace AiForms.Renderers.iOS
             base.Dispose(disposing);
         }
 
+        protected override void UpdateAllowMultiLine()
+        {
+	        base.UpdateAllowMultiLine();
+	        ValueLabel.Lines = CellBase.AllowMultiLine ? 1 : CellBase.MaxLines;
+        }
+        void UpdateValueTextAlignment()
+        {
+	        ValueLabel.TextAlignment = GetTextAlignment(CellBase.ValueTextAlignment);
+        }
         void SetUpPicker()
         {
             _picker = new UIPickerView();

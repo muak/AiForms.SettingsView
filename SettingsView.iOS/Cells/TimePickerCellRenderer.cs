@@ -57,6 +57,7 @@ namespace AiForms.Renderers.iOS
             base.UpdateCell();
             UpdatePickerTitle();
             UpdateTime();
+            UpdateValueTextAlignment();
         }
 
         /// <summary>
@@ -73,6 +74,10 @@ namespace AiForms.Renderers.iOS
             }
             else if (e.PropertyName == TimePickerCell.PickerTitleProperty.PropertyName) {
                 UpdatePickerTitle();
+            }
+            else if ( e.PropertyName == CellBase.ValueTextAlignmentProperty.PropertyName )
+            {
+	            UpdateValueTextAlignment();
             }
         }
 
@@ -147,6 +152,10 @@ namespace AiForms.Renderers.iOS
 
         }
 
+        void UpdateValueTextAlignment()
+        {
+	        ValueLabel.TextAlignment = GetTextAlignment(CellBase.ValueTextAlignment);
+        }
         void Canceled()
         {
             _picker.Date = _preSelectedDate;

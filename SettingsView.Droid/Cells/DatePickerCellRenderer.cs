@@ -41,6 +41,7 @@ namespace AiForms.Renderers.Droid
         {
             base.UpdateCell();
             UpdateDate();
+            UpdateValueTextAlignment();
         }
 
         /// <summary>
@@ -60,6 +61,10 @@ namespace AiForms.Renderers.Droid
             }
             else if (e.PropertyName == DatePickerCell.MinimumDateProperty.PropertyName) {
                 UpdateMinimumDate();
+            }
+            else if ( e.PropertyName == CellBase.ValueTextAlignmentProperty.PropertyName )
+            {
+	            UpdateValueTextAlignment();
             }
         }
 
@@ -133,6 +138,10 @@ namespace AiForms.Renderers.Droid
             vValueLabel.Text = _datePickerCell.Date.ToString(format);
         }
 
+        void UpdateValueTextAlignment()
+        {
+	        vValueLabel.TextAlignment = GetTextAlignment(CellBase.ValueTextAlignment);
+        }
         void UpdateMaximumDate()
         {
             if (_dialog != null) {

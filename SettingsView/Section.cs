@@ -356,6 +356,26 @@ namespace AiForms.Renderers
                 defaultBindingMode: BindingMode.OneWay
             );
 
+
+        public TextAlignment TextAlignment
+        {
+	        get { return (TextAlignment) GetValue(TextAlignmentProperty); }
+	        set { SetValue(TextAlignmentProperty, value); }
+        }
+
+        /// <summary>
+        /// The title Text Alignment property.
+        /// </summary>
+        public static BindableProperty TextAlignmentProperty =
+	        BindableProperty.Create(
+		        nameof(TextAlignment),
+		        typeof(TextAlignment),
+		        typeof(CellBase),
+		        TextAlignment.Center,
+		        defaultBindingMode: BindingMode.OneWay
+	        );
+
+
         public int TemplateStartIndex
         {
             get { return (int)GetValue(TemplateStartIndexProperty); }

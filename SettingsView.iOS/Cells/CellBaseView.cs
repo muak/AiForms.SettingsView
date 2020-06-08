@@ -149,6 +149,26 @@ namespace AiForms.Renderers.iOS
             {
                 UpdateIsEnabled();
             }
+            else if ( e.PropertyName == CellBase.AllowMultiLineProperty.PropertyName )
+            {
+	            UpdateAllowMultiLine();
+            }
+            else if ( e.PropertyName == CellBase.HintTextAlignmentProperty.PropertyName )
+            {
+	            UpdateHintTextAlignment();
+            }
+            else if ( e.PropertyName == CellBase.TitleTextAlignmentProperty.PropertyName )
+            {
+	            UpdateTitleTextAlignment();
+            }
+            else if ( e.PropertyName == CellBase.DescriptionTextAlignmentProperty.PropertyName )
+            {
+	            UpdateDescriptionTextAlignment();
+            }
+            else if ( e.PropertyName == CellBase.MaxLinesProperty.PropertyName )
+            {
+	            UpdateMaxLines();
+            }
         }
 
         /// <summary>
@@ -242,6 +262,43 @@ namespace AiForms.Renderers.iOS
             updateAction();
             SetNeedsLayout();
         }
+
+        protected virtual void UpdateAllowMultiLine()
+        {
+	        TitleLabel.Lines = CellBase.AllowMultiLine ? 1 : CellBase.MaxLines;
+	        HintLabel.Lines = CellBase.AllowMultiLine ? 1 : CellBase.MaxLines;
+	        DescriptionLabel.Lines = CellBase.AllowMultiLine ? 1 : CellBase.MaxLines;
+        }
+        protected virtual void UpdateMaxLines()
+        {
+	        TitleLabel.Lines = CellBase.MaxLines;
+	        HintLabel.Lines = CellBase.MaxLines;
+	        DescriptionLabel.Lines = CellBase.MaxLines;
+        }
+        void UpdateHintTextAlignment()
+        {
+	        HintLabel.TextAlignment = GetTextAlignment(CellBase.HintTextAlignment);
+        }
+        void UpdateTitleTextAlignment()
+        {
+	        TitleLabel.TextAlignment = GetTextAlignment(CellBase.TitleTextAlignment);
+        }
+
+        void UpdateDescriptionTextAlignment()
+        {
+	        DescriptionLabel.TextAlignment = GetTextAlignment(CellBase.DescriptionTextAlignment);
+        }
+        internal static UITextAlignment GetTextAlignment(Xamarin.Forms.TextAlignment alignment)
+        {
+			return alignment switch
+			{
+				TextAlignment.Start => UITextAlignment.Left,
+				TextAlignment.Center => UITextAlignment.Center,
+				TextAlignment.End => UITextAlignment.Right,
+				_ => throw new ArgumentOutOfRangeException(nameof(alignment), alignment, "alignment must be a member of the enum Xamarin.Forms.TextAlignment."),
+			};
+		}
+
 
         void UpdateSelectedColor()
         {

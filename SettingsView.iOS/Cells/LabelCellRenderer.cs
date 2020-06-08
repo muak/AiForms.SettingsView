@@ -65,6 +65,10 @@ namespace AiForms.Renderers.iOS
             {
                 UpdateValueTextColor();
             }
+            else if ( e.PropertyName == CellBase.ValueTextAlignmentProperty.PropertyName )
+            {
+	            UpdateValueTextAlignment();
+            }
         }
 
         /// <summary>
@@ -96,6 +100,7 @@ namespace AiForms.Renderers.iOS
             UpdateValueText();
             UpdateValueTextColor();
             UpdateValueTextFont();
+            UpdateValueTextAlignment();
             base.UpdateCell();
         }
 
@@ -122,6 +127,15 @@ namespace AiForms.Renderers.iOS
             ValueLabel.Text = _LabelCell.ValueText;
         }
 
+        protected override void UpdateAllowMultiLine()
+        {
+	        base.UpdateAllowMultiLine();
+	        ValueLabel.Lines = CellBase.AllowMultiLine ? 1 : CellBase.MaxLines;
+        }
+        void UpdateValueTextAlignment()
+        {
+	        ValueLabel.TextAlignment = GetTextAlignment(CellBase.ValueTextAlignment);
+        }
         void UpdateValueTextFont()
         {
             if (ValueLabel.Font is null)

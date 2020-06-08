@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Android.Content;
@@ -214,6 +215,30 @@ namespace AiForms.Renderers.Droid
             {
                 UpdateIsEnabled();
             }
+            else if ( e.PropertyName == CellBase.AllowMultiLineProperty.PropertyName )
+            {
+	            UpdateAllowMultiLine();
+            }
+            else if ( e.PropertyName == CellBase.HintTextAlignmentProperty.PropertyName )
+            {
+	            UpdateHintTextAlignment();
+            }
+            else if ( e.PropertyName == CellBase.TitleTextAlignmentProperty.PropertyName )
+            {
+	            UpdateTitleTextAlignment();
+            }
+            else if ( e.PropertyName == CellBase.DescriptionTextAlignmentProperty.PropertyName )
+            {
+	            UpdateDescriptionTextAlignment();
+            }
+            else if ( e.PropertyName == CellBase.MinLinesProperty.PropertyName )
+            {
+	            UpdateMinLines();
+            }
+            else if ( e.PropertyName == CellBase.MaxLinesProperty.PropertyName )
+            {
+	            UpdateMaxLines();
+            }
         }
 
         /// <summary>
@@ -351,7 +376,54 @@ namespace AiForms.Renderers.Droid
 
             UpdateIsEnabled();
 
+            UpdateHintTextAlignment();
+            UpdateTitleTextAlignment();
+            UpdateDescriptionTextAlignment();
+
             Invalidate();
+        }
+
+        protected virtual void UpdateAllowMultiLine()
+        {
+	        TitleLabel.SetSingleLine(CellBase.AllowMultiLine);
+	        HintLabel.SetSingleLine(CellBase.AllowMultiLine);
+	        DescriptionLabel.SetSingleLine(CellBase.AllowMultiLine);
+	        UpdateMaxLines();
+	        UpdateMinLines();
+        }
+        protected virtual void UpdateMaxLines()
+        {
+	        TitleLabel.SetMaxLines(CellBase.MaxLines);
+	        HintLabel.SetMaxLines(CellBase.MaxLines);
+	        DescriptionLabel.SetMaxLines(CellBase.MaxLines);
+        }
+        protected virtual void UpdateMinLines()
+        {
+	        TitleLabel.SetMinLines(CellBase.MinLines);
+	        HintLabel.SetMinLines(CellBase.MinLines);
+	        DescriptionLabel.SetMinLines(CellBase.MinLines);
+        }
+        void UpdateHintTextAlignment()
+        {
+	        HintLabel.TextAlignment = GetTextAlignment(CellBase.HintTextAlignment);
+        }
+        void UpdateTitleTextAlignment()
+        {
+	        TitleLabel.TextAlignment = GetTextAlignment(CellBase.TitleTextAlignment);
+        }
+        void UpdateDescriptionTextAlignment()
+        {
+	        DescriptionLabel.TextAlignment = GetTextAlignment(CellBase.DescriptionTextAlignment);
+        }
+        internal static Android.Views.TextAlignment GetTextAlignment(Xamarin.Forms.TextAlignment alignment)
+        {
+	        return alignment switch
+	        {
+		        Xamarin.Forms.TextAlignment.Start => Android.Views.TextAlignment.TextStart,
+		        Xamarin.Forms.TextAlignment.Center => Android.Views.TextAlignment.Center,
+		        Xamarin.Forms.TextAlignment.End => Android.Views.TextAlignment.TextEnd,
+		        _ => throw new ArgumentOutOfRangeException(nameof(alignment), alignment, "alignment must be a member of the enum Xamarin.Forms.TextAlignment."),
+	        };
         }
 
         void UpdateBackgroundColor()

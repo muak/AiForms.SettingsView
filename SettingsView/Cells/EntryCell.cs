@@ -301,6 +301,27 @@ namespace AiForms.Renderers
         }
 
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="T:AiForms.Renderers.EntryCell"/> is password.
+        /// </summary>
+        /// <value><c>true</c> if is password; otherwise, <c>false</c>.</value>
+        public bool SelectAllOnTap
+        {
+	        get { return (bool) GetValue(SelectAllOnTapProperty); }
+	        set { SetValue(SelectAllOnTapProperty, value); }
+        }
+
+        /// <summary>
+        /// The is password property.
+        /// </summary>
+        public static BindableProperty SelectAllOnTapProperty =
+	        BindableProperty.Create(
+		        nameof(SelectAllOnTap),
+		        typeof(bool),
+		        typeof(EntryCell),
+		        default(bool),
+		        defaultBindingMode: BindingMode.OneWay
+	        );
 
         internal event EventHandler Focused;
         /// <summary>

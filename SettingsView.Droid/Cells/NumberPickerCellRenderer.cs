@@ -66,6 +66,10 @@ namespace AiForms.Renderers.Droid
             else if (e.PropertyName == NumberPickerCell.SelectedCommandProperty.PropertyName) {
                 UpdateCommand();
             }
+            else if ( e.PropertyName == CellBase.ValueTextAlignmentProperty.PropertyName )
+            {
+	            UpdateValueTextAlignment();
+            }
         }
 
         /// <summary>
@@ -89,6 +93,7 @@ namespace AiForms.Renderers.Droid
             UpdatePickerTitle();
             UpdateNumber();
             UpdateCommand();
+            UpdateValueTextAlignment();
         }
 
         /// <summary>
@@ -119,6 +124,10 @@ namespace AiForms.Renderers.Droid
             _max = _NumberPikcerCell.Max;
         }
 
+        void UpdateValueTextAlignment()
+        {
+	        vValueLabel.TextAlignment = GetTextAlignment(CellBase.ValueTextAlignment);
+        }
         void UpdateNumber()
         {
             vValueLabel.Text = _NumberPikcerCell.Number.ToString();

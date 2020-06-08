@@ -60,6 +60,7 @@ namespace AiForms.Renderers.Droid
         {
             UpdateAccentColor();
             UpdateOn();
+            UpdateValueTextAlignment();
             base.UpdateCell();
         }
 
@@ -76,6 +77,10 @@ namespace AiForms.Renderers.Droid
             }
             if (e.PropertyName == SwitchCell.OnProperty.PropertyName) {
                 UpdateOn();
+            }
+            else if ( e.PropertyName == CellBase.ValueTextAlignmentProperty.PropertyName )
+            {
+	            UpdateValueTextAlignment();
             }
         }
 
@@ -153,6 +158,10 @@ namespace AiForms.Renderers.Droid
             _switch.Checked = _SwitchCell.On;
         }
 
+        void UpdateValueTextAlignment()
+        {
+	        _switch.TextAlignment = GetTextAlignment(CellBase.ValueTextAlignment);
+        }
         void UpdateAccentColor()
         {
             if (_SwitchCell.AccentColor != Xamarin.Forms.Color.Default) {

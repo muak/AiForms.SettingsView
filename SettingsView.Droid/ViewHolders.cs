@@ -42,6 +42,10 @@ namespace AiForms.Renderers.Droid
     {
         public TextView TextView { get; private set; }
 
+        public HeaderViewHolder(AView view, Android.Views.TextAlignment alignment) : this(view)
+        {
+	        TextView.TextAlignment = alignment;
+        }
         public HeaderViewHolder(AView view) : base(view)
         {
             TextView = view.FindViewById<TextView>(Resource.Id.HeaderCellText);
@@ -63,6 +67,10 @@ namespace AiForms.Renderers.Droid
     {
         public TextView TextView { get; private set; }
 
+        public FooterViewHolder(AView view, Android.Views.TextAlignment alignment) : this(view)
+        {
+	        TextView.TextAlignment = alignment;
+        }
         public FooterViewHolder(AView view) : base(view)
         {
             TextView = view.FindViewById<TextView>(Resource.Id.FooterCellText);

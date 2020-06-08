@@ -45,6 +45,7 @@ namespace AiForms.Renderers.Droid
             base.UpdateCell();
             UpdateTime();
             UpdatePickerTitle();
+            UpdateValueTextAlignment();
         }
 
         /// <summary>
@@ -61,6 +62,10 @@ namespace AiForms.Renderers.Droid
             }
             else if (e.PropertyName == TimePickerCell.PickerTitleProperty.PropertyName) {
                 UpdatePickerTitle();
+            }
+            else if ( e.PropertyName == CellBase.ValueTextAlignmentProperty.PropertyName )
+            {
+	            UpdateValueTextAlignment();
             }
         }
 
@@ -119,6 +124,10 @@ namespace AiForms.Renderers.Droid
 
         }
 
+        void UpdateValueTextAlignment()
+        {
+	        vValueLabel.TextAlignment = GetTextAlignment(CellBase.ValueTextAlignment);
+        }
         void UpdateTime()
         {
             vValueLabel.Text = DateTime.Today.Add(_TimePickerCell.Time).ToString(_TimePickerCell.Format);

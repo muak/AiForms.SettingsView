@@ -98,7 +98,8 @@ namespace AiForms.Renderers.iOS
 
         void UpdateTitleAlignment()
         {
-            TitleLabel.TextAlignment = _ButtonCell.TitleAlignment.ToUITextAlignment();
+            //TitleLabel.TextAlignment = _ButtonCell.TitleAlignment.ToUITextAlignment();
+            TitleLabel.TextAlignment = GetTextAlignment(_ButtonCell.TitleAlignment);
         }
 
         void UpdateCommand()

@@ -67,6 +67,10 @@ namespace AiForms.Renderers.iOS
                 UpdateCollectionChanged();
                 UpdateSelectedItems();
             }
+            else if ( e.PropertyName == CellBase.ValueTextAlignmentProperty.PropertyName )
+            {
+	            UpdateValueTextAlignment();
+            }
         }
 
         /// <summary>
@@ -143,6 +147,7 @@ namespace AiForms.Renderers.iOS
         {
             base.UpdateCell();
             UpdateSelectedItems();
+            UpdateValueTextAlignment();
             UpdateCollectionChanged();
         }
 
@@ -171,6 +176,15 @@ namespace AiForms.Renderers.iOS
             ValueLabel.Text = _PickerCell.GetSelectedItemsText();
         }
 
+        protected override void UpdateAllowMultiLine()
+        {
+	        base.UpdateAllowMultiLine();
+	        ValueLabel.Lines = CellBase.AllowMultiLine ? 1 : CellBase.MaxLines;
+        }
+        void UpdateValueTextAlignment()
+        {
+	        ValueLabel.TextAlignment = GetTextAlignment(CellBase.ValueTextAlignment);
+        }
         void UpdateCollectionChanged()
         {
             if(_notifyCollection != null){

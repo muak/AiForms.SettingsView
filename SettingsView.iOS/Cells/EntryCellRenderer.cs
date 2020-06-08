@@ -69,6 +69,7 @@ namespace AiForms.Renderers.iOS
             UpdateKeyboard();
             UpdateIsPassword();
             UpdateTextAlignment();
+            UpdateValueTextAlignment();
         }
 
         /// <summary>
@@ -109,6 +110,10 @@ namespace AiForms.Renderers.iOS
             else if (e.PropertyName == AiEntryCell.IsPasswordProperty.PropertyName)
             {
                 UpdateIsPassword();
+            }
+            else if ( e.PropertyName == CellBase.ValueTextAlignmentProperty.PropertyName )
+            {
+	            UpdateValueTextAlignment();
             }
         }
 
@@ -211,6 +216,11 @@ namespace AiForms.Renderers.iOS
             _FieldWrapper.Bounds = new CoreGraphics.CGRect(0, 0, _FieldWrapper.Bounds.Width, contentH);
         }
 
+        void UpdateValueTextAlignment()
+        {
+	        ValueField.TextAlignment = GetTextAlignment(_EntryCell.ValueTextAlignment);
+	        ValueField.SetNeedsLayout();
+        }
         void UpdateValueTextColor()
         {
             if (_EntryCell.ValueTextColor != Xamarin.Forms.Color.Default) {
@@ -261,6 +271,13 @@ namespace AiForms.Renderers.iOS
 
         void ValueField_EditingDidBegin(object sender, EventArgs e)
         {
+	        //if ( _EntryCell.SelectAllOnTap ) ValueField.PerformSelector(new Selector("SelectAll"), null, 0.0f);
+	        if ( _EntryCell.SelectAllOnTap )
+	        {
+		        if ( sender is NSObject obj ) ValueField.SelectAll(obj);
+		        else ValueField.SelectAll(null);
+	        }
+
             _hasFocus = true;
         }
 

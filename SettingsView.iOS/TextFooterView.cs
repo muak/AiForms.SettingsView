@@ -1,6 +1,7 @@
 ﻿using System;
 using UIKit;
 using System.Collections.Generic;
+using Xamarin.Forms;
 
 namespace AiForms.Renderers.iOS
 {
@@ -31,6 +32,15 @@ namespace AiForms.Renderers.iOS
             this.BackgroundView = new UIView();
         }
 
+        public void UpdateTextAlignment(Section section)
+        {
+	        if ( section is null ) return;
+	        UpdateTextAlignment(section.TextAlignment);
+        }
+        public void UpdateTextAlignment(TextAlignment alignment)
+        {
+	        Label.TextAlignment = CellBaseView.GetTextAlignment(alignment);
+        }
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);

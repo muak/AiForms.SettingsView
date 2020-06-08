@@ -86,6 +86,7 @@ namespace AiForms.Renderers.Droid
             UpdatePlaceholder();
             UpdateAccentColor();
             UpdateTextAlignment();
+            UpdateValueTextAlignment();
             UpdateIsPassword();
             base.UpdateCell();
         }
@@ -131,6 +132,10 @@ namespace AiForms.Renderers.Droid
             else if (e.PropertyName == AiEntryCell.TextAlignmentProperty.PropertyName)
             {
                 UpdateTextAlignment();
+            }
+            else if ( e.PropertyName == CellBase.ValueTextAlignmentProperty.PropertyName )
+            {
+	            UpdateValueTextAlignment();
             }
             else if (e.PropertyName == AiEntryCell.IsPasswordProperty.PropertyName)
             {
@@ -206,9 +211,15 @@ namespace AiForms.Renderers.Droid
         void EntryCellView_Click(object sender, EventArgs e)
         {
             _EditText.RequestFocus();
+            if ( _EntryCell.SelectAllOnTap ) _EditText.SelectAll();
             ShowKeyboard(_EditText);
         }
 
+        void UpdateValueTextAlignment()
+        {
+	        _EditText.Gravity = _EntryCell.ValueTextAlignment.ToGravityFlags();
+	        _EditText.TextAlignment = GetTextAlignment(CellBase.ValueTextAlignment);
+        }
         void UpdateValueText()
         {
             _EditText.RemoveTextChangedListener(this);

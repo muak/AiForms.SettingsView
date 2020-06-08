@@ -74,6 +74,10 @@ namespace AiForms.Renderers.iOS
             else if (e.PropertyName == TextPickerCell.ItemsProperty.PropertyName){
                 UpdateItems();
             }
+            else if ( e.PropertyName == CellBase.ValueTextAlignmentProperty.PropertyName )
+            {
+	            UpdateValueTextAlignment();
+            }
         }
 
         /// <summary>
@@ -96,6 +100,7 @@ namespace AiForms.Renderers.iOS
             UpdateItems();
             UpdateSelectedItem();
             UpdateTitle();
+            UpdateValueTextAlignment();
             UpdateCommand();
         }
 
@@ -159,6 +164,15 @@ namespace AiForms.Renderers.iOS
             _model.UpdatePickerFromModel += Model_UpdatePickerFromModel;
         }
 
+        protected override void UpdateAllowMultiLine()
+        {
+	        base.UpdateAllowMultiLine();
+	        ValueLabel.Lines = CellBase.AllowMultiLine ? 1 : CellBase.MaxLines;
+        }
+        void UpdateValueTextAlignment()
+        {
+	        ValueLabel.TextAlignment = GetTextAlignment(CellBase.ValueTextAlignment);
+        }
         void UpdateSelectedItem()
         {
             Select(_TextPickerCell.SelectedItem);

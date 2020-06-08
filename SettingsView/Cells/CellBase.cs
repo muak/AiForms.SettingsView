@@ -91,6 +91,28 @@ namespace AiForms.Renderers
             defaultBindingMode: BindingMode.OneWay
         );
 
+        /// <summary>
+        /// Gets or sets the title Text Alignment.
+        /// </summary>
+        /// <value>The title.</value>
+        public TextAlignment TitleTextAlignment
+        {
+	        get { return (TextAlignment) GetValue(TitleTextAlignmentProperty); }
+	        set { SetValue(TitleTextAlignmentProperty, value); }
+        }
+
+        /// <summary>
+        /// The title property.
+        /// </summary>
+        public static BindableProperty TitleTextAlignmentProperty =
+	        BindableProperty.Create(
+		        nameof(TitleTextAlignment),
+		        typeof(TextAlignment),
+		        typeof(CellBase),
+		        default(TextAlignment),
+		        defaultBindingMode: BindingMode.OneWay
+	        );
+
         public string TitleFontFamily {
             get { return (string)GetValue(TitleFontFamilyProperty); }
             set { SetValue(TitleFontFamilyProperty, value); }
@@ -129,6 +151,27 @@ namespace AiForms.Renderers
             get { return (string)GetValue(DescriptionProperty); }
             set { SetValue(DescriptionProperty, value); }
         }
+
+        /// <summary>
+        /// Gets or sets the Description Text Alignment.
+        /// </summary>
+        /// <value>The title.</value>
+        public TextAlignment DescriptionTextAlignment
+        {
+	        get { return (TextAlignment) GetValue(DescriptionTextAlignmentProperty); }
+	        set { SetValue(DescriptionTextAlignmentProperty, value); }
+        }
+        /// <summary>
+        /// The title property.
+        /// </summary>
+        public static BindableProperty DescriptionTextAlignmentProperty =
+	        BindableProperty.Create(
+		        nameof(DescriptionTextAlignment),
+		        typeof(TextAlignment),
+		        typeof(CellBase),
+		        default(TextAlignment),
+		        defaultBindingMode: BindingMode.OneWay
+	        );
 
         /// <summary>
         /// The description color property.
@@ -231,6 +274,28 @@ namespace AiForms.Renderers
                 default(Color),
                 defaultBindingMode: BindingMode.OneWay
             );
+
+        /// <summary>
+        /// Gets or sets the Hint Text Alignment.
+        /// </summary>
+        /// <value>The title.</value>
+        public TextAlignment HintTextAlignment
+        {
+	        get { return (TextAlignment) GetValue(HintTextAlignmentProperty); }
+	        set { SetValue(HintTextAlignmentProperty, value); }
+        }
+
+        /// <summary>
+        /// The title Text Alignment property.
+        /// </summary>
+        public static BindableProperty HintTextAlignmentProperty =
+	        BindableProperty.Create(
+		        nameof(HintTextAlignment),
+		        typeof(TextAlignment),
+		        typeof(CellBase),
+		        TextAlignment.End,
+		        defaultBindingMode: BindingMode.OneWay
+	        );
 
         /// <summary>
         /// Gets or sets the color of the hint text.
@@ -377,6 +442,87 @@ namespace AiForms.Renderers
             get { return (double)GetValue(IconRadiusProperty); }
             set { SetValue(IconRadiusProperty, value); }
         }
+
+
+        /// <summary>
+        /// Gets or sets the ValueText Text Alignment.
+        /// </summary>
+        /// <value>The title.</value>
+        public TextAlignment ValueTextAlignment
+        {
+	        get { return (TextAlignment) GetValue(ValueTextAlignmentProperty); }
+	        set { SetValue(ValueTextAlignmentProperty, value); }
+        }
+
+        /// <summary>
+        /// The ValueText Text Alignment property.
+        /// </summary>
+        public static BindableProperty ValueTextAlignmentProperty =
+	        BindableProperty.Create(
+		        nameof(ValueTextAlignment),
+		        typeof(TextAlignment),
+		        typeof(CellBase),
+		        default(TextAlignment),
+		        defaultBindingMode: BindingMode.OneWay
+	        );
+
+        public bool AllowMultiLine
+        {
+	        get { return (bool) GetValue(AllowMultiLineProperty); }
+	        set
+	        {
+		        SetValue(AllowMultiLineProperty, value);
+		        if ( value is false )
+		        {
+			        MaxLines = 1;
+			        MinLines = 1;
+		        }
+	        }
+        }
+
+        public static BindableProperty AllowMultiLineProperty =
+	        BindableProperty.Create(
+		        nameof(AllowMultiLine),
+		        typeof(bool),
+		        typeof(CellBase),
+		        default(bool),
+		        defaultBindingMode: BindingMode.OneWay
+	        );
+
+
+        public int MaxLines
+        {
+	        get { return (int) GetValue(MaxLinesProperty); }
+	        set { SetValue(MaxLinesProperty, value); }
+        }
+
+        public static BindableProperty MaxLinesProperty =
+	        BindableProperty.Create(
+		        nameof(MaxLines),
+		        typeof(int),
+		        typeof(CellBase),
+		        1,
+		        defaultBindingMode: BindingMode.OneWay
+	        );
+
+
+        /// <summary>
+        /// Android Only.
+        /// </summary>
+        public int MinLines
+        {
+	        get { return (int) GetValue(MinLinesProperty); }
+	        set { SetValue(MinLinesProperty, value); }
+        }
+
+        public static BindableProperty MinLinesProperty =
+	        BindableProperty.Create(
+		        nameof(MinLines),
+		        typeof(int),
+		        typeof(CellBase),
+		        1,
+		        defaultBindingMode: BindingMode.OneWay
+	        );
 
         /// <summary>
         /// Gets or sets the section.

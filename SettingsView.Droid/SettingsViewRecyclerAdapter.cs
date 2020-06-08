@@ -60,20 +60,26 @@ namespace AiForms.Renderers.Droid
 
         void OnSectionPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+	        if ( !( sender is Section section ) ) return;
+
             if (e.PropertyName == Section.IsVisibleProperty.PropertyName)
             {
-                UpdateSectionVisible((Section)sender);
+                UpdateSectionVisible(section);
             }
             else if (e.PropertyName == TableSectionBase.TitleProperty.PropertyName ||
                      e.PropertyName == Section.HeaderViewProperty.PropertyName ||
                      e.PropertyName == Section.HeaderHeightProperty.PropertyName)
             {
-                UpdateSectionHeader((Section)sender);
+                UpdateSectionHeader(section);
             }
             else if (e.PropertyName == Section.FooterTextProperty.PropertyName ||
                      e.PropertyName == Section.FooterViewProperty.PropertyName)
             {
-                UpdateSectionFooter((Section)sender);
+                UpdateSectionFooter(section);
+            }
+            else if ( e.PropertyName == Section.TextAlignmentProperty.PropertyName )
+            {
+	            UpdateSectionTextAlignment(section);
             }
         }
 
@@ -95,6 +101,25 @@ namespace AiForms.Renderers.Droid
             NotifyItemChanged(index);
         }
 
+        void UpdateSectionTextAlignment(Section section)
+        {
+	        int index = _proxy.FindLastIndex(x => x.Section == section);
+	        NotifyItemChanged(index);
+
+	        foreach ( ViewHolder element in _viewHolders )
+	        {
+		        switch ( element )
+		        {
+			        case HeaderViewHolder header:
+				        header.TextView.TextAlignment = CellBaseView.GetTextAlignment(section.TextAlignment);
+				        break;
+
+			        case FooterViewHolder footer:
+				        footer.TextView.TextAlignment = CellBaseView.GetTextAlignment(section.TextAlignment);
+				        break;
+		        }
+	        }
+        }
 
         /// <summary>
         /// Gets the item count.
@@ -361,6 +386,7 @@ namespace AiForms.Renderers.Droid
             }
 
             //update text
+            holder.TextView.TextAlignment = CellBaseView.GetTextAlignment(section.TextAlignment);
             holder.TextView.Text = section.Title;
         }
 
@@ -399,6 +425,7 @@ namespace AiForms.Renderers.Droid
             }
 
             //update text
+            holder.TextView.TextAlignment = CellBaseView.GetTextAlignment(section.TextAlignment);
             holder.TextView.Text = section.FooterText;
         }
 

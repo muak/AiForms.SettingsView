@@ -60,6 +60,10 @@ namespace AiForms.Renderers.Droid
             else if (e.PropertyName == TextPickerCell.SelectedCommandProperty.PropertyName) {
                 UpdateCommand();
             }
+            else if ( e.PropertyName == CellBase.ValueTextAlignmentProperty.PropertyName )
+            {
+	            UpdateValueTextAlignment();
+            }
         }
 
         /// <summary>
@@ -82,6 +86,7 @@ namespace AiForms.Renderers.Droid
             UpdatePickerTitle();
             UpdateSelectedItem();
             UpdateCommand();
+            UpdateValueTextAlignment();
         }
 
         /// <summary>
@@ -102,6 +107,10 @@ namespace AiForms.Renderers.Droid
             base.Dispose(disposing);
         }
 
+        void UpdateValueTextAlignment()
+        {
+	        _picker.TextAlignment = GetTextAlignment(CellBase.ValueTextAlignment);
+        }
         void UpdateSelectedItem()
         {
             vValueLabel.Text = _TextPickerCell.SelectedItem?.ToString();
