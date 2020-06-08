@@ -23,7 +23,7 @@ namespace AiForms.Renderers.Droid
     {
         Page _parentPage;
         SettingsViewRecyclerAdapter _adapter;
-        LinearLayoutManager _layoutManager;
+        SettingsViewLayoutManager _layoutManager;
         ItemTouchHelper _itemTouchhelper;
         SettingsViewSimpleCallback _simpleCallback;
         SVItemdecoration _itemDecoration;
@@ -48,7 +48,7 @@ namespace AiForms.Renderers.Droid
             if (e.NewElement != null) 
             {
                 var recyclerView = new RecyclerView(Context);
-                _layoutManager = new LinearLayoutManager(Context);
+                _layoutManager = new SettingsViewLayoutManager(Context,e.NewElement);
                 recyclerView.SetLayoutManager(_layoutManager);
 
                 _divider = Context.GetDrawable(Resource.Drawable.divider);
@@ -120,27 +120,7 @@ namespace AiForms.Renderers.Droid
         void ParentPageAppearing(object sender, EventArgs e)
         {
             Device.BeginInvokeOnMainThread(() => _adapter?.DeselectRow());
-        }
-
-        protected override void OnLayout(bool changed, int left, int top, int right, int bottom)
-        {
-            base.OnLayout(changed, left, top, right, bottom);
-
-            if (!changed) return;
-
-            var startPos = _layoutManager.FindFirstCompletelyVisibleItemPosition();
-            var endPos = _layoutManager.FindLastCompletelyVisibleItemPosition();
-
-            int totalH = 0;
-            for (var i = startPos; i <= endPos; i++) {
-                var child = _layoutManager.GetChildAt(i);
-
-                if (child == null) return;
-
-                totalH += _layoutManager.GetChildAt(i).Height;
-            }
-            Element.VisibleContentHeight = Context.FromPixels(Math.Min(totalH, Control.Height));
-        }
+        }        
 
         /// <summary>
         /// Ons the element property changed.

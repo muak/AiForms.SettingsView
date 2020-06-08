@@ -211,6 +211,7 @@
     <Compile Include="Cells\CustomCellRenderer.cs" />
     <Compile Include="HeaderFooterContainer.cs" />
     <Compile Include="FontUtility.cs" />
+    <Compile Include="SettingsViewLayoutManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

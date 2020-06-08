@@ -5,21 +5,26 @@
     xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
     x:Class="Sample.Views.SurveyPage">
 
-    <sv:SettingsView  HeaderPadding="10" HeaderFontSize="16" HeaderTextVerticalAlign="Center">
-        <sv:Section ItemsSource="{Binding ItemsSource}" Title="headerd fsdfjslkdfjlさkjdflさjflさkjfafsadfsadfjs;dlfjslakdfj;sadjf;lsadjfkasdfjeiofjaw" FooterText="footer">
-            <sv:Section.ItemTemplate>
-                <DataTemplate>
-                    <sv:LabelCell Title="{Binding Name}" ValueText="{Binding Value}" HintText="abcef"/>
-                </DataTemplate>
-            </sv:Section.ItemTemplate>
-        </sv:Section>
-        <sv:Section ItemsSource="{Binding ItemsSource}" Title="header" FooterText="footer sdfsf adsfasdf sdafsdjf asdfsda f asdfasdfsad asfasdf  sadfsad a sadfa asf asdfas xyz">
-            <sv:Section.ItemTemplate>
-                <DataTemplate>
-                    <sv:LabelCell Title="{Binding Name}" ValueText="{Binding Value}" HintText="xyz" />
-                </DataTemplate>
-            </sv:Section.ItemTemplate>
-        </sv:Section>
-    </sv:SettingsView>
+    <StackLayout BackgroundColor="PaleGreen">
+        <sv:SettingsView x:Name="settings"  HeaderPadding="10" HeaderFontSize="16" HeaderTextVerticalAlign="Center" VerticalOptions="Start" BackgroundColor="AliceBlue" >
+            <!--<sv:Section ItemsSource="{Binding ItemsSource}" Title="headerd fsdfjslkdfjlさkjdflさjflさkjfafsadfsadfjs;dlfjslakdfj;sadjf;lsadjfkasdfjeiofjaw" FooterText="footer">
+                <sv:Section.ItemTemplate>
+                    <DataTemplate>
+                        <sv:LabelCell Title="{Binding Name}" ValueText="{Binding Value}" HintText="abcef"/>
+                    </DataTemplate>
+                </sv:Section.ItemTemplate>
+            </sv:Section>-->
+            <sv:Section ItemsSource="{Binding ItemsSource}" Title="header" FooterText="footer sdfsf adsfasdf sdafsdjf asdfsda f asdfasdfsad asfasdf  sadfsad a sadfa asf asdfas xyz">
+                <sv:Section.ItemTemplate>
+                    <DataTemplate>
+                        <sv:LabelCell Title="{Binding Name}" ValueText="{Binding Value}" HintText="xyz" />
+                    </DataTemplate>
+                </sv:Section.ItemTemplate>
+            </sv:Section>
+        </sv:SettingsView>
 
+        <ContentView VerticalOptions="FillAndExpand" BackgroundColor="Blue">
+            <Label Text="hoge" />
+        </ContentView>
+    </StackLayout>
 </ContentPage>

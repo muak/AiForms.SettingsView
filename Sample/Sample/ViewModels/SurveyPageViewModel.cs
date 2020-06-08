@@ -12,7 +12,11 @@ namespace Sample.ViewModels
 
         public SurveyPageViewModel()
         {
-            
+            ItemsSource = new ObservableCollection<Hoge>(new List<Hoge> {
+                new Hoge{Name="A",Value=1},
+                new Hoge{Name="B",Value=2},
+                new Hoge{Name="C",Value=3}
+            });
         }        
 
         public void OnNavigatedFrom(NavigationParameters parameters)
@@ -22,13 +26,9 @@ namespace Sample.ViewModels
 
         public void OnNavigatedTo(NavigationParameters parameters)
         {
-            ItemsSource = new ObservableCollection<Hoge>(new List<Hoge> {
-                new Hoge{Name="A",Value=1},
-                new Hoge{Name="B",Value=2},
-                new Hoge{Name="C",Value=3}
-            });
+            
 
-            RaisePropertyChanged(nameof(ItemsSource));
+            //RaisePropertyChanged(nameof(ItemsSource));
         }
 
         public class Hoge
