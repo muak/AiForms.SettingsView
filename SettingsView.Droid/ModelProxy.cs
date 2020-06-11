@@ -159,10 +159,10 @@ namespace AiForms.Renderers.Droid
 
         void AddCell(object sender, NotifyCollectionChangedEventArgs e)
         {
-            var section = sender as Section;
-            var startIndex = RowIndexFromChildCollection(section, e.NewStartingIndex);
-            var newCells = e.NewItems.Cast<Cell>().ToList();
-            var typesIdx = ViewTypes.Values.Max() + 1;
+            if (!( sender is Section section)) return;
+            int startIndex = RowIndexFromChildCollection(section, e.NewStartingIndex);
+            List<Cell> newCells = e.NewItems.Cast<Cell>().ToList();
+            int typesIdx = ViewTypes.Values.Count + 1;
             for (var i = 0; i < newCells.Count; i++)
             {
                 var cell = newCells[i];

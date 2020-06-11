@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Jakar.SettingsView</PackageId>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/Jakar510/AiForms.SettingsView</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Jakar510/AiForms.SettingsView</PackageProjectUrl>
+    <Description>This is a flexible TableView specialized in settings for Android / iOS.
+Grid based Settings View.
+There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,CheckboxCell,RadioCell,PickerCell,EntryCell,NumberPickerCell,TimePickerCell,DatePickerCell,CustomCell)</Description>
+    <PackageTags>TableView Settings</PackageTags>
+    <Version>1.0.0-pre</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -12,6 +22,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <LangVersion>8.0</LangVersion>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="4.6.0.800" />
@@ -19,6 +30,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="project.json" />
+    <None Include="..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\nuget\AzurePipelines.nuspec">
