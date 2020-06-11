@@ -5,8 +5,11 @@
 **All Text Fields have a Text Allignment Binding**
 
   • Title
+  
   • Description
+  
   • Hint
+  
   • ValueText
 
 ValueText Text Allignment applies to all cells except SwitchCell and CheckBoxCell. 
