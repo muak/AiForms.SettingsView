@@ -10,22 +10,11 @@ namespace Sample.Views
         public SurveyPage()
         {
             InitializeComponent();
-
-            settings.PropertyChanged += Settings_PropertyChanged;
         }
 
-        private void Settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        void Button_Clicked(System.Object sender, System.EventArgs e)
         {
-            if(e.PropertyName == SettingsView.VisibleContentHeightProperty.PropertyName)
-            {
-                var height = settings.VisibleContentHeight;
-                settings.HeightRequest = height;
-            }
-        }
-
-        protected override void OnSizeAllocated(double width, double height)
-        {
-            base.OnSizeAllocated(width, height);
+            settings.Root[0].Add(new LabelCell { Title = "A" });
         }
     }
 }
