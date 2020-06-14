@@ -28,6 +28,7 @@ namespace AiForms.Renderers.iOS
         KeyboardInsetTracker _insetTracker;
         internal static float MinRowHeight = 48;
         UITableView _tableview;
+        IDisposable _contentSizeObserver;
 
         bool _disposed = false;
         float _topInset = 0f;
@@ -114,7 +115,15 @@ namespace AiForms.Renderers.iOS
                     offset.Y += point.Y;
                     Control.SetContentOffset(offset, true);
                 });
+
+                _contentSizeObserver = _tableview.AddObserver("contentSize", NSKeyValueObservingOptions.New, OnContentSizeChanged);
+                
             }
+        }
+
+        void OnContentSizeChanged(NSObservedChange change)
+        {
+            Element.VisibleContentHeight = Control.ContentSize.Height;
         }
 
         void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -305,12 +314,6 @@ namespace AiForms.Renderers.iOS
             return Control.GetSizeRequest(widthConstraint, heightConstraint, MinRowHeight, MinRowHeight);
         }
 
-        public override void LayoutSubviews()
-        {
-            base.LayoutSubviews();
-            Element.VisibleContentHeight = Math.Min(Control.ContentSize.Height, Control.Frame.Height);
-        }
-
         /// <summary>
         /// Updates the native widget.
         /// </summary>
@@ -421,6 +424,8 @@ namespace AiForms.Renderers.iOS
 
             if (disposing)
             {
+                _contentSizeObserver.Dispose();
+                _contentSizeObserver = null;
                 Element.CollectionChanged -= OnCollectionChanged;
                 Element.SectionCollectionChanged -= OnSectionCollectionChanged;
                 Element.SectionPropertyChanged -= OnSectionPropertyChanged;

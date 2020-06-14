@@ -123,11 +123,13 @@ namespace AiForms.Renderers.Droid
                 ViewType = section.HeaderView == null ? ViewType.TextHeader : ViewType.CustomHeader,
             });
 
-            var typesIdx = ViewTypes.Values.Max() + 1;
             for (var i = 0; i < section.Count; i++)
             {
                 var cell = section[i];
-                ViewTypes.TryAdd(cell.GetType(), typesIdx + i);
+                if(!ViewTypes.ContainsKey(cell.GetType()))
+                {
+                    ViewTypes.Add(cell.GetType(), GetNextTypeIndex());
+                }
 
                 var rowInfo = new RowInfo {
                     Section = section,
@@ -162,11 +164,13 @@ namespace AiForms.Renderers.Droid
             var section = sender as Section;
             var startIndex = RowIndexFromChildCollection(section, e.NewStartingIndex);
             var newCells = e.NewItems.Cast<Cell>().ToList();
-            var typesIdx = ViewTypes.Values.Max() + 1;
             for (var i = 0; i < newCells.Count; i++)
             {
                 var cell = newCells[i];
-                ViewTypes.TryAdd(cell.GetType(), typesIdx + i);
+                if(!ViewTypes.ContainsKey(cell.GetType()))
+                {
+                    ViewTypes.Add(cell.GetType(), GetNextTypeIndex());
+                }
 
                 var rowInfo = new RowInfo {
                     Section = section,
@@ -220,6 +224,11 @@ namespace AiForms.Renderers.Droid
             return match.HasValue ? match.Value : this.Count;
         }
 
+        int GetNextTypeIndex()
+        {
+            var idx = ViewTypes.Values.LastOrDefault();            
+            return idx == 0 ? Enum.GetNames(typeof(ViewType)).Length : idx + 1;
+        }
 
         public void FillProxy()
         {
