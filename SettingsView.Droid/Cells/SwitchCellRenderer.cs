@@ -1,6 +1,8 @@
-﻿using Android.Content;
+﻿using System;
+using Android.Content;
 using Android.Content.Res;
 using Android.Graphics.Drawables;
+using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
@@ -52,6 +54,8 @@ namespace AiForms.Renderers.Droid
             Focusable = false;
             DescendantFocusability = Android.Views.DescendantFocusability.AfterDescendants;
         }
+
+        public SwitchCellView(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) { }
 
         /// <summary>
         /// Updates the cell.

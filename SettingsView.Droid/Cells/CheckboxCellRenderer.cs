@@ -7,6 +7,7 @@ using Android.Views;
 using Xamarin.Forms.Platform.Android;
 using Android.Content.Res;
 using Android.Graphics.Drawables;
+using Android.Runtime;
 
 [assembly: ExportRenderer(typeof(AiForms.Renderers.CheckboxCell), typeof(AiForms.Renderers.Droid.CheckboxCellRenderer))]
 namespace AiForms.Renderers.Droid
@@ -54,6 +55,7 @@ namespace AiForms.Renderers.Droid
             DescendantFocusability = Android.Views.DescendantFocusability.AfterDescendants;
         }
 
+        public CheckboxCellView(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) { }
 
         /// <summary>
         /// Updates the cell.

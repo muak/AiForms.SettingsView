@@ -1,9 +1,11 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
+using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
@@ -96,6 +98,8 @@ namespace AiForms.Renderers.Droid
 
             CreateContentView();
         }
+
+        public CellBaseView(IntPtr javaReference,JniHandleOwnership transfer) : base(javaReference, transfer) { }
 
         protected virtual void CreateContentView()
         {

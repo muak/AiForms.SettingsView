@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using AiForms.Renderers.Droid.Extensions;
 using AiForms.Renderers;
 using AiForms.Renderers.Droid;
+using Android.Runtime;
 
 [assembly: ExportRenderer(typeof(ButtonCell), typeof(ButtonCellRenderer))]
 namespace AiForms.Renderers.Droid
@@ -34,6 +35,8 @@ namespace AiForms.Renderers.Droid
         {
             DescriptionLabel.Visibility = Android.Views.ViewStates.Gone;
         }
+
+        public ButtonCellView(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) { }
 
         /// <summary>
         /// Cells the property changed.

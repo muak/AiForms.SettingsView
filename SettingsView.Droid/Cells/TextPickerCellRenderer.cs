@@ -6,6 +6,7 @@ using AiForms.Renderers;
 using AiForms.Renderers.Droid;
 using Android.App;
 using Android.Content;
+using Android.Runtime;
 using Android.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
@@ -42,6 +43,8 @@ namespace AiForms.Renderers.Droid
         {
             _context = context;
         }
+
+        public TextPickerCellView(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) { }
 
         /// <summary>
         /// Cells the property changed.

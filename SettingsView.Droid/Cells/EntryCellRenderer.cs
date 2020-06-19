@@ -73,6 +73,8 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        public EntryCellView(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) { }
+
         /// <summary>
         /// Updates the cell.
         /// </summary>

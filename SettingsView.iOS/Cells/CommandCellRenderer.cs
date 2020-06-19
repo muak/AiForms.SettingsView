@@ -31,11 +31,14 @@ namespace AiForms.Renderers.iOS
         /// <param name="formsCell">Forms cell.</param>
         public CommandCellView(Cell formsCell) : base(formsCell)
         {
-            Accessory = UITableViewCellAccessory.DisclosureIndicator;
-            EditingAccessory = UITableViewCellAccessory.DisclosureIndicator;
-
             SelectionStyle = UITableViewCellSelectionStyle.Default;
-            SetRightMarginZero();
+
+            if(!_CommandCell.HideArrowIndicator)
+            {
+                Accessory = UITableViewCellAccessory.DisclosureIndicator;
+                EditingAccessory = UITableViewCellAccessory.DisclosureIndicator;
+                SetRightMarginZero();
+            }
         }
 
         /// <summary>

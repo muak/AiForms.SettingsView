@@ -491,6 +491,9 @@ Install-Package Xamain.Forms.Svg -pre
 * KeepSelectedUntilBack
 	* タップして次のページに遷移した時、遷移先ページから戻ってくるまで選択状態をそのままにしておくかの設定
 	* trueの場合は選択状態をキープして、falseの場合は選択はすぐに解除されます。
+* HideArrowIndicator
+  * 右端の矢印アイコンを非表示にします。
+  * 親のShowArrowIndicatorForAndroidがtrueの場合でもこちらのプロパティが優先されます。
 
 他はLabelCellと同じです。
 
@@ -767,6 +770,16 @@ Xamarin.Forms.EntryCellとは別物です。
 
 * https://github.com/muak/AiForms.SettingsView/tree/development/Sample/Sample/Views/Cells
 * https://github.com/muak/AiForms.SettingsView/blob/development/Sample/Sample/Views/CustomCellTest.xaml
+
+## Contribution
+
+We really appreciate your contribution.
+Please read the [contribution guideline](CONTRIBUTING.md).
+
+## CONTRIBUTION
+
+私たちは、Xamarin.Forms.GoogleMaps への、あなたの貢献に大変感謝します。
+開発に参加して頂ける方は、[コントリビューション ガイドライン](CONTRIBUTING-ja.md) を読んで下さい。
 
 ## Contributors
 

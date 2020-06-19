@@ -9,6 +9,7 @@ using AiForms.Renderers;
 using AiForms.Renderers.Droid;
 using Xamarin.Forms.Internals;
 using ARelativeLayout = Android.Widget.RelativeLayout;
+using Android.Runtime;
 
 [assembly: ExportRenderer(typeof(CustomCell), typeof(CustomCellRenderer))]
 namespace AiForms.Renderers.Droid
@@ -51,6 +52,8 @@ namespace AiForms.Renderers.Droid
                 AccessoryStack.AddView(_indicatorView, param);
             }
         }
+
+        public CustomCellView(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) { }
 
         protected override void CreateContentView()
         {
