@@ -773,11 +773,6 @@ Xamarin.Forms.EntryCellとは別物です。
 
 ## Contribution
 
-We really appreciate your contribution.
-Please read the [contribution guideline](CONTRIBUTING.md).
-
-## CONTRIBUTION
-
 私たちは、Xamarin.Forms.GoogleMaps への、あなたの貢献に大変感謝します。
 開発に参加して頂ける方は、[コントリビューション ガイドライン](CONTRIBUTING-ja.md) を読んで下さい。
 

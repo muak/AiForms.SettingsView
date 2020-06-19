@@ -760,6 +760,11 @@ It is envisaged that makes use of subclass of CustomCell.
 * https://github.com/muak/AiForms.SettingsView/tree/development/Sample/Sample/Views/Cells
 * https://github.com/muak/AiForms.SettingsView/blob/development/Sample/Sample/Views/CustomCellTest.xaml
 
+## Contribution
+
+We really appreciate your contribution.
+Please read the [contribution guideline](CONTRIBUTING.md).
+
 ## Contributors
 
 * [codegrue](https://github.com/codegrue)
