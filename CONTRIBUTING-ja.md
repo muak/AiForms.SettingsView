@@ -63,7 +63,7 @@ if (source == null)
 ## Submitting Changes
 
 * 自分の fork で、変更をトピック・ブランチに push してください。
-* XF.GoogleMaps のリポジトリに pull request を投稿してください。
+* AiForms.SettingsView のリポジトリに pull request を投稿してください。
 
 pull request は、以下のように作成してください。
 
