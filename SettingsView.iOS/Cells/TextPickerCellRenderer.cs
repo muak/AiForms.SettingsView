@@ -169,6 +169,10 @@ namespace AiForms.Renderers.iOS
         {
             var items = _TextPickerCell.Items ?? new List<object>();
             _model.SetItems(items);
+            // Force picker view to reload data from model after change
+            // Otherwise it might access the model based on old view data
+            // causing "Index was out of range" errors and the like.
+            _picker.ReloadAllComponents();
             Select(_TextPickerCell.SelectedItem);
         }
 

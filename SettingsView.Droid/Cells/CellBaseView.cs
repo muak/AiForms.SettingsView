@@ -102,7 +102,7 @@ namespace AiForms.Renderers.Droid
         public CellBaseView(IntPtr javaReference,JniHandleOwnership transfer) : base(javaReference, transfer) { }
 
         protected virtual void CreateContentView()
-        {            
+        {
             var layoutInflater = (LayoutInflater)_Context.GetSystemService(Context.LayoutInflaterService);
             var contentView = layoutInflater.Inflate(Resource.Layout.CellBaseView, this, true);
 
