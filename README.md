@@ -487,6 +487,9 @@ This is a Labelcell invoked an action.
 * CommandParameter
 * KeepSelectedUntilBack
     * When moving next page, whether keep the cell selected until being back to the page.
+* HideArrowIndicator
+  * Hide a right arrow icon on the right side.
+  * Even if ShowArrowIndicatorForAndroid is true, this property gives priority to.
 
 The others are the same as LabelText.
 
@@ -756,6 +759,11 @@ It is envisaged that makes use of subclass of CustomCell.
 
 * https://github.com/muak/AiForms.SettingsView/tree/development/Sample/Sample/Views/Cells
 * https://github.com/muak/AiForms.SettingsView/blob/development/Sample/Sample/Views/CustomCellTest.xaml
+
+## Contribution
+
+We really appreciate your contribution.
+Please read the [contribution guideline](CONTRIBUTING.md).
 
 ## Contributors
 

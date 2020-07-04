@@ -3,6 +3,7 @@ using AiForms.Renderers;
 using AiForms.Renderers.Droid;
 using Android.App;
 using Android.Content;
+using Android.Runtime;
 using Android.Text.Format;
 using Android.Widget;
 using Xamarin.Forms;
@@ -36,6 +37,8 @@ namespace AiForms.Renderers.Droid
         {
             _context = context;
         }
+
+        public TimePickerCellView(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) { }
 
         /// <summary>
         /// Updates the cell.

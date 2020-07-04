@@ -4,6 +4,7 @@ using AiForms.Renderers;
 using AiForms.Renderers.Droid;
 using Android.App;
 using Android.Content;
+using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Xamarin.Forms;
@@ -61,6 +62,8 @@ namespace AiForms.Renderers.Droid
                 AccessoryStack.AddView(_indicatorView, param);
             }
         }
+
+        public PickerCellView(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) { }
 
         /// <summary>
         /// Cells the property changed.
@@ -291,13 +294,13 @@ namespace AiForms.Renderers.Droid
         /// <param name="dialog">Dialog.</param>
         public void OnDismiss(IDialogInterface dialog)
         {
-            _dialog.SetOnShowListener(null);
-            _dialog.SetOnDismissListener(null);
-            _dialog.Dispose();
+            _dialog?.SetOnShowListener(null);
+            _dialog?.SetOnDismissListener(null);
+            _dialog?.Dispose();
             _dialog = null;
             _adapter?.Dispose();
             _adapter = null;
-            _listView.Dispose();
+            _listView?.Dispose();
             _listView = null;
             this.Selected = false;
         }

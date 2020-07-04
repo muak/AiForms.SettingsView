@@ -3,6 +3,7 @@ using AiForms.Renderers;
 using AiForms.Renderers.Droid;
 using Android.App;
 using Android.Content;
+using Android.Runtime;
 using Xamarin.Forms;
 
 [assembly: ExportRenderer(typeof(DatePickerCell), typeof(DatePickerCellRenderer))]
@@ -33,6 +34,8 @@ namespace AiForms.Renderers.Droid
         {
             _context = context;
         }
+
+        public DatePickerCellView(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) { }
 
         /// <summary>
         /// Updates the cell.

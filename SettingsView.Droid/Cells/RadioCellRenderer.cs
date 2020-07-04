@@ -3,6 +3,7 @@ using System.ComponentModel;
 using AiForms.Renderers;
 using AiForms.Renderers.Droid;
 using Android.Content;
+using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Xamarin.Forms.Platform.Android;
@@ -61,6 +62,8 @@ namespace AiForms.Renderers.Droid
                 AccessoryStack.AddView(_simpleCheck, lparam);
             }
         }
+
+        public RadioCellView(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) { }
 
         /// <summary>
         /// Dispose the specified disposing.

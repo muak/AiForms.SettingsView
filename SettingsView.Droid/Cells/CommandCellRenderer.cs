@@ -8,6 +8,7 @@ using Android.Widget;
 using Android.Views;
 using Android.Graphics;
 using Xamarin.Forms.Platform.Android;
+using Android.Runtime;
 
 [assembly: ExportRenderer(typeof(CommandCell), typeof(CommandCellRenderer))]
 namespace AiForms.Renderers.Droid
@@ -40,6 +41,10 @@ namespace AiForms.Renderers.Droid
             {
                 return;
             }
+            if(_CommandCell.HideArrowIndicator)
+            {
+                return;
+            }
             _indicatorView = new ImageView(context);
             _indicatorView.SetImageResource(Resource.Drawable.ic_navigate_next);
 
@@ -53,6 +58,8 @@ namespace AiForms.Renderers.Droid
                 AccessoryStack.AddView(_indicatorView, param);
             }
         }
+
+        public CommandCellView(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) { }
 
         /// <summary>
         /// Cells the property changed.

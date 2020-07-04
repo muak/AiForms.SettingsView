@@ -72,5 +72,19 @@ namespace AiForms.Renderers
             get { return (bool)GetValue(KeepSelectedUntilBackProperty); }
             set { SetValue(KeepSelectedUntilBackProperty, value); }
         }
+
+        public static BindableProperty HideArrowIndicatorProperty = BindableProperty.Create(
+            nameof(HideArrowIndicator),
+            typeof(bool),
+            typeof(CommandCell),
+            default(bool),
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public bool HideArrowIndicator
+        {
+            get { return (bool)GetValue(HideArrowIndicatorProperty); }
+            set { SetValue(HideArrowIndicatorProperty, value); }
+        }
     }
 }
