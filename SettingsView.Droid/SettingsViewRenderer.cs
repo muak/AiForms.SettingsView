@@ -1,15 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using AiForms.Renderers;
 using AiForms.Renderers.Droid;
 using Android.Content;
+using Android.Graphics.Drawables;
+using Android.Support.V7.Widget;
+using Android.Support.V7.Widget.Helper;
 using Android.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using Android.Support.V7.Widget;
-using Android.Support.V7.Widget.Helper;
-using Android.Graphics.Drawables;
-using System.Linq;
-using System.Collections.Generic;
 
 [assembly: ExportRenderer(typeof(SettingsView), typeof(SettingsViewRenderer))]
 namespace AiForms.Renderers.Droid
@@ -278,7 +278,7 @@ namespace AiForms.Renderers.Droid
     {
         SettingsView _settingsView;
         RowInfo _fromInfo;
-        RowInfo _toInfo;
+        Queue<(RowInfo from, RowInfo to)> _moveHistory = new Queue<(RowInfo from, RowInfo to)>();
 
         public SettingsViewSimpleCallback(SettingsView settingsView,int dragDirs,int swipeDirs):base(dragDirs,swipeDirs)
         {
@@ -287,9 +287,11 @@ namespace AiForms.Renderers.Droid
 
         public override bool OnMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target)
         {
+            System.Diagnostics.Debug.WriteLine("OnMove");
             if (!(viewHolder is ContentViewHolder fromContentHolder))
             {
-                return false;
+                System.Diagnostics.Debug.WriteLine("Cannot move no ContentHolder");
+                return false; 
             }
 
             var fromPos = viewHolder.AdapterPosition;
@@ -300,7 +302,7 @@ namespace AiForms.Renderers.Droid
                 // disallow a Footer when drag is from up to down.
                 if (target is IFooterViewHolder)
                 {
-                    _toInfo = null;
+                    System.Diagnostics.Debug.WriteLine("Up To Down disallow Footer");
                     return false;
                 }
             }
@@ -309,7 +311,7 @@ namespace AiForms.Renderers.Droid
                 // disallow a Header when drag is from down to up.
                 if (target is IHeaderViewHolder)
                 {
-                    _toInfo = null;
+                    System.Diagnostics.Debug.WriteLine("Down To Up disallow Header");
                     return false;
                 }
             }
@@ -318,64 +320,81 @@ namespace AiForms.Renderers.Droid
 
             var section = fromContentHolder.RowInfo.Section;
             if(section == null || !section.UseDragSort){
+                System.Diagnostics.Debug.WriteLine("From Section Not UseDragSort");
                 return false;
             }
 
             var toSection = toContentHolder.RowInfo.Section;
             if(toSection == null || !toSection.UseDragSort)
             {
+                System.Diagnostics.Debug.WriteLine("To Section Not UseDragSort");
                 return false;
             }
 
-            _toInfo = toContentHolder.RowInfo;
+            var toInfo = toContentHolder.RowInfo;
+            System.Diagnostics.Debug.WriteLine($"Set ToInfo Section:{_settingsView.Root.IndexOf(toInfo.Section)} Cell:{toInfo.Section.IndexOf(toInfo.Cell)}");
 
             var settingsAdapter = recyclerView.GetAdapter() as SettingsViewRecyclerAdapter;
-
+                        
             settingsAdapter.CellMoved(fromPos, toPos); //caches update
             settingsAdapter.NotifyItemMoved(fromPos, toPos); //rows update
 
+            // save moved changes 
+            _moveHistory.Enqueue((_fromInfo, toInfo));
+
+            System.Diagnostics.Debug.WriteLine($"Move Completed from:{fromPos} to:{toPos}");
+
             return true;
+        }        
+
+        void DataSourceMoved()
+        {
+            while(_moveHistory.Any())
+            {
+                var pos = _moveHistory.Dequeue();
+                DataSourceMoved(pos.from, pos.to);
+            }
+        }
+
+        void DataSourceMoved(RowInfo from,RowInfo to)
+        {
+            var fromPos = from.Section.IndexOf(from.Cell);
+            var toPos = to.Section.IndexOf(to.Cell);
+            if(toPos < 0)
+            {
+                // if Header, insert the first.s
+                toPos = 0;
+            }
+
+            if (from.Section.ItemsSource == null)
+            {
+                System.Diagnostics.Debug.WriteLine($"Update Sections from:{fromPos} to:{toPos}");
+                var cell = from.Section.DeleteCellWithoutNotify(fromPos);
+                to.Section.InsertCellWithoutNotify(cell, toPos);
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine($"UpdateSource from:{fromPos} to:{toPos}");
+                var deletedSet = from.Section.DeleteSourceItemWithoutNotify(fromPos);
+                to.Section.InsertSourceItemWithoutNotify(deletedSet.Cell, deletedSet.Item, toPos);
+            }
+
+            from.Section = to.Section;
         }
 
         public override void ClearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder)
         {
+            System.Diagnostics.Debug.WriteLine("On ClearView");
             base.ClearView(recyclerView, viewHolder);
 
-            var contentHolder = viewHolder as ContentViewHolder;
-            if (contentHolder == null)
-            {
-                return;
-            }
-            if(_toInfo == null)
-            {
-                return;
-            }
+            viewHolder.ItemView.Alpha = 1.0f;
+            viewHolder.ItemView.ScaleX = 1.0f;
+            viewHolder.ItemView.ScaleY = 1.0f;
 
-            var fromSection = _fromInfo.Section;
-            var fromPos = fromSection.IndexOf(_fromInfo.Cell);
+            // DataSource Update
+            DataSourceMoved();
 
-            var toSection = _toInfo.Section;
-            var toPos = toSection.IndexOf(_toInfo.Cell);
-            if(fromSection != toSection)
-            {
-                toPos++;
-            }
-
-            if (fromSection.ItemsSource == null) 
-            {
-                var cell = fromSection.DeleteCellWithoutNotify(fromPos);
-                toSection.InsertCellWithoutNotify(cell, toPos);
-            }
-            else
-            {
-                // must update DataSource at this timing.
-                var deletedSet = fromSection.DeleteSourceItemWithoutNotify(fromPos);
-                toSection.InsertSourceItemWithoutNotify(deletedSet.Cell, deletedSet.Item, toPos);
-            }
-
-            _fromInfo.Section = _toInfo.Section;
-
-            _toInfo = null;
+            _moveHistory.Clear();
             _fromInfo = null;
         }
 
@@ -393,8 +412,31 @@ namespace AiForms.Renderers.Droid
                 return 0;
             }
 
+            if(!contentHolder.RowInfo.Cell.IsEnabled)
+            {
+                return 0;
+            }
+
+            // save start info.
             _fromInfo = contentHolder.RowInfo;
+            System.Diagnostics.Debug.WriteLine($"DragDirs Section:{_settingsView.Root.IndexOf(_fromInfo.Section)} Cell:{_fromInfo.Section.IndexOf(_fromInfo.Cell)}");
             return base.GetDragDirs(recyclerView, viewHolder);
+        }
+
+        public override void OnSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState)
+        {
+            base.OnSelectedChanged(viewHolder, actionState);
+            if(viewHolder == null)
+            {
+                return;
+            }
+
+            if(actionState == ItemTouchHelper.ActionStateDrag)
+            {
+                viewHolder.ItemView.Alpha = 0.9f;
+                viewHolder.ItemView.ScaleX = 1.04f;
+                viewHolder.ItemView.ScaleY = 1.04f;
+            }            
         }
 
 
@@ -407,6 +449,8 @@ namespace AiForms.Renderers.Droid
         {
             if(disposing){
                 _settingsView = null;
+                _moveHistory.Clear();
+                _moveHistory = null;
             }
             base.Dispose(disposing);
         }

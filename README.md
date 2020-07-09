@@ -335,6 +335,8 @@ public class MenuSection:List<MenuItem>
   * Set a Forms View to Header or Footer.
   > Once these are set, Title or FooterText is disabled.
   > If HeaderView or FooterView is used, the cell height turns auto size.
+* FooterVisible
+  * Specify a FooterView visibility. Default true.
 
 ### Example for Section HeaderView FooterView with XAML
 

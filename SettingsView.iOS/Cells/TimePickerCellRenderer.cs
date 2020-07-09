@@ -52,9 +52,9 @@ namespace AiForms.Renderers.iOS
         /// <summary>
         /// Updates the cell.
         /// </summary>
-        public override void UpdateCell()
+        public override void UpdateCell(UITableView tableView)
         {
-            base.UpdateCell();
+            base.UpdateCell(tableView);
             UpdatePickerTitle();
             UpdateTime();
         }

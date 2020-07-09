@@ -325,6 +325,20 @@ namespace AiForms.Renderers
             set { SetValue(FooterViewProperty, value); }
         }
 
+        public static BindableProperty FooterVisibleProperty = BindableProperty.Create(
+            nameof(FooterVisible),
+            typeof(bool),
+            typeof(Section),
+            true,
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public bool FooterVisible
+        {
+            get { return (bool)GetValue(FooterVisibleProperty); }
+            set { SetValue(FooterVisibleProperty, value); }
+        }
+
         /// <summary>
         /// The use drag sort property.
         /// </summary>

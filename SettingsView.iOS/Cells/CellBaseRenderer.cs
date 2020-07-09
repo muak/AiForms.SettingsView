@@ -52,7 +52,7 @@ namespace AiForms.Renderers.iOS
 
             SetUpPropertyChanged(nativeCell);
 
-            nativeCell.UpdateCell();
+            nativeCell.UpdateCell(tv);
 
             return nativeCell;
         }

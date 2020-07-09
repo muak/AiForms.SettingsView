@@ -126,13 +126,6 @@ namespace AiForms.Renderers.iOS
 
             if(sec.HeaderView != null)
             {
-                if(sec.HeaderView.Height < 0)
-                {
-                    // stop the cell layout from being broken.
-                    var measure = sec.HeaderView.Measure(tableView.Bounds.Width, double.PositiveInfinity, MeasureFlags.IncludeMargins);
-                    return (System.nfloat)measure.Request.Height;
-                }
-
                 return UITableView.AutomaticDimension; // automatic height
             }
 
@@ -202,6 +195,11 @@ namespace AiForms.Renderers.iOS
                 return nfloat.Epsilon;
             }
 
+            if(!sec.FooterVisible)
+            {
+                return nfloat.Epsilon;
+            }
+
             if (sec.FooterView != null)
             {
                 return UITableView.AutomaticDimension; // automatic height
@@ -260,7 +258,7 @@ namespace AiForms.Renderers.iOS
         {
             var idString = isHeader ? SettingsViewRenderer.CustomHeaderId : SettingsViewRenderer.CustomFooterId;
             var nativeView = tableView.DequeueReusableHeaderFooterView(idString) as CustomHeaderFooterView;
-            nativeView.FormsCell = formsView;
+            nativeView.UpdateCell(formsView,tableView);
 
             return nativeView;
         }

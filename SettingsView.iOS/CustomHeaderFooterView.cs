@@ -1,11 +1,8 @@
 ﻿using System;
-using UIKit;
-using Xamarin.Forms.Platform.iOS;
-using Xamarin.Forms;
-using System.Reflection;
 using System.ComponentModel;
-using CoreGraphics;
-using System.Linq;
+using UIKit;
+using Xamarin.Forms;
+using Xamarin.Forms.Platform.iOS;
 
 namespace AiForms.Renderers.iOS
 {
@@ -27,17 +24,8 @@ namespace AiForms.Renderers.iOS
     {
         WeakReference<IVisualElementRenderer> _rendererRef;
         bool _disposed;
-
+        NSLayoutConstraint _heightConstraint;
         View _formsCell;
-        public View FormsCell
-        {
-            get { return _formsCell; }
-            set {
-                if (_formsCell == value)
-                    return;
-                UpdateCell(value);
-            }
-        }
 
         public CustomHeaderFooterView(IntPtr handle):base(handle)
         {
@@ -57,6 +45,8 @@ namespace AiForms.Renderers.iOS
                     _formsCell.PropertyChanged -= CellPropertyChanged;
                 }
 
+                _heightConstraint?.Dispose();
+                _heightConstraint = null;
 
                 IVisualElementRenderer renderer = null;
                 if (_rendererRef != null && _rendererRef.TryGetTarget(out renderer) && renderer.Element != null)
@@ -91,84 +81,88 @@ namespace AiForms.Renderers.iOS
 
         protected virtual void UpdateIsEnabled()
         {
-            UserInteractionEnabled = FormsCell.IsEnabled;
-        }
-
-        public override void LayoutSubviews()
+            UserInteractionEnabled = _formsCell.IsEnabled;
+        }       
+          
+        public virtual void UpdateCell(View cell,UITableView tableView)
         {
-            if (FormsCell == null)
+            if(_formsCell == cell)
             {
                 return;
             }
 
-            //This sets the content views frame.
-            base.LayoutSubviews();
-
-            var contentFrame = ContentView.Bounds;
-            var view = FormsCell;
-
-            Layout.LayoutChildIntoBoundingRegion(view, contentFrame.ToRectangle());
-
-            if (_rendererRef == null)
-                return;
-
-            IVisualElementRenderer renderer;
-            if (_rendererRef.TryGetTarget(out renderer))
-                renderer.NativeView.Frame = view.Bounds.ToRectangleF();
-                
-        }
-
-        public override CGSize SizeThatFits(CGSize size)
-        {
-            IVisualElementRenderer renderer;
-            if (!_rendererRef.TryGetTarget(out renderer))
-                return base.SizeThatFits(size);
-
-            if (renderer.Element == null)
-                return CGSize.Empty;
-
-            double width = size.Width;
-            var height = size.Height > 0 ? size.Height : double.PositiveInfinity;
-            var result = renderer.Element.Measure(width, height, MeasureFlags.IncludeMargins);
-
-            return new CGSize(size.Width, (float)result.Request.Height);
-        }
-
-        protected virtual void UpdateCell(View cell)
-        {
             if(_formsCell != null)
             {
                 _formsCell.PropertyChanged -= CellPropertyChanged;
             }
             _formsCell = cell;
-            _formsCell.PropertyChanged += CellPropertyChanged;           
-
-            if(ContentView.Subviews.Any())
+            _formsCell.PropertyChanged += CellPropertyChanged;
+                       
+            IVisualElementRenderer renderer;
+            if (_rendererRef == null || !_rendererRef.TryGetTarget(out renderer))
             {
-                ContentView.Subviews[0].RemoveFromSuperview();
-            }
-
-            var renderer = CreateOrGetRenderer();
-            renderer.NativeView.RemoveFromSuperview();
-            ContentView.AddSubview(renderer.NativeView);
-           
-
-            UpdateNativeCell();      
-        }
-
-        protected virtual IVisualElementRenderer CreateOrGetRenderer()
-        {
-            var newRenderer = Platform.GetRenderer(_formsCell) ?? Platform.CreateRenderer(_formsCell);
-            Platform.SetRenderer(_formsCell, newRenderer);
-
-            if(_rendererRef == null)
-            {
-                _rendererRef = new WeakReference<IVisualElementRenderer>(newRenderer);
+                renderer = GetNewRenderer();
             }
             else
             {
-                _rendererRef.SetTarget(newRenderer);
+                if (renderer.Element != null && renderer == Platform.GetRenderer(renderer.Element))
+                    renderer.Element.ClearValue(FormsInternals.RendererProperty);
+
+                var type = Xamarin.Forms.Internals.Registrar.Registered.GetHandlerTypeForObject(_formsCell);
+                var reflectableType = renderer as System.Reflection.IReflectableType;
+                var rendererType = reflectableType != null ? reflectableType.GetTypeInfo().AsType() : renderer.GetType();
+                if (rendererType == type || (renderer.GetType() == FormsInternals.DefaultRenderer) && type == null)
+                    renderer.SetElement(_formsCell);
+                else
+                {
+                    //when cells are getting reused the element could be already set to another cell
+                    //so we should dispose based on the renderer and not the renderer.Element
+                    FormsInternals.DisposeRendererAndChildren(renderer);
+                    renderer = GetNewRenderer();
+                }
             }
+
+            Platform.SetRenderer(_formsCell, renderer);
+
+            var height = double.PositiveInfinity;
+            var result = renderer.Element.Measure(tableView.Frame.Width, height, MeasureFlags.IncludeMargins);
+            var finalW = result.Request.Width;
+            if(_formsCell.HorizontalOptions.Alignment == LayoutAlignment.Fill)
+            {
+                finalW = tableView.Frame.Width;
+            }
+            var finalH = (float)result.Request.Height;           
+
+            UpdateNativeCell();
+
+            if (_heightConstraint != null)
+            {
+                _heightConstraint.Active = false;
+                _heightConstraint?.Dispose();
+            }
+
+            _heightConstraint = renderer.NativeView.HeightAnchor.ConstraintEqualTo(finalH);
+            _heightConstraint.Priority = 999f;
+            _heightConstraint.Active = true;           
+
+            Layout.LayoutChildIntoBoundingRegion(_formsCell, new Rectangle(0, 0, finalW, finalH));
+
+            renderer.NativeView.UpdateConstraintsIfNeeded();
+        }
+
+        protected virtual IVisualElementRenderer GetNewRenderer()
+        {
+            var newRenderer = Platform.CreateRenderer(_formsCell);
+            _rendererRef = new WeakReference<IVisualElementRenderer>(newRenderer);
+            AddSubview(newRenderer.NativeView);
+
+            var native = newRenderer.NativeView;
+            native.TranslatesAutoresizingMaskIntoConstraints = false;
+
+            native.TopAnchor.ConstraintEqualTo(TopAnchor).Active = true;
+            native.LeftAnchor.ConstraintEqualTo(LeftAnchor).Active = true;
+            native.BottomAnchor.ConstraintEqualTo(BottomAnchor).Active = true;
+            native.RightAnchor.ConstraintEqualTo(RightAnchor).Active = true;
 
             return newRenderer;
         }
