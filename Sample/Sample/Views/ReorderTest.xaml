@@ -23,8 +23,16 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <StackLayout Grid.Column="0" Spacing="1">
-            <Label TextColor="Blue" Text="Source" HorizontalTextAlignment="Center" />
+            <Label TextColor="Blue" Text="Source1" HorizontalTextAlignment="Center" />
             <StackLayout BindableLayout.ItemsSource="{Binding ItemsSource}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Label Text="{Binding}" />
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </StackLayout>
+            <Label TextColor="Blue" Text="Source2" HorizontalTextAlignment="Center" />
+            <StackLayout BindableLayout.ItemsSource="{Binding ItemsSource2}">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate>
                         <Label Text="{Binding}" />
@@ -34,7 +42,36 @@
         </StackLayout>
 
         <sv:SettingsView Grid.Column="1" Style="{StaticResource settingsView}" x:Name="settings">
+            <sv:Section Title="DisReordableSection">
+                <sv:LabelCell Title="Abc" />
+                <sv:LabelCell Title="Def" />
+                <sv:LabelCell Title="Def" />
+                <sv:LabelCell Title="Def" />
+                <sv:LabelCell Title="Def" />
+                <sv:LabelCell Title="Def" />
+                <sv:LabelCell Title="Def" />
+                <sv:LabelCell Title="Def" />
+                <sv:LabelCell Title="Def" />
+                <sv:LabelCell Title="Def" />
+                <sv:LabelCell Title="Def" />
+                <sv:LabelCell Title="Def" />
+                <sv:LabelCell Title="Def" />
+                <sv:LabelCell Title="Def" />
+                <sv:LabelCell Title="Def" />
+                <sv:LabelCell Title="Def" />
+                <sv:LabelCell Title="Def" />
+                <sv:LabelCell Title="Def" />
+            </sv:Section>
+
             <sv:Section UseDragSort="True" Title="ReordableSection" ItemsSource="{Binding ItemsSource}">
+                <sv:Section.ItemTemplate>
+                    <DataTemplate>
+                        <sv:LabelCell Title="{Binding}" />
+                    </DataTemplate>
+                </sv:Section.ItemTemplate>                
+            </sv:Section>
+
+             <sv:Section UseDragSort="True" Title="ReordableSection2" ItemsSource="{Binding ItemsSource2}">
                 <sv:Section.ItemTemplate>
                     <DataTemplate>
                         <sv:LabelCell Title="{Binding}" />

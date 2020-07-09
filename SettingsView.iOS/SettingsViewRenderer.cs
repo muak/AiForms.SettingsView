@@ -1,15 +1,14 @@
 ﻿using System;
+using System.Collections.Specialized;
+using System.Linq;
 using AiForms.Renderers;
 using AiForms.Renderers.iOS;
 using CoreGraphics;
+using Foundation;
+using MobileCoreServices;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
-using Foundation;
-using ObjCRuntime;
-using System.Linq;
-using MobileCoreServices;
-using System.Collections.Specialized;
 
 [assembly: ExportRenderer(typeof(SettingsView), typeof(SettingsViewRenderer))]
 namespace AiForms.Renderers.iOS
@@ -70,7 +69,6 @@ namespace AiForms.Renderers.iOS
 
                     _tableview.Source = new SettingsLagacyTableSource(Element);
                 }
-                
 
                 SetNativeControl(_tableview);
                 _tableview.ScrollEnabled = true;
@@ -151,6 +149,10 @@ namespace AiForms.Renderers.iOS
             {
                 UpdateSectionNoAnimation((Section)sender);
             }
+            else if(e.PropertyName == Section.FooterVisibleProperty.PropertyName)
+            {
+                UpdateSectionFade((Section)sender);
+            }
         }
 
         void UpdateSectionVisible(Section section)
@@ -166,6 +168,14 @@ namespace AiForms.Renderers.iOS
             var secIndex = Element.Model.GetSectionIndex(section);
             Control.BeginUpdates();
             Control.ReloadSections(NSIndexSet.FromIndex(secIndex), UITableViewRowAnimation.None);
+            Control.EndUpdates();
+        }
+
+        void UpdateSectionFade(Section section)
+        {
+            var secIndex = Element.Model.GetSectionIndex(section);
+            Control.BeginUpdates();
+            Control.ReloadSections(NSIndexSet.FromIndex(secIndex), UITableViewRowAnimation.Fade);
             Control.EndUpdates();
         }
 
@@ -476,6 +486,12 @@ namespace AiForms.Renderers.iOS
                 return new UIDragItem[]{};
             }
 
+            var cell = Element.Model.GetCell(indexPath.Section, indexPath.Row);
+            if(!cell.IsEnabled)
+            {
+                return new UIDragItem[] { };
+            }
+
             // set "sectionIndex,rowIndex" as string
             var data = NSData.FromString($"{indexPath.Section},{indexPath.Row}");
 
@@ -506,9 +522,6 @@ namespace AiForms.Renderers.iOS
                 var secIdx = path[0];
                 var rowIdx = path[1];
 
-                //if(secIdx != destinationIndexPath.Section){
-                //    return;
-                //}
 
                 var section = Element.Model.GetSection(secIdx);
                 var destSection = Element.Model.GetSection(destinationIndexPath.Section);
@@ -517,36 +530,47 @@ namespace AiForms.Renderers.iOS
                     return;
                 }
 
+                // save scroll position
+                var offset = Control.ContentOffset;
+                var fromCell = Control.CellAt(NSIndexPath.FromRowSection(rowIdx, secIdx));                
 
-                if(section.ItemsSource == null)
+                if (section.ItemsSource == null)
                 {
-                    //section.MoveCellWithoutNotify(rowIdx, destinationIndexPath.Row);
-
+                    // Don't use PerformBatchUpdates. Because can't cancel animations well.
                     Control.BeginUpdates();
+
                     var cell = section.DeleteCellWithoutNotify(rowIdx);
-                    Control.DeleteRows(GetPaths(secIdx, rowIdx, 1), UITableViewRowAnimation.Fade);
-                    Control.EndUpdates();
-
-                    Control.BeginUpdates();
-                    destSection.InsertCellWithoutNotify(cell, destinationIndexPath.Row);
+                    destSection.InsertCellWithoutNotify(cell, destinationIndexPath.Row);                        
+                    Control.DeleteRows(GetPaths(secIdx, rowIdx, 1), UITableViewRowAnimation.None);
                     Control.InsertRows(GetPaths(destinationIndexPath.Section, destinationIndexPath.Row, 1), UITableViewRowAnimation.None);
+
                     Control.EndUpdates();
                 }
                 else
-                {
-                    //section.MoveSourceItemWithoutNotify(rowIdx, destinationIndexPath.Row);
-
+                {                  
+                    // Don't use PerformBatchUpdates. Because can't cancel animations well.
                     Control.BeginUpdates();
+
                     var deletedSet = section.DeleteSourceItemWithoutNotify(rowIdx);
-                    Control.DeleteRows(GetPaths(secIdx, rowIdx,1), UITableViewRowAnimation.Fade); // Important! An afterimage is someitmes displayed when using NONE.
-                    Control.EndUpdates();
+                    destSection.InsertSourceItemWithoutNotify(deletedSet.Cell, deletedSet.Item, destinationIndexPath.Row);                    
+                    Control.DeleteRows(GetPaths(secIdx, rowIdx, 1), UITableViewRowAnimation.None);
+                    Control.InsertRows(GetPaths(destinationIndexPath.Section, destinationIndexPath.Row, 1), UITableViewRowAnimation.None);
 
-                    Control.BeginUpdates();
-                    destSection.InsertSourceItemWithoutNotify(deletedSet.Cell, deletedSet.Item, destinationIndexPath.Row);
-                    Control.InsertRows(GetPaths(destinationIndexPath.Section, destinationIndexPath.Row,1), UITableViewRowAnimation.None);
-                    Control.EndUpdates();
+                    Control.EndUpdates();                               
                 }
+
+                // Cancel animations and restore the scroll position.
+                var toCell = Control.CellAt(destinationIndexPath);
+                toCell?.Layer?.RemoveAllAnimations();
+                fromCell?.Layer?.RemoveAllAnimations();
+                Control.Layer.RemoveAllAnimations();
+                Control.SetContentOffset(offset, false);
+
+                // nothing occur, even if use the following code.
+                //coordinator.DropItemToRow(coordinator.Items.First().DragItem, destinationIndexPath);
             });
+
+            
 
         }
 
@@ -557,6 +581,21 @@ namespace AiForms.Renderers.iOS
         public bool CanHandleDropSession(UITableView tableView, IUIDropSession session)
         {
             return session.CanLoadObjects(typeof(NSString));
+        }
+
+        [Export("tableView:dropSessionDidEnter:")]
+        public void DropSessionDidEnter(UITableView tableView, IUIDropSession session)
+        {            
+        }
+
+        [Export("tableView:dropSessionDidEnd:")]
+        public void DropSessionDidEnd(UITableView tableView, IUIDropSession session)
+        {            
+        }
+
+        [Export("tableView:dropSessionDidExit:")]
+        public void DropSessionDidExit(UITableView tableView, IUIDropSession session)
+        {
         }
 
         /// <summary>

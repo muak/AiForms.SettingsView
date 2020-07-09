@@ -6,5 +6,5 @@
     x:Class="Sample.Views.Cells.SliderCell"
     IsSelectable="False" IsMeasureOnce="True" ShowArrowIndicator="False" x:Name="me">
     <Slider Minimum="{Binding Min,Source={x:Reference me}}" Maximum="{Binding Max,Source={x:Reference me}}" Value="{Binding Value,Source={x:Reference me}}"
-            ValueChanged="OnChanged" MinimumTrackColor="Red" MaximumTrackColor="Gray" />
+            ValueChanged="OnChanged" MinimumTrackColor="Red" MaximumTrackColor="Gray" HorizontalOptions="FillAndExpand" />
 </sv:CustomCell>

@@ -338,6 +338,8 @@ public class MenuSection:List<MenuItem>
   * Header または Footer に Forms の View を指定します。
   > こちらを設定すると Title や FooterText も文字列は無効になります。
   > HeaderView と FooterView を使用するとセルの高さは自動になります。
+* FooterVisible
+  * FooterViewの表示・非表示を指定します。default true。
 
 ### Section HeaderView FooterView XAMLからの使用例
 

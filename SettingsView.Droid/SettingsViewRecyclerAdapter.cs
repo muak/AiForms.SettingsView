@@ -4,7 +4,6 @@ using System.Linq;
 using AiForms.Renderers.Droid.Extensions;
 using Android.Content;
 using Android.Support.V7.Widget;
-using Android.Text;
 using Android.Views;
 using Android.Widget;
 using Xamarin.Forms;
@@ -71,7 +70,8 @@ namespace AiForms.Renderers.Droid
                 UpdateSectionHeader((Section)sender);
             }
             else if (e.PropertyName == Section.FooterTextProperty.PropertyName ||
-                     e.PropertyName == Section.FooterViewProperty.PropertyName)
+                     e.PropertyName == Section.FooterViewProperty.PropertyName ||
+                     e.PropertyName == Section.FooterVisibleProperty.PropertyName) 
             {
                 UpdateSectionFooter((Section)sender);
             }
@@ -176,7 +176,8 @@ namespace AiForms.Renderers.Droid
             var vHolder = holder as ViewHolder;
             vHolder.RowInfo = rowInfo;
             
-            if(!rowInfo.Section.IsVisible)
+            if(!rowInfo.Section.IsVisible ||
+               (rowInfo.ViewType == ViewType.CustomFooter && !rowInfo.Section.FooterVisible))
             {
                 vHolder.ItemView.Visibility = ViewStates.Gone;
                 vHolder.ItemView.SetMinimumHeight(0);
@@ -405,6 +406,7 @@ namespace AiForms.Renderers.Droid
         void BindCustomHeaderFooterView(ViewHolder holder, Xamarin.Forms.View formsView)
         {
             var nativeCell = holder.ItemView as HeaderFooterContainer;
+            nativeCell.ViewHolder = holder;
             nativeCell.FormsCell = formsView;
         }
 

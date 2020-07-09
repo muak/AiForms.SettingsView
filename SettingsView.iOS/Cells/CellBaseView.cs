@@ -561,7 +561,7 @@ namespace AiForms.Renderers.iOS
         /// <summary>
         /// Updates the cell.
         /// </summary>
-        public virtual void UpdateCell()
+        public virtual void UpdateCell(UITableView tableView = null)
         {
             if (TitleLabel is null)
                 return; // For HotReload

@@ -14,6 +14,9 @@ namespace AiForms.Renderers.Droid
     [Android.Runtime.Preserve(AllMembers = true)]
     internal class HeaderFooterContainer : FrameLayout, INativeElementView
     {
+        // Get internal members
+        static Type DefaultRenderer = typeof(Platform).Assembly.GetType("Xamarin.Forms.Platform.Android.Platform+DefaultRenderer");
+
         public ViewHolder ViewHolder { get; set; }
         public Element Element => FormsCell;
         public bool IsEmpty => _formsCell == null;
@@ -86,6 +89,11 @@ namespace AiForms.Renderers.Droid
                 SetMeasuredDimension(width, 0);
                 return;
             }
+            if(ViewHolder.RowInfo.ViewType == ViewType.CustomFooter && !ViewHolder.RowInfo.Section.FooterVisible)
+            {
+                SetMeasuredDimension(width, 0);
+                return;
+            }
 
             SizeRequest measure = _renderer.Element.Measure(Context.FromPixels(width), double.PositiveInfinity, MeasureFlags.IncludeMargins);
             int height = (int)Context.ToPixels(measure.Request.Height);
@@ -111,14 +119,6 @@ namespace AiForms.Renderers.Droid
             Enabled = _formsCell.IsEnabled;
         }
 
-        protected virtual IVisualElementRenderer CreateOrGetRenderer(Xamarin.Forms.View cell)
-        {
-            var renderer = Platform.GetRenderer(cell) ?? Platform.CreateRendererWithContext(cell, Context);
-            Platform.SetRenderer(cell, renderer);
-
-            return renderer;
-        }
-
         public void UpdateCell(Xamarin.Forms.View cell)
         {
             if (_formsCell != null)
@@ -128,25 +128,64 @@ namespace AiForms.Renderers.Droid
 
             cell.PropertyChanged += CellPropertyChanged;
 
-            if(_renderer != null)
+            if (_renderer == null)
             {
-                RemoveView(_renderer.View);
+                CreateNewRenderer(cell);
+                return;
             }
 
-            _renderer = CreateOrGetRenderer(cell);
-            _formsCell = cell;
+            var renderer = GetChildAt(0) as IVisualElementRenderer;
+            var viewHandlerType = Registrar.Registered.GetHandlerTypeForObject(_formsCell) ?? DefaultRenderer;
+            var reflectableType = renderer as System.Reflection.IReflectableType;
+            var rendererType = reflectableType != null ? reflectableType.GetTypeInfo().AsType() : (renderer != null ? renderer.GetType() : typeof(System.Object));
+            if (renderer != null && rendererType == viewHandlerType)
+            {
+                _formsCell = cell;
+                _formsCell.DisableLayout = true;
+                foreach (VisualElement c in _formsCell.Descendants())
+                    c.DisableLayout = true;
 
-            _renderer.View.RemoveFromParent();
+                renderer.SetElement(_formsCell);
+
+                Platform.SetRenderer(_formsCell, _renderer);
+
+                _formsCell.DisableLayout = false;
+                foreach (VisualElement c in _formsCell.Descendants())
+                    c.DisableLayout = false;
+
+                var viewAsLayout = _formsCell as Layout;
+                if (viewAsLayout != null)
+                    viewAsLayout.ForceLayout();
+
+                UpdateNativeCell();
+                Invalidate();
+
+                return;
+            }
+
+            RemoveView(_renderer.View);
+            Platform.SetRenderer(_formsCell, null);
+            _formsCell.IsPlatformEnabled = false;
+            _renderer.View.Dispose();
+
+            _formsCell = cell;
+            _renderer = Platform.CreateRendererWithContext(_formsCell, Context);
+
+            Platform.SetRenderer(_formsCell, _renderer);
             AddView(_renderer.View);
 
-            if (_formsCell is Layout viewAsLayout)
-            {
-                viewAsLayout.ForceLayout();
-            }
-
             UpdateNativeCell();
-            Invalidate();
+        }
 
+        protected virtual void CreateNewRenderer(Xamarin.Forms.View cell)
+        {
+            _formsCell = cell;
+            _renderer = Platform.CreateRendererWithContext(_formsCell, Context);
+            AddView(_renderer.View);
+            Platform.SetRenderer(_formsCell, _renderer);
+
+            _formsCell.IsPlatformEnabled = true;
+            UpdateNativeCell();
         }
     }
 }

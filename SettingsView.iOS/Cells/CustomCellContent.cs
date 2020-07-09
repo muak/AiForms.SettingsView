@@ -14,17 +14,10 @@ namespace AiForms.Renderers.iOS
         bool _disposed;
         NSLayoutConstraint _heightConstraint;
         View _formsCell;
-        public View FormsCell {
-            get { return _formsCell; }
-            set {
-                if (_formsCell == value)
-                    return;
-                UpdateCell(value);
-            }
-        }
         public CustomCell CustomCell { get; set; }
-        double _lastWidth = -9999d;
-        double _lastHeight = -9999d;
+        double _lastFrameWidth = -9999d;
+        double _lastMeasureWidth = -9999d;
+        double _lastMeasureHeight = -9999d;
 
         public CustomCellContent() { }
 
@@ -79,71 +72,15 @@ namespace AiForms.Renderers.iOS
 
         protected virtual void UpdateIsEnabled()
         {
-            UserInteractionEnabled = FormsCell.IsEnabled;
-        }
+            UserInteractionEnabled = _formsCell.IsEnabled;
+        }        
 
-        public override void LayoutSubviews()
+        public virtual void UpdateCell(View cell,UITableView tableView)
         {
-            if (FormsCell == null)
+            if(_formsCell == cell)
             {
                 return;
             }
-
-            //This sets the content views frame.
-            base.LayoutSubviews();
-
-            if(CustomCell.IsMeasureOnce && Frame.Width <= _lastWidth && Frame.Height <= _lastHeight)
-            {
-                Layout.LayoutChildIntoBoundingRegion(FormsCell,
-                new Rectangle(0, 0, _lastWidth, _lastHeight));
-                return;
-            }
-
-            SizeToFit();
-
-            Layout.LayoutChildIntoBoundingRegion(FormsCell, 
-                new Rectangle(0,0,Frame.Width,Frame.Height));
-
-            if (_rendererRef == null)
-                return;
-
-            IVisualElementRenderer renderer;
-            if (_rendererRef.TryGetTarget(out renderer))
-                renderer.NativeView.Frame = FormsCell.Bounds.ToRectangleF();
-
-            if (_heightConstraint != null)
-            {
-                _heightConstraint.Active = false;
-                _heightConstraint?.Dispose();
-            }
-
-            _heightConstraint = HeightAnchor.ConstraintEqualTo(Frame.Height);
-            _heightConstraint.Priority = 999f;
-            _heightConstraint.Active = true;
-
-            _lastWidth = Frame.Width;
-            _lastHeight = Frame.Height;
-        }
-
-
-        public override CGSize SizeThatFits(CGSize size)
-        {
-            IVisualElementRenderer renderer;
-            if (!_rendererRef.TryGetTarget(out renderer))
-                return base.SizeThatFits(size);
-
-            if (renderer.Element == null)
-                return CGSize.Empty;
-
-            double width = size.Width;
-            var height = size.Height > 0 ? size.Height : double.PositiveInfinity;
-            var result = renderer.Element.Measure(width, height, MeasureFlags.IncludeMargins);
-
-            return new CGSize(size.Width, (float)result.Request.Height);
-        }
-
-        protected virtual void UpdateCell(View cell)
-        {
             if (_formsCell != null)
             {
                 _formsCell.PropertyChanged -= CellPropertyChanged;
@@ -176,15 +113,51 @@ namespace AiForms.Renderers.iOS
             }
 
             Platform.SetRenderer(this._formsCell, renderer);
+
+            if (!CustomCell.IsMeasureOnce || tableView.Frame.Width != _lastFrameWidth)
+            {
+                _lastFrameWidth = tableView.Frame.Width;
+                var height = double.PositiveInfinity;
+                var result = renderer.Element.Measure(tableView.Frame.Width, height, MeasureFlags.IncludeMargins);
+                _lastMeasureWidth = result.Request.Width;
+                if (_formsCell.HorizontalOptions.Alignment == LayoutAlignment.Fill)
+                {
+                    _lastMeasureWidth = tableView.Frame.Width;
+                }
+                _lastMeasureHeight = result.Request.Height;
+
+                if (_heightConstraint != null)
+                {
+                    _heightConstraint.Active = false;
+                    _heightConstraint?.Dispose();
+                }
+
+                _heightConstraint = renderer.NativeView.HeightAnchor.ConstraintEqualTo((nfloat)_lastMeasureHeight);
+                _heightConstraint.Priority = 999f;
+                _heightConstraint.Active = true;
+
+                renderer.NativeView.UpdateConstraintsIfNeeded();
+            }            
+
+            Layout.LayoutChildIntoBoundingRegion(_formsCell, new Rectangle(0, 0, _lastMeasureWidth,_lastMeasureHeight));                       
+
             UpdateNativeCell();
-            SetNeedsLayout();
         }
+
 
         protected virtual IVisualElementRenderer GetNewRenderer()
         {
             var newRenderer = Platform.CreateRenderer(_formsCell);
             _rendererRef = new WeakReference<IVisualElementRenderer>(newRenderer);
             AddSubview(newRenderer.NativeView);
+
+            var native = newRenderer.NativeView;
+            native.TranslatesAutoresizingMaskIntoConstraints = false;
+
+            native.TopAnchor.ConstraintEqualTo(TopAnchor).Active = true;
+            native.LeftAnchor.ConstraintEqualTo(LeftAnchor).Active = true;
+            native.BottomAnchor.ConstraintEqualTo(BottomAnchor).Active = true;
+            native.RightAnchor.ConstraintEqualTo(RightAnchor).Active = true;
 
             return newRenderer;
         }

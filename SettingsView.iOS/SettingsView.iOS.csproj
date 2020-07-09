@@ -10,7 +10,6 @@
     <RootNamespace>AiForms.Renderers.iOS</RootNamespace>
     <AssemblyName>SettingsView.iOS</AssemblyName>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <ReleaseVersion>1.1.2</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -105,7 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SettingsView\SettingsView.csproj">
-      <Project>{645D54B1-8CF5-4294-AFD5-BD2462C1B534}</Project>
+      <Project>{4BEF9F55-2A2B-4708-AA6C-1E69EDA5B88A}</Project>
       <Name>SettingsView</Name>
     </ProjectReference>
   </ItemGroup>

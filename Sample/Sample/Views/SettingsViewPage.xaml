@@ -65,6 +65,14 @@
         >
      
 		<sv:Section FooterText="This is a footer. optionaly you can write here.">
+            <sv:Section.HeaderView>
+                <StackLayout>
+                    <Label Text="abc" />
+                    <BoxView Color="Green" HeightRequest="20" />
+                    <Slider />
+                    <Switch />
+                </StackLayout>
+            </sv:Section.HeaderView>
             <sv:CommandCell IconSource="icon.png" IconSize="60,60" IconRadius="30" Title="Xam Xamarin" Height="80"
                 Description="hoge@fuga.com" Command="{Binding ToProfileCommand}" KeepSelectedUntilBack="true"
                 IgnoreUseDescriptionAsValue="true" 

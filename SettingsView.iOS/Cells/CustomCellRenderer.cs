@@ -68,13 +68,13 @@ namespace AiForms.Renderers.iOS
             StackV.AddArrangedSubview(_coreView);
         }
 
-        protected virtual void UpdateContent()
+        protected virtual void UpdateContent(UITableView tableView)
         {
             if (_coreView is null)
                 return; // for HotReload;
 
             _coreView.CustomCell = CustomCell;
-            _coreView.FormsCell = CustomCell.Content;           
+            _coreView.UpdateCell(CustomCell.Content,tableView);           
         }
 
 
@@ -175,10 +175,10 @@ namespace AiForms.Renderers.iOS
         /// <summary>
         /// Updates the cell.
         /// </summary>
-        public override void UpdateCell()
+        public override void UpdateCell(UITableView tableView)
         {
-            base.UpdateCell();
-            UpdateContent();
+            base.UpdateCell(tableView);
+            UpdateContent(tableView);
             UpdateCommand();
         }
 
