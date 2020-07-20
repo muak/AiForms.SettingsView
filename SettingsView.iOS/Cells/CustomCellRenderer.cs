@@ -100,6 +100,10 @@ namespace AiForms.Renderers.iOS
         /// <param name="indexPath">Index path.</param>
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
+            if (!CustomCell.IsSelectable)
+            {
+                return;
+            }
             Execute?.Invoke();
             if (!CustomCell.KeepSelectedUntilBack)
             {

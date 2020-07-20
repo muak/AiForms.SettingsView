@@ -154,15 +154,15 @@ namespace AiForms.Renderers.iOS
         {
             var newRenderer = Platform.CreateRenderer(_formsCell);
             _rendererRef = new WeakReference<IVisualElementRenderer>(newRenderer);
-            AddSubview(newRenderer.NativeView);
+            ContentView.AddSubview(newRenderer.NativeView);
 
             var native = newRenderer.NativeView;
             native.TranslatesAutoresizingMaskIntoConstraints = false;
 
-            native.TopAnchor.ConstraintEqualTo(TopAnchor).Active = true;
-            native.LeftAnchor.ConstraintEqualTo(LeftAnchor).Active = true;
-            native.BottomAnchor.ConstraintEqualTo(BottomAnchor).Active = true;
-            native.RightAnchor.ConstraintEqualTo(RightAnchor).Active = true;
+            native.TopAnchor.ConstraintEqualTo(ContentView.TopAnchor).Active = true;
+            native.LeftAnchor.ConstraintEqualTo(ContentView.LeftAnchor).Active = true;
+            native.BottomAnchor.ConstraintEqualTo(ContentView.BottomAnchor).Active = true;
+            native.RightAnchor.ConstraintEqualTo(ContentView.RightAnchor).Active = true;
 
             return newRenderer;
         }
