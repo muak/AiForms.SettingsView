@@ -7,7 +7,8 @@ using Xamarin.Forms.Internals;
 
 namespace AiForms.Renderers.Droid
 {
-    public static class FontUtility
+	[Android.Runtime.Preserve(AllMembers = true)]
+	public static class FontUtility
     {
 		static readonly ConcurrentDictionary<Tuple<string, FontAttributes>, Typeface> Typefaces = new ConcurrentDictionary<Tuple<string, FontAttributes>, Typeface>();
 

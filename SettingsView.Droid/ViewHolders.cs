@@ -98,12 +98,12 @@ namespace AiForms.Renderers.Droid
     }
 
     [Android.Runtime.Preserve(AllMembers = true)]
-    internal class ContentViewHolder : ViewHolder
+    internal class ContentBodyViewHolder : ViewHolder
     {
         public LinearLayout Body { get; private set; }
         //public RowInfo RowInfo { get; set; }
 
-        public ContentViewHolder(AView view) : base(view)
+        public ContentBodyViewHolder(AView view) : base(view)
         {
             Body = view.FindViewById<LinearLayout>(Resource.Id.ContentCellBody);
         }

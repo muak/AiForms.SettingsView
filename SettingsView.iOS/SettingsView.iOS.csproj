@@ -103,13 +103,13 @@
     <Compile Include="FontUtility.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SettingsView\SettingsView.csproj">
-      <Project>{4BEF9F55-2A2B-4708-AA6C-1E69EDA5B88A}</Project>
-      <Name>SettingsView</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\SettingsView\SettingsView.csproj">
+      <Project>{8FFB1EF3-FAF3-478C-B9F1-4D02E599C3C6}</Project>
+      <Name>SettingsView</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.CustomTabs.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.CustomTabs.targets" Condition="Exists('..\packages\Xamarin.Android.Support.CustomTabs.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.CustomTabs.targets')" />

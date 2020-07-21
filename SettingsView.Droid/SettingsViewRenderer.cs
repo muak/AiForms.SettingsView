@@ -288,7 +288,7 @@ namespace AiForms.Renderers.Droid
         public override bool OnMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target)
         {
             System.Diagnostics.Debug.WriteLine("OnMove");
-            if (!(viewHolder is ContentViewHolder fromContentHolder))
+            if (!(viewHolder is ContentBodyViewHolder fromContentHolder))
             {
                 System.Diagnostics.Debug.WriteLine("Cannot move no ContentHolder");
                 return false; 
@@ -404,7 +404,7 @@ namespace AiForms.Renderers.Droid
 
         public override int GetDragDirs(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder)
         {
-            var contentHolder = viewHolder as ContentViewHolder;
+            var contentHolder = viewHolder as ContentBodyViewHolder;
             if (contentHolder == null)
             {
                 return 0;
