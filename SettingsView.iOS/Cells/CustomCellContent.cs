@@ -117,12 +117,13 @@ namespace AiForms.Renderers.iOS
             if (!CustomCell.IsMeasureOnce || tableView.Frame.Width != _lastFrameWidth)
             {
                 _lastFrameWidth = tableView.Frame.Width;
-                var height = double.PositiveInfinity;
+                var height = double.PositiveInfinity;               
+                var width = tableView.Frame.Width - (CustomCell.UseFullSize ? 0 : 32); // CellBaseView layout margin
                 var result = renderer.Element.Measure(tableView.Frame.Width, height, MeasureFlags.IncludeMargins);
                 _lastMeasureWidth = result.Request.Width;
                 if (_formsCell.HorizontalOptions.Alignment == LayoutAlignment.Fill)
-                {
-                    _lastMeasureWidth = tableView.Frame.Width;
+                {                    
+                    _lastMeasureWidth = width;
                 }
                 _lastMeasureHeight = result.Request.Height;
 

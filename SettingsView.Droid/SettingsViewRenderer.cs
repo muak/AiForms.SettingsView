@@ -11,7 +11,7 @@ using Android.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
-[assembly: ExportRenderer(typeof(SettingsView), typeof(SettingsViewRenderer))]
+[assembly: ExportRenderer(typeof(AiForms.Renderers.SettingsView), typeof(SettingsViewRenderer))]
 namespace AiForms.Renderers.Droid
 {
     /// <summary>
@@ -288,7 +288,7 @@ namespace AiForms.Renderers.Droid
         public override bool OnMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target)
         {
             System.Diagnostics.Debug.WriteLine("OnMove");
-            if (!(viewHolder is ContentViewHolder fromContentHolder))
+            if (!(viewHolder is ContentBodyViewHolder fromContentHolder))
             {
                 System.Diagnostics.Debug.WriteLine("Cannot move no ContentHolder");
                 return false; 
@@ -349,11 +349,15 @@ namespace AiForms.Renderers.Droid
 
         void DataSourceMoved()
         {
+            var cell = _moveHistory.Peek().from.Cell;
+            var section = _moveHistory.Last().to.Section;
             while(_moveHistory.Any())
             {
                 var pos = _moveHistory.Dequeue();
                 DataSourceMoved(pos.from, pos.to);
             }
+
+            _settingsView.SendItemDropped(section, cell);
         }
 
         void DataSourceMoved(RowInfo from,RowInfo to)
@@ -400,7 +404,7 @@ namespace AiForms.Renderers.Droid
 
         public override int GetDragDirs(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder)
         {
-            var contentHolder = viewHolder as ContentViewHolder;
+            var contentHolder = viewHolder as ContentBodyViewHolder;
             if (contentHolder == null)
             {
                 return 0;

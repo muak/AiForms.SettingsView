@@ -10,6 +10,7 @@ using Xamarin.Forms.Platform.Android;
 
 namespace AiForms.Renderers.Droid
 {
+    [Android.Runtime.Preserve(AllMembers = true)]
     public class SettingsViewLayoutManager:LinearLayoutManager
     {
         SettingsView _settingsView;

@@ -151,7 +151,7 @@ namespace AiForms.Renderers.Droid
                     viewHolder = new CustomFooterViewHolder(fContainer);
                     break;
                 default:
-                    viewHolder = new ContentViewHolder(inflater.Inflate(Resource.Layout.ContentCell, parent, false));
+                    viewHolder = new ContentBodyViewHolder(inflater.Inflate(Resource.Layout.ContentCell, parent, false));
                     viewHolder.ItemView.SetOnClickListener(this);
                     viewHolder.ItemView.SetOnLongClickListener(this);
                     break;
@@ -202,7 +202,7 @@ namespace AiForms.Renderers.Droid
                     BindCustomHeaderFooterView(vHolder, rowInfo.Section.FooterView);
                     break;
                 default:
-                    BindContentView((ContentViewHolder)vHolder, position);
+                    BindContentView((ContentBodyViewHolder)vHolder, position);
                     break;
             }
         }
@@ -411,7 +411,7 @@ namespace AiForms.Renderers.Droid
         }
 
 
-        void BindContentView(ContentViewHolder holder, int position)
+        void BindContentView(ContentBodyViewHolder holder, int position)
         {
             var formsCell = holder.RowInfo.Cell;
             AView nativeCell = null;

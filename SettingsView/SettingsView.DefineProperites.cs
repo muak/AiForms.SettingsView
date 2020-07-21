@@ -3,11 +3,28 @@ using Xamarin.Forms;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Windows.Input;
 
 namespace AiForms.Renderers
 {
     public partial class SettingsView
     {
+        public event EventHandler<DropEventArgs> ItemDropped;
+
+        public static BindableProperty ItemDroppedCommandProperty = BindableProperty.Create(
+            nameof(ItemDroppedCommand),
+            typeof(ICommand),
+            typeof(SettingsView),
+            default(ICommand),
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public ICommand ItemDroppedCommand
+        {
+            get { return (ICommand)GetValue(ItemDroppedCommandProperty); }
+            set { SetValue(ItemDroppedCommandProperty, value); }
+        }
+
         /// <summary>
         /// The background color property.
         /// </summary>
@@ -1043,6 +1060,12 @@ namespace AiForms.Renderers
 
         }
 
+        internal void SendItemDropped(Section section,Cell cell)
+        {
+            var eventArgs = new DropEventArgs(section, cell);
+            ItemDropped?.Invoke(this, eventArgs);
+            ItemDroppedCommand?.Execute(eventArgs);
+        }
 
         static Section CreateChildViewFor(DataTemplate template, object item, BindableObject container)
         {

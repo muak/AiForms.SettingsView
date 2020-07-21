@@ -545,6 +545,8 @@ namespace AiForms.Renderers.iOS
                     Control.InsertRows(GetPaths(destinationIndexPath.Section, destinationIndexPath.Row, 1), UITableViewRowAnimation.None);
 
                     Control.EndUpdates();
+
+                    Element.SendItemDropped(destSection, cell);
                 }
                 else
                 {                  
@@ -556,7 +558,8 @@ namespace AiForms.Renderers.iOS
                     Control.DeleteRows(GetPaths(secIdx, rowIdx, 1), UITableViewRowAnimation.None);
                     Control.InsertRows(GetPaths(destinationIndexPath.Section, destinationIndexPath.Row, 1), UITableViewRowAnimation.None);
 
-                    Control.EndUpdates();                               
+                    Control.EndUpdates();
+                    Element.SendItemDropped(destSection, deletedSet.Cell);
                 }
 
                 // Cancel animations and restore the scroll position.
