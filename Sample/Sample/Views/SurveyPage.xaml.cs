@@ -12,9 +12,11 @@ namespace Sample.Views
             InitializeComponent();
         }
 
-        void Button_Clicked(System.Object sender, System.EventArgs e)
+        protected override void OnAppearing()
         {
-            settings.Root[0].Add(new LabelCell { Title = "A" });
+            base.OnAppearing();
+            settings.ScrollToBottom = true;
+            settings.ScrollToTop = true;
         }
     }
 }

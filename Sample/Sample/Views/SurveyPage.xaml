@@ -5,17 +5,8 @@
     xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
     x:Class="Sample.Views.SurveyPage">
 
-    <StackLayout>
-        <sv:SettingsView x:Name="settings"  HeaderPadding="10" HeaderFontSize="16" HeaderTextVerticalAlign="Center" VerticalOptions="Start" BackgroundColor="AliceBlue" >
-            <sv:Section>
-            </sv:Section>
-            <sv:Section>
 
-            </sv:Section>
-            <sv:Section>
-
-            </sv:Section>
-        </sv:SettingsView>
-        <Button Text="Add" Clicked="Button_Clicked" />
-    </StackLayout>
+    <sv:SettingsView x:Name="settings"  HeaderPadding="10" HeaderFontSize="16" HeaderTextVerticalAlign="Center" VerticalOptions="Start" BackgroundColor="AliceBlue" >
+           
+    </sv:SettingsView>
 </ContentPage>
