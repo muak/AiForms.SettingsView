@@ -389,11 +389,15 @@ namespace AiForms.Renderers.iOS
         void UpdateScrollToTop()
         {
             if (Element.ScrollToTop)
-            {
+            {                
+                if(_tableview.NumberOfSections() == 0)
+                {
+                    Element.ScrollToTop = false;
+                    return;
+                }
                 var sectionIdx = 0;
                 var rows = _tableview.NumberOfRowsInSection(sectionIdx);
-
-                if (_tableview.NumberOfSections() > 0 && rows > 0)
+                if (rows > 0)
                 {
                     _tableview.SetContentOffset(new CGPoint(0,_topInset), false);
                     //_tableview.ScrollToRow(NSIndexPath.Create(0, 0), UITableViewScrollPosition.Top, false);
@@ -408,6 +412,12 @@ namespace AiForms.Renderers.iOS
             if (Element.ScrollToBottom)
             {   
                 var sectionIdx = _tableview.NumberOfSections() - 1;
+                if(sectionIdx < 0)
+                {
+                    Element.ScrollToBottom = false;
+                    return;
+                }
+
                 var rowIdx = _tableview.NumberOfRowsInSection(sectionIdx) -1;
 
                 if(sectionIdx >= 0 && rowIdx >= 0){
