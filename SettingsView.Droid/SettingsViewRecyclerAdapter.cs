@@ -42,7 +42,7 @@ namespace AiForms.Renderers.Droid
             _context = context;
             _settingsView = settingsView;
             _recyclerView = recyclerView;
-            _proxy = new ModelProxy(settingsView, this);
+            _proxy = new ModelProxy(settingsView, this,recyclerView);
 
             _settingsView.ModelChanged += _settingsView_ModelChanged;
             _settingsView.SectionPropertyChanged += OnSectionPropertyChanged;
