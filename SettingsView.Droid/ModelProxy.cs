@@ -5,6 +5,8 @@ using Xamarin.Forms;
 using System.Collections.ObjectModel;
 using Xamarin.Forms.Internals;
 using System.Collections.Specialized;
+using Android.Support.V7.Widget;
+using Android.OS;
 
 namespace AiForms.Renderers.Droid
 {
@@ -25,12 +27,14 @@ namespace AiForms.Renderers.Droid
         SettingsModel _model;
         SettingsRoot _root;
         SettingsViewRecyclerAdapter _adapter;
+        RecyclerView _recyclerView;
 
-        public ModelProxy(SettingsView settingsView,SettingsViewRecyclerAdapter adapter)
+        public ModelProxy(SettingsView settingsView,SettingsViewRecyclerAdapter adapter,RecyclerView recyclerView)
         {
             _model = settingsView.Model;
             _root = settingsView.Root;
             _adapter = adapter;
+            _recyclerView = recyclerView;
 
             _root.SectionCollectionChanged += OnRootSectionCollectionChanged;
             _root.CollectionChanged += OnRootCollectionChanged;
@@ -45,6 +49,7 @@ namespace AiForms.Renderers.Droid
             _model = null;
             _root = null;
             _adapter = null;
+            _recyclerView = null;
             this?.Clear();
             ViewTypes?.Clear();
             ViewTypes = null;
@@ -203,7 +208,16 @@ namespace AiForms.Renderers.Droid
                 ViewType = (ViewType)ViewTypes[repCell.GetType()],
             };
 
+            // Stop animation.
+            (_recyclerView.GetItemAnimator() as DefaultItemAnimator).SupportsChangeAnimations = false;
+
             _adapter.NotifyItemRangeChanged(startIndex, 1);
+
+            new Handler().PostDelayed(() =>
+            {
+                // Restart animation.
+                (_recyclerView.GetItemAnimator() as DefaultItemAnimator).SupportsChangeAnimations = true;
+            },100);
         }
 
         int RowIndexFromChildCollection(object sender,int index)

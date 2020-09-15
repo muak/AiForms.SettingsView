@@ -370,7 +370,7 @@ namespace AiForms.Renderers.Droid
 
         void EntryCell_Focused(object sender, EventArgs e)
         {
-            _EditText.RequestFocus();
+            _EditText.RequestFocus();            
             ShowKeyboard(_EditText);
         }
 
@@ -384,6 +384,18 @@ namespace AiForms.Renderers.Droid
 
         public AiEditText(Context context) : base(context)
         {
+        }
+
+        protected override void OnFocusChanged(bool gainFocus, [GeneratedEnum] FocusSearchDirection direction, Rect previouslyFocusedRect)
+        {
+            base.OnFocusChanged(gainFocus, direction, previouslyFocusedRect);
+            if(gainFocus)
+            {
+                Post(new Runnable(() =>
+                {
+                    SetSelection(Text.Length);
+                }));                
+            }            
         }
 
         public override bool OnKeyPreIme(Keycode keyCode, KeyEvent e)

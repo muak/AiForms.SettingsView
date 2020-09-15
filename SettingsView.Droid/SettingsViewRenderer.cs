@@ -48,6 +48,10 @@ namespace AiForms.Renderers.Droid
             if (e.NewElement != null) 
             {
                 var recyclerView = new RecyclerView(Context);
+
+                // When replaced, No animation.
+                //(recyclerView.GetItemAnimator() as DefaultItemAnimator).SupportsChangeAnimations = false;
+
                 _layoutManager = new SettingsViewLayoutManager(Context,e.NewElement);
                 recyclerView.SetLayoutManager(_layoutManager);
 
