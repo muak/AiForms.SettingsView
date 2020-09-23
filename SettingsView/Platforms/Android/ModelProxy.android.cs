@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Xamarin.Forms;
-using System.Collections.ObjectModel;
 using Xamarin.Forms.Internals;
 using System.Collections.Specialized;
+#if ANDROIDX
+using AndroidX.RecyclerView.Widget;
+#else
 using Android.Support.V7.Widget;
+#endif
 using Android.OS;
 
 namespace AiForms.Renderers.Droid

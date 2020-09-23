@@ -1,9 +1,10 @@
-﻿using System;
-using Android.Content;
-using Android.Graphics;
+﻿using Android.Graphics;
+#if ANDROIDX
+using AndroidX.RecyclerView.Widget;
+#else
 using Android.Support.V7.Widget;
+#endif
 using Android.Views;
-using Android.Widget;
 using Android.Graphics.Drawables;
 using System.Linq;
 

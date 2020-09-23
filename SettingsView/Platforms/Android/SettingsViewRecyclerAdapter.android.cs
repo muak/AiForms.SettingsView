@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using AiForms.Renderers.Droid.Extensions;
 using Android.Content;
+#if ANDROIDX
+using AndroidX.RecyclerView.Widget;
+#else
 using Android.Support.V7.Widget;
+#endif
 using Android.Views;
 using Android.Widget;
 using Xamarin.Forms;
@@ -137,10 +141,10 @@ namespace AiForms.Renderers.Droid
             switch ((ViewType)viewType)
             {
                 case ViewType.TextHeader:
-                    viewHolder = new HeaderViewHolder(inflater.Inflate(Resource.Layout.HeaderCell, parent, false));
+                    viewHolder = new HeaderViewHolder(inflater.Inflate(global::SettingsView.Resource.Layout.HeaderCell, parent, false));
                     break;
                 case ViewType.TextFooter:
-                    viewHolder = new FooterViewHolder(inflater.Inflate(Resource.Layout.FooterCell, parent, false));
+                    viewHolder = new FooterViewHolder(inflater.Inflate(global::SettingsView.Resource.Layout.FooterCell, parent, false));
                     break;
                 case ViewType.CustomHeader:
                     var hContainer = new HeaderFooterContainer(_context);
@@ -151,7 +155,7 @@ namespace AiForms.Renderers.Droid
                     viewHolder = new CustomFooterViewHolder(fContainer);
                     break;
                 default:
-                    viewHolder = new ContentBodyViewHolder(inflater.Inflate(Resource.Layout.ContentCell, parent, false));
+                    viewHolder = new ContentBodyViewHolder(inflater.Inflate(global::SettingsView.Resource.Layout.ContentCell, parent, false));
                     viewHolder.ItemView.SetOnClickListener(this);
                     viewHolder.ItemView.SetOnLongClickListener(this);
                     break;
@@ -220,7 +224,7 @@ namespace AiForms.Renderers.Droid
             //      But do it at a later as iOS side doesn't have that process.
             DeselectRow();
 
-            var cell = view.FindViewById<LinearLayout>(Resource.Id.ContentCellBody).GetChildAt(0) as CellBaseView;
+            var cell = view.FindViewById<LinearLayout>(global::SettingsView.Resource.Id.ContentCellBody).GetChildAt(0) as CellBaseView;
 
             if(cell == null || !_proxy[position].Cell.IsEnabled){
                 //if FormsCell IsEnable is false, does nothing. 
@@ -243,7 +247,7 @@ namespace AiForms.Renderers.Droid
                 return false;
             }
 
-            var cell = v.FindViewById<LinearLayout>(Resource.Id.ContentCellBody).GetChildAt(0) as CellBaseView;
+            var cell = v.FindViewById<LinearLayout>(global::SettingsView.Resource.Id.ContentCellBody).GetChildAt(0) as CellBaseView;
 
             if (cell == null || !_proxy[position].Cell.IsEnabled)
             {

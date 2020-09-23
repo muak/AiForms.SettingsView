@@ -3,7 +3,11 @@ using Android.Content;
 using Android.Content.Res;
 using Android.Graphics.Drawables;
 using Android.Runtime;
+#if ANDROIDX
+using AndroidX.AppCompat.Widget;
+#else
 using Android.Support.V7.Widget;
+#endif
 using Android.Views;
 using Android.Widget;
 using Xamarin.Forms;

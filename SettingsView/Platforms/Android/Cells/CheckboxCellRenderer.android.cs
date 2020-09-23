@@ -2,7 +2,11 @@
 using Xamarin.Forms;
 using Android.Widget;
 using Android.Content;
+#if ANDROIDX
+using AndroidX.AppCompat.Widget;
+#else
 using Android.Support.V7.Widget;
+#endif
 using Android.Views;
 using Xamarin.Forms.Platform.Android;
 using Android.Content.Res;

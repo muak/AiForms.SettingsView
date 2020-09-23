@@ -1,10 +1,14 @@
-﻿using System;
+﻿#if ANDROIDX
+using AndroidX.RecyclerView.Widget;
+#else
 using Android.Support.V7.Widget;
+#endif
 using Android.Widget;
 using Xamarin.Forms;
 using AView = Android.Views.View;
 using Android.Views;
 using Xamarin.Forms.Platform.Android;
+
 
 namespace AiForms.Renderers.Droid
 {
@@ -44,7 +48,7 @@ namespace AiForms.Renderers.Droid
 
         public HeaderViewHolder(AView view) : base(view)
         {
-            TextView = view.FindViewById<TextView>(Resource.Id.HeaderCellText);
+            TextView = view.FindViewById<TextView>(global::SettingsView.Resource.Id.HeaderCellText);
         }
 
         protected override void Dispose(bool disposing)
@@ -65,7 +69,7 @@ namespace AiForms.Renderers.Droid
 
         public FooterViewHolder(AView view) : base(view)
         {
-            TextView = view.FindViewById<TextView>(Resource.Id.FooterCellText);
+            TextView = view.FindViewById<TextView>(global::SettingsView.Resource.Id.FooterCellText);
         }
 
         protected override void Dispose(bool disposing)
@@ -105,7 +109,7 @@ namespace AiForms.Renderers.Droid
 
         public ContentBodyViewHolder(AView view) : base(view)
         {
-            Body = view.FindViewById<LinearLayout>(Resource.Id.ContentCellBody);
+            Body = view.FindViewById<LinearLayout>(global::SettingsView.Resource.Id.ContentCellBody);
         }
 
         protected override void Dispose(bool disposing)
