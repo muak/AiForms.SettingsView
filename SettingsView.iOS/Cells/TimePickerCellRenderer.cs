@@ -119,6 +119,10 @@ namespace AiForms.Renderers.iOS
         void SetUpTimePicker()
         {
             _picker = new UIDatePicker { Mode = UIDatePickerMode.Time, TimeZone = new NSTimeZone("UTC") };
+            if (UIDevice.CurrentDevice.CheckSystemVersion(13, 4))
+            {
+                _picker.PreferredDatePickerStyle = UIDatePickerStyle.Wheels;
+            }
 
             _titleLabel = new UILabel();
             _titleLabel.TextAlignment = UITextAlignment.Center;

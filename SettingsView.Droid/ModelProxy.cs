@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Xamarin.Forms;
-using System.Collections.ObjectModel;
-using Xamarin.Forms.Internals;
 using System.Collections.Specialized;
-using Android.Support.V7.Widget;
+using System.Linq;
 using Android.OS;
+using AndroidX.RecyclerView.Widget;
+using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 
 namespace AiForms.Renderers.Droid
 {

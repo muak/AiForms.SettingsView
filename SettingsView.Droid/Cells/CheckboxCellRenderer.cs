@@ -2,12 +2,12 @@
 using Xamarin.Forms;
 using Android.Widget;
 using Android.Content;
-using Android.Support.V7.Widget;
 using Android.Views;
 using Xamarin.Forms.Platform.Android;
 using Android.Content.Res;
 using Android.Graphics.Drawables;
 using Android.Runtime;
+using AndroidX.AppCompat.Widget;
 
 [assembly: ExportRenderer(typeof(AiForms.Renderers.CheckboxCell), typeof(AiForms.Renderers.Droid.CheckboxCellRenderer))]
 namespace AiForms.Renderers.Droid

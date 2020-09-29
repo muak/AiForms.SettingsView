@@ -1,11 +1,8 @@
-﻿using System;
-using Android.Content;
+﻿using System.Linq;
 using Android.Graphics;
-using Android.Support.V7.Widget;
-using Android.Views;
-using Android.Widget;
 using Android.Graphics.Drawables;
-using System.Linq;
+using Android.Views;
+using AndroidX.RecyclerView.Widget;
 
 namespace AiForms.Renderers.Droid
 {

@@ -19,7 +19,7 @@ namespace Sample.Droid
             global::Xamarin.Forms.Forms.SetFlags("FastRenderers_Experimental");
 			 global::Xamarin.Forms.Forms.Init(this, bundle);
             AiForms.Effects.Droid.Effects.Init();
-            Xamarin.Forms.Svg.Droid.SvgImage.Init();
+            Xamarin.Forms.Svg.Droid.SvgImage.Init(this);
             AiForms.Renderers.Droid.SettingsViewInit.Init();
 
 
