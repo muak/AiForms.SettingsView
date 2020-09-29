@@ -5,9 +5,8 @@ using AiForms.Renderers;
 using AiForms.Renderers.Droid;
 using Android.Content;
 using Android.Graphics.Drawables;
-using Android.Support.V7.Widget;
-using Android.Support.V7.Widget.Helper;
 using Android.Views;
+using AndroidX.RecyclerView.Widget;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 

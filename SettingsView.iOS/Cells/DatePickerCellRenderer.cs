@@ -123,6 +123,10 @@ namespace AiForms.Renderers.iOS
         void SetUpDatePicker()
         {
             _picker = new UIDatePicker { Mode = UIDatePickerMode.Date, TimeZone = new Foundation.NSTimeZone("UTC") };
+            if (UIDevice.CurrentDevice.CheckSystemVersion(13, 4))
+            {
+                _picker.PreferredDatePickerStyle = UIDatePickerStyle.Wheels;
+            }            
 
             var width = UIScreen.MainScreen.Bounds.Width;
             var toolbar = new UIToolbar(new CGRect(0, 0, width, 44)) { BarStyle = UIBarStyle.Default, Translucent = true };

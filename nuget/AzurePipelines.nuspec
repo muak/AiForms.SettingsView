@@ -15,6 +15,10 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
         </description>
         <summary></summary>
         <releaseNotes>
+## News
+
+* Corrensponded to iOS14 and AndroidX.
+
 ## New Features
 
 * [SettingsView] ItemDroppedEvent and ItemDroppedCommand property.
@@ -31,7 +35,6 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
 
 ## Bug fixes
 
-* 
 * [iOS] Crash ScrollToTop ScrollToBottom when no elements.
 * [Android] Fix reordering bug.
 * [Android] Fix  Sequence contains no elements. #113 #86

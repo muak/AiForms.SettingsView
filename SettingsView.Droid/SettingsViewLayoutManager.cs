@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Android.Graphics;
-using Android.Support.V7.Widget;
-using Android.Views;
-using Java.Util;
-using Xamarin.Forms;
+using AndroidX.RecyclerView.Widget;
 using Xamarin.Forms.Platform.Android;
 
 namespace AiForms.Renderers.Droid
