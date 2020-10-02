@@ -352,6 +352,11 @@ namespace AiForms.Renderers.Droid
 
         void DataSourceMoved()
         {
+            if (!_moveHistory.Any())
+            {
+                return;
+            }
+
             var cell = _moveHistory.Peek().from.Cell;
             var section = _moveHistory.Last().to.Section;
             while(_moveHistory.Any())
