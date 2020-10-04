@@ -46,7 +46,8 @@ namespace AiForms.Renderers.Droid
 
             if (e.NewElement != null) 
             {
-                var recyclerView = new RecyclerView(Context);
+                // Fix scrollbar visibility and flash. https://github.com/xamarin/Xamarin.Forms/pull/10893
+                var recyclerView = new RecyclerView(new ContextThemeWrapper(Context, Resource.Style.settingsViewTheme),null,Resource.Attribute.settingsViewStyle);                         
 
                 // When replaced, No animation.
                 //(recyclerView.GetItemAnimator() as DefaultItemAnimator).SupportsChangeAnimations = false;

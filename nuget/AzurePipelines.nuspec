@@ -35,6 +35,7 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
 
 ## Bug fixes
 
+* [Android] Scrollbar visibility and flash https://github.com/xamarin/Xamarin.Forms/pull/10893
 * [Android] Android - UseDragSort exception: Queue empty #133
 * [iOS] Crash ScrollToTop ScrollToBottom when no elements.
 * [Android] Fix reordering bug.

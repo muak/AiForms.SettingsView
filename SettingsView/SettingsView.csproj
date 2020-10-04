@@ -14,7 +14,7 @@
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.6.0.800" />
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1451" />
 	<Reference Include="netstandard" />
   </ItemGroup>
   <ItemGroup>

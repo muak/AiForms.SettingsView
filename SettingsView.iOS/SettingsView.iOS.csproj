@@ -94,12 +94,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SettingsView\SettingsView.csproj">
-      <Project>{FD2D256D-7898-494A-9FDC-C04482BF8C0E}</Project>
+      <Project>{8FFB1EF3-FAF3-478C-B9F1-4D02E599C3C6}</Project>
       <Name>SettingsView</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.6.0.800" />
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1451" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.CustomTabs.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.CustomTabs.targets" Condition="Exists('..\packages\Xamarin.Android.Support.CustomTabs.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.CustomTabs.targets')" />

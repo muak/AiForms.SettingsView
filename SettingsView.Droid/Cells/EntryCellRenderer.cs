@@ -386,7 +386,7 @@ namespace AiForms.Renderers.Droid
         {
         }
 
-        protected override void OnFocusChanged(bool gainFocus, [GeneratedEnum] FocusSearchDirection direction, Rect previouslyFocusedRect)
+        protected override void OnFocusChanged(bool gainFocus, [GeneratedEnum] FocusSearchDirection direction, Android.Graphics.Rect previouslyFocusedRect)
         {
             base.OnFocusChanged(gainFocus, direction, previouslyFocusedRect);
             if(gainFocus)
