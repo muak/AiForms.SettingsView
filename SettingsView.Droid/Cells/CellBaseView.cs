@@ -647,7 +647,7 @@ namespace AiForms.Renderers.Droid
 
             paint.SetXfermode(new PorterDuffXfermode(PorterDuff.Mode.SrcIn));
 
-            var rect = new Rect(0, 0, image.Width, image.Height);
+            var rect = new Android.Graphics.Rect(0, 0, image.Width, image.Height);
             canvas.DrawBitmap(image, rect, rect, paint);
 
             image.Recycle();
