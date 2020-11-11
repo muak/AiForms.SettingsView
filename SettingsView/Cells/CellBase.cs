@@ -19,6 +19,23 @@ namespace AiForms.Renderers
                 Tapped(this, EventArgs.Empty);
         }
 
+        public virtual void Reload()
+        {
+            if(Section == null)
+            {
+                return;
+            }
+            var index = Section.IndexOf(this);
+            if(index < 0)
+            {
+                return;
+            }
+
+            // raise replase event manually.
+            var temp = Section[index];
+            Section[index] = temp;
+        }
+
         /// <summary>
         /// The title property.
         /// </summary>

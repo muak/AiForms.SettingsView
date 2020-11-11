@@ -132,6 +132,12 @@ namespace AiForms.Renderers.Droid
 
         public void UpdateCell(Xamarin.Forms.View cell)
         {
+            if(_formsCell == cell && !CustomCell.IsForceLayout)
+            {
+                return;
+            }
+            CustomCell.IsForceLayout = false;
+
             if(_formsCell != null)
             {
                 _formsCell.PropertyChanged -= CellPropertyChanged;
