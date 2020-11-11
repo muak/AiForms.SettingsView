@@ -5,8 +5,18 @@
     xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
     x:Class="Sample.Views.SurveyPage">
 
+    <Grid>
+        <sv:SettingsView x:Name="settings" HasUnevenRows="True"  HeaderPadding="10" HeaderFontSize="16" HeaderTextVerticalAlign="Center" VerticalOptions="Start" BackgroundColor="AliceBlue" >
+           <sv:Section>
+               <sv:CustomCell x:Name="customCell">
+                   <Label Text="{Binding Text.Value}" />
+               </sv:CustomCell>
+           </sv:Section>
+        </sv:SettingsView>
 
-    <sv:SettingsView x:Name="settings"  HeaderPadding="10" HeaderFontSize="16" HeaderTextVerticalAlign="Center" VerticalOptions="Start" BackgroundColor="AliceBlue" >
-           
-    </sv:SettingsView>
+        <Button VerticalOptions="End" Text="Layout" Margin="0,0,0,60" Clicked="Button_Clicked" />
+        <Button VerticalOptions="End" Text="Change" Command="{Binding ChangeCommand}" />
+    </Grid>
+
+   
 </ContentPage>

@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Reactive.Bindings;
 
 namespace Sample.ViewModels
 {
     public class SurveyPageViewModel:BindableBase, INavigatedAware
     {
         public ObservableCollection<Hoge> ItemsSource { get; set; }
+        public ReactivePropertySlim<string> Text { get; } = new ReactivePropertySlim<string>();
+        public ReactiveCommand ChangeCommand { get; } = new ReactiveCommand();
 
         public SurveyPageViewModel()
         {
@@ -17,6 +20,22 @@ namespace Sample.ViewModels
                 new Hoge{Name="B",Value=2},
                 new Hoge{Name="C",Value=3}
             });
+
+            Text.Value = "テキスト";
+
+            var toggle = true;
+            ChangeCommand.Subscribe(_ => {
+                if (toggle)
+                {
+                    Text.Value = "テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト";
+                }
+                else
+                {
+                    Text.Value = "テキスト";
+                }
+                toggle = !toggle;
+            });
+
         }        
 
         public void OnNavigatedFrom(NavigationParameters parameters)

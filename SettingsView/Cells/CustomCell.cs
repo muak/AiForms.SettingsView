@@ -167,5 +167,12 @@ namespace AiForms.Renderers
                 LongCommand.Execute(BindingContext);
             }
         }
+
+        internal bool IsForceLayout = false;
+        public override void Reload()
+        {
+            IsForceLayout = true;
+            base.Reload();
+        }
     }
 }

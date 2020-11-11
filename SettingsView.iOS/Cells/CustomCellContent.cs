@@ -77,10 +77,12 @@ namespace AiForms.Renderers.iOS
 
         public virtual void UpdateCell(View cell,UITableView tableView)
         {
-            if(_formsCell == cell)
+            if (_formsCell == cell && !CustomCell.IsForceLayout)
             {
                 return;
             }
+            CustomCell.IsForceLayout = false;
+
             if (_formsCell != null)
             {
                 _formsCell.PropertyChanged -= CellPropertyChanged;

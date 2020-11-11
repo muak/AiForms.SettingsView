@@ -449,6 +449,11 @@ public class Option
 * IsEnabled
 	* Whether a cell is enabled. If set to false, the entire cell color will turn translucent and the cell won't accept any operations.
 
+### Methods
+
+* Reload
+  * Reload forcely the cell. This is used after dynamically changing the contents of a cell, such as Custom Cell.
+
 ### To use SVG image
 
 You can use SVG image if SvgImageSource is installed.
