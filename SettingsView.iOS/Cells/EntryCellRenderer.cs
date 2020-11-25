@@ -34,7 +34,7 @@ namespace AiForms.Renderers.iOS
         {
             ValueField = new UITextField() { BorderStyle = UITextBorderStyle.None };
             ValueField.AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
-
+            ValueField.ReturnKeyType = UIReturnKeyType.Done;
             ValueField.EditingChanged += _textField_EditingChanged;
             ValueField.EditingDidBegin += ValueField_EditingDidBegin;
             ValueField.EditingDidEnd += ValueField_EditingDidEnd;

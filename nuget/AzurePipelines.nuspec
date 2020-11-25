@@ -29,6 +29,7 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
 
 ## Changes
 
+* [EntryCell][iOS] Keyboard enter key caption changed "Return" to "Done".
 * [Header/Footer] Section header/footer does not respect SafeAreaInsets #83
 * Support .NETStandard2.1
 * Minimum Xamarin.Forms version >= 4.6.0.800
