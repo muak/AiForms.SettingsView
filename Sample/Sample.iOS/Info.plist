@@ -44,5 +44,7 @@
 	<string>SettingsView</string>
 	<key>CFBundleAllowMixedLocalizations</key>
 	<true/>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>ja</string>
 </dict>
 </plist>
