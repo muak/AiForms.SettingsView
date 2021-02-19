@@ -102,10 +102,7 @@ namespace AiForms.Renderers.Droid
         protected override void Dispose(bool disposing)
         {
             if (disposing) {
-                _picker?.Dispose();
-                _picker = null;
-                _dialog?.Dispose();
-                _dialog = null;
+                DestroyDialog();
                 _context = null;
                 _command = null;
             }
@@ -173,16 +170,28 @@ namespace AiForms.Renderers.Droid
                 _dialog.SetCanceledOnTouchOutside(true);
                 _dialog.DismissEvent += (ss, ee) =>
                 {
-                    _dialog.Dispose();
-                    _dialog = null;
-                    _picker.RemoveFromParent();
-                    _picker.Dispose();
-                    _picker = null;
+                    DestroyDialog();
                 };
 
                 _dialog.Show();
             }
 
+        }
+
+        void DestroyDialog()
+        {
+            if (_dialog != null)
+            {
+                // Set _dialog to null to avoid racing attempts to destroy dialog - e.g. in response to dismiss event
+                var dialog = _dialog;
+                _dialog = null;
+                _picker.RemoveFromParent();
+                _picker.Dispose();
+                _picker = null;
+                // Dialog.Dispose() does not close an open dialog view so explicitly dismiss it before disposing
+                dialog.Dismiss();
+                dialog.Dispose();
+            }
         }
     }
 }
