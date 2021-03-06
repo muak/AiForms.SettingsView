@@ -1,31 +1,30 @@
 ﻿using System;
-using UIKit;
+using Android.Views;
 using Xamarin.Forms;
-
-namespace AiForms.Renderers.iOS.Extensions
+namespace AiForms.Renderers.Droid.Extensions
 {
     /// <summary>
-    /// Stack view alignment extensions.
+    /// Layout alignment extensions.
     /// </summary>
-    [Foundation.Preserve(AllMembers = true)]
-    public static class StackViewAlignmentExtensions
+    [Android.Runtime.Preserve (AllMembers = true)]
+    public static class LayoutAlignmentExtensions
     {
         /// <summary>
         /// Tos the native vertical.
         /// </summary>
         /// <returns>The native vertical.</returns>
         /// <param name="forms">Forms.</param>
-        public static UIStackViewAlignment ToNativeVertical(this LayoutAlignment forms)
+        public static GravityFlags ToNativeVertical(this LayoutAlignment forms)
         {
             switch (forms) {
                 case LayoutAlignment.Start:
-                    return UIStackViewAlignment.Leading;
+                    return GravityFlags.Top;
                 case LayoutAlignment.Center:
-                    return UIStackViewAlignment.Center;
+                    return GravityFlags.CenterVertical;
                 case LayoutAlignment.End:
-                    return UIStackViewAlignment.Trailing;
+                    return GravityFlags.Bottom;
                 default:
-                    return UIStackViewAlignment.Fill;
+                    return GravityFlags.FillHorizontal;
             }
         }
 
@@ -34,17 +33,17 @@ namespace AiForms.Renderers.iOS.Extensions
         /// </summary>
         /// <returns>The native horizontal.</returns>
         /// <param name="forms">Forms.</param>
-        public static UIStackViewAlignment ToNativeHorizontal(this LayoutAlignment forms)
+        public static GravityFlags ToNativeHorizontal(this LayoutAlignment forms)
         {
             switch (forms) {
                 case LayoutAlignment.Start:
-                    return UIStackViewAlignment.Top;
+                    return GravityFlags.Start;
                 case LayoutAlignment.Center:
-                    return UIStackViewAlignment.Center;
+                    return GravityFlags.CenterHorizontal;
                 case LayoutAlignment.End:
-                    return UIStackViewAlignment.Bottom;
+                    return GravityFlags.End;
                 default:
-                    return UIStackViewAlignment.Fill;
+                    return GravityFlags.FillVertical;
             }
         }
     }

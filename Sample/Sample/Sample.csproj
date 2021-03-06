@@ -1,27 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>SettingsSample</AssemblyName>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <LangVersion>8.0</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
 	<PackageReference Include="AiForms.Layouts" Version="1.0.4" />
-	<PackageReference Include="Xamarin.Forms.Svg" Version="1.0.3" />
     <PackageReference Include="Prism.Unity.Forms" Version="7.0.0.396" />
     <PackageReference Include="ReactiveProperty" Version="4.2.2" />
 
-    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1451" />
-    <PackageReference Include="AiForms.Effects" Version="1.5.5" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Cells\" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
+<!--    <PackageReference Include="AiForms.Effects" Version="1.5.5" />-->
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SettingsView\SettingsView.csproj" />
@@ -36,5 +26,4 @@
     <EmbeddedResource Include="Resources\ionicons.ttf" />
     <EmbeddedResource Include="Resources\icomoon.ttf" />
   </ItemGroup>
-  <Import Project="..\packages\Xamarin.Android.Support.Animated.Vector.Drawable.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.Animated.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Animated.Vector.Drawable.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.Animated.Vector.Drawable.targets')" />
 </Project>
