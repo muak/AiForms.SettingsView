@@ -1,18 +1,30 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SettingsView", "SettingsView\SettingsView.csproj", "{8FFB1EF3-FAF3-478C-B9F1-4D02E599C3C6}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31025.194
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SettingsView", "SettingsView\SettingsView.csproj", "{8FFB1EF3-FAF3-478C-B9F1-4D02E599C3C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|iPhoneSimulator = Debug|iPhoneSimulator
 		Release|Any CPU = Release|Any CPU
 		Release|iPhoneSimulator = Release|iPhoneSimulator
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{8FFB1EF3-FAF3-478C-B9F1-4D02E599C3C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8FFB1EF3-FAF3-478C-B9F1-4D02E599C3C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FFB1EF3-FAF3-478C-B9F1-4D02E599C3C6}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{8FFB1EF3-FAF3-478C-B9F1-4D02E599C3C6}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
 		{8FFB1EF3-FAF3-478C-B9F1-4D02E599C3C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FFB1EF3-FAF3-478C-B9F1-4D02E599C3C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FFB1EF3-FAF3-478C-B9F1-4D02E599C3C6}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{8FFB1EF3-FAF3-478C-B9F1-4D02E599C3C6}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F5AEB7C8-2112-4B1D-96C5-DBCAC8CCA1BA}
 	EndGlobalSection
 EndGlobal

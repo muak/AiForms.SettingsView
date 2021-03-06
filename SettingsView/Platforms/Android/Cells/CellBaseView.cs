@@ -107,8 +107,7 @@ namespace AiForms.Renderers.Droid
             var contentView = layoutInflater.Inflate(Resource.Layout.CellBaseView, this, true);
 
             contentView.LayoutParameters = new ViewGroup.LayoutParams(-1, -1);
-
-            IconView = contentView.FindViewById<ImageView>(Resource.Id.CellIcon);
+            IconView = contentView.FindViewById<ImageView>(global::SettingsView.Resource.Id.CellIcon);
             TitleLabel = contentView.FindViewById<TextView>(Resource.Id.CellTitle);
             DescriptionLabel = contentView.FindViewById<TextView>(Resource.Id.CellDescription);
             ContentStack = contentView.FindViewById<LinearLayout>(Resource.Id.CellContentStack);
@@ -580,7 +579,7 @@ namespace AiForms.Renderers.Droid
         {
 
             if (_iconTokenSource != null && !_iconTokenSource.IsCancellationRequested) {
-                //if previous task be alive, cancel. 
+                //if previous task be alive, cancel.
                 _iconTokenSource.Cancel();
             }
 

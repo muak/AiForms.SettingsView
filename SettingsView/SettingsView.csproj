@@ -1,15 +1,18 @@
-<Project Sdk="MSBuild.Sdk.Extras/3.0.22">
+﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.22">
+
     <PropertyGroup>
         <TargetFrameworks>netstandard2.0;xamarin.ios10;monoandroid10.0</TargetFrameworks>
-        <LangVersion>8.0</LangVersion>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <DisableExtraReferences>False</DisableExtraReferences>
         <PackageProjectUrl>https://github.com/muak/AiForms.SettingsView</PackageProjectUrl>
         <Product>$(AssemblyName) ($(TargetFramework))</Product>
         <Authors>kamu</Authors>
-        <Description>This is a flexible TableView specialized in settings for Android / iOS. 
+        <Description>This is a flexible TableView specialized in settings for Android / iOS.
     There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,CheckboxCell,RadioCell,PickerCell,EntryCell,NumberPickerCell,TimePickerCell,DatePickerCell,CustomCell)
         </Description>
         <PackageTags>Xamarin.Forms TableView Cell Setting Configuration Option ListView UITableView RecyclerView ReOrder DragDrop</PackageTags>
-        <VersionPrefix>0.4.1</VersionPrefix>
+        <VersionPrefix>1.5.0</VersionPrefix>
         <VersionPrefix Condition=" $(BUILD_BUILDNUMBER) != '' ">$(VersionPrefix).$(BUILD_BUILDNUMBER)</VersionPrefix>
         <PackageReleaseNotes></PackageReleaseNotes>
         <PackageIconUrl>https://raw.githubusercontent.com/muak/AiForms.SettingsView/master/images/icon.png</PackageIconUrl>
@@ -17,7 +20,6 @@
         <LangVersion>latest</LangVersion>
         <RepositoryUrl>https://github.com/muak/AiForms.SettingsView</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-
         <DefineConstants Condition=" $(TargetFramework.StartsWith('monoandroid10'))">$(DefineConstants);ANDROIDX</DefineConstants>
     </PropertyGroup>
 
@@ -37,13 +39,10 @@
         <None Include="Platforms\**\*.*" />
     </ItemGroup>
 
-    <ItemGroup Condition=" $(TargetFramework.StartsWith('monoandroid'))">
+    <ItemGroup Condition=" $(TargetFramework.StartsWith('monoandroid')) ">
         <AndroidResource Include="Resources\**\*.axml" SubType="Designer" Generator="MSBuild:UpdateAndroidResources" />
         <AndroidResource Include="Resources\**\*.xml" SubType="Designer" Generator="MSBuild:UpdateAndroidResources" />
         <AndroidResource Include="Resources\**\*.png" SubType="Designer" Generator="MSBuild:UpdateAndroidResources" />
-    </ItemGroup>
-
-    <ItemGroup Condition=" $(TargetFramework.StartsWith('monoandroid10'))">
         <Compile Include="Platforms\Android\**\*.cs" />
     </ItemGroup>
 
