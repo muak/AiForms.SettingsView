@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <AndroidEnablePreloadAssemblies>false</AndroidEnablePreloadAssemblies>
@@ -41,8 +41,10 @@
     <AndroidManagedSymbols>true</AndroidManagedSymbols>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <AndroidSupportedAbis>armeabi-v7a;arm64-v8a;x86_64;x86</AndroidSupportedAbis>
-    <Commandlineparameters></Commandlineparameters>
-    <AndroidPackageFormat></AndroidPackageFormat>
+    <Commandlineparameters>
+    </Commandlineparameters>
+    <AndroidPackageFormat>
+    </AndroidPackageFormat>
     <AndroidPackageFormat>apk</AndroidPackageFormat>
   </PropertyGroup>
   <ItemGroup>
@@ -66,10 +68,7 @@
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\layout\" />
-    <Folder Include="Resources\values\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon.png" />
     <AndroidResource Include="Resources\drawable-hdpi\icon.png" />
@@ -101,10 +100,6 @@
     <AndroidEnvironment Include="monoEnv.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SettingsView.Droid\SettingsView.Droid.csproj">
-      <Project>{2CC418E1-CE33-48E2-8E89-A87669BD9E28}</Project>
-      <Name>SettingsView.Droid</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\SettingsView\SettingsView.csproj">
       <Project>{8FFB1EF3-FAF3-478C-B9F1-4D02E599C3C6}</Project>
       <Name>SettingsView</Name>

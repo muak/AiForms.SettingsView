@@ -6,11 +6,14 @@
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+	<PackageReference Include="AiForms.Effects" Version="1.6.10" />
 	<PackageReference Include="AiForms.Layouts" Version="1.0.4" />
     <PackageReference Include="Prism.Unity.Forms" Version="7.0.0.396" />
     <PackageReference Include="ReactiveProperty" Version="4.2.2" />
 
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
+
+    <PackageReference Include="Xamarin.Forms.Svg" Version="1.0.3" />
 <!--    <PackageReference Include="AiForms.Effects" Version="1.5.5" />-->
   </ItemGroup>
   <ItemGroup>
