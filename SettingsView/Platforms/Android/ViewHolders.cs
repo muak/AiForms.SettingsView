@@ -26,7 +26,7 @@ namespace AiForms.Renderers.Droid
 
     [Android.Runtime.Preserve(AllMembers = true)]
     internal interface IHeaderViewHolder
-    { 
+    {
     }
 
     [Android.Runtime.Preserve(AllMembers = true)]
@@ -42,7 +42,7 @@ namespace AiForms.Renderers.Droid
 
         public HeaderViewHolder(AView view) : base(view)
         {
-            TextView = view.FindViewById<TextView>(Resource.Id.HeaderCellText);
+            TextView = view.FindViewById<TextView>(global::SettingsView.Resource.Id.HeaderCellText);
         }
 
         protected override void Dispose(bool disposing)
@@ -63,7 +63,7 @@ namespace AiForms.Renderers.Droid
 
         public FooterViewHolder(AView view) : base(view)
         {
-            TextView = view.FindViewById<TextView>(Resource.Id.FooterCellText);
+            TextView = view.FindViewById<TextView>(global::SettingsView.Resource.Id.FooterCellText);
         }
 
         protected override void Dispose(bool disposing)
@@ -83,7 +83,7 @@ namespace AiForms.Renderers.Droid
         public CustomHeaderViewHolder(AView view) : base(view)
         {
             view.LayoutParameters = new ViewGroup.LayoutParams(-1, -2);
-        }       
+        }
     }
 
     [Android.Runtime.Preserve(AllMembers = true)]
@@ -103,7 +103,7 @@ namespace AiForms.Renderers.Droid
 
         public ContentBodyViewHolder(AView view) : base(view)
         {
-            Body = view.FindViewById<LinearLayout>(Resource.Id.ContentCellBody);
+            Body = view.FindViewById<LinearLayout>(global::SettingsView.Resource.Id.ContentCellBody);
         }
 
         protected override void Dispose(bool disposing)

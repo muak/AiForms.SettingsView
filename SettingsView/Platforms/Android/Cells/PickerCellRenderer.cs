@@ -50,7 +50,7 @@ namespace AiForms.Renderers.Droid
                 return;
             }
             _indicatorView = new ImageView(context);
-            _indicatorView.SetImageResource(Resource.Drawable.ic_navigate_next);
+            _indicatorView.SetImageResource(global::SettingsView.Resource.Drawable.ic_navigate_next);
 
             var param = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WrapContent,

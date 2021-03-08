@@ -16,7 +16,7 @@ namespace AiForms.Renderers.Droid
     /// <summary>
     /// Settings view renderer.
     /// </summary>
-    /// 
+    ///
     [Android.Runtime.Preserve(AllMembers = true)]
     public class SettingsViewRenderer : ViewRenderer<SettingsView, RecyclerView>
     {
@@ -44,10 +44,10 @@ namespace AiForms.Renderers.Droid
         {
             base.OnElementChanged(e);
 
-            if (e.NewElement != null) 
+            if (e.NewElement != null)
             {
                 // Fix scrollbar visibility and flash. https://github.com/xamarin/Xamarin.Forms/pull/10893
-                var recyclerView = new RecyclerView(new ContextThemeWrapper(Context, Resource.Style.settingsViewTheme),null,Resource.Attribute.settingsViewStyle);                         
+                var recyclerView = new RecyclerView(new ContextThemeWrapper(Context, global::SettingsView.Resource.Style.settingsViewTheme),null, global::SettingsView.Resource.Attribute.settingsViewStyle);
 
                 // When replaced, No animation.
                 //(recyclerView.GetItemAnimator() as DefaultItemAnimator).SupportsChangeAnimations = false;
@@ -55,7 +55,7 @@ namespace AiForms.Renderers.Droid
                 _layoutManager = new SettingsViewLayoutManager(Context,e.NewElement);
                 recyclerView.SetLayoutManager(_layoutManager);
 
-                _divider = Context.GetDrawable(Resource.Drawable.divider);
+                _divider = Context.GetDrawable(global::SettingsView.Resource.Drawable.divider);
                 _itemDecoration = new SVItemdecoration(_divider,e.NewElement);
                 recyclerView.AddItemDecoration(_itemDecoration);
 
@@ -124,7 +124,7 @@ namespace AiForms.Renderers.Droid
         void ParentPageAppearing(object sender, EventArgs e)
         {
             Device.BeginInvokeOnMainThread(() => _adapter?.DeselectRow());
-        }        
+        }
 
         /// <summary>
         /// Ons the element property changed.
@@ -192,7 +192,7 @@ namespace AiForms.Renderers.Droid
         void UpdateScrollToBottom()
         {
             if (Element.ScrollToBottom)
-            {              
+            {
                 if(_adapter != null ){
                     _layoutManager.ScrollToPosition(_adapter.ItemCount - 1);
                 }
@@ -295,7 +295,7 @@ namespace AiForms.Renderers.Droid
             if (!(viewHolder is ContentBodyViewHolder fromContentHolder))
             {
                 System.Diagnostics.Debug.WriteLine("Cannot move no ContentHolder");
-                return false; 
+                return false;
             }
 
             var fromPos = viewHolder.AdapterPosition;
@@ -339,17 +339,17 @@ namespace AiForms.Renderers.Droid
             System.Diagnostics.Debug.WriteLine($"Set ToInfo Section:{_settingsView.Root.IndexOf(toInfo.Section)} Cell:{toInfo.Section.IndexOf(toInfo.Cell)}");
 
             var settingsAdapter = recyclerView.GetAdapter() as SettingsViewRecyclerAdapter;
-                        
+
             settingsAdapter.CellMoved(fromPos, toPos); //caches update
             settingsAdapter.NotifyItemMoved(fromPos, toPos); //rows update
 
-            // save moved changes 
+            // save moved changes
             _moveHistory.Enqueue((_fromInfo, toInfo));
 
             System.Diagnostics.Debug.WriteLine($"Move Completed from:{fromPos} to:{toPos}");
 
             return true;
-        }        
+        }
 
         void DataSourceMoved()
         {
@@ -449,7 +449,7 @@ namespace AiForms.Renderers.Droid
                 viewHolder.ItemView.Alpha = 0.9f;
                 viewHolder.ItemView.ScaleX = 1.04f;
                 viewHolder.ItemView.ScaleY = 1.04f;
-            }            
+            }
         }
 
 

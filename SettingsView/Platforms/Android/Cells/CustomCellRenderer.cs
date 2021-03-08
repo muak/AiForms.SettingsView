@@ -40,7 +40,7 @@ namespace AiForms.Renderers.Droid
                 return;
             }
             _indicatorView = new ImageView(context);
-            _indicatorView.SetImageResource(Resource.Drawable.ic_navigate_next);
+            _indicatorView.SetImageResource(global::SettingsView.Resource.Drawable.ic_navigate_next);
 
             var param = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WrapContent,
@@ -62,14 +62,14 @@ namespace AiForms.Renderers.Droid
             _container = new FormsViewContainer(Context);
 
 
-            _coreView = FindViewById<LinearLayout>(Resource.Id.CellBody);
+            _coreView = FindViewById<LinearLayout>(global::SettingsView.Resource.Id.CellBody);
             ContentStack.RemoveFromParent();
             DescriptionLabel.RemoveFromParent();
 
             if(CustomCell.UseFullSize)
             {
                 IconView.RemoveFromParent();
-                var layout = FindViewById<ARelativeLayout>(Resource.Id.CellLayout);
+                var layout = FindViewById<ARelativeLayout>(global::SettingsView.Resource.Id.CellLayout);
                 var rMargin = CustomCell.ShowArrowIndicator ? _Context.ToPixels(10) : 0;
                 layout.SetPadding(0, 0, (int)rMargin, 0);
                 _coreView.SetPadding(0, 0, 0, 0);

@@ -71,7 +71,7 @@ namespace AiForms.Renderers.Droid
             }
             else if (e.PropertyName == Section.FooterTextProperty.PropertyName ||
                      e.PropertyName == Section.FooterViewProperty.PropertyName ||
-                     e.PropertyName == Section.FooterVisibleProperty.PropertyName) 
+                     e.PropertyName == Section.FooterVisibleProperty.PropertyName)
             {
                 UpdateSectionFooter((Section)sender);
             }
@@ -137,10 +137,10 @@ namespace AiForms.Renderers.Droid
             switch ((ViewType)viewType)
             {
                 case ViewType.TextHeader:
-                    viewHolder = new HeaderViewHolder(inflater.Inflate(Resource.Layout.HeaderCell, parent, false));
+                    viewHolder = new HeaderViewHolder(inflater.Inflate(global::SettingsView.Resource.Layout.HeaderCell, parent, false));
                     break;
                 case ViewType.TextFooter:
-                    viewHolder = new FooterViewHolder(inflater.Inflate(Resource.Layout.FooterCell, parent, false));
+                    viewHolder = new FooterViewHolder(inflater.Inflate(global::SettingsView.Resource.Layout.FooterCell, parent, false));
                     break;
                 case ViewType.CustomHeader:
                     var hContainer = new HeaderFooterContainer(_context);
@@ -151,7 +151,7 @@ namespace AiForms.Renderers.Droid
                     viewHolder = new CustomFooterViewHolder(fContainer);
                     break;
                 default:
-                    viewHolder = new ContentBodyViewHolder(inflater.Inflate(Resource.Layout.ContentCell, parent, false));
+                    viewHolder = new ContentBodyViewHolder(inflater.Inflate(global::SettingsView.Resource.Layout.ContentCell, parent, false));
                     viewHolder.ItemView.SetOnClickListener(this);
                     viewHolder.ItemView.SetOnLongClickListener(this);
                     break;
@@ -175,7 +175,7 @@ namespace AiForms.Renderers.Droid
 
             var vHolder = holder as ViewHolder;
             vHolder.RowInfo = rowInfo;
-            
+
             if(!rowInfo.Section.IsVisible ||
                (rowInfo.ViewType == ViewType.CustomFooter && !rowInfo.Section.FooterVisible))
             {
@@ -220,10 +220,10 @@ namespace AiForms.Renderers.Droid
             //      But do it at a later as iOS side doesn't have that process.
             DeselectRow();
 
-            var cell = view.FindViewById<LinearLayout>(Resource.Id.ContentCellBody).GetChildAt(0) as CellBaseView;
+            var cell = view.FindViewById<LinearLayout>(global::SettingsView.Resource.Id.ContentCellBody).GetChildAt(0) as CellBaseView;
 
             if(cell == null || !_proxy[position].Cell.IsEnabled){
-                //if FormsCell IsEnable is false, does nothing. 
+                //if FormsCell IsEnable is false, does nothing.
                 return;
             }
 
@@ -243,11 +243,11 @@ namespace AiForms.Renderers.Droid
                 return false;
             }
 
-            var cell = v.FindViewById<LinearLayout>(Resource.Id.ContentCellBody).GetChildAt(0) as CellBaseView;
+            var cell = v.FindViewById<LinearLayout>(global::SettingsView.Resource.Id.ContentCellBody).GetChildAt(0) as CellBaseView;
 
             if (cell == null || !_proxy[position].Cell.IsEnabled)
             {
-                //if FormsCell IsEnable is false, does nothing. 
+                //if FormsCell IsEnable is false, does nothing.
                 return false;
             }
 
@@ -308,7 +308,7 @@ namespace AiForms.Renderers.Droid
             base.Dispose(disposing);
         }
 
-       
+
         void BindHeaderView(HeaderViewHolder holder)
         {
             var section = holder.RowInfo.Section;
@@ -453,7 +453,7 @@ namespace AiForms.Renderers.Droid
                 layout.SetMinimumHeight((int)_context.ToPixels(formsCell.Height));
                 layout.LayoutParameters.Height = (int)_context.ToPixels(formsCell.Height);
             }
-            else if (formsCell is ViewCell viewCell) 
+            else if (formsCell is ViewCell viewCell)
             {
                 // if used a viewcell, calculate the size and layout it.
                 var size = viewCell.View.Measure(_settingsView.Width, double.PositiveInfinity);
