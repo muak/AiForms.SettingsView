@@ -14,9 +14,6 @@
         <PackageReference Include="Xamarin.Forms.Svg" Version="1.0.3" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\SettingsView\SettingsView.csproj" />
-    </ItemGroup>
-    <ItemGroup>
         <None Remove="Resources\APJapanesefont.ttf" />
         <None Remove="Resources\ionicons.ttf" />
         <None Remove="Resources\icomoon.ttf" />
@@ -25,5 +22,8 @@
         <EmbeddedResource Include="Resources\APJapanesefont.ttf" />
         <EmbeddedResource Include="Resources\ionicons.ttf" />
         <EmbeddedResource Include="Resources\icomoon.ttf" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\SettingsView\AiForms.SettingsView.csproj" />
     </ItemGroup>
 </Project>

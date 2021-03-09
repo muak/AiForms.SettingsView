@@ -104,15 +104,15 @@ namespace AiForms.Renderers.Droid
         protected virtual void CreateContentView()
         {
             var layoutInflater = (LayoutInflater)_Context.GetSystemService(Context.LayoutInflaterService);
-            var contentView = layoutInflater.Inflate(global::SettingsView.Resource.Layout.CellBaseView, this, true);
+            var contentView = layoutInflater.Inflate(global::AiForms.SettingsView.Resource.Layout.CellBaseView, this, true);
 
             contentView.LayoutParameters = new ViewGroup.LayoutParams(-1, -1);
-            IconView = contentView.FindViewById<ImageView>(global::SettingsView.Resource.Id.CellIcon);
-            TitleLabel = contentView.FindViewById<TextView>(global::SettingsView.Resource.Id.CellTitle);
-            DescriptionLabel = contentView.FindViewById<TextView>(global::SettingsView.Resource.Id.CellDescription);
-            ContentStack = contentView.FindViewById<LinearLayout>(global::SettingsView.Resource.Id.CellContentStack);
-            AccessoryStack = contentView.FindViewById<LinearLayout>(global::SettingsView.Resource.Id.CellAccessoryView);
-            HintLabel = contentView.FindViewById<TextView>(global::SettingsView.Resource.Id.CellHintText);
+            IconView = contentView.FindViewById<ImageView>(global::AiForms.SettingsView.Resource.Id.CellIcon);
+            TitleLabel = contentView.FindViewById<TextView>(global::AiForms.SettingsView.Resource.Id.CellTitle);
+            DescriptionLabel = contentView.FindViewById<TextView>(global::AiForms.SettingsView.Resource.Id.CellDescription);
+            ContentStack = contentView.FindViewById<LinearLayout>(global::AiForms.SettingsView.Resource.Id.CellContentStack);
+            AccessoryStack = contentView.FindViewById<LinearLayout>(global::AiForms.SettingsView.Resource.Id.CellAccessoryView);
+            HintLabel = contentView.FindViewById<TextView>(global::AiForms.SettingsView.Resource.Id.CellHintText);
 
             _backgroundColor = new ColorDrawable();
             _selectedColor = new ColorDrawable(Android.Graphics.Color.Argb(125, 180, 180, 180));

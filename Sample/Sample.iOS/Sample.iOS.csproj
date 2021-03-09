@@ -93,7 +93,7 @@
     </ProjectReference>
     <ProjectReference Include="..\..\SettingsView\SettingsView.csproj">
       <Project>{8FFB1EF3-FAF3-478C-B9F1-4D02E599C3C6}</Project>
-      <Name>SettingsView</Name>
+      <Name>AiForms.SettingsView</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

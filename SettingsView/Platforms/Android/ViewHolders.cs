@@ -42,7 +42,7 @@ namespace AiForms.Renderers.Droid
 
         public HeaderViewHolder(AView view) : base(view)
         {
-            TextView = view.FindViewById<TextView>(global::SettingsView.Resource.Id.HeaderCellText);
+            TextView = view.FindViewById<TextView>(global::AiForms.SettingsView.Resource.Id.HeaderCellText);
         }
 
         protected override void Dispose(bool disposing)
@@ -63,7 +63,7 @@ namespace AiForms.Renderers.Droid
 
         public FooterViewHolder(AView view) : base(view)
         {
-            TextView = view.FindViewById<TextView>(global::SettingsView.Resource.Id.FooterCellText);
+            TextView = view.FindViewById<TextView>(global::AiForms.SettingsView.Resource.Id.FooterCellText);
         }
 
         protected override void Dispose(bool disposing)
@@ -103,7 +103,7 @@ namespace AiForms.Renderers.Droid
 
         public ContentBodyViewHolder(AView view) : base(view)
         {
-            Body = view.FindViewById<LinearLayout>(global::SettingsView.Resource.Id.ContentCellBody);
+            Body = view.FindViewById<LinearLayout>(global::AiForms.SettingsView.Resource.Id.ContentCellBody);
         }
 
         protected override void Dispose(bool disposing)

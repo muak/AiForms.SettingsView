@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.iOS", "Sample.iOS\Sa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Droid", "Sample.Droid\Sample.Droid.csproj", "{346B7F68-2775-472A-A693-EF333F750619}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SettingsView", "..\SettingsView\SettingsView.csproj", "{8FFB1EF3-FAF3-478C-B9F1-4D02E599C3C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AiForms.SettingsView", "..\SettingsView\AiForms.SettingsView.csproj", "{8FFB1EF3-FAF3-478C-B9F1-4D02E599C3C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
