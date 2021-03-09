@@ -344,7 +344,7 @@ namespace AiForms.Renderers
 
         internal IList MergedSelectedList {
             get {
-                if (SelectionMode == SelectionMode.Single) 
+                if (SelectionMode == SelectionMode.Single)
                 {
                     var list = new ArrayList();
                     if(SelectedItem != null)
@@ -359,7 +359,7 @@ namespace AiForms.Renderers
 
 
         //getters cache
-        static ConcurrentDictionary<Type, Dictionary<string,Func<object, object>>> DisplayValueCache = new ConcurrentDictionary<Type, Dictionary<string,Func<object, object>>>();
+        static System.Collections.Concurrent.ConcurrentDictionary<Type, Dictionary<string,Func<object, object>>> DisplayValueCache = new System.Collections.Concurrent.ConcurrentDictionary<Type, Dictionary<string,Func<object, object>>>();
 
         //DisplayMember getter
         internal Func<object, object> DisplayValue{
@@ -372,7 +372,7 @@ namespace AiForms.Renderers
                 }
                 else{
                     return (obj) => obj;
-                } 
+                }
             }
         }
 
@@ -386,7 +386,7 @@ namespace AiForms.Renderers
                 }
                 else{
                     return (obj) => null;
-                } 
+                }
             }
         }
 
@@ -396,7 +396,7 @@ namespace AiForms.Renderers
                 if(_getters == null || SelectedItemsOrderKey == null){
                     return null;
                 }
-               
+
                 if (_getters.ContainsKey(SelectedItemsOrderKey))
                 {
                     return _getters[SelectedItemsOrderKey];
@@ -438,7 +438,7 @@ namespace AiForms.Renderers
                 var comparer = UseNaturalSort ? new NaturalComparer() : null;
                 sortedList = strList.OrderBy(x => x, comparer).ToList();
             }
-            
+
             return string.Join(", ", sortedList.ToArray());
         }
 
@@ -461,7 +461,7 @@ namespace AiForms.Renderers
 
         // Create all propertiy getters
         Dictionary<string,Func<object,object>> CreateGetProperty(Type t)
-        {           
+        {
             var prop =t.GetRuntimeProperties()
                                 .Where(x => x.DeclaringType == t && !x.Name.StartsWith("_", StringComparison.Ordinal));
 

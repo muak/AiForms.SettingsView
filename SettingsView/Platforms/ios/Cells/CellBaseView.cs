@@ -355,7 +355,7 @@ namespace AiForms.Renderers.iOS
                 return; // for HotReload
 
             DescriptionLabel.Text = CellBase.Description;
-            //layout break because of StackView spacing.DescriptionLabel hidden to fix it. 
+            //layout break because of StackView spacing.DescriptionLabel hidden to fix it.
             DescriptionLabel.Hidden = string.IsNullOrEmpty(DescriptionLabel.Text);
         }
 
@@ -477,7 +477,7 @@ namespace AiForms.Renderers.iOS
             if (IconView is null)
                 return; // for HotReload
 
-            if (_iconTokenSource != null && !_iconTokenSource.IsCancellationRequested) {               
+            if (_iconTokenSource != null && !_iconTokenSource.IsCancellationRequested) {
                 _iconTokenSource.Cancel();
             }
 
@@ -524,7 +524,7 @@ namespace AiForms.Renderers.iOS
                 else
                 {
                     image = await handler.LoadImageAsync(source, token, scale: scale);
-                }                
+                }
                 token.ThrowIfCancellationRequested();
             }, token).ContinueWith(t =>
             {
@@ -681,7 +681,7 @@ namespace AiForms.Renderers.iOS
 
         protected virtual void SetUpContentView()
         {
-            //remove existing views 
+            //remove existing views
             ImageView.RemoveFromSuperview();
             TextLabel.RemoveFromSuperview();
             ImageView.Hidden = true;
@@ -710,7 +710,7 @@ namespace AiForms.Renderers.iOS
             UpdateIconSize();
 
             //右に配置するVerticalStackView（コアの部品とDescriptionを格納）
-            //VerticalStackView that is arranged at right. ( put main parts and Description ) 
+            //VerticalStackView that is arranged at right. ( put main parts and Description )
             StackV = new UIStackView
             {
                 Axis = UILayoutConstraintAxis.Vertical,

@@ -23,7 +23,7 @@
             <x:Double x:Key="BaseFontSize++">17</x:Double>
             <x:Double x:Key="BaseFontSize-">11</x:Double>
 
-            <Style TargetType="sv:SettingsView" x:Key="settingsView">
+            <!--<Style TargetType="sv:SettingsView" x:Key="settingsView">
                 <Setter Property="SeparatorColor" Value="{StaticResource DisabledColor}" />
                 <Setter Property="BackgroundColor" Value="{StaticResource PaleBackColorPrimary}" />
                 <Setter Property="HeaderBackgroundColor" Value="{StaticResource PaleBackColorPrimary}" />
@@ -39,7 +39,7 @@
                 <Setter Property="HeaderTextColor" Value="{StaticResource TitleTextColor}" />
                 <Setter Property="FooterFontSize" Value="{StaticResource BaseFontSize-}" />
                 <Setter Property="FooterTextColor" Value="{StaticResource PaleTextColor}" />
-            </Style>
+            </Style>-->
          </ResourceDictionary>
 	</Application.Resources>
 
