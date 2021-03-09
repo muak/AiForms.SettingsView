@@ -16,21 +16,11 @@ namespace Sample.Droid
 
 			base.OnCreate(bundle);
 
-            global::Xamarin.Forms.Forms.SetFlags("FastRenderers_Experimental");
-			 global::Xamarin.Forms.Forms.Init(this, bundle);
+ 			global::Xamarin.Forms.Forms.Init(this, bundle);
             AiForms.Effects.Droid.Effects.Init();
             Xamarin.Forms.Svg.Droid.SvgImage.Init(this);
             AiForms.Renderers.Droid.SettingsViewInit.Init();
-
-
-			LoadApplication(new App(new AndroidInitializer()));
+			this.LoadApplication(new App());
 		}
 	}
-
-    public class AndroidInitializer : IPlatformInitializer
-    {
-        public void RegisterTypes(IContainerRegistry containerRegistry)
-        {
-        }
-    }
 }

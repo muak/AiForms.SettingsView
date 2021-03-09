@@ -4,13 +4,11 @@ using Prism.Unity;
 using Xamarin.Forms;
 using Sample.Views;
 
-//[assembly: Xamarin.Forms.Xaml.XamlCompilation(Xamarin.Forms.Xaml.XamlCompilationOptions.Compile)]
+[assembly: Xamarin.Forms.Xaml.XamlCompilation(Xamarin.Forms.Xaml.XamlCompilationOptions.Compile)]
 namespace Sample
 {
     public partial class App : PrismApplication
 	{
-		public App(IPlatformInitializer initializer = null) : base(initializer) { }
-
 		protected override void OnInitialized()
 		{
 			InitializeComponent();

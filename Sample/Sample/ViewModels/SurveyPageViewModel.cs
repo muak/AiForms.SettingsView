@@ -38,12 +38,12 @@ namespace Sample.ViewModels
 
         }        
 
-        public void OnNavigatedFrom(NavigationParameters parameters)
+        public void OnNavigatedFrom(INavigationParameters parameters)
         {
             
         }
 
-        public void OnNavigatedTo(NavigationParameters parameters)
+        public void OnNavigatedTo(INavigationParameters parameters)
         {
             
 
@@ -56,6 +56,4 @@ namespace Sample.ViewModels
             public int Value { get; set; }
         }
     }
-
-    
 }
