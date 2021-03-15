@@ -137,6 +137,11 @@ namespace AiForms.Renderers.Droid
 
             _defaultTextColor = new Android.Graphics.Color(TitleLabel.CurrentTextColor);
             _defaultFontSize = TitleLabel.TextSize;
+            
+            if (!String.IsNullOrEmpty(Cell.AutomationId)) 
+            {
+                contentView.ContentDescription = Cell.AutomationId;
+            }
 
         }
 

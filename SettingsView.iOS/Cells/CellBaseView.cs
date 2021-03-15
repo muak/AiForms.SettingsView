@@ -776,6 +776,11 @@ namespace AiForms.Renderers.iOS
             // fix warning-log:Unable to simultaneously satisfy constraints.
             _minheightConstraint.Priority = 999f; // this is superior to any other view.
             _minheightConstraint.Active = true;
+            
+            if (!String.IsNullOrEmpty(Cell.AutomationId)) 
+            {
+                ContentStack.AccessibilityIdentifier = Cell.AutomationId;
+            }
         }
 
     }
