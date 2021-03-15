@@ -91,15 +91,16 @@
     <Compile Include="Cells\CustomCellContent.cs" />
     <Compile Include="PaddingLabel.cs" />
     <Compile Include="FontUtility.cs" />
+    <Compile Include="Extensions\NSObjectExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SettingsView\SettingsView.csproj">
-      <Project>{8FFB1EF3-FAF3-478C-B9F1-4D02E599C3C6}</Project>
+      <Project>{E44D4D5C-45EF-4B74-A7E0-C337FEDA24BD}</Project>
       <Name>SettingsView</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1451" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.CustomTabs.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.CustomTabs.targets" Condition="Exists('..\packages\Xamarin.Android.Support.CustomTabs.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.CustomTabs.targets')" />

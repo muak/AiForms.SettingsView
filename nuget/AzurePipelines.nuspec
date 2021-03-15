@@ -72,19 +72,19 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
     </metadata>
     <files>
         <!-- .net standard 2.1 -->
-        <file src="../SettingsView/bin/Release/netstandard2.1/SettingsView.dll" target="lib/netstandard2.1" /> 
-        <file src="../SettingsView/bin/Release/netstandard2.1/SettingsView.xml" target="lib/netstandard2.1" /> 
-        <file src="../SettingsView/bin/Release/netstandard2.1/SettingsView.pdb" target="lib/netstandard2.1" />
+        <file src="SettingsView.dll" target="lib/netstandard2.1" />
+        <file src="SettingsView.xml" target="lib/netstandard2.1" />
+        <file src="SettingsView.pdb" target="lib/netstandard2.1" />
 
         <!-- .net standard 2.0 -->
-        <file src="../SettingsView/bin/Release/netstandard2.0/SettingsView.dll" target="lib/netstandard2.0" /> 
-        <file src="../SettingsView/bin/Release/netstandard2.0/SettingsView.xml" target="lib/netstandard2.0" /> 
-        <file src="../SettingsView/bin/Release/netstandard2.0/SettingsView.pdb" target="lib/netstandard2.0" />
+        <file src="SettingsView.dll" target="lib/netstandard2.0" />
+        <file src="SettingsView.xml" target="lib/netstandard2.0" />
+        <file src="SettingsView.pdb" target="lib/netstandard2.0" />
 
         <!-- PCL -->
-        <file src="../SettingsView/bin/Release/netstandard2.0/SettingsView.dll" target="lib/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10" />
-        <file src="../SettingsView/bin/Release/netstandard2.0/SettingsView.xml" target="lib/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10" />
-        <file src="../SettingsView/bin/Release/netstandard2.0/SettingsView.pdb" target="lib/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10" />
+        <file src="SettingsView.dll" target="lib/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10" />
+        <file src="SettingsView.xml" target="lib/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10" />
+        <file src="SettingsView.pdb" target="lib/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10" />
 
         <!-- Mono.Android -->
         <file src="SettingsView.dll" target="lib/MonoAndroid" />

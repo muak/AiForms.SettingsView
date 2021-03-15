@@ -160,8 +160,11 @@ namespace AiForms.Renderers.iOS
                 ValueField.Dispose();
                 ValueField = null;
 
-                ContentStack.RemoveArrangedSubview(_FieldWrapper);
-                _FieldWrapper.Dispose();
+                if (!_FieldWrapper.IsDisposed())
+                {
+                    ContentStack.RemoveArrangedSubview(_FieldWrapper);
+                    _FieldWrapper.Dispose();
+                }
                 _FieldWrapper = null;
             }
             base.Dispose(disposing);
