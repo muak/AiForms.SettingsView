@@ -72,7 +72,7 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
 
         <!-- Mono.Touch -->
         <file src="iOS/SettingsView.dll" target="lib/MonoTouch" />
-        <file src="iOS/SettingsView.xml" target="lib/MonoTouch" />
+        <file src="netstandard/netstandard2.1/SettingsView.xml" target="lib/MonoTouch" />
         <file src="iOS/SettingsView.pdb" target="lib/MonoTouch" />
         <file src="iOS/SettingsView.iOS.dll" target="lib/MonoTouch" />
         <file src="iOS/SettingsView.iOS.xml" target="lib/MonoTouch" />
@@ -80,7 +80,8 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
 
         <!-- Xamarin.iOS10 -->
         <file src="iOS/SettingsView.dll" target="lib/Xamarin.iOS10" />
-        <file src="iOS/SettingsView.xml" target="lib/Xamarin.iOS10" />
+        <!-- For some reason, On Azure devops pipeline, SettingsView.xml cannot be created. So use netstandard2.1 one instead of. -->
+        <file src="netstandard/netstandard2.1/SettingsView.xml" target="lib/Xamarin.iOS10" />
         <file src="iOS/SettingsView.pdb" target="lib/Xamarin.iOS10" />
         <file src="iOS/SettingsView.iOS.dll" target="lib/Xamarin.iOS10" />
         <file src="iOS/SettingsView.iOS.xml" target="lib/Xamarin.iOS10" />
