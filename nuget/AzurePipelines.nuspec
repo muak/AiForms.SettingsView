@@ -66,16 +66,10 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
         <file src="artifacts/monoandroid10.0/SettingsView.dll" target="lib/MonoAndroid" />
         <file src="artifacts/monoandroid10.0/SettingsView.xml" target="lib/MonoAndroid" />
         <file src="artifacts/monoandroid10.0/SettingsView.pdb" target="lib/MonoAndroid" />
-        <file src="artifacts/monoandroid10.0/SettingsView.Droid.dll" target="lib/MonoAndroid" />
-        <file src="artifacts/monoandroid10.0/SettingsView.Droid.xml" target="lib/MonoAndroid" />
-        <file src="artifacts/monoandroid10.0/SettingsView.Droid.pdb" target="lib/MonoAndroid" />
 
         <!-- Xamarin.iOS -->
         <file src="artifacts/xamarin.ios10/SettingsView.dll" target="lib/Xamarin.iOS10" />
         <file src="artifacts/xamarin.ios10/SettingsView.xml" target="lib/Xamarin.iOS10" />
         <file src="artifacts/xamarin.ios10/SettingsView.pdb" target="lib/Xamarin.iOS10" />
-        <file src="artifacts/xamarin.ios10/SettingsView.iOS.dll" target="lib/Xamarin.iOS10" />
-        <file src="artifacts/xamarin.ios10/SettingsView.iOS.xml" target="lib/Xamarin.iOS10" />
-        <file src="artifacts/xamarin.ios10/SettingsView.iOS.pdb" target="lib/Xamarin.iOS10" />
     </files>
 </package>
