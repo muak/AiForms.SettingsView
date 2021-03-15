@@ -17,37 +17,13 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
         <releaseNotes>
 ## News
 
-* Corrensponded to iOS14 and AndroidX.
-
 ## New Features
-
-* [Cell] Reload method.
-* [SettingsView] ItemDroppedEvent and ItemDroppedCommand property.
-* [TextPickerCell] IsCircularPicker property. #72
-* [EntryCell] PlaceholderColor property #94
-* Custom Font is now Supported. (required Xamarin.Forms 4.5.530 later) #30
 
 ## Changes
 
-* [EntryCell][iOS] Keyboard enter key caption changed "Return" to "Done".
-* [Header/Footer] Section header/footer does not respect SafeAreaInsets #83
-* Support .NETStandard2.1
-* Minimum Xamarin.Forms version >= 4.6.0.800
-
-
 ## Bug fixes
 
-* [Android] Scrollbar visibility and flash https://github.com/xamarin/Xamarin.Forms/pull/10893
-* [Android] Android - UseDragSort exception: Queue empty #133
-* [iOS] Crash ScrollToTop ScrollToBottom when no elements.
-* [Android] Fix reordering bug.
-* [Android] Fix  Sequence contains no elements. #113 #86
-* [PickerCell] PickerCell is now supported on Shell. #67
-* FontImageSource is not displayed. #95
-* [TextPickerCell] The last item is selected by default #93
-* [HintText] HintText does not respect SafeAreaInsets. #90
-* [Header/Footer] Header / Footer is broken the layout #87 #88 #89
-* [SettingsView][Section] Crash when ItemsSource element is replaced.
+* Fix Xamarin.Forms 5 some issues.
 
         </releaseNotes>
         <tags>Xamarin.Forms TableView Cell Setting Configuration Option ListView UITableView RecyclerView ReOrder DragDrop</tags>
