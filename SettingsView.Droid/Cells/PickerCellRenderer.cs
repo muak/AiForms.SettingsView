@@ -159,6 +159,8 @@ namespace AiForms.Renderers.Droid
         protected override void Dispose(bool disposing)
         {
             if (disposing) {
+                // Dialog.Dispose() does not close an open dialog view so explicitly dismiss it before disposing
+                _dialog?.Dismiss();
                 _dialog?.Dispose();
                 _dialog = null;
                 _listView?.Dispose();
