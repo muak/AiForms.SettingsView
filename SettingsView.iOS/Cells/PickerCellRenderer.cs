@@ -96,7 +96,7 @@ namespace AiForms.Renderers.iOS
                 page.Title = _PickerCell.PageTitle;
 
                 // Fire manually because INavigation.PushAsync does not work ViewDidAppear and ViewWillAppear.
-                _pickerVC.ViewDidAppear(false);
+                _pickerVC.ViewWillAppear(false);
                 _pickerVC.InitializeView();
                 BeginInvokeOnMainThread(async () => {
                     await shell.ShellSection.Navigation.PushAsync(page, true);
