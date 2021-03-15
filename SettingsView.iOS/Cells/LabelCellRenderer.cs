@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using AiForms.Renderers;
 using AiForms.Renderers.iOS;
+using AiForms.Renderers.iOS.Extensions;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
@@ -156,8 +157,12 @@ namespace AiForms.Renderers.iOS
         protected override void Dispose(bool disposing)
         {
             if (disposing) {
-                ContentStack.RemoveArrangedSubview(ValueLabel);
-                ValueLabel.Dispose();
+                if (!ValueLabel.IsDisposed())
+                {
+                    ContentStack.RemoveArrangedSubview(ValueLabel);
+                    ValueLabel.Dispose();
+                }
+                ValueLabel = null;
             }
             base.Dispose(disposing);
         }

@@ -17,37 +17,13 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
         <releaseNotes>
 ## News
 
-* Corrensponded to iOS14 and AndroidX.
-
 ## New Features
-
-* [Cell] Reload method.
-* [SettingsView] ItemDroppedEvent and ItemDroppedCommand property.
-* [TextPickerCell] IsCircularPicker property. #72
-* [EntryCell] PlaceholderColor property #94
-* Custom Font is now Supported. (required Xamarin.Forms 4.5.530 later) #30
 
 ## Changes
 
-* [EntryCell][iOS] Keyboard enter key caption changed "Return" to "Done".
-* [Header/Footer] Section header/footer does not respect SafeAreaInsets #83
-* Support .NETStandard2.1
-* Minimum Xamarin.Forms version >= 4.6.0.800
-
-
 ## Bug fixes
 
-* [Android] Scrollbar visibility and flash https://github.com/xamarin/Xamarin.Forms/pull/10893
-* [Android] Android - UseDragSort exception: Queue empty #133
-* [iOS] Crash ScrollToTop ScrollToBottom when no elements.
-* [Android] Fix reordering bug.
-* [Android] Fix  Sequence contains no elements. #113 #86
-* [PickerCell] PickerCell is now supported on Shell. #67
-* FontImageSource is not displayed. #95
-* [TextPickerCell] The last item is selected by default #93
-* [HintText] HintText does not respect SafeAreaInsets. #90
-* [Header/Footer] Header / Footer is broken the layout #87 #88 #89
-* [SettingsView][Section] Crash when ItemsSource element is replaced.
+* Fix Xamarin.Forms 5 some issues.
 
         </releaseNotes>
         <tags>Xamarin.Forms TableView Cell Setting Configuration Option ListView UITableView RecyclerView ReOrder DragDrop</tags>
@@ -72,42 +48,43 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
     </metadata>
     <files>
         <!-- .net standard 2.1 -->
-        <file src="../SettingsView/bin/Release/netstandard2.1/SettingsView.dll" target="lib/netstandard2.1" /> 
-        <file src="../SettingsView/bin/Release/netstandard2.1/SettingsView.xml" target="lib/netstandard2.1" /> 
-        <file src="../SettingsView/bin/Release/netstandard2.1/SettingsView.pdb" target="lib/netstandard2.1" />
+        <file src="netstandard/netstandard2.1/SettingsView.dll" target="lib/netstandard2.1" />
+        <file src="netstandard/netstandard2.1/SettingsView.xml" target="lib/netstandard2.1" />
+        <file src="netstandard/netstandard2.1/SettingsView.pdb" target="lib/netstandard2.1" />
 
         <!-- .net standard 2.0 -->
-        <file src="../SettingsView/bin/Release/netstandard2.0/SettingsView.dll" target="lib/netstandard2.0" /> 
-        <file src="../SettingsView/bin/Release/netstandard2.0/SettingsView.xml" target="lib/netstandard2.0" /> 
-        <file src="../SettingsView/bin/Release/netstandard2.0/SettingsView.pdb" target="lib/netstandard2.0" />
+        <file src="netstandard/netstandard2.0/SettingsView.dll" target="lib/netstandard2.0" />
+        <file src="netstandard/netstandard2.0/SettingsView.xml" target="lib/netstandard2.0" />
+        <file src="netstandard/netstandard2.0/SettingsView.pdb" target="lib/netstandard2.0" />
 
         <!-- PCL -->
-        <file src="../SettingsView/bin/Release/netstandard2.0/SettingsView.dll" target="lib/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10" />
-        <file src="../SettingsView/bin/Release/netstandard2.0/SettingsView.xml" target="lib/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10" />
-        <file src="../SettingsView/bin/Release/netstandard2.0/SettingsView.pdb" target="lib/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10" />
+        <file src="netstandard/netstandard2.0/SettingsView.dll" target="lib/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10" />
+        <file src="netstandard/netstandard2.0/SettingsView.xml" target="lib/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10" />
+        <file src="netstandard/netstandard2.0/SettingsView.pdb" target="lib/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10" />
 
         <!-- Mono.Android -->
-        <file src="SettingsView.dll" target="lib/MonoAndroid" />
-        <file src="SettingsView.xml" target="lib/MonoAndroid" />
-        <file src="SettingsView.pdb" target="lib/MonoAndroid" />
-        <file src="SettingsView.Droid.dll" target="lib/MonoAndroid" />
-        <file src="SettingsView.Droid.xml" target="lib/MonoAndroid" />
-        <file src="SettingsView.Droid.pdb" target="lib/MonoAndroid" />
+        <file src="android/SettingsView.dll" target="lib/MonoAndroid" />
+        <file src="android/SettingsView.xml" target="lib/MonoAndroid" />
+        <file src="android/SettingsView.pdb" target="lib/MonoAndroid" />
+        <file src="android/SettingsView.Droid.dll" target="lib/MonoAndroid" />
+        <file src="android/SettingsView.Droid.xml" target="lib/MonoAndroid" />
+        <file src="android/SettingsView.Droid.pdb" target="lib/MonoAndroid" />
 
         <!-- Mono.Touch -->
-        <file src="SettingsView.dll" target="lib/MonoTouch" />
-        <file src="SettingsView.xml" target="lib/MonoTouch" />
-        <file src="SettingsView.pdb" target="lib/MonoTouch" />
-        <file src="SettingsView.iOS.dll" target="lib/MonoTouch" />
-        <file src="SettingsView.iOS.xml" target="lib/MonoTouch" />
-        <file src="SettingsView.iOS.pdb" target="lib/MonoTouch" />
+        <file src="iOS/SettingsView.dll" target="lib/MonoTouch" />
+        <file src="netstandard/netstandard2.1/SettingsView.xml" target="lib/MonoTouch" />
+        <file src="iOS/SettingsView.pdb" target="lib/MonoTouch" />
+        <file src="iOS/SettingsView.iOS.dll" target="lib/MonoTouch" />
+        <file src="iOS/SettingsView.iOS.xml" target="lib/MonoTouch" />
+        <file src="iOS/SettingsView.iOS.pdb" target="lib/MonoTouch" />
 
         <!-- Xamarin.iOS10 -->
-        <file src="SettingsView.dll" target="lib/Xamarin.iOS10" />
-        <file src="SettingsView.xml" target="lib/Xamarin.iOS10" />
-        <file src="SettingsView.pdb" target="lib/Xamarin.iOS10" />
-        <file src="SettingsView.iOS.dll" target="lib/Xamarin.iOS10" />
-        <file src="SettingsView.iOS.xml" target="lib/Xamarin.iOS10" />
-        <file src="SettingsView.iOS.pdb" target="lib/Xamarin.iOS10" />
+        <file src="iOS/SettingsView.dll" target="lib/Xamarin.iOS10" />
+        <!-- For some reason, On Azure devops pipeline, SettingsView.xml cannot be created. So use netstandard2.1 one instead of. -->
+        <file src="netstandard/netstandard2.1/SettingsView.xml" target="lib/Xamarin.iOS10" />
+        <file src="iOS/SettingsView.pdb" target="lib/Xamarin.iOS10" />
+        <file src="iOS/SettingsView.iOS.dll" target="lib/Xamarin.iOS10" />
+        <file src="iOS/SettingsView.iOS.xml" target="lib/Xamarin.iOS10" />
+        <file src="iOS/SettingsView.iOS.pdb" target="lib/Xamarin.iOS10" />
     </files>
 </package>
