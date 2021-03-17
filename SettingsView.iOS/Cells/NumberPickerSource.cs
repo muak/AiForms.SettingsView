@@ -6,10 +6,9 @@ using UIKit;
 namespace AiForms.Renderers.iOS
 {
     [Foundation.Preserve(AllMembers = true)]
-    internal class NumberPickerSource : UIPickerViewModel
+    public class NumberPickerSource : UIPickerViewModel
     {
-
-        internal IList<int> Items { get; private set; }
+        public IList<int> Items { get; private set; }
 
         internal event EventHandler UpdatePickerFromModel;
 

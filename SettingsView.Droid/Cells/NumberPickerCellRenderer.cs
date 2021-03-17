@@ -121,7 +121,12 @@ namespace AiForms.Renderers.Droid
 
         void UpdateNumber()
         {
-            vValueLabel.Text = _NumberPikcerCell.Number.ToString();
+            vValueLabel.Text = FormatNumber(_NumberPikcerCell.Number);
+        }
+
+        protected virtual string FormatNumber(int? number)
+        {
+            return number?.ToString() ?? "";
         }
 
         void UpdatePickerTitle()
@@ -139,7 +144,12 @@ namespace AiForms.Renderers.Droid
             _picker = new APicker(_context);
             _picker.MinValue = _min;
             _picker.MaxValue = _max;
-            _picker.Value = _NumberPikcerCell.Number;
+            if (_NumberPikcerCell.Number.HasValue)
+            {
+                _picker.Value = _NumberPikcerCell.Number.Value;
+            }
+
+            OnPickerCreated(_picker);
 
             if (_dialog == null) {
                 using (var builder = new AlertDialog.Builder(_context)) {
@@ -176,6 +186,11 @@ namespace AiForms.Renderers.Droid
                 _dialog.Show();
             }
 
+        }
+
+        protected virtual void OnPickerCreated(APicker picker)
+        {
+            // can be overwritten in subclasses
         }
 
         void DestroyDialog()
