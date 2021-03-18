@@ -102,7 +102,7 @@ namespace AiForms.Renderers.iOS
         public override UITableViewCell GetCell(UITableView tableView, Foundation.NSIndexPath indexPath)
         {
 
-            var reusableCell = tableView.DequeueReusableCell("pikcercell");
+            var reusableCell = tableView.DequeueReusableCell("pickercell");
             if (reusableCell == null) {
                 reusableCell = new UITableViewCell(UITableViewCellStyle.Subtitle, "pickercell");
 
@@ -121,7 +121,6 @@ namespace AiForms.Renderers.iOS
 
             reusableCell.Accessory = _selectedCache.ContainsKey(indexPath.Row) ?
                 UITableViewCellAccessory.Checkmark : UITableViewCellAccessory.None;
-
 
             return reusableCell;
         }
