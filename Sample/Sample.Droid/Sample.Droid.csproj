@@ -30,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <AndroidLinkMode>None</AndroidLinkMode>
+<AndroidSupportedAbis>armeabi-v7a;arm64-v8a;x86;x86_64</AndroidSupportedAbis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,7 +43,7 @@
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <AndroidSupportedAbis>armeabi-v7a;arm64-v8a;x86_64;x86</AndroidSupportedAbis>
     <Commandlineparameters></Commandlineparameters>
-    <AndroidPackageFormat></AndroidPackageFormat>
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
     <AndroidPackageFormat>apk</AndroidPackageFormat>
   </PropertyGroup>
   <ItemGroup>
@@ -101,10 +102,6 @@
     <AndroidEnvironment Include="monoEnv.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SettingsView.Droid\SettingsView.Droid.csproj">
-      <Project>{2CC418E1-CE33-48E2-8E89-A87669BD9E28}</Project>
-      <Name>SettingsView.Droid</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\SettingsView\SettingsView.csproj">
       <Project>{8FFB1EF3-FAF3-478C-B9F1-4D02E599C3C6}</Project>
       <Name>SettingsView</Name>
