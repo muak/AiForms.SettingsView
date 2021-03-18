@@ -10,6 +10,7 @@ using Android.Widget;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using AListView = Android.Widget.ListView;
+using Resource = global::SettingsView.Resource;
 
 [assembly: ExportRenderer(typeof(PickerCell), typeof(PickerCellRenderer))]
 namespace AiForms.Renderers.Droid
