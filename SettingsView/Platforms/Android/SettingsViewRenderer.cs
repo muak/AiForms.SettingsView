@@ -9,6 +9,7 @@ using Android.Views;
 using AndroidX.RecyclerView.Widget;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
+using Resource = global::SettingsView.Resource;
 
 [assembly: ExportRenderer(typeof(AiForms.Renderers.SettingsView), typeof(SettingsViewRenderer))]
 namespace AiForms.Renderers.Droid

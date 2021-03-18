@@ -12,6 +12,7 @@ using Android.Widget;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using ARelativeLayout = Android.Widget.RelativeLayout;
+using Resource = global::SettingsView.Resource;
 
 namespace AiForms.Renderers.Droid
 {

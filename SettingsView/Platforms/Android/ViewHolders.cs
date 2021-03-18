@@ -3,6 +3,7 @@ using Android.Widget;
 using AndroidX.RecyclerView.Widget;
 using Xamarin.Forms;
 using AView = Android.Views.View;
+using Resource = global::SettingsView.Resource;
 
 namespace AiForms.Renderers.Droid
 {

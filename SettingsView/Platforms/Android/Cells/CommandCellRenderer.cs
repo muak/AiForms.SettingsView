@@ -1,41 +1,48 @@
 ﻿using System;
 using System.Windows.Input;
-using Android.Content;
-using Android.Views;
-using Android.Widget;
-using Xamarin.Forms;
-using Xamarin.Forms.Platform.Android;
 using AiForms.Renderers;
 using AiForms.Renderers.Droid;
-using Xamarin.Forms.Internals;
-using ARelativeLayout = Android.Widget.RelativeLayout;
+using Android.Content;
+using Xamarin.Forms;
+using Android.Widget;
+using Android.Views;
+using Android.Graphics;
+using Xamarin.Forms.Platform.Android;
 using Android.Runtime;
+using Resource = global::SettingsView.Resource;
 
-[assembly: ExportRenderer(typeof(CustomCell), typeof(CustomCellRenderer))]
+[assembly: ExportRenderer(typeof(CommandCell), typeof(CommandCellRenderer))]
 namespace AiForms.Renderers.Droid
 {
+    /// <summary>
+    /// Command cell renderer.
+    /// </summary>
     [Android.Runtime.Preserve(AllMembers = true)]
-    public class CustomCellRenderer : CellBaseRenderer<CustomCellView> { }
+    public class CommandCellRenderer : CellBaseRenderer<CommandCellView> { }
 
-
+    /// <summary>
+    /// Command cell view.
+    /// </summary>
     [Android.Runtime.Preserve(AllMembers = true)]
-    public class CustomCellView : CellBaseView
+    public class CommandCellView : LabelCellView
     {
-        protected Action Execute { get; set; }
-        protected CustomCell CustomCell => Cell as CustomCell;
-        protected ICommand _command;
-        protected ImageView _indicatorView;
-        protected LinearLayout _coreView;
-        FormsViewContainer _container;
+        internal Action Execute { get; set; }
+        CommandCell _CommandCell => Cell as CommandCell;
+        ICommand _command;
+        ImageView _indicatorView;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Droid.CommandCellView"/> class.
         /// </summary>
         /// <param name="context">Context.</param>
         /// <param name="cell">Cell.</param>
-        public CustomCellView(Context context, Cell cell) : base(context, cell)
+        public CommandCellView(Context context, Cell cell) : base(context, cell)
         {
-            if (!CustomCell.ShowArrowIndicator)
+            if(!CellParent.ShowArrowIndicatorForAndroid)
+            {
+                return;
+            }
+            if(_CommandCell.HideArrowIndicator)
             {
                 return;
             }
@@ -53,36 +60,7 @@ namespace AiForms.Renderers.Droid
             }
         }
 
-        public CustomCellView(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) { }
-
-        protected override void CreateContentView()
-        {
-            base.CreateContentView();
-
-            _container = new FormsViewContainer(Context);
-
-
-            _coreView = FindViewById<LinearLayout>(Resource.Id.CellBody);
-            ContentStack.RemoveFromParent();
-            DescriptionLabel.RemoveFromParent();
-
-            if(CustomCell.UseFullSize)
-            {
-                IconView.RemoveFromParent();
-                var layout = FindViewById<ARelativeLayout>(Resource.Id.CellLayout);
-                var rMargin = CustomCell.ShowArrowIndicator ? _Context.ToPixels(10) : 0;
-                layout.SetPadding(0, 0, (int)rMargin, 0);
-                _coreView.SetPadding(0, 0, 0, 0);
-            }
-
-            _coreView.AddView(_container);
-        }
-
-        public void UpdateContent()
-        {
-            _container.CustomCell = CustomCell;
-            _container.FormsCell = CustomCell.Content;
-        }
+        public CommandCellView(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) { }
 
         /// <summary>
         /// Cells the property changed.
@@ -93,35 +71,17 @@ namespace AiForms.Renderers.Droid
         {
             base.CellPropertyChanged(sender, e);
             if (e.PropertyName == CommandCell.CommandProperty.PropertyName ||
-               e.PropertyName == CommandCell.CommandParameterProperty.PropertyName)
-            {
+               e.PropertyName == CommandCell.CommandParameterProperty.PropertyName) {
                 UpdateCommand();
             }
         }
 
         public override void RowSelected(SettingsViewRecyclerAdapter adapter, int position)
         {
-            if(!CustomCell.IsSelectable)
-            {
-                return;
-            }
             Execute?.Invoke();
-            if (CustomCell.KeepSelectedUntilBack)
-            {
+            if (_CommandCell.KeepSelectedUntilBack) {
                 adapter.SelectedRow(this, position);
             }
-        }
-
-        public override bool RowLongPressed(SettingsViewRecyclerAdapter adapter, int position)
-        {
-            if (CustomCell.LongCommand == null)
-            {
-                return false;
-            }
-
-            CustomCell.SendLongCommand();
-
-            return true;
         }
 
         /// <summary>
@@ -130,7 +90,6 @@ namespace AiForms.Renderers.Droid
         public override void UpdateCell()
         {
             base.UpdateCell();
-            UpdateContent();
             UpdateCommand();
         }
 
@@ -141,10 +100,8 @@ namespace AiForms.Renderers.Droid
         /// <param name="disposing">If set to <c>true</c> disposing.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                if (_command != null)
-                {
+            if (disposing) {
+                if (_command != null) {
                     _command.CanExecuteChanged -= Command_CanExecuteChanged;
                 }
                 Execute = null;
@@ -154,41 +111,30 @@ namespace AiForms.Renderers.Droid
                 _indicatorView?.SetImageBitmap(null);
                 _indicatorView?.Dispose();
                 _indicatorView = null;
-
-                _coreView?.RemoveFromParent();
-                _coreView?.Dispose();
-                _coreView = null;
-
-                _container?.RemoveFromParent();
-                _container?.Dispose();
-                _container = null;
             }
             base.Dispose(disposing);
         }
 
         void UpdateCommand()
         {
-            if (_command != null)
-            {
+            if (_command != null) {
                 _command.CanExecuteChanged -= Command_CanExecuteChanged;
             }
 
-            _command = CustomCell.Command;
+            _command = _CommandCell.Command;
 
-            if (_command != null)
-            {
+            if (_command != null) {
                 _command.CanExecuteChanged += Command_CanExecuteChanged;
                 Command_CanExecuteChanged(_command, System.EventArgs.Empty);
             }
 
-            Execute = () => {
-                if (_command == null)
-                {
+            Execute = () =>
+            {
+                if (_command == null) {
                     return;
                 }
-                if (_command.CanExecute(CustomCell.CommandParameter))
-                {
-                    _command.Execute(CustomCell.CommandParameter);
+                if (_command.CanExecute(_CommandCell.CommandParameter)) {
+                    _command.Execute(_CommandCell.CommandParameter);
                 }
             };
         }
@@ -198,8 +144,7 @@ namespace AiForms.Renderers.Droid
         /// </summary>
         protected override void UpdateIsEnabled()
         {
-            if (_command != null && !_command.CanExecute(CustomCell.CommandParameter))
-            {
+            if (_command != null && !_command.CanExecute(_CommandCell.CommandParameter)) {
                 return;
             }
             base.UpdateIsEnabled();
@@ -207,12 +152,11 @@ namespace AiForms.Renderers.Droid
 
         void Command_CanExecuteChanged(object sender, EventArgs e)
         {
-            if (!CellBase.IsEnabled)
-            {
+            if (!CellBase.IsEnabled) {
                 return;
             }
 
-            SetEnabledAppearance(_command.CanExecute(CustomCell.CommandParameter));
+            SetEnabledAppearance(_command.CanExecute(_CommandCell.CommandParameter));
         }
     }
 }

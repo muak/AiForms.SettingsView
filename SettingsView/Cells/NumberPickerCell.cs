@@ -15,9 +15,9 @@ namespace AiForms.Renderers
         public static BindableProperty NumberProperty =
             BindableProperty.Create(
                 nameof(Number),
-                typeof(int),
+                typeof(int?),
                 typeof(NumberPickerCell),
-                default(int),
+                null,
                 defaultBindingMode: BindingMode.TwoWay
             );
 
@@ -25,8 +25,8 @@ namespace AiForms.Renderers
         /// Gets or sets the number.
         /// </summary>
         /// <value>The number.</value>
-        public int Number {
-            get { return (int)GetValue(NumberProperty); }
+        public int? Number {
+            get { return (int?)GetValue(NumberProperty); }
             set { SetValue(NumberProperty, value); }
         }
 
@@ -112,6 +112,21 @@ namespace AiForms.Renderers
         public ICommand SelectedCommand {
             get { return (ICommand)GetValue(SelectedCommandProperty); }
             set { SetValue(SelectedCommandProperty, value); }
+        }
+
+        public static BindableProperty UnitProperty
+            = BindableProperty.Create
+                (nameof (Unit), 
+                typeof (string),
+                typeof (NumberPickerCell), 
+                "", 
+                defaultBindingMode: BindingMode.OneWay
+        );
+        
+        public string Unit
+        {
+            get { return (string) this.GetValue(UnitProperty); }
+            set { this.SetValue(UnitProperty, value); }
         }
 
         private new string ValueText { get; set; }
