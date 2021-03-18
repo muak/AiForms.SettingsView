@@ -5,10 +5,17 @@ using AiForms.Renderers.Droid;
 using Android.App;
 using Android.Content;
 using Android.Runtime;
+using Android.Text;
 using Android.Views;
+using Android.Widget;
+using Java.Lang;
+using Java.Lang.Reflect;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using APicker = Android.Widget.NumberPicker;
+using Exception = System.Exception;
+using Object = Java.Lang.Object;
+using String = System.String;
 
 [assembly: ExportRenderer(typeof(NumberPickerCell), typeof(NumberPickerCellRenderer))]
 namespace AiForms.Renderers.Droid
@@ -25,7 +32,7 @@ namespace AiForms.Renderers.Droid
     [Android.Runtime.Preserve(AllMembers = true)]
     public class NumberPickerCellView : LabelCellView
     {
-        NumberPickerCell _NumberPikcerCell => Cell as NumberPickerCell;
+        NumberPickerCell _NumberPickerCell => Cell as NumberPickerCell;
         APicker _picker;
         AlertDialog _dialog;
         Context _context;
@@ -111,32 +118,34 @@ namespace AiForms.Renderers.Droid
 
         void UpdateMin()
         {
-            _min = _NumberPikcerCell.Min;
+            _min = _NumberPickerCell.Min;
         }
 
         void UpdateMax()
         {
-            _max = _NumberPikcerCell.Max;
+            _max = _NumberPickerCell.Max;
         }
 
         void UpdateNumber()
         {
-            vValueLabel.Text = FormatNumber(_NumberPikcerCell.Number);
+            vValueLabel.Text = FormatNumber(_NumberPickerCell.Number);
         }
 
-        protected virtual string FormatNumber(int? number)
+        private string FormatNumber(int? number)
         {
-            return number?.ToString() ?? "";
+            return number.HasValue && !String.IsNullOrEmpty(_NumberPickerCell.Unit)
+                ? $"{number} {_NumberPickerCell.Unit}"
+                : number?.ToString() ?? "";
         }
 
         void UpdatePickerTitle()
         {
-            _title = _NumberPikcerCell.PickerTitle;
+            _title = _NumberPickerCell.PickerTitle;
         }
 
         void UpdateCommand()
         {
-            _command = _NumberPikcerCell.SelectedCommand;
+            _command = _NumberPickerCell.SelectedCommand;
         }
 
         void CreateDialog()
@@ -144,12 +153,16 @@ namespace AiForms.Renderers.Droid
             _picker = new APicker(_context);
             _picker.MinValue = _min;
             _picker.MaxValue = _max;
-            if (_NumberPikcerCell.Number.HasValue)
+            if (_NumberPickerCell.Number.HasValue)
             {
-                _picker.Value = _NumberPikcerCell.Number.Value;
+                _picker.Value = _NumberPickerCell.Number.Value;
             }
 
-            OnPickerCreated(_picker);
+            if (!String.IsNullOrEmpty(_NumberPickerCell.Unit))
+            {
+                _picker.SetFormatter(new UnitFormatter(_NumberPickerCell.Unit));
+                ApplyInitialFormattingBugfix(_picker);
+            }
 
             if (_dialog == null) {
                 using (var builder = new AlertDialog.Builder(_context)) {
@@ -170,7 +183,7 @@ namespace AiForms.Renderers.Droid
                     });
                     builder.SetPositiveButton(global::Android.Resource.String.Ok, (o, args) =>
                     {
-                        _NumberPikcerCell.Number = _picker.Value;
+                        _NumberPickerCell.Number = _picker.Value;
                         _command?.Execute(_picker.Value);
                         ClearFocus();
                     });
@@ -188,9 +201,22 @@ namespace AiForms.Renderers.Droid
 
         }
 
-        protected virtual void OnPickerCreated(APicker picker)
+        // see bug https://stackoverflow.com/questions/17708325/android-numberpicker-with-formatter-doesnt-format-on-first-rendering/54083214#54083214
+        // and https://issuetracker.google.com/issues/36952035
+        private static void ApplyInitialFormattingBugfix(APicker picker)
         {
-            // can be overwritten in subclasses
+            try
+            {
+                Class klass = Java.Lang.Class.FromType(typeof(NumberPicker));
+                Field f = klass.GetDeclaredField("mInputText");
+                f.Accessible = true;
+                EditText inputText = (EditText) f.Get(picker);
+                inputText.SetFilters(new IInputFilter[0]);
+            }
+            catch (Exception)
+            {
+                // silently ignore this
+            }
         }
 
         void DestroyDialog()
@@ -207,6 +233,21 @@ namespace AiForms.Renderers.Droid
                 dialog.Dismiss();
                 dialog.Dispose();
             }
+        }
+    }
+    
+    internal class UnitFormatter : Object, NumberPicker.IFormatter
+    {
+        private readonly string _unit;
+
+        public UnitFormatter(string unit)
+        {
+            _unit = unit;
+        }
+
+        public string Format(int value)
+        {
+            return value + " " + _unit;
         }
     }
 }

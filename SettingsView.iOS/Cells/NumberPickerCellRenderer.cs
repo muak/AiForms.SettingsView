@@ -32,7 +32,7 @@ namespace AiForms.Renderers.iOS
         UIPickerView _picker;
         ICommand _command;
 
-        NumberPickerCell _NumberPikcerCell => Cell as NumberPickerCell;
+        NumberPickerCell _NumberPickerCell => Cell as NumberPickerCell;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AiForms.Renderers.iOS.NumberPickerCellView"/> class.
@@ -156,49 +156,46 @@ namespace AiForms.Renderers.iOS
             DummyField.InputView = _picker;
             DummyField.InputAccessoryView = toolbar;
 
-            _model = CreateNumberPickerSource();
+            _model = new NumberPickerSource(_NumberPickerCell.Unit);
             _picker.Model = _model;
 
             _model.UpdatePickerFromModel += Model_UpdatePickerFromModel;
         }
 
-        protected virtual NumberPickerSource CreateNumberPickerSource()
-        {
-            return new NumberPickerSource();
-        }
-
         protected virtual void UpdateNumber()
         {
-            Select(_NumberPikcerCell.Number);
-            ValueLabel.Text = FormatNumber(_NumberPikcerCell.Number);
+            Select(_NumberPickerCell.Number);
+            ValueLabel.Text = FormatNumber(_NumberPickerCell.Number);
         }
 
-        protected virtual string FormatNumber(int? number)
+        private string FormatNumber(int? number)
         {
-            return number?.ToString() ?? "";
+            return number.HasValue && !String.IsNullOrEmpty(_NumberPickerCell.Unit)
+                ? $"{number} {_NumberPickerCell.Unit}"
+                : number?.ToString() ?? "";
         }
 
         void UpdateNumberList()
         {
-            _model.SetNumbers(_NumberPikcerCell.Min, _NumberPikcerCell.Max);
-            Select(_NumberPikcerCell.Number);
+            _model.SetNumbers(_NumberPickerCell.Min, _NumberPickerCell.Max);
+            Select(_NumberPickerCell.Number);
         }
 
         void UpdateTitle()
         {
-            _titleLabel.Text = _NumberPikcerCell.PickerTitle;
+            _titleLabel.Text = _NumberPickerCell.PickerTitle;
             _titleLabel.SizeToFit();
             _titleLabel.Frame = new CGRect(0, 0, 160, 44);
         }
 
         void UpdateCommand()
         {
-            _command = _NumberPikcerCell.SelectedCommand;
+            _command = _NumberPickerCell.SelectedCommand;
         }
 
         void Model_UpdatePickerFromModel(object sender, EventArgs e)
         {
-            _NumberPikcerCell.Number = _model.SelectedItem;
+            _NumberPickerCell.Number = _model.SelectedItem;
             ValueLabel.Text = FormatNumber(_model.SelectedItem);
         }
 

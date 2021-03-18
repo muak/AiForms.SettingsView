@@ -114,6 +114,21 @@ namespace AiForms.Renderers
             set { SetValue(SelectedCommandProperty, value); }
         }
 
+        public static BindableProperty UnitProperty
+            = BindableProperty.Create
+                (nameof (Unit), 
+                typeof (string),
+                typeof (NumberPickerCell), 
+                "", 
+                defaultBindingMode: BindingMode.OneWay
+        );
+        
+        public string Unit
+        {
+            get { return (string) this.GetValue(UnitProperty); }
+            set { this.SetValue(UnitProperty, value); }
+        }
+
         private new string ValueText { get; set; }
     }
 }

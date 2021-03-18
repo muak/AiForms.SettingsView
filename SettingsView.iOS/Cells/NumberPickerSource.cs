@@ -6,9 +6,16 @@ using UIKit;
 namespace AiForms.Renderers.iOS
 {
     [Foundation.Preserve(AllMembers = true)]
-    public class NumberPickerSource : UIPickerViewModel
+    internal class NumberPickerSource : UIPickerViewModel
     {
-        public IList<int> Items { get; private set; }
+        private readonly string _unit;
+
+        public NumberPickerSource(string unit)
+        {
+            _unit = unit;
+        }
+
+        internal IList<int> Items { get; private set; }
 
         internal event EventHandler UpdatePickerFromModel;
 
@@ -48,7 +55,10 @@ namespace AiForms.Renderers.iOS
         /// <param name="component">Component.</param>
         public override string GetTitle(UIPickerView picker, nint row, nint component)
         {
-            return Items[(int)row].ToString();
+            int  number = Items[(int)row];
+            return !String.IsNullOrEmpty(_unit)
+                ? $"{number} {_unit}"
+                : number.ToString();
         }
 
         /// <summary>
