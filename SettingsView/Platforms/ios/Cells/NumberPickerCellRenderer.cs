@@ -32,7 +32,7 @@ namespace AiForms.Renderers.iOS
         UIPickerView _picker;
         ICommand _command;
 
-        NumberPickerCell _NumberPickerCell => Cell as NumberPickerCell;
+        NumberPickerCell _NumberPikcerCell => Cell as NumberPickerCell;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AiForms.Renderers.iOS.NumberPickerCellView"/> class.
@@ -156,47 +156,40 @@ namespace AiForms.Renderers.iOS
             DummyField.InputView = _picker;
             DummyField.InputAccessoryView = toolbar;
 
-            _model = new NumberPickerSource(_NumberPickerCell.Unit);
+            _model = new NumberPickerSource();
             _picker.Model = _model;
 
             _model.UpdatePickerFromModel += Model_UpdatePickerFromModel;
         }
 
-        protected virtual void UpdateNumber()
+        void UpdateNumber()
         {
-            Select(_NumberPickerCell.Number);
-            ValueLabel.Text = FormatNumber(_NumberPickerCell.Number);
-        }
-
-        private string FormatNumber(int? number)
-        {
-            return number.HasValue && !String.IsNullOrEmpty(_NumberPickerCell.Unit)
-                ? $"{number} {_NumberPickerCell.Unit}"
-                : number?.ToString() ?? "";
+            Select(_NumberPikcerCell.Number);
+            ValueLabel.Text = _NumberPikcerCell.Number.ToString();
         }
 
         void UpdateNumberList()
         {
-            _model.SetNumbers(_NumberPickerCell.Min, _NumberPickerCell.Max);
-            Select(_NumberPickerCell.Number);
+            _model.SetNumbers(_NumberPikcerCell.Min, _NumberPikcerCell.Max);
+            Select(_NumberPikcerCell.Number);
         }
 
         void UpdateTitle()
         {
-            _titleLabel.Text = _NumberPickerCell.PickerTitle;
+            _titleLabel.Text = _NumberPikcerCell.PickerTitle;
             _titleLabel.SizeToFit();
             _titleLabel.Frame = new CGRect(0, 0, 160, 44);
         }
 
         void UpdateCommand()
         {
-            _command = _NumberPickerCell.SelectedCommand;
+            _command = _NumberPikcerCell.SelectedCommand;
         }
 
         void Model_UpdatePickerFromModel(object sender, EventArgs e)
         {
-            _NumberPickerCell.Number = _model.SelectedItem;
-            ValueLabel.Text = FormatNumber(_model.SelectedItem);
+            _NumberPikcerCell.Number = _model.SelectedItem;
+            ValueLabel.Text = _model.SelectedItem.ToString();
         }
 
         /// <summary>
@@ -211,17 +204,17 @@ namespace AiForms.Renderers.iOS
             DummyField.Frame = new CGRect(0, 0, Frame.Width, Frame.Height);
         }
 
-        void Select(int? number)
+        void Select(int number)
         {
-            var idx = number.HasValue ? _model.Items.IndexOf(number.Value) : -1;
+            var idx = _model.Items.IndexOf(number);
             if (idx == -1) {
                 number = _model.Items[0];
                 idx = 0;
             }
             _picker.Select(idx, 0, false);
-            _model.SelectedItem = number.Value;
+            _model.SelectedItem = number;
             _model.SelectedIndex = idx;
-            _model.PreSelectedItem = number.Value;
+            _model.PreSelectedItem = number;
         }
     }
 }
