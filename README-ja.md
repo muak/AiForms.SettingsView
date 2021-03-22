@@ -604,6 +604,8 @@ Checkboxを備えたLabelCellです。
     * Pikerのタイトル文字列
 * SelectedCommand
     * 数値を選択した時に発火させるCommand。
+* Unit
+  * 数値の単位文字列。
 
 ValueTextは使用できません。
 
@@ -788,6 +790,11 @@ Xamarin.Forms.EntryCellとは別物です。
 * [codegrue](https://github.com/codegrue)
 * [cpraehaus](https://github.com/cpraehaus)
 * [dylanberry](https://github.com/dylanberry)
+* [RLittlesll](https://github.com/RLittlesII)
+* [ChaseFlorell](https://github.com/ChaseFlorell)
+* [OnTheFenceDevelopment](https://github.com/OnTheFenceDevelopment)
+* [SiNeumann](https://github.com/SiNeumann)
+* [akaegi](https://github.com/akaegi)
 
 
 ## 謝辞
