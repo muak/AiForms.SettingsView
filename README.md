@@ -597,6 +597,8 @@ This is a LabelCell calling a number picker.
     * Picker title text.
 * SelectedCommand
     * A command invoked when a number is selected.
+* Unit
+  * Unit string.
 
 This cell can't use ValueText property.
 
@@ -777,6 +779,11 @@ Please read the [contribution guideline](CONTRIBUTING.md).
 * [codegrue](https://github.com/codegrue)
 * [cpraehaus](https://github.com/cpraehaus)
 * [dylanberry](https://github.com/dylanberry)
+* [RLittlesll](https://github.com/RLittlesII)
+* [ChaseFlorell](https://github.com/ChaseFlorell)
+* [OnTheFenceDevelopment](https://github.com/OnTheFenceDevelopment)
+* [SiNeumann](https://github.com/SiNeumann)
+* [akaegi](https://github.com/akaegi)
 
 ## Thanks 
 
