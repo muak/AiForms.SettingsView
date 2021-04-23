@@ -236,6 +236,12 @@ namespace AiForms.Renderers.Droid
             _listView = new AListView(_context);
             _listView.Focusable = false;
             _listView.DescendantFocusability = Android.Views.DescendantFocusability.AfterDescendants;
+            _listView.SetPadding(
+                (int) _context.ToPixels(_PickerCell.Padding.Left),
+                (int) _context.ToPixels(_PickerCell.Padding.Top),
+                (int) _context.ToPixels(_PickerCell.Padding.Right),
+                (int) _context.ToPixels(_PickerCell.Padding.Bottom)
+            );
             _listView.SetDrawSelectorOnTop(true);
             _listView.ChoiceMode = _PickerCell.MaxSelectedNumber == 1 ? Android.Widget.ChoiceMode.Single : Android.Widget.ChoiceMode.Multiple;
             _adapter = new PickerAdapter(_context, _PickerCell, _listView);
