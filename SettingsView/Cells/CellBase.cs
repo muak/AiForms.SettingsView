@@ -394,6 +394,28 @@ namespace AiForms.Renderers
             get { return (double)GetValue(IconRadiusProperty); }
             set { SetValue(IconRadiusProperty, value); }
         }
+        
+        /// <summary>
+        /// The IsVisible property.
+        /// </summary>
+        public static BindableProperty IsVisibleProperty =
+            BindableProperty.Create(
+                nameof(IsVisible),
+                typeof(bool),
+                typeof(Section),
+                true,
+                defaultBindingMode: BindingMode.OneWay
+            );
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="CellBase"/> is visible.
+        /// </summary>
+        /// <value><c>true</c> if is visible; otherwise, <c>false</c>.</value>
+        public bool IsVisible
+        {
+            get { return (bool)GetValue(IsVisibleProperty); }
+            set { SetValue(IsVisibleProperty, value); }
+        }
 
         /// <summary>
         /// Gets or sets the section.

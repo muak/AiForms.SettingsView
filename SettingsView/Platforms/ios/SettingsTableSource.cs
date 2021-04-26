@@ -93,11 +93,16 @@ namespace AiForms.Renderers.iOS
         /// <param name="indexPath">Index path.</param>
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
+            Cell cell = _settingsView.Model.GetCell(indexPath.Section, indexPath.Row);
+            if ((cell is CellBase cb) && !cb.IsVisible)
+            {
+                return nfloat.Epsilon;
+            }
+            
             if (!_settingsView.HasUnevenRows) {
                 return tableView.EstimatedRowHeight;
             }
-
-            var cell = _settingsView.Model.GetCell(indexPath.Section, indexPath.Row);
+            
             var h = cell.Height;
 
             if (h == -1) {

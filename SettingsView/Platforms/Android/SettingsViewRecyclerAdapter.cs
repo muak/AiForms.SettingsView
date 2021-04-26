@@ -176,8 +176,11 @@ namespace AiForms.Renderers.Droid
 
             var vHolder = holder as ViewHolder;
             vHolder.RowInfo = rowInfo;
+
+            bool cellVisible = (rowInfo.Cell as CellBase)?.IsVisible ?? true;
             
             if(!rowInfo.Section.IsVisible ||
+               !cellVisible ||
                (rowInfo.ViewType == ViewType.CustomFooter && !rowInfo.Section.FooterVisible))
             {
                 vHolder.ItemView.Visibility = ViewStates.Gone;
@@ -185,9 +188,10 @@ namespace AiForms.Renderers.Droid
                 vHolder.ItemView.LayoutParameters.Height = 0;
                 return;
             }
-
+            
             vHolder.ItemView.Visibility = ViewStates.Visible;
-
+            vHolder.ItemView.LayoutParameters.Height = -2; //wrap_content
+            
             switch (rowInfo.ViewType)
             {
                 case ViewType.TextHeader:
