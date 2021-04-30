@@ -150,7 +150,7 @@ namespace AiForms.Renderers.Droid
         void UpdateSelectedValue()
         {
             bool result;
-            if (_radioCell.Value.GetType().IsValueType) {
+            if (_radioCell.Value.GetType().IsValueType || _radioCell.Value is string) {
                 result = object.Equals(_radioCell.Value, SelectedValue);
             }
             else {
