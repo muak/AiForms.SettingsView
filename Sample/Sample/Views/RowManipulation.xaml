@@ -26,11 +26,12 @@
         <StackLayout Grid.Column="0" Spacing="1">
             <Button Text="AddFirst" Clicked="AddFirstClicked" />
             <Button Text="AddLast" Clicked="AddLastClicked"/>
-            <Button Text="Add2nd" Clicked="Add2ndClicked"/>
+            <Button Text="Add2nd" Clicked="Add2ndClicked"/>            
             <Button Text="DelFirst" Clicked="DelFirstClicked"/>
             <Button Text="DelLast" Clicked="DelLastClicked"/>
             <Button Text="Del2nd" Clicked="Del2ndClicked" />
             <Button Text="Replace1" Clicked="Replace1Clicked" />
+            <Button Text="ShowHide2nd" Clicked="ShowHide2ndCell" />
 
             <Button Text="AddSecFirst" Clicked="AddSecFirstClicked" />
             <Button Text="AddSecLast" Clicked="AddSecLastClicked"/>
@@ -43,6 +44,7 @@
             <Button Text="ReplaceSec1" Clicked="ReplaceSec1Clicked" />
 
             <Button Text="ShowHide1st" Clicked="ShowHide1stClicked" />
+            
 
         </StackLayout>
 

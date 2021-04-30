@@ -47,7 +47,8 @@ namespace AiForms.Renderers.Droid
 
             _settingsView.ModelChanged += _settingsView_ModelChanged;
             _settingsView.SectionPropertyChanged += OnSectionPropertyChanged;
-        }
+            _settingsView.CellPropertyChanged += OnCellPropertyChanged;
+        }        
 
         void _settingsView_ModelChanged(object sender, EventArgs e)
         {
@@ -78,10 +79,28 @@ namespace AiForms.Renderers.Droid
             }
         }
 
+        void OnCellPropertyChanged(object sender, CellPropertyChangedEventArgs e)
+        {
+            if(e.PropertyName == CellBase.IsVisibleProperty.PropertyName)
+            {
+                UpdateCellVisible(e.Section, (CellBase)sender);
+            }
+        }
+
         void UpdateSectionVisible(Section section)
         {
             var indexes = _proxy.Select((x, idx) => new { idx, x.Section }).Where(x => x.Section == section).Select(x => x.idx).ToList();
             NotifyItemRangeChanged(indexes[0], indexes.Count);
+        }
+
+        void UpdateCellVisible(Section section, CellBase cell)
+        {
+            var result = _proxy.Select((x, idx) => new { idx, x.Section, x.Cell }).FirstOrDefault(x => x.Section == section && x.Cell == cell);
+            if(result == null)
+            {
+                return;
+            }
+            NotifyItemChanged(result.idx);
         }
 
         void UpdateSectionHeader(Section section)
@@ -299,6 +318,7 @@ namespace AiForms.Renderers.Droid
             if(disposing){
                 _settingsView.ModelChanged -= _settingsView_ModelChanged;
                 _settingsView.SectionPropertyChanged -= OnSectionPropertyChanged;
+                _settingsView.CellPropertyChanged -= OnCellPropertyChanged;
                 _proxy?.Dispose();
                 _proxy = null;
                 _settingsView = null;
