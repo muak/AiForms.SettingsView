@@ -26,6 +26,10 @@ namespace AiForms.Renderers
         /// Occurs when section property changed.
         /// </summary>
         public event PropertyChangedEventHandler SectionPropertyChanged;
+        /// <summary>
+        /// Occurs when cell property changed.
+        /// </summary>
+        public event EventHandler<CellPropertyChangedEventArgs> CellPropertyChanged;
        
         void ChildCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
         {           
@@ -37,6 +41,11 @@ namespace AiForms.Renderers
             SectionPropertyChanged?.Invoke(sender, e);
         }
 
+        void OnCellPropertyChanged(object sender, CellPropertyChangedEventArgs e)
+        {
+            CellPropertyChanged?.Invoke(sender, e);
+        }
+
         void SetupEvents()
         {
             CollectionChanged += (sender, args) =>
@@ -45,6 +54,7 @@ namespace AiForms.Renderers
                     foreach (Section section in args.NewItems) {
                         section.SectionCollectionChanged += ChildCollectionChanged;
                         section.SectionPropertyChanged += ChildPropertyChanged;
+                        section.CellPropertyChanged += OnCellPropertyChanged;
                     }
                 }
 
@@ -52,6 +62,7 @@ namespace AiForms.Renderers
                     foreach (Section section in args.OldItems) {
                         section.SectionCollectionChanged -= ChildCollectionChanged;
                         section.SectionPropertyChanged -= ChildPropertyChanged;
+                        section.CellPropertyChanged -= OnCellPropertyChanged;
                     }
                 }
             };

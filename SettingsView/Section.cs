@@ -170,13 +170,8 @@ namespace AiForms.Renderers
         }
 
         void OnItemPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(CellBase.IsVisible))
-            {
-                // if visibility of a section item changed, we treat it the same as if the
-                // whole section visibility changed
-                SectionPropertyChanged?.Invoke(this, e);
-            }
+        {           
+            CellPropertyChanged?.Invoke(sender, new CellPropertyChangedEventArgs(e.PropertyName, this));
         }
 
         /// <summary>
@@ -188,6 +183,11 @@ namespace AiForms.Renderers
         /// Occurs when section property changed.
         /// </summary>
         public event PropertyChangedEventHandler SectionPropertyChanged;
+
+        /// <summary>
+        /// Occurs when cell property changed.
+        /// </summary>
+        public event EventHandler<CellPropertyChangedEventArgs> CellPropertyChanged;
 
         public SettingsView Parent { get; set; }
 

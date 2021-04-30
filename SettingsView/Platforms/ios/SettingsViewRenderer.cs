@@ -45,6 +45,7 @@ namespace AiForms.Renderers.iOS
                 e.OldElement.CollectionChanged -= OnCollectionChanged;
                 e.OldElement.SectionCollectionChanged -= OnSectionCollectionChanged;
                 e.OldElement.SectionPropertyChanged -= OnSectionPropertyChanged;
+                e.OldElement.CellPropertyChanged -= OnCellPropertyChanged;
             }
 
             if (e.NewElement != null) 
@@ -91,6 +92,7 @@ namespace AiForms.Renderers.iOS
                 e.NewElement.CollectionChanged += OnCollectionChanged;
                 e.NewElement.SectionCollectionChanged += OnSectionCollectionChanged; 
                 e.NewElement.SectionPropertyChanged += OnSectionPropertyChanged;
+                e.NewElement.CellPropertyChanged += OnCellPropertyChanged;
 
                 UpdateBackgroundColor();
                 UpdateSeparator();
@@ -117,7 +119,7 @@ namespace AiForms.Renderers.iOS
                 _contentSizeObserver = _tableview.AddObserver("contentSize", NSKeyValueObservingOptions.New, OnContentSizeChanged);
                 
             }
-        }
+        }        
 
         void OnContentSizeChanged(NSObservedChange change)
         {
@@ -155,11 +157,28 @@ namespace AiForms.Renderers.iOS
             }
         }
 
+        void OnCellPropertyChanged(object sender, CellPropertyChangedEventArgs e)
+        {
+            if(e.PropertyName == CellBase.IsVisibleProperty.PropertyName)
+            {
+                UpdateCellVisible(e.Section,(CellBase)sender);
+            }
+        }
+
         void UpdateSectionVisible(Section section)
         {
             var secIndex = Element.Model.GetSectionIndex(section);
             Control.BeginUpdates();
             Control.ReloadSections(NSIndexSet.FromIndex(secIndex), UITableViewRowAnimation.Automatic);
+            Control.EndUpdates();
+        }
+
+        void UpdateCellVisible(Section section, CellBase cell)
+        {
+            var secIndex = Element.Model.GetSectionIndex(section);
+            var rowIndex = section.IndexOf(cell);
+            Control.BeginUpdates();
+            Control.ReloadRows(GetPaths(secIndex,rowIndex,1), UITableViewRowAnimation.Automatic);
             Control.EndUpdates();
         }
 
@@ -449,6 +468,7 @@ namespace AiForms.Renderers.iOS
                 Element.CollectionChanged -= OnCollectionChanged;
                 Element.SectionCollectionChanged -= OnSectionCollectionChanged;
                 Element.SectionPropertyChanged -= OnSectionPropertyChanged;
+                Element.CellPropertyChanged -= OnCellPropertyChanged;
                 _insetTracker?.Dispose();
                 _insetTracker = null;
                 foreach (UIView subview in Subviews) 

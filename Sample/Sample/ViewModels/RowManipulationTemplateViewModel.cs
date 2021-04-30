@@ -5,6 +5,7 @@ using AiForms.Renderers;
 using Reactive.Bindings;
 using Xamarin.Forms;
 using System.Linq;
+using Prism.Mvvm;
 
 namespace Sample.ViewModels
 {
@@ -43,6 +44,10 @@ namespace Sample.ViewModels
                         break;
                     case "Replace1":
                         Settings[0][0] = CreateItem();
+                        break;
+                    case "ShowHide":
+                        var item = Settings[0][1];
+                        item.IsVisible = !item.IsVisible;
                         break;
                     case "AddSecFirst":
                         Settings.Insert(0, CreateSection());
@@ -97,8 +102,13 @@ namespace Sample.ViewModels
         public SettingsGroup(IList<SettingsSectionItem> list) : base(list) { }
     }
 
-    public class SettingsSectionItem
+    public class SettingsSectionItem:BindableBase
     {
         public string Text { get; set; }
+        private bool _IsVisible = true;
+        public bool IsVisible{
+            get => _IsVisible;
+            set => SetProperty(ref _IsVisible, value);
+        }
     }
 }

@@ -48,6 +48,12 @@ namespace Sample.Views
             settings.Root[0][0] = CreateCell();
         }
 
+        void ShowHide2ndCell(System.Object sender, System.EventArgs e)
+        {
+            var cell = settings.Root[0][1] as CellBase;
+            cell.IsVisible = !cell.IsVisible;
+        }
+
         void AddSecFirstClicked(object sender, System.EventArgs e)
         {
             settings.Root.Insert(0, CreateSection());
@@ -115,5 +121,7 @@ namespace Sample.Views
             );
             return sec;
         }
+
+        
     }
 }

@@ -448,6 +448,8 @@ public class Option
     * Icon corners radius.
 * IsEnabled
 	* Whether a cell is enabled. If set to false, the entire cell color will turn translucent and the cell won't accept any operations.
+* IsVisible
+  * Whether a cell is visible or not.
 
 ### Methods
 

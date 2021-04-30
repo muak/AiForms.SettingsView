@@ -31,6 +31,7 @@
             <Button Text="DelLast" Command="{Binding ManipulateCommand}" CommandParameter="DelLast"/>
             <Button Text="Del2nd" Command="{Binding ManipulateCommand}" CommandParameter="Del2nd" />
             <Button Text="Replace1" Command="{Binding ManipulateCommand}" CommandParameter="Replace1" />
+            <Button Text="ShowHide2nd" Command="{Binding ManipulateCommand}" CommandParameter="ShowHide" />
 
             <Button Text="AddSecFirst" Command="{Binding ManipulateCommand}" CommandParameter="AddSecFirst" />
             <Button Text="AddSecLast" Command="{Binding ManipulateCommand}" CommandParameter="AddSecLast"/>
@@ -60,7 +61,7 @@
                         </sv:Section.FooterView>
                         <sv:Section.ItemTemplate>
                             <DataTemplate>
-                                <sv:LabelCell Title="{Binding Text}" />
+                                <sv:LabelCell Title="{Binding Text}" IsVisible="{Binding IsVisible}" />
                             </DataTemplate>
                         </sv:Section.ItemTemplate>
                     </sv:Section>

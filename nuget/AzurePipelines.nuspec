@@ -15,10 +15,11 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
         </description>
         <summary></summary>
         <releaseNotes>
-## News
+
 
 ## New Features
 
+[CellBase] Add IsVisible property.
 [NumberPickerCell] Add Unit property. It can be displayed unit string next to the number.
 
 ## Changes

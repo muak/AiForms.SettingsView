@@ -149,6 +149,10 @@ namespace AiForms.Renderers.iOS
             {
                 UpdateIsEnabled();
             }
+            else if (e.PropertyName == CellBase.IsVisibleProperty.PropertyName)
+            {
+                UpdateIsVisible();
+            }
         }
 
         /// <summary>
@@ -397,6 +401,18 @@ namespace AiForms.Renderers.iOS
         }
 
         /// <summary>
+        /// Updates the IsVisible
+        /// </summary>
+        protected virtual void UpdateIsVisible()
+        {
+            // If AccessoryView is set, hide the view because it overflows outside when IsVisible is false. 
+            if (AccessoryView != null)
+            {
+                AccessoryView.Hidden = !CellBase.IsVisible;
+            }
+        }
+
+        /// <summary>
         /// Sets the enabled appearance.
         /// </summary>
         /// <param name="isEnabled">If set to <c>true</c> is enabled.</param>
@@ -581,6 +597,7 @@ namespace AiForms.Renderers.iOS
             UpdateIconRadius();
 
             UpdateIsEnabled();
+            UpdateIsVisible();
 
             SetNeedsLayout();
         }

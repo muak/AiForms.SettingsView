@@ -43,6 +43,10 @@ namespace AiForms.Renderers
         /// Occurs when section property changed.
         /// </summary>
         public event PropertyChangedEventHandler SectionPropertyChanged;
+        /// <summary>
+        /// Occurs when cell property changed.
+        /// </summary>
+        public event EventHandler<CellPropertyChangedEventArgs> CellPropertyChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AiForms.Renderers.SettingsView"/> class.
@@ -68,6 +72,7 @@ namespace AiForms.Renderers
                     _root.SectionPropertyChanged -= OnSectionPropertyChanged;
                     _root.CollectionChanged -= OnCollectionChanged;
                     _root.SectionCollectionChanged -= OnSectionCollectionChanged;
+                    _root.CellPropertyChanged -= OnCellPropertyChanged;
                 }
 
                 _root = value;
@@ -78,6 +83,7 @@ namespace AiForms.Renderers
                 _root.SectionPropertyChanged += OnSectionPropertyChanged;
                 _root.CollectionChanged += OnCollectionChanged;
                 _root.SectionCollectionChanged += OnSectionCollectionChanged;
+                _root.CellPropertyChanged += OnCellPropertyChanged;
                 OnModelChanged();
             }
         }
@@ -95,6 +101,11 @@ namespace AiForms.Renderers
         void OnSectionPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             SectionPropertyChanged?.Invoke(sender, e);
+        }
+
+        void OnCellPropertyChanged(object sender, CellPropertyChangedEventArgs e)
+        {
+            CellPropertyChanged?.Invoke(sender, e);
         }
 
         /// <summary>

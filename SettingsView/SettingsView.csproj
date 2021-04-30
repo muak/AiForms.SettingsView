@@ -41,4 +41,9 @@
   <ItemGroup Condition=" $(TargetFramework.StartsWith('xamarin.ios')) ">
     <Compile Include="Platforms\ios\**\*.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Update="ChildPropertyChangedEventHandler.cs">
+      <SubType></SubType>
+    </Compile>
+  </ItemGroup>
 </Project>
