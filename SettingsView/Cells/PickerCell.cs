@@ -342,6 +342,27 @@ namespace AiForms.Renderers
             set { SetValue(UsePickToCloseProperty, value); }
         }
 
+        /// <summary>
+        /// The padding property.
+        /// </summary>
+        public static BindableProperty PaddingProperty =
+            BindableProperty.Create(
+                nameof(Padding),
+                typeof(Thickness),
+                typeof(PickerCell),
+                new Thickness(0, 0, 0, 0),
+                defaultBindingMode: BindingMode.OneWay
+            );
+        
+        /// <summary>
+        /// Gets or sets the padding property.
+        /// </summary>
+        /// <value>Padding in device-independent pixels</value>
+        public Thickness Padding {
+            get { return (Thickness)GetValue(PaddingProperty); }
+            set { SetValue(PaddingProperty, value); }
+        }
+        
         internal IList MergedSelectedList {
             get {
                 if (SelectionMode == SelectionMode.Single) 

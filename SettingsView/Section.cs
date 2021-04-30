@@ -3,6 +3,7 @@ using Xamarin.Forms;
 using System.Collections;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 
 namespace AiForms.Renderers
 {
@@ -152,19 +153,37 @@ namespace AiForms.Renderers
 
         void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            var oldCells = e.OldItems?.OfType<CellBase>() ?? Enumerable.Empty<CellBase>();
+            foreach (var oldCell in oldCells)
+                oldCell.PropertyChanged -= OnItemPropertyChanged;
+            
+            var newCells = e.NewItems?.OfType<CellBase>() ?? Enumerable.Empty<CellBase>();
+            foreach (var newCell in newCells)
+                newCell.PropertyChanged += OnItemPropertyChanged;
+            
             SectionCollectionChanged?.Invoke(this, e);
         }
 
-        void OnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             SectionPropertyChanged?.Invoke(this, e);
         }
 
+        void OnItemPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(CellBase.IsVisible))
+            {
+                // if visibility of a section item changed, we treat it the same as if the
+                // whole section visibility changed
+                SectionPropertyChanged?.Invoke(this, e);
+            }
+        }
 
         /// <summary>
         /// Occurs when section collection changed.
         /// </summary>
         public event NotifyCollectionChangedEventHandler SectionCollectionChanged;
+        
         /// <summary>
         /// Occurs when section property changed.
         /// </summary>

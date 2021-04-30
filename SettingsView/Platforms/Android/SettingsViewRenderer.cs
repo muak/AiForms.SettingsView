@@ -49,6 +49,7 @@ namespace AiForms.Renderers.Droid
             {
                 // Fix scrollbar visibility and flash. https://github.com/xamarin/Xamarin.Forms/pull/10893
                 var recyclerView = new RecyclerView(new ContextThemeWrapper(Context, Resource.Style.settingsViewTheme),null,Resource.Attribute.settingsViewStyle);                         
+                recyclerView.NestedScrollingEnabled = false;
 
                 // When replaced, No animation.
                 //(recyclerView.GetItemAnimator() as DefaultItemAnimator).SupportsChangeAnimations = false;
