@@ -635,7 +635,7 @@ namespace AiForms.Renderers.Droid
                     Device.BeginInvokeOnMainThread(() =>
                     {
                         Task.Delay(50); // in case repeating the same source, sometimes the icon not be shown. by inserting delay it be shown.
-                        IconView.SetImageBitmap(image);
+                        IconView?.SetImageBitmap(image);
                         Invalidate();
                     });
                 }
