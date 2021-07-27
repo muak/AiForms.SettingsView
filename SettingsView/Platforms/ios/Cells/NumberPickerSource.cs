@@ -55,7 +55,7 @@ namespace AiForms.Renderers.iOS
         /// <param name="component">Component.</param>
         public override string GetTitle(UIPickerView picker, nint row, nint component)
         {
-            int  number = Items[(int)row];
+            int number = SelectItem((int)row); 
             return !String.IsNullOrEmpty(_unit)
                 ? $"{number} {_unit}"
                 : number.ToString();
@@ -76,7 +76,7 @@ namespace AiForms.Renderers.iOS
                 SelectedIndex = -1;
             }
             else {
-                SelectedItem = Items[(int)row];
+                SelectedItem = SelectItem((int)row);
                 SelectedIndex = (int)row;
             }
 
@@ -105,6 +105,18 @@ namespace AiForms.Renderers.iOS
         {
             PreSelectedItem = SelectedItem;
             UpdatePickerFromModel?.Invoke(this, EventArgs.Empty);
+        }
+        private int SelectItem(int row) 
+        {
+            if (row >= Items.Count)
+            {
+                return Items[Items.Count - 1];
+            }
+            if(row < 0) 
+            {
+                return Items[0];
+            }
+            return Items[row];
         }
     }
 }
