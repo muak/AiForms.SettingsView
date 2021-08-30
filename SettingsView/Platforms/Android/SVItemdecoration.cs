@@ -1,8 +1,10 @@
 ﻿using System.Linq;
 using Android.Graphics;
 using Android.Graphics.Drawables;
-using Android.Views;
 using AndroidX.RecyclerView.Widget;
+using Xamarin.Forms;
+using Rect = Android.Graphics.Rect;
+using View = Android.Views.View;
 
 namespace AiForms.Renderers.Droid
 {
@@ -20,6 +22,12 @@ namespace AiForms.Renderers.Droid
 
         public override void GetItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state)
         {
+            var holder = parent.GetChildViewHolder(view) as ViewHolder;
+            if (!CellIsVisible(holder?.RowInfo.Cell))
+            {
+                return;
+            }
+
             outRect.Set(0, _drawable.IntrinsicHeight, 0, 0);
         }
 
@@ -39,7 +47,8 @@ namespace AiForms.Renderers.Droid
                    holder is IFooterViewHolder && !_settingsView.ShowSectionTopBottomBorder ||
                    holder is IFooterViewHolder && !holder.RowInfo.Section.Any() ||
                    holder is IHeaderViewHolder ||
-                   !holder.RowInfo.Section.IsVisible)
+                   !SectionIsVisible(holder?.RowInfo.Section) ||
+                   !CellIsVisible(holder?.RowInfo.Cell))
                 {
                     prevHolder = holder;
                     continue;
@@ -52,6 +61,15 @@ namespace AiForms.Renderers.Droid
 
                 prevHolder = holder;
             }
+        }
+
+        private bool SectionIsVisible(Section section)
+        {
+            return section?.IsVisible ?? true;
+        }
+        private bool CellIsVisible(Cell cell)
+        {
+            return (cell as CellBase)?.IsVisible ?? true;
         }
 
         protected override void Dispose(bool disposing)
