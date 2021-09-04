@@ -247,13 +247,19 @@ namespace AiForms.Renderers.iOS
             if (Control.IndexPathsForVisibleRows == null && e.Action != NotifyCollectionChangedAction.Reset)
                 return;
 
-            switch(e.Action)
+            // If the section is not visible, do nothing.
+            if (!Element.Model.GetSection(section).IsVisible)
+            {
+                return;
+            }
+
+            switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
                     if (e.NewStartingIndex == -1)
                     {
                         goto case NotifyCollectionChangedAction.Reset;
-                    }
+                    }                    
 
                     Control.BeginUpdates();
                     Control.InsertRows(GetPaths(section, e.NewStartingIndex, e.NewItems.Count), UITableViewRowAnimation.Automatic);
