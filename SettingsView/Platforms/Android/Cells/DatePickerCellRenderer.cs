@@ -119,7 +119,10 @@ namespace AiForms.Renderers.Droid
             {
                 _datePickerCell.Date = e.Date;
                 ClearFocus();
-                _dialog.CancelEvent -= OnCancelButtonClicked;
+                if (_dialog != null)
+                {
+                    _dialog.CancelEvent -= OnCancelButtonClicked;
+                }
 
                 _dialog = null;
             }, year, month, day);
@@ -139,7 +142,7 @@ namespace AiForms.Renderers.Droid
         void UpdateMaximumDate()
         {
             if (_dialog != null) {
-                //when not to specify 23:59:59,last day can't be selected. 
+                //when not to specify 23:59:59,last day can't be selected.
                 _dialog.DatePicker.MaxDate = (long)_datePickerCell.MaximumDate.Date.AddHours(23).AddMinutes(59).AddSeconds(59).ToUniversalTime().Subtract(DateTime.MinValue.AddYears(1969)).TotalMilliseconds;
             }
         }
