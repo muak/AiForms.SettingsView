@@ -42,6 +42,7 @@ namespace AiForms.Renderers.iOS
         {
             base.RowSelected(tableView, indexPath);
             _switch.On = !_switch.On;
+            _switch_ValueChanged(_switch, EventArgs.Empty);
         }
         /// <summary>
         /// Cells the property changed.

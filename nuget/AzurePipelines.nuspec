@@ -24,8 +24,11 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
 
 ## Changes
 
+[SwitchCell][CheckboxCell][iOS] Can select with row tapped.
+
 ## Bug fixes
 
+* Fix some bugs.
 * Fix Xamarin.Forms 5 some issues.
 
         </releaseNotes>
