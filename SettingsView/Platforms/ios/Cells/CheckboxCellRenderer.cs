@@ -2,6 +2,7 @@
 using AiForms.Renderers;
 using AiForms.Renderers.iOS;
 using CoreGraphics;
+using Foundation;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
@@ -39,6 +40,13 @@ namespace AiForms.Renderers.iOS
 
             AccessoryView = _checkbox;
             EditingAccessoryView = _checkbox;
+        }
+
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            base.RowSelected(tableView, indexPath);
+            _checkbox.Selected = !_checkbox.Selected;
+            CheckChanged(_checkbox);
         }
 
         /// <summary>
