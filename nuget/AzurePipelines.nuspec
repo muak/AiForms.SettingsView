@@ -29,6 +29,7 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
 ## Bug fixes
 
 * Fix some bugs.
+* Fix PickerCell(Android) selected text issue.
 * Fix Xamarin.Forms 5 some issues.
 
         </releaseNotes>
