@@ -477,6 +477,7 @@ namespace AiForms.Renderers.iOS
                 Element.CellPropertyChanged -= OnCellPropertyChanged;
                 _insetTracker?.Dispose();
                 _insetTracker = null;
+                _tableview.Source = null;
                 foreach (UIView subview in Subviews) 
                 {
                     DisposeSubviews(subview);
