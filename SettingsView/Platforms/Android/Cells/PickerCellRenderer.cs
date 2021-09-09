@@ -132,6 +132,7 @@ namespace AiForms.Renderers.Droid
         public void UpdateSelectedItems()
         {
             if (!_PickerCell.UseAutoValueText){
+                base.UpdateValueText();
                 return;
             }
 
