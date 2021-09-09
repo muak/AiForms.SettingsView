@@ -32,7 +32,6 @@ namespace AiForms.Renderers.Droid
         AListView _listView;
         PickerAdapter _adapter;
         Context _context;
-        string _valueTextCache;
         INotifyCollectionChanged _notifyCollection;
         INotifyCollectionChanged _selectedCollection;
         ImageView _indicatorView;
@@ -80,11 +79,11 @@ namespace AiForms.Renderers.Droid
                 e.PropertyName == PickerCell.DisplayMemberProperty.PropertyName ||
                 e.PropertyName == PickerCell.UseNaturalSortProperty.PropertyName ||
                 e.PropertyName == PickerCell.SelectedItemsOrderKeyProperty.PropertyName) {
-                UpdateSelectedItems(true);
+                UpdateSelectedItems();
             }
             else if (e.PropertyName == PickerCell.UseAutoValueTextProperty.PropertyName){
                 if (_PickerCell.UseAutoValueText){
-                    UpdateSelectedItems(true);
+                    UpdateSelectedItems();
                 }
                 else{
                     base.UpdateValueText();
@@ -92,7 +91,7 @@ namespace AiForms.Renderers.Droid
             }
             else if (e.PropertyName == PickerCell.ItemsSourceProperty.PropertyName) {
                 UpdateCollectionChanged();
-                UpdateSelectedItems(true);
+                UpdateSelectedItems();
             }
         }
 
@@ -130,26 +129,20 @@ namespace AiForms.Renderers.Droid
         /// <summary>
         /// Updates the selected items.
         /// </summary>
-        /// <param name="force">If set to <c>true</c> force.</param>
-        public void UpdateSelectedItems(bool force = false)
+        public void UpdateSelectedItems()
         {
             if (!_PickerCell.UseAutoValueText){
                 return;
             }
 
-
-            if (force || string.IsNullOrEmpty(_valueTextCache)) {
-                if(_selectedCollection != null) {
-                    _selectedCollection.CollectionChanged -= SelectedItems_CollectionChanged;
-                }
-                _selectedCollection = _PickerCell.SelectedItems as INotifyCollectionChanged;
-                if(_selectedCollection != null) {
-                    _selectedCollection.CollectionChanged += SelectedItems_CollectionChanged;
-                }
-                _valueTextCache = _PickerCell.GetSelectedItemsText();
+            if(_selectedCollection != null) {
+                _selectedCollection.CollectionChanged -= SelectedItems_CollectionChanged;
             }
-
-            vValueLabel.Text = _valueTextCache;
+            _selectedCollection = _PickerCell.SelectedItems as INotifyCollectionChanged;
+            if(_selectedCollection != null) {
+                _selectedCollection.CollectionChanged += SelectedItems_CollectionChanged;
+            }
+            vValueLabel.Text = _PickerCell.GetSelectedItemsText();
         }
 
         /// <summary>
@@ -222,7 +215,7 @@ namespace AiForms.Renderers.Droid
 
         void SelectedItems_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            UpdateSelectedItems(true);
+            UpdateSelectedItems();
         }
 
 
@@ -265,7 +258,7 @@ namespace AiForms.Renderers.Droid
                     builder.SetPositiveButton(global::Android.Resource.String.Ok, (o, args) =>
                     {
                         _adapter.DoneSelect();
-                        UpdateSelectedItems(true);
+                        UpdateSelectedItems();
                         _PickerCell.InvokeCommand();
                         ClearFocus();
                     });
