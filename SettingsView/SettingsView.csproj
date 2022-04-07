@@ -1,7 +1,6 @@
 <Project Sdk="MSBuild.Sdk.Extras/3.0.22">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1;xamarin.ios10;monoandroid10.0</TargetFrameworks>
-    <ReleaseVersion>1.1.2</ReleaseVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -44,6 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Update="ChildPropertyChangedEventHandler.cs">
+      <SubType></SubType>
+    </Compile>
+    <Compile Update="SectionBase.cs">
       <SubType></SubType>
     </Compile>
   </ItemGroup>

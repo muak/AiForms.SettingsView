@@ -10,7 +10,7 @@ namespace AiForms.Renderers
     /// <summary>
     /// Section.
     /// </summary>
-    public class Section : TableSectionBase<Cell>
+    public class Section : SectionBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:AiForms.Renderers.Section"/> class.
@@ -189,7 +189,7 @@ namespace AiForms.Renderers
         /// </summary>
         public event EventHandler<CellPropertyChangedEventArgs> CellPropertyChanged;
 
-        public SettingsView Parent { get; set; }
+        //public SettingsView Parent { get; set; }
 
         /// <summary>
         /// The is visible property.
