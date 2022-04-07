@@ -81,7 +81,6 @@ namespace AiForms.Renderers.iOS
             {
                 return;
             }
-            CustomCell.IsForceLayout = false;
 
             if (_formsCell != null)
             {
@@ -93,10 +92,19 @@ namespace AiForms.Renderers.iOS
             IVisualElementRenderer renderer;
             if (_rendererRef == null || !_rendererRef.TryGetTarget(out renderer))
             {
-                renderer = GetNewRenderer();
+                renderer = GetNewRenderer();                
             }
             else
             {
+                if (CustomCell.IsForceLayout)
+                {
+                    renderer.Element.ClearValue(FormsInternals.RendererProperty);
+                    renderer.NativeView.RemoveFromSuperview();
+                    FormsInternals.DisposeRendererAndChildren(renderer);
+                    renderer = GetNewRenderer();
+                    CustomCell.IsForceLayout = false;
+                }
+
                 if (renderer.Element != null && renderer == Platform.GetRenderer(renderer.Element))
                     renderer.Element.ClearValue(FormsInternals.RendererProperty);
 
@@ -114,6 +122,7 @@ namespace AiForms.Renderers.iOS
                 }
             }
 
+            
             Platform.SetRenderer(this._formsCell, renderer);
 
             if (!CustomCell.IsMeasureOnce || tableView.Frame.Width != _lastFrameWidth)
@@ -142,7 +151,7 @@ namespace AiForms.Renderers.iOS
                 renderer.NativeView.UpdateConstraintsIfNeeded();
             }            
 
-            Layout.LayoutChildIntoBoundingRegion(_formsCell, new Rectangle(0, 0, _lastMeasureWidth,_lastMeasureHeight));                       
+            Layout.LayoutChildIntoBoundingRegion(_formsCell, new Rectangle(0, 0, _lastMeasureWidth,_lastMeasureHeight));
 
             UpdateNativeCell();
         }

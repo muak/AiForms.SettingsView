@@ -6,67 +6,15 @@
     x:Class="Sample.Views.SurveyPage">
 
     <Grid>
-        <sv:SettingsView x:Name="settings" HasUnevenRows="True"  HeaderPadding="10" HeaderFontSize="16" HeaderTextVerticalAlign="Center" VerticalOptions="Start" BackgroundColor="AliceBlue" >
-           <sv:Section>
-               <sv:PickerCell SelectionMode="Single" Title="Items1" ItemsSource="{Binding ItemsSource1}" DisplayMember="Name" />
-           </sv:Section>
-            <sv:Section>
-               <sv:PickerCell SelectionMode="Single" Title="Items2" ItemsSource="{Binding ItemsSource2}" DisplayMember="Name"  />
-           </sv:Section>
-            <sv:Section>
-               <sv:PickerCell SelectionMode="Single" Title="Items3" ItemsSource="{Binding ItemsSource3}" DisplayMember="Name"  />
-           </sv:Section>
-            <sv:Section>
-               <sv:PickerCell SelectionMode="Single" Title="Items4" ItemsSource="{Binding ItemsSource4}" DisplayMember="Name"  />
-           </sv:Section>
-            <sv:Section>
-               <sv:PickerCell SelectionMode="Single" Title="Items5" ItemsSource="{Binding ItemsSource5}" DisplayMember="Name"  />
-           </sv:Section>
-            <sv:Section>
-               <sv:PickerCell SelectionMode="Single" Title="Items6" ItemsSource="{Binding ItemsSource6}" DisplayMember="Name" />
-           </sv:Section>
-            <sv:Section>
-               <sv:PickerCell SelectionMode="Single" Title="Items7" ItemsSource="{Binding ItemsSource7}" DisplayMember="Name" />
-           </sv:Section>
-            <sv:Section>
-               <sv:PickerCell SelectionMode="Single" Title="Items8" ItemsSource="{Binding ItemsSource8}" DisplayMember="Name" />
-           </sv:Section>
-            <sv:Section>
-               <sv:PickerCell SelectionMode="Single" Title="Items9" ItemsSource="{Binding ItemsSource9}" DisplayMember="Name"  />
-           </sv:Section>
-            <sv:Section>
-               <sv:PickerCell SelectionMode="Single" Title="Items10" ItemsSource="{Binding ItemsSource10}" DisplayMember="Name"  />
-           </sv:Section>
-            <sv:Section>
-               <sv:PickerCell SelectionMode="Single" Title="Items11" ItemsSource="{Binding ItemsSource11}" DisplayMember="Name"  />
-           </sv:Section>
-            <sv:Section>
-               <sv:PickerCell SelectionMode="Single" Title="Items12" ItemsSource="{Binding ItemsSource12}" DisplayMember="Name"  />
-           </sv:Section>
-            <sv:Section>
-               <sv:PickerCell SelectionMode="Single" Title="Items13" ItemsSource="{Binding ItemsSource13}" DisplayMember="Name"  />
-           </sv:Section>
-            <sv:Section>
-               <sv:PickerCell SelectionMode="Single" Title="Items14" ItemsSource="{Binding ItemsSource14}" DisplayMember="Name"  />
-           </sv:Section>
-            <sv:Section>
-               <sv:PickerCell SelectionMode="Single" Title="Items15" ItemsSource="{Binding ItemsSource15}" DisplayMember="Name"  />
-           </sv:Section>
-            <sv:Section>
-               <sv:PickerCell SelectionMode="Single" Title="Items16" ItemsSource="{Binding ItemsSource16}" DisplayMember="Name"  />
-           </sv:Section>
-            <sv:Section>
-               <sv:PickerCell SelectionMode="Single" Title="Items17" ItemsSource="{Binding ItemsSource17}" DisplayMember="Name"  />
-           </sv:Section>
-            <sv:Section>
-               <sv:PickerCell SelectionMode="Single" Title="Items18" ItemsSource="{Binding ItemsSource18}" DisplayMember="Name"  />
-           </sv:Section>
-            <sv:Section>
-               <sv:PickerCell SelectionMode="Single" Title="Items19" ItemsSource="{Binding ItemsSource19}" DisplayMember="Name"  />
-           </sv:Section>
-            <sv:Section>
-               <sv:PickerCell SelectionMode="Single" Title="Items20" ItemsSource="{Binding ItemsSource20}" DisplayMember="Name"  />
-           </sv:Section>
+        <sv:SettingsView x:Name="settings" HasUnevenRows="True"  HeaderPadding="10" HeaderFontSize="16" HeaderTextVerticalAlign="Center" VerticalOptions="Start" BackgroundColor="AliceBlue"
+                         ItemsSource="">
+           <sv:SettingsView.ItemTemplate>
+                <DataTemplate>
+                    <sv:Section>
+
+                    </sv:Section>
+                </DataTemplate>
+           </sv:SettingsView.ItemTemplate>
         </sv:SettingsView>
 
         
