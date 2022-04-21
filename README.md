@@ -634,6 +634,13 @@ This is a LabelCell calling a date picker.
 * TodayText
     * Text of the button selecting  today's date. (only iOS)
     * If this text is empty, the button will be hidden.
+* InitialDate
+  * Date to be set as the initial value of the picker if Date is null.
+* IsAndroidSpinnerStyle
+  * True for Android when using spinner UI instead of calendar.
+* AndroidButtonColor
+  * Button text color in Android dialog.
+
 
 This cell can't use ValueText property.
 

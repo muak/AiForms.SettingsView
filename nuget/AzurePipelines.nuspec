@@ -19,6 +19,7 @@ There are various cells such as (LabelCell,ButtonCell,CommandCell,SwitchCell,Che
 
 ## New Features
 
+[DatePickerCell] Add properties. (InitialDate, IsAndroidSpinnerStyle, AndroidButtonColor)
 [CellBase] Add IsVisible property.
 [NumberPickerCell] Add Unit property. It can be displayed unit string next to the number.
 

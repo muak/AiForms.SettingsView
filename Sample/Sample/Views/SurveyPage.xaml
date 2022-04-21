@@ -6,7 +6,7 @@
     x:Class="Sample.Views.SurveyPage">
 
     <Grid>
-        <sv:SettingsView x:Name="settings" HasUnevenRows="True"  HeaderPadding="10" HeaderFontSize="16" HeaderTextVerticalAlign="Center" VerticalOptions="Start" BackgroundColor="AliceBlue"
+        <!--<sv:SettingsView x:Name="settings" HasUnevenRows="True"  HeaderPadding="10" HeaderFontSize="16" HeaderTextVerticalAlign="Center" VerticalOptions="Start" BackgroundColor="AliceBlue"
                          ItemsSource="">
            <sv:SettingsView.ItemTemplate>
                 <DataTemplate>
@@ -15,7 +15,7 @@
                     </sv:Section>
                 </DataTemplate>
            </sv:SettingsView.ItemTemplate>
-        </sv:SettingsView>
+        </sv:SettingsView>-->
 
         
     </Grid>
