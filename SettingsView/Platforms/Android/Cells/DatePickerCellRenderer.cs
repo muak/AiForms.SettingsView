@@ -1,10 +1,12 @@
 ﻿using System;
 using AiForms.Renderers;
 using AiForms.Renderers.Droid;
+using Android;
 using Android.App;
 using Android.Content;
 using Android.Runtime;
 using Xamarin.Forms;
+using Xamarin.Forms.Platform.Android;
 
 [assembly: ExportRenderer(typeof(DatePickerCell), typeof(DatePickerCellRenderer))]
 namespace AiForms.Renderers.Droid
@@ -95,7 +97,16 @@ namespace AiForms.Renderers.Droid
 
         void ShowDialog()
         {
-            CreateDatePickerDialog(_datePickerCell.Date.Year, _datePickerCell.Date.Month - 1, _datePickerCell.Date.Day);
+            if (_datePickerCell.Date.HasValue)
+            {
+                CreateDatePickerDialog(_datePickerCell.Date.Value.Year, _datePickerCell.Date.Value.Month - 1, _datePickerCell.Date.Value.Day);
+            }
+            else
+            {
+                CreateDatePickerDialog(_datePickerCell.InitialDate.Year, _datePickerCell.InitialDate.Month - 1, _datePickerCell.InitialDate.Day);
+            }
+
+            
 
             UpdateMinimumDate();
             UpdateMaximumDate();
@@ -110,13 +121,17 @@ namespace AiForms.Renderers.Droid
             _dialog.CancelEvent += OnCancelButtonClicked;
 
             _dialog.Show();
+
+            if (!_datePickerCell.AndroidButtonColor.IsDefault)
+            {
+                _dialog.GetButton((int)DialogButtonType.Positive).SetTextColor(_datePickerCell.AndroidButtonColor.ToAndroid());
+                _dialog.GetButton((int)DialogButtonType.Negative).SetTextColor(_datePickerCell.AndroidButtonColor.ToAndroid());
+            }            
         }
 
         void CreateDatePickerDialog(int year, int month, int day)
         {
-
-            _dialog = new DatePickerDialog(_context, (o, e) =>
-            {
+            EventHandler<DatePickerDialog.DateSetEventArgs> callback = (o, e) => {
                 _datePickerCell.Date = e.Date;
                 ClearFocus();
                 if (_dialog != null)
@@ -125,7 +140,16 @@ namespace AiForms.Renderers.Droid
                 }
 
                 _dialog = null;
-            }, year, month, day);
+            };
+
+            if (_datePickerCell.IsAndroidSpinnerStyle)
+            {
+                _dialog = new DatePickerDialog(_context, global::SettingsView.Resource.Style.datePickerDialogSpinnerTheme, callback, year, month, day);                
+            }
+            else
+            {
+                _dialog = new DatePickerDialog(_context, callback, year, month, day);
+            }
         }
 
         void OnCancelButtonClicked(object sender, EventArgs e)
@@ -134,9 +158,16 @@ namespace AiForms.Renderers.Droid
         }
 
         void UpdateDate()
-        {
-            var format = _datePickerCell.Format;
-            vValueLabel.Text = _datePickerCell.Date.ToString(format);
+        {            
+            if (_datePickerCell.Date.HasValue)
+            {
+                var format = _datePickerCell.Format;
+                vValueLabel.Text = _datePickerCell.Date.Value.ToString(format);
+            }
+            else
+            {
+                vValueLabel.Text = string.Empty;
+            }            
         }
 
         void UpdateMaximumDate()

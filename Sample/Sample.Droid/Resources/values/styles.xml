@@ -28,8 +28,6 @@
 	<style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog">
 		<item name="colorAccent">#FFBF00</item>
 	</style>
-
-
 	
 	<!-- ToolbarStyle -->
     <style name="ToolbarTheme" parent="Theme.AppCompat.Light.DarkActionBar">

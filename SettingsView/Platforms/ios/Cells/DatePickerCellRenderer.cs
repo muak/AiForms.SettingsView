@@ -170,15 +170,24 @@ namespace AiForms.Renderers.iOS
         void Done()
         {
             _DatePickerCell.Date = _picker.Date.ToDateTime().Date;
-            ValueLabel.Text = _DatePickerCell.Date.ToString(_DatePickerCell.Format);
+            ValueLabel.Text = _DatePickerCell.Date?.ToString(_DatePickerCell.Format);
             _preSelectedDate = _picker.Date;
         }
 
         void UpdateDate()
         {
-            _picker.SetDate(_DatePickerCell.Date.ToNSDate(),false);
-            ValueLabel.Text = _DatePickerCell.Date.ToString(_DatePickerCell.Format);
-            _preSelectedDate = _DatePickerCell.Date.ToNSDate();
+            if (_DatePickerCell.Date.HasValue)
+            {
+                _picker.SetDate(_DatePickerCell.Date.Value.ToNSDate(), false);
+                ValueLabel.Text = _DatePickerCell.Date.Value.ToString(_DatePickerCell.Format);
+                _preSelectedDate = _DatePickerCell.Date.Value.ToNSDate();
+            }
+            else
+            {
+                _picker.SetDate(_DatePickerCell.InitialDate.ToNSDate(), false);
+                ValueLabel.Text = string.Empty;
+                _preSelectedDate = _DatePickerCell.InitialDate.ToNSDate();
+            }           
         }
 
         void UpdateMaximumDate()

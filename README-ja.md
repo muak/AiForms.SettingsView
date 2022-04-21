@@ -641,6 +641,12 @@ ValueTextは使用できません。
 * TodayText
 	* 今日の日付を選択するためのボタンのタイトル文字列（iOSのみ）
     * 空の場合はボタン自体が非表示になります。
+* InitialDate
+  * Dateがnullだった場合に、ピッカーの初期値として設定される日付
+* IsAndroidSpinnerStyle
+  * AndroidでカレンダーではなくスピナーUIを使用する場合にTrue
+* AndroidButtonColor
+  * Androidのダイアログのボタン文字色
 
 ValueTextは使用できません。
 
