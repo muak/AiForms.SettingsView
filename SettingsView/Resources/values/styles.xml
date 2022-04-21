@@ -9,4 +9,14 @@
   <style name="settingsViewTheme">
     <item name="settingsViewStyle">@style/settingsViewScrollBars</item>
   </style>
+
+  <style name="datePickerDialogSpinnerTheme" parent="Theme.AppCompat.DayNight.Dialog">
+    <item name="android:datePickerStyle">@style/datePickerSpinnerStyle</item>
+  </style>
+
+   <style name="datePickerSpinnerStyle" parent="android:Widget.Material.DatePicker" >
+        <item name="android:datePickerMode">spinner</item>
+        <item name="android:calendarViewShown">false</item>
+    </style>
+
 </resources>

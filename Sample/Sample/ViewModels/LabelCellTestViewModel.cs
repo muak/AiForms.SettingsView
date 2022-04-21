@@ -27,7 +27,7 @@ namespace Sample.ViewModels
         public ReactiveProperty<int> Number { get; } = new ReactiveProperty<int>();
         public ReactiveProperty<int> MaxNum { get; } = new ReactiveProperty<int>();
         public ReactiveProperty<int> MinNum { get; } = new ReactiveProperty<int>();
-        public ReactiveProperty<DateTime> Date { get; } = new ReactiveProperty<DateTime>();
+        public ReactiveProperty<DateTime?> Date { get; } = new ReactiveProperty<DateTime?>();
         public ReactiveProperty<string> DateFormat { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<DateTime> MaxDate { get; } = new ReactiveProperty<DateTime>();
         public ReactiveProperty<DateTime> MinDate { get; } = new ReactiveProperty<DateTime>();
@@ -53,7 +53,7 @@ namespace Sample.ViewModels
         static string[] PickerTitles = { "Hoge", "LongTitleFugaFugaFugaFuga", "" };
         static TimeSpan[] Times = { new TimeSpan(0, 0, 0), new TimeSpan(12, 30, 0), new TimeSpan(23, 20, 15), new TimeSpan(47, 55, 0) };
         static string[] TimeFormats = { "t", "hh:mm", "H:m" };
-        static DateTime[] Dates = { new DateTime(2017, 1, 1), new DateTime(2015, 1, 1), new DateTime(2017, 6, 10) };
+        static DateTime?[] Dates = { new DateTime(2017, 1, 1), new DateTime(2015, 1, 1), new DateTime(2017, 6, 10) };
         static DateTime[] MinDates = { new DateTime(2016, 1, 1), new DateTime(2017, 4, 1), new DateTime(2017, 10, 10), new DateTime(2017, 12, 15) };
         static DateTime[] MaxDates = { new DateTime(2025, 12, 31), new DateTime(2017, 5, 15), new DateTime(2017, 10, 10), new DateTime(2017, 6, 15) };
         static string[] DateFormats = { "d", "yyyy/M/d (ddd)", "ddd MMM d yyyy" };
@@ -74,7 +74,7 @@ namespace Sample.ViewModels
 
             DateFormat.Value = DateFormats[0];
             TodayText.Value = TodayTexts[0];
-            Date.Value = Dates[0];
+            //Date.Value = Dates[0];
             MaxDate.Value = MaxDates[0];
             MinDate.Value = MinDates[0];
 

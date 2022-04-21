@@ -14,9 +14,9 @@ namespace AiForms.Renderers
         public static BindableProperty DateProperty =
             BindableProperty.Create(
                 nameof(Date),
-                typeof(DateTime),
+                typeof(DateTime?),
                 typeof(DatePickerCell),
-                default(DateTime),
+                default(DateTime?),
                 defaultBindingMode: BindingMode.TwoWay
             );
 
@@ -24,9 +24,22 @@ namespace AiForms.Renderers
         /// Gets or sets the date.
         /// </summary>
         /// <value>The date.</value>
-        public DateTime Date {
-            get { return (DateTime)GetValue(DateProperty); }
+        public DateTime? Date {
+            get { return (DateTime?)GetValue(DateProperty); }
             set { SetValue(DateProperty, value); }
+        }
+
+        public static BindableProperty InitialDateProperty = BindableProperty.Create(
+            nameof(InitialDate),
+            typeof(DateTime),
+            typeof(DatePickerCell),
+            new DateTime(2000, 1, 1),
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public DateTime InitialDate {
+            get { return (DateTime)GetValue(InitialDateProperty); }
+            set { SetValue(InitialDateProperty, value); }
         }
 
         /// <summary>
@@ -111,6 +124,32 @@ namespace AiForms.Renderers
         public string TodayText {
             get { return (string)GetValue(TodayTextProperty); }
             set { SetValue(TodayTextProperty, value); }
+        }
+
+        public static BindableProperty IsAndroidSpinnerStyleProperty = BindableProperty.Create(
+            nameof(IsAndroidSpinnerStyle),
+            typeof(bool),
+            typeof(DatePickerCell),
+            default(bool),
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public bool IsAndroidSpinnerStyle {
+            get { return (bool)GetValue(IsAndroidSpinnerStyleProperty); }
+            set { SetValue(IsAndroidSpinnerStyleProperty, value); }
+        }
+
+        public static BindableProperty AndroidButtonColorProperty = BindableProperty.Create(
+            nameof(AndroidButtonColor),
+            typeof(Color),
+            typeof(DatePickerCell),
+            default(Color),
+            defaultBindingMode: BindingMode.OneWay
+        );
+
+        public Color AndroidButtonColor {
+            get { return (Color)GetValue(AndroidButtonColorProperty); }
+            set { SetValue(AndroidButtonColorProperty, value); }
         }
 
         private new string ValueText { get; set; }
