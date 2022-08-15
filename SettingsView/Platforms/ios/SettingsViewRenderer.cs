@@ -335,7 +335,10 @@ namespace AiForms.Renderers.iOS
 
         void ParentPageAppearing(object sender, EventArgs e)
         {
-            _tableview.DeselectRow(_tableview.IndexPathForSelectedRow, true);
+            if(_tableview.IndexPathForSelectedRow != null)
+            {
+                _tableview.DeselectRow(_tableview.IndexPathForSelectedRow, true);
+            }            
         }
 
         /// <summary>
