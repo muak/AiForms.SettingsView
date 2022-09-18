@@ -1,5 +1,7 @@
 # SettingsView for Xamarin.Forms
 
+**[.NET MAUI版](https://github.com/muak/AiForms.Maui.SettingsView)**
+
 SettingViewはXamarin.Formsで使用できる設定に特化した柔軟なTableViewです。  
 AndroidとiOSに対応しています。
 
