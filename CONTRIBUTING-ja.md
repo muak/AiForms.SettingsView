@@ -8,7 +8,7 @@
 
 ## Getting Started
 
-* XF.GoogleMaps に貢献する為には [GitHub アカウント](https://github.com/signup/free) が必要です。
+* AiForms.SettingsView に貢献する為には [GitHub アカウント](https://github.com/signup/free) が必要です。
 * 問題や機能要望には Issue を作ってください（まだ Issue が作られていない場合）。
   * Issue や Pull request を送るのに、事前の連絡は必要ありません。
   * バグを issue で報告する場合、バグを再現する為の説明、エラーの情報、環境を書いてください。
