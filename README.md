@@ -1,5 +1,7 @@
 # SettingsView for Xamarin.Forms
 
+**[For .NET MAUI](https://github.com/muak/AiForms.Maui.SettingsView)**
+
 This is a flexible TableView specialized in settings for Android / iOS.
 
 [Japanese](./README-ja.md)
