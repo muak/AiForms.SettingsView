@@ -290,7 +290,7 @@ namespace AiForms.Renderers.iOS
 
             //_pickerCellNative.UpdateSelectedItems(true);
 
-            if (_pickerCell.KeepSelectedUntilBack) {
+            if (_pickerCell.KeepSelectedUntilBack && _tableView.IndexPathForSelectedRow != null) {
                 _tableView.DeselectRow(_tableView.IndexPathForSelectedRow, true);
             }
 
