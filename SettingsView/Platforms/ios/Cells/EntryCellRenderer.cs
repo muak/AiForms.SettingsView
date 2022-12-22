@@ -235,7 +235,7 @@ namespace AiForms.Renderers.iOS
             if (!_EntryCell.PlaceholderColor.IsDefault)
             {
                 ValueField.Placeholder = null;
-                ValueField.AttributedPlaceholder = new NSAttributedString(_EntryCell.Placeholder, ValueField.Font, _EntryCell.PlaceholderColor.ToUIColor());
+                ValueField.AttributedPlaceholder = new NSAttributedString(_EntryCell.Placeholder ?? "", ValueField.Font, _EntryCell.PlaceholderColor.ToUIColor());
             }
             else
             {
