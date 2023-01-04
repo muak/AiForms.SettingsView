@@ -359,7 +359,7 @@ namespace AiForms.Renderers.iOS
                 return; // for HotReload
 
             DescriptionLabel.Text = CellBase.Description;
-            //layout break because of StackView spacing.DescriptionLabel hidden to fix it. 
+            //layout break because of StackView spacing.DescriptionLabel hidden to fix it.
             DescriptionLabel.Hidden = string.IsNullOrEmpty(DescriptionLabel.Text);
         }
 
@@ -405,7 +405,8 @@ namespace AiForms.Renderers.iOS
         /// </summary>
         protected virtual void UpdateIsVisible()
         {
-            // If AccessoryView is set, hide the view because it overflows outside when IsVisible is false. 
+            ContentStack.Hidden = !CellBase.IsVisible;
+            // If AccessoryView is set, hide the view because it overflows outside when IsVisible is false.
             if (AccessoryView != null)
             {
                 AccessoryView.Hidden = !CellBase.IsVisible;
@@ -493,7 +494,7 @@ namespace AiForms.Renderers.iOS
             if (IconView is null)
                 return; // for HotReload
 
-            if (_iconTokenSource != null && !_iconTokenSource.IsCancellationRequested) {               
+            if (_iconTokenSource != null && !_iconTokenSource.IsCancellationRequested) {
                 _iconTokenSource.Cancel();
             }
 
@@ -540,7 +541,7 @@ namespace AiForms.Renderers.iOS
                 else
                 {
                     image = await handler.LoadImageAsync(source, token, scale: scale);
-                }                
+                }
                 token.ThrowIfCancellationRequested();
             }, token).ContinueWith(t =>
             {
@@ -698,7 +699,7 @@ namespace AiForms.Renderers.iOS
 
         protected virtual void SetUpContentView()
         {
-            //remove existing views 
+            //remove existing views
             ImageView.RemoveFromSuperview();
             TextLabel.RemoveFromSuperview();
             ImageView.Hidden = true;
@@ -727,7 +728,7 @@ namespace AiForms.Renderers.iOS
             UpdateIconSize();
 
             //右に配置するVerticalStackView（コアの部品とDescriptionを格納）
-            //VerticalStackView that is arranged at right. ( put main parts and Description ) 
+            //VerticalStackView that is arranged at right. ( put main parts and Description )
             StackV = new UIStackView
             {
                 Axis = UILayoutConstraintAxis.Vertical,
@@ -793,8 +794,8 @@ namespace AiForms.Renderers.iOS
             // fix warning-log:Unable to simultaneously satisfy constraints.
             _minheightConstraint.Priority = 999f; // this is superior to any other view.
             _minheightConstraint.Active = true;
-            
-            if (!String.IsNullOrEmpty(Cell.AutomationId)) 
+
+            if (!String.IsNullOrEmpty(Cell.AutomationId))
             {
                 ContentStack.AccessibilityIdentifier = Cell.AutomationId;
             }
