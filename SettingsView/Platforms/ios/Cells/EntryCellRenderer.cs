@@ -4,6 +4,7 @@ using AiEntryCell = AiForms.Renderers.EntryCell;
 using UIKit;
 using Xamarin.Forms.Platform.iOS;
 using AiForms.Renderers.iOS.Extensions;
+using CoreGraphics;
 using Foundation;
 
 [assembly: ExportRenderer(typeof(AiEntryCell), typeof(AiForms.Renderers.iOS.EntryCellRenderer))]
@@ -209,8 +210,7 @@ namespace AiForms.Renderers.iOS
             }
             //make the view height fit font size
             var contentH = ValueField.IntrinsicContentSize.Height;
-            var bounds = ValueField.Bounds;
-            ValueField.Bounds = new CoreGraphics.CGRect(0, 0, bounds.Width, contentH);
+            ValueField.Bounds = new CoreGraphics.CGRect(0, 0, ValueField.Bounds.Width, contentH);
             _FieldWrapper.Bounds = new CoreGraphics.CGRect(0, 0, _FieldWrapper.Bounds.Width, contentH);
         }
 
@@ -235,7 +235,7 @@ namespace AiForms.Renderers.iOS
             if (!_EntryCell.PlaceholderColor.IsDefault)
             {
                 ValueField.Placeholder = null;
-                ValueField.AttributedPlaceholder = new NSAttributedString(_EntryCell.Placeholder, ValueField.Font, _EntryCell.PlaceholderColor.ToUIColor());
+                ValueField.AttributedPlaceholder = new NSAttributedString(_EntryCell.Placeholder ?? "", ValueField.Font, _EntryCell.PlaceholderColor.ToUIColor());
             }
             else
             {
@@ -269,7 +269,7 @@ namespace AiForms.Renderers.iOS
 
 
         void ValueField_EditingDidEnd(object sender, EventArgs e)
-        {           
+        {
             if(!_hasFocus)
             {
                 return;

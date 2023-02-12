@@ -111,7 +111,7 @@ namespace AiForms.Renderers.iOS
             }
 
 
-            if (!_PickerCell.KeepSelectedUntilBack) 
+            if (!_PickerCell.KeepSelectedUntilBack && indexPath != null) 
             {
                 tableView.DeselectRow(indexPath, true);
             }
